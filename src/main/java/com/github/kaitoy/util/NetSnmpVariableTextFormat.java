@@ -254,7 +254,7 @@ implements SneoVariableTextFormat {
     }
     else if (syntax.intValue() == SYNTAX_OBJECT_IDENTIFIER) {
       valueString
-        = SimpleOIDLeadByDotTextFormat.getInstance()
+        = DotLedSimpleOIDTextFormat.getInstance()
             .format(((OID)variable).getValue());
     }
     else if (syntax.intValue() == EXCEPTION_END_OF_MIB_VIEW) {
@@ -289,11 +289,11 @@ implements SneoVariableTextFormat {
       StringBuilder sb = new StringBuilder();
 
       if (typeName.equals("STRING") && valueString.equals("\"\"")) {
-        sb.append(SimpleOIDLeadByDotTextFormat.getInstance().format(instanceOID.getValue()))
+        sb.append(DotLedSimpleOIDTextFormat.getInstance().format(instanceOID.getValue()))
           .append(OID_TYPE_SEPARATOR).append(valueString);
       }
       else {
-        sb.append(SimpleOIDLeadByDotTextFormat.getInstance().format(instanceOID.getValue()))
+        sb.append(DotLedSimpleOIDTextFormat.getInstance().format(instanceOID.getValue()))
           .append(OID_TYPE_SEPARATOR).append(typeName);
         if (valueString != null) {
           sb.append(TYPE_VALUE_SEPARATOR ).append(valueString);
@@ -437,7 +437,7 @@ implements SneoVariableTextFormat {
 
       oid
         = new OID(
-            SimpleOIDLeadByDotTextFormat.getInstance().parse(tokens[0])
+            DotLedSimpleOIDTextFormat.getInstance().parse(tokens[0])
           );
 
       tokens = tokens[1].split(TYPE_VALUE_SEPARATOR, 2);
@@ -456,7 +456,7 @@ implements SneoVariableTextFormat {
 
       oid
         = new OID(
-            SimpleOIDLeadByDotTextFormat.getInstance().parse(tokens[0])
+            DotLedSimpleOIDTextFormat.getInstance().parse(tokens[0])
           );
       typeName = "STRING";
       valueString = "\"\"";
@@ -478,7 +478,7 @@ implements SneoVariableTextFormat {
 
       oid
         = new OID(
-            SimpleOIDLeadByDotTextFormat.getInstance().parse(tokens[0])
+            DotLedSimpleOIDTextFormat.getInstance().parse(tokens[0])
           );
       typeName = tokens[1];
       valueString = null;

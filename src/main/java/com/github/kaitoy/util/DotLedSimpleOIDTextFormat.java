@@ -6,17 +6,17 @@ import java.text.ParseException;
 import org.snmp4j.util.OIDTextFormat;
 import org.snmp4j.util.SimpleOIDTextFormat;
 
-public class SimpleOIDLeadByDotTextFormat implements OIDTextFormat {
+public class DotLedSimpleOIDTextFormat implements OIDTextFormat {
 
-  private static final SimpleOIDLeadByDotTextFormat INSTANCE
-    = new SimpleOIDLeadByDotTextFormat();
+  private static final DotLedSimpleOIDTextFormat INSTANCE
+    = new DotLedSimpleOIDTextFormat();
 
   private final SimpleOIDTextFormat SIMPLE_FORMAT
     = new SimpleOIDTextFormat();
 
-  private SimpleOIDLeadByDotTextFormat() {}
+  private DotLedSimpleOIDTextFormat() {}
 
-  public static SimpleOIDLeadByDotTextFormat getInstance() {
+  public static DotLedSimpleOIDTextFormat getInstance() {
     return INSTANCE;
   }
 
