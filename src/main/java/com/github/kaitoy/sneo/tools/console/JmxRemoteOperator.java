@@ -8,6 +8,8 @@
 package com.github.kaitoy.sneo.tools.console;
 
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.rmi.registry.Registry;
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -209,9 +211,36 @@ public class JmxRemoteOperator {
         signature.add(type);
         paramList.add(Integer.valueOf(value));
       }
-      else if (type.equalsIgnoreCase("String") || type.equals(" java.lang.String")) {
+      else if (type.equalsIgnoreCase("String") || type.equals(String.class.getName())) {
         signature.add(String.class.getName());
         paramList.add(value);
+      }
+      else {
+        try {
+          Class<?> cls = Class.forName(type);
+          Method valueOf = cls.getMethod("valueOf", String.class);
+          Object param = valueOf.invoke(null, value);
+          signature.add(type);
+          paramList.add(param);
+        } catch (ClassNotFoundException e) {
+          e.printStackTrace();
+          return;
+        } catch (SecurityException e) {
+          e.printStackTrace();
+          return;
+        } catch (NoSuchMethodException e) {
+          e.printStackTrace();
+          return;
+        } catch (IllegalArgumentException e) {
+          e.printStackTrace();
+          return;
+        } catch (IllegalAccessException e) {
+          e.printStackTrace();
+          return;
+        } catch (InvocationTargetException e) {
+          e.printStackTrace();
+          return;
+        }
       }
     }
 
