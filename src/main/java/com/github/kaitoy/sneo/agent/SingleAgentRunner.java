@@ -9,6 +9,7 @@ package com.github.kaitoy.sneo.agent;
 
 import java.io.File;
 import java.io.IOException;
+import java.rmi.registry.Registry;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
@@ -83,10 +84,11 @@ public class SingleAgentRunner {
               .communityStringIndexes(communityStringIndexes);
       }
 
+      String address = (String)ArgumentParser.getValue(params, "a", 0);
       agentBuilder
         .address(
            (String)ArgumentParser.getValue(params, "proto", 0) + ":"
-             + (String)ArgumentParser.getValue(params, "a", 0) + "/"
+             + address + "/"
              + (Integer)ArgumentParser.getValue(params, "p", 0)
          )
         .bcConfigFilePath((String)ArgumentParser.getValue(params, "bcfg", 0))
@@ -111,13 +113,14 @@ public class SingleAgentRunner {
 
       JmxAgent jmxAgent
         = new HttpJmxAgent(
-            (Integer)ArgumentParser.getValue(params, "jmxPort", 0)
+            (Integer)ArgumentParser.getValue(params, "jmxPort", 0),
+            ((Integer)ArgumentParser.getValue(params, "rmiPort", 0)).intValue()
           );
       jmxAgent.registerPojo(
         agent,
         "Nodes:name="
           + ObjectName.quote(agent.getClass().getSimpleName())
-          + ",address=" + ObjectName.quote(agent.getAddress())
+          + ",address=" + ObjectName.quote(address)
       );
 
       agent.init();
@@ -157,6 +160,7 @@ public class SingleAgentRunner {
       optList.add("+csi[s] ");
       optList.add("+allcsis[s] ");
       optList.add("-jmxPort[i{=8080}] ");
+      optList.add("-rmiPort[i{=" + Registry.REGISTRY_PORT + "}] ");
 
       for (String arg: args) {
         if (

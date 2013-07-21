@@ -80,9 +80,9 @@ public class FileMibAgentDynamicMBean extends AbstractDynamicMBean {
     );
     maiList.add(
       new MBeanAttributeInfo(
-        "FileMIBLoader",
-        FileMibLoader.class.getName(),
-        "The fileMIB loader of this Snmp agent.",
+        "FormatName",
+        String.class.getName(),
+        "The format of fileMIB this agent has loaded.",
         true,
         false,
         false

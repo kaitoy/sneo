@@ -213,8 +213,8 @@ public class NodeDynamicMBean extends AbstractDynamicMBean {
     else if (arg0.equals("CommunityName")) {
       return mo.getAgent().getCommunityName();
     }
-    else if (arg0.equals("FileMIBLoader")) {
-      return mo.getAgent().getFileMIBLoader();
+    else if (arg0.equals("FormatName")) {
+      return mo.getAgent().getFormatName();
     }
     else if (arg0.equals("FileMibPath")) {
       return mo.getAgent().getFileMibPath();

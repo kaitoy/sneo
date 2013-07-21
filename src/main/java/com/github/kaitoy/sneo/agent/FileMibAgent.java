@@ -220,6 +220,10 @@ public class FileMibAgent extends BaseAgent {
     return fileMIBLoader;
   }
 
+  public String getFormatName() {
+    return fileMIBLoader.getFormat().getClass().getSimpleName();
+  }
+
   public String getFileMibPath() {
     return fileMibPath;
   }

@@ -15,7 +15,6 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
-
 import org.snmp4j.log.LogAdapter;
 import org.snmp4j.log.LogFactory;
 import org.snmp4j.smi.OID;
@@ -34,6 +33,10 @@ final class FileMibLoader {
       throw new NullPointerException("format");
     }
     this.format = format;
+  }
+
+  public SneoVariableTextFormat getFormat() {
+    return format;
   }
 
   public

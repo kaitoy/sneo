@@ -13,6 +13,10 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.Reader;
 import java.lang.management.ManagementFactory;
+import java.net.MalformedURLException;
+import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
 import java.text.ParseException;
 import java.util.Map;
 import javax.management.Attribute;
@@ -28,6 +32,9 @@ import javax.management.MalformedObjectNameException;
 import javax.management.NotCompliantMBeanException;
 import javax.management.ObjectName;
 import javax.management.ReflectionException;
+import javax.management.remote.JMXConnectorServer;
+import javax.management.remote.JMXConnectorServerFactory;
+import javax.management.remote.JMXServiceURL;
 import mx4j.log.Log4JLogger;
 import mx4j.tools.adaptor.http.HttpAdaptor;
 import mx4j.tools.adaptor.http.XSLTProcessor;
@@ -51,11 +58,12 @@ public class HttpJmxAgent implements JmxAgent {
   private static final LogAdapter logger
     = LogFactory.getLogger(HttpJmxAgent.class);
 
-  private static final String LOADER_NAME = "Loader:name=ConfigurationLoader";
-  private static final String LOG_CONTROLLER_NAME = "Tools:name=LogController";
+  private static final ObjectName LOADER_NAME;
+  private static final ObjectName LOG_CONTROLLER_NAME;
 //  private static final String AGENT_FACTORY_NAME = "Tools:name=AgentFactory";
-  private static final String ADAPTOR_NAME = "Adaptor:name=HttpAdaptor";
-  private static final String PROCESSOR_NAME = "Processor:name=XSLTProcessor";
+  private static final ObjectName ADAPTOR_NAME;
+  private static final ObjectName PROCESSOR_NAME;
+  private static final ObjectName CONNECTOR_NAME;
 //  private static final String XSL_PATH
 //    = HttpJmxAgent.class.getPackage().getName().replace('.', '/') + "/xsl";
   private static final String XSL_PATH
@@ -63,19 +71,42 @@ public class HttpJmxAgent implements JmxAgent {
   private static final String JMX_CLIENT = "0.0.0.0"; // no restriction
 
   //private MBeanServer server = MBeanServerFactory.createMBeanServer();
-  private MBeanServer server = ManagementFactory.getPlatformMBeanServer();
+  private final MBeanServer server = ManagementFactory.getPlatformMBeanServer();
   private String configFilePath = null;
+  private final int jmxPort;
+  private final int rmiPort;
 
-  public HttpJmxAgent(int jmxPort) {
-    if (jmxPort < 0 || jmxPort > 65535) {
-      throw new IllegalArgumentException();
+  static {
+    try {
+      LOADER_NAME = new ObjectName("Loader:name=ConfigurationLoader");
+      LOG_CONTROLLER_NAME = new ObjectName("Tools:name=LogController");
+      ADAPTOR_NAME = new ObjectName("Adaptor:name=HttpAdaptor");
+      PROCESSOR_NAME = new ObjectName("Processor:name=XSLTProcessor");
+      CONNECTOR_NAME = new ObjectName("Connector:protocol=rmi");
+    } catch (MalformedObjectNameException e) {
+      throw new AssertionError("Never get here.");
+    } catch (NullPointerException e) {
+      throw new AssertionError("Never get here.");
     }
+  }
+
+  public HttpJmxAgent(int jmxPort, int rmiPort) {
+    if (jmxPort < 0 || jmxPort > 65535) {
+      throw new IllegalArgumentException("Invalid jmxPort: " + jmxPort);
+    }
+    if (rmiPort < 0 || rmiPort > 65535) {
+      throw new IllegalArgumentException("Invalid jmxPort: " + rmiPort);
+    }
+    if (jmxPort == rmiPort) {
+      throw new IllegalArgumentException("jmxPort and rmiPort must be different.");
+    }
+    this.jmxPort = jmxPort;
+    this.rmiPort = rmiPort;
 
     try {
       DynamicMBean logController
         = DynamicMBeanFactory.newDynamicMBean(LoggerManager.getInstance());
-      ObjectName logControllerName = new ObjectName(LOG_CONTROLLER_NAME);
-      server.registerMBean(logController, logControllerName);
+      server.registerMBean(logController, LOG_CONTROLLER_NAME);
 
 //      DynamicMBean agentFactoty
 //        = DynamicMBeanFactory.getInstance()
@@ -86,31 +117,37 @@ public class HttpJmxAgent implements JmxAgent {
 //      ((AgentFactoryDynamicMBean)agentFactoty).setServer(server);
 
       HttpAdaptor adaptor = new HttpAdaptor(jmxPort, JMX_CLIENT);
-      ObjectName adaptorObjectName = new ObjectName(ADAPTOR_NAME);
-      server.registerMBean(adaptor, adaptorObjectName);
+      server.registerMBean(adaptor, ADAPTOR_NAME);
 
       XSLTProcessor xsltProcessor = new XSLTProcessor();
-      ObjectName processorObjectName = new ObjectName(PROCESSOR_NAME);
-      server.registerMBean(xsltProcessor, processorObjectName);
+      server.registerMBean(xsltProcessor, PROCESSOR_NAME);
 
       server.setAttribute(
-        adaptorObjectName,
-        new Attribute("ProcessorName", processorObjectName)
+        ADAPTOR_NAME,
+        new Attribute("ProcessorName", PROCESSOR_NAME)
       );
 
       server.setAttribute(
-        processorObjectName,
+        PROCESSOR_NAME,
         new Attribute("PathInJar", XSL_PATH)
       );
+
+      try {
+        JMXServiceURL url
+          = new JMXServiceURL(
+              "service:jmx:rmi:///jndi/rmi://localhost:" + rmiPort + "/JMXConnectorServer"
+            );
+        JMXConnectorServer jmxConnectorServer
+          = JMXConnectorServerFactory.newJMXConnectorServer(url, null, server);
+        server.registerMBean(jmxConnectorServer, CONNECTOR_NAME);
+      } catch (MalformedURLException e) {
+        throw new AssertionError("Never get here.");
+      }
     } catch (InstanceAlreadyExistsException e) {
       throw new IllegalStateException(e);
     } catch (MBeanRegistrationException e) {
       throw new IllegalStateException(e);
     } catch (NotCompliantMBeanException e) {
-      throw new IllegalStateException(e);
-    } catch (MalformedObjectNameException e) {
-      throw new IllegalStateException(e);
-    } catch (NullPointerException e) {
       throw new IllegalStateException(e);
     } catch (InstanceNotFoundException e) {
       throw new IllegalStateException(e);
@@ -122,7 +159,17 @@ public class HttpJmxAgent implements JmxAgent {
       throw new IllegalStateException(e);
     } catch (MBeanException e) {
       throw new IllegalStateException(e);
+    } catch (IOException e) {
+      throw new IllegalStateException(e);
     }
+  }
+
+  public int getJmxPort() {
+    return jmxPort;
+  }
+
+  public int getRmiPort() {
+    return rmiPort;
   }
 
   public void registerPojo(Object mo, String moName) {
@@ -183,12 +230,7 @@ public class HttpJmxAgent implements JmxAgent {
 
     try {
       ConfigurationLoader loader = new ConfigurationLoader();
-      ObjectName loaderObjectName = new ObjectName(LOADER_NAME);
-      server.registerMBean(loader, loaderObjectName);
-    } catch (MalformedObjectNameException e) {
-      throw new IllegalStateException(e);
-    } catch (NullPointerException e) {
-      throw new IllegalStateException(e);
+      server.registerMBean(loader, LOADER_NAME);
     } catch (InstanceAlreadyExistsException e) {
       throw new IllegalStateException(e);
     } catch (MBeanRegistrationException e) {
@@ -218,7 +260,8 @@ public class HttpJmxAgent implements JmxAgent {
 
     HttpJmxAgent agent
       = new HttpJmxAgent(
-          ((Integer)ArgumentParser.getValue(params, "p", 0)).intValue()
+          ((Integer)ArgumentParser.getValue(params, "jmxPort", 0)).intValue(),
+          ((Integer)ArgumentParser.getValue(params, "rmiPort", 0)).intValue()
         );
     agent.setConfigFilePath((String)ArgumentParser.getValue(params, "f", 0));
     agent.start();
@@ -238,7 +281,8 @@ public class HttpJmxAgent implements JmxAgent {
       ArgumentParser parser
         = new ArgumentParser(
               "-f[s{=HttpJmxAgent.xml}] "
-            + "-p[i{=8080}] "
+            + "-jmxPort[i{=8080}] "
+            + "-rmiPort[i{=" + Registry.REGISTRY_PORT + "}]"
             ,
             ""
           );
@@ -259,9 +303,8 @@ public class HttpJmxAgent implements JmxAgent {
       if (configFilePath != null) {
         try {
           reader = new BufferedReader(new FileReader(configFilePath));
-          ObjectName loaderObjectName = new ObjectName(LOADER_NAME);
           server.invoke(
-            loaderObjectName,
+            LOADER_NAME,
             "startup",
             new Object[] {
               reader
@@ -275,20 +318,21 @@ public class HttpJmxAgent implements JmxAgent {
         }
       }
 
-      ObjectName adaptorObjectName = new ObjectName(ADAPTOR_NAME);
-      server.invoke(adaptorObjectName, "start", null, null);
+      server.invoke(ADAPTOR_NAME, "start", null, null);
+
+      LocateRegistry.createRegistry(rmiPort);
+      server.invoke(CONNECTOR_NAME, "start", null, null);
 
 //      addShutdownHook();
-    } catch (MalformedObjectNameException e) {
-      throw new IllegalStateException(e);
-    } catch (NullPointerException e) {
-      throw new IllegalStateException(e);
     } catch (InstanceNotFoundException e) {
       throw new IllegalStateException(e);
     } catch (ReflectionException e) {
       throw new IllegalStateException(e);
     } catch (MBeanException e) {
       throw new IllegalStateException(e);
+    } catch (RemoteException e) {
+      // TODO 自動生成された catch ブロック
+      e.printStackTrace();
     } finally {
       if (reader != null) {
         try {
@@ -300,17 +344,11 @@ public class HttpJmxAgent implements JmxAgent {
 
   public void stop() {
     try {
-      ObjectName adaptorObjectName = new ObjectName(ADAPTOR_NAME);
-      server.invoke(adaptorObjectName, "stop", null, null);
-
+      server.invoke(CONNECTOR_NAME, "stop", null, null);
+      server.invoke(ADAPTOR_NAME, "stop", null, null);
       if (configFilePath != null) {
-        ObjectName loaderObjectName = new ObjectName(LOADER_NAME);
-        server.invoke(loaderObjectName, "shutdown", null, null);
+        server.invoke(LOADER_NAME, "shutdown", null, null);
       }
-    } catch (MalformedObjectNameException e) {
-      throw new IllegalStateException(e);
-    } catch (NullPointerException e) {
-      throw new IllegalStateException(e);
     } catch (InstanceNotFoundException e) {
       throw new IllegalStateException(e);
     } catch (ReflectionException e) {

@@ -11,6 +11,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.Inet4Address;
 import java.net.InetAddress;
+import java.rmi.registry.Registry;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
@@ -90,10 +91,11 @@ public class SingleNodeRunner {
               .communityStringIndexes(communityStringIndexes);
       }
 
+      String address = (String)ArgumentParser.getValue(params, "a", 0);
       agentBuilder
         .address(
            (String)ArgumentParser.getValue(params, "proto", 0) + ":"
-             + (String)ArgumentParser.getValue(params, "a", 0) + "/"
+             + address + "/"
              + (Integer)ArgumentParser.getValue(params, "p", 0)
          )
         .bcConfigFilePath((String)ArgumentParser.getValue(params, "bcfg", 0))
@@ -188,13 +190,14 @@ public class SingleNodeRunner {
 
       JmxAgent jmxAgent
         = new HttpJmxAgent(
-            (Integer)ArgumentParser.getValue(params, "jmxPort", 0)
+            (Integer)ArgumentParser.getValue(params, "jmxPort", 0),
+            ((Integer)ArgumentParser.getValue(params, "rmiPort", 0)).intValue()
           );
       jmxAgent.registerPojo(
         vNode,
         "Nodes:name="
           + ObjectName.quote(vNode.getClass().getSimpleName())
-          + ",address=" + ObjectName.quote(agent.getAddress())
+          + ",address=" + ObjectName.quote(address)
       );
 
       gw.start();
@@ -254,6 +257,7 @@ public class SingleNodeRunner {
       optList.add("-rmac[s{=" + defaultRealNifMacAddr + "}<[0-9A-Fa-f]{12}>] ");
       optList.add("-m[s<[0-9.]+>] ");
       optList.add("-jmxPort[i{=8080}] ");
+      optList.add("-rmiPort[i{=" + Registry.REGISTRY_PORT + "}] ");
 
       for (String arg: args) {
         if (
