@@ -603,33 +603,26 @@ public class Node {
     public void gotPacket(Packet packet) {
       NetworkInterface getter = nifs.get(ifName);
       if (packet.contains(IpV4Packet.class)) {
-        if(
-             getter.getIpAddress() != null
-          && IpV4Helper.matchesDestination(
-               packet,
-               (Inet4Address)getter.getIpAddress(),
-               (Inet4Address)getter.getSubnetMask()
-             )
-        ) {
-          process(packet, getter);
-          return;
-        }
+        for (NetworkInterface nif: nifs.values()) {
+          if (nif.getIpAddress() == null) {
+            continue;
+          }
 
+          if (
+            IpV4Helper.matchesDestination(
+              packet,
+              (Inet4Address)nif.getIpAddress(),
+              (Inet4Address)nif.getSubnetMask()
+            )
+          ) {
+            process(packet, getter);
+            return;
+          }
+        }
 
         IpV4Packet ipV4packet = packet.get(IpV4Packet.class);
         NetworkInterface sender
           = getNifByDstIpAddr(ipV4packet.getHeader().getDstAddr());
-        if(
-             sender.getIpAddress() != null
-          && IpV4Helper.matchesDestination(
-               packet,
-               (Inet4Address)sender.getIpAddress(),
-               (Inet4Address)sender.getSubnetMask()
-             )
-        ) {
-          process(packet, sender);
-          return;
-        }
 
         try {
           ipV4packet = IpV4Helper.decrementTtl(ipV4packet);
