@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+            http://www.springframework.org/schema/beans
+            http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+  <bean id="additionalIpV4RouteDao" class="com.github.kaitoy.sneo.giane.model.dao.hibernate.AdditionalIpV4RouteDaoImpl" scope="prototype" />
+  <bean id="additionalIpV4RouteGroupDao" class="com.github.kaitoy.sneo.giane.model.dao.hibernate.AdditionalIpV4RouteGroupDaoImpl" scope="prototype" />
+  <bean id="fixedIpV4RouteDao" class="com.github.kaitoy.sneo.giane.model.dao.hibernate.FixedIpV4RouteDaoImpl" scope="prototype" />
+  <bean id="ipAddressDao" class="com.github.kaitoy.sneo.giane.model.dao.hibernate.IpAddressDaoImpl" scope="prototype" />
+  <bean id="ipAddressRelationDao" class="com.github.kaitoy.sneo.giane.model.dao.hibernate.IpAddressRelationDaoImpl" scope="prototype" />
+  <bean id="ipV4RouteDao" class="com.github.kaitoy.sneo.giane.model.dao.hibernate.IpV4RouteDaoImpl" scope="prototype" />
+  <bean id="l2ConnectionDao" class="com.github.kaitoy.sneo.giane.model.dao.hibernate.L2ConnectionDaoImpl" scope="prototype" />
+  <bean id="networkDao" class="com.github.kaitoy.sneo.giane.model.dao.hibernate.NetworkDaoImpl" scope="prototype" />
+  <bean id="nodeDao" class="com.github.kaitoy.sneo.giane.model.dao.hibernate.NodeDaoImpl" scope="prototype" />
+  <bean id="physicalNetworkInterfaceDao" class="com.github.kaitoy.sneo.giane.model.dao.hibernate.PhysicalNetworkInterfaceDaoImpl" scope="prototype" />
+  <bean id="realNetworkInterfaceConfigurationDao" class="com.github.kaitoy.sneo.giane.model.dao.hibernate.RealNetworkInterfaceConfigurationDaoImpl" scope="prototype" />
+  <bean id="realNetworkInterfaceDao" class="com.github.kaitoy.sneo.giane.model.dao.hibernate.RealNetworkInterfaceDaoImpl" scope="prototype" />
+  <bean id="simulationDao" class="com.github.kaitoy.sneo.giane.model.dao.hibernate.SimulationDaoImpl" scope="prototype" />
+  <bean id="snmpAgentDao" class="com.github.kaitoy.sneo.giane.model.dao.hibernate.SnmpAgentDaoImpl" scope="prototype" />
+  <bean id="trapTargetDao" class="com.github.kaitoy.sneo.giane.model.dao.hibernate.TrapTargetDaoImpl" scope="prototype" />
+  <bean id="trapTargetGroupDao" class="com.github.kaitoy.sneo.giane.model.dao.hibernate.TrapTargetGroupDaoImpl" scope="prototype" />
+  <bean id="vlanDao" class="com.github.kaitoy.sneo.giane.model.dao.hibernate.VlanDaoImpl" scope="prototype" />
+  <bean id="vlanMemberDao" class="com.github.kaitoy.sneo.giane.model.dao.hibernate.VlanMemberDaoImpl" scope="prototype" />
+
+</beans>

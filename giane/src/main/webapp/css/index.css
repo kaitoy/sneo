@@ -1,0 +1,45 @@
+div#header {
+  height: 30px;
+  line-height: 30px;
+  width: 1150px;
+  text-align: center;
+  background-color: #696969;
+  color: white;
+}
+
+div#main {
+  height: 550px;
+  width: 1150px;
+  padding: 0px;
+  background-color: #FFFAFA;
+  font-size: 10px;
+}
+
+div#signIn {
+  display: table-cell;
+  vertical-align: middle;
+  text-align: center;
+  height: 550px;
+  width: 1150px;
+  padding: 0px;
+  margin: 0px;
+  font-size: 17px;
+}
+
+img#main_indicator {
+  width: 100px;
+  height: 100px;
+  position: absolute;
+  top: 350px;
+  left: 530px;
+}
+
+div#footer {
+  height: 30px;
+  line-height: 30px;
+  text-align: center;
+  width: 1150px;
+  background-color: #696969;
+  color: white;
+  clear: both;
+}

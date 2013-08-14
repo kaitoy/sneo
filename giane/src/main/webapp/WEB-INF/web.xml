@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app id="WebApp_9" version="2.4" xmlns="http://java.sun.com/xml/ns/j2ee"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
+
+  <display-name>Giane</display-name>
+
+  <description>Graphical interface for network configuration of SNeO</description>
+
+  <context-param>
+      <param-name>contextConfigLocation</param-name>
+      <param-value>classpath*:applicationContext.xml</param-value>
+  </context-param>
+
+  <filter>
+      <filter-name>struts2</filter-name>
+      <filter-class>org.apache.struts2.dispatcher.ng.filter.StrutsPrepareAndExecuteFilter</filter-class>
+  </filter>
+
+  <filter-mapping>
+      <filter-name>struts2</filter-name>
+      <url-pattern>/*</url-pattern>
+  </filter-mapping>
+
+  <listener>
+    <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+  </listener>
+  <listener>
+      <listener-class>com.github.kaitoy.sneo.giane.h2.TcpServerStarter</listener-class>
+  </listener>
+  <listener>
+      <listener-class>com.github.kaitoy.sneo.giane.h2.WebConsoleServerStarter</listener-class>
+  </listener>
+  <listener>
+      <listener-class>com.github.kaitoy.sneo.giane.h2.PgServerStarter</listener-class>
+  </listener>
+
+  <!-- welcome files don't work because of maybe struts2 filter
+  <welcome-file-list>
+      <welcome-file>index.action</welcome-file>
+  </welcome-file-list>
+   -->
+
+</web-app>

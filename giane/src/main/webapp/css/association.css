@@ -1,0 +1,32 @@
+.association-container {
+  width: 70%;
+  margin: 0 auto;
+}
+.association-wrapper-column {
+  width: 60%;
+  float: left;
+}
+.association-left-column {
+  width: 65%;
+  float: left;
+}
+.association-middle-column {
+  width: 35%;
+  float: right;
+  text-align: center;
+  position: relative;
+  top: 150px;
+}
+.association-right-column {
+  width: 40%;
+  float: right;
+}
+.association-arrow {
+  width: 20px;
+  height: 15px;
+}
+
+.association-grid-indicator {
+  position: absolute;
+  top: 260px;
+}

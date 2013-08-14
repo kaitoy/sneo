@@ -1,0 +1,60 @@
+div#breadcrumbs {
+  height: 4%;
+  line-height: 20px;
+  font-size: 17px;
+}
+
+.tabs {
+  height: 94%;
+}
+
+.tab-content {
+  height: 100%;
+}
+
+.left-column {
+  width: 40%;
+  float: left;
+}
+
+.left-column .select-field {
+  width: 60%;
+}
+
+.right-column {
+  width: 60%;
+  float: right;
+}
+
+.grid-box{
+  padding-left: 15px;
+}
+
+.tab-indicator {
+  width: 100px;
+  height: 100px;
+  position: absolute;
+  top: 350px;
+  left: 530px;
+  display: none;
+}
+
+.dialog {
+  font-size: 10px;
+}
+
+#startSimulator_container {
+  vertical-align: middle;
+  text-align: center;
+  height:100%;
+  width: 100%;
+  font-size: 17px;
+}
+
+.required {
+  color: red;
+}
+
+fieldset div {
+  margin-top: 2px;
+}

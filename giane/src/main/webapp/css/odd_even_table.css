@@ -1,0 +1,36 @@
+table.odd_even_table {
+  margin-top: 0.2em;
+  margin-bottom: 1em;
+  border-collapse: separate;
+  border-spacing: 2px;
+  font-size: 100%;
+}
+
+table.odd_even_table caption {
+  margin-top: 1em;
+  text-align: left;
+}
+
+table.odd_even_table th,
+table.odd_even_table td {
+  padding: 3px 5px;
+}
+
+table.odd_even_table th {
+  background: #1B3AB4;
+  white-space: nowrap;
+	color: #FFF;
+	text-align: center;
+}
+
+table.odd_even_table tr.odd {
+  background: #E0E6FF;
+  text-align: right;
+
+}
+
+table.odd_even_table tr.even {
+  background: #F2F5FF;
+  text-align: right;
+
+}

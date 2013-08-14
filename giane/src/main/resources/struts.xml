@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+ "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+  "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+
+  <constant name="struts.enable.DynamicMethodInvocation" value="false" />
+  <constant name="struts.devMode" value="false" />
+  <constant name="struts.ognl.allowStaticMethodAccess" value="true" />
+
+  <!-- Ajax Validation -->
+  <constant name="struts.enableJSONValidation" value="true" />
+
+  <!-- default <constant name="hibernatePlugin.configurationFiles" value="/hibernate.cfg.xml" /> -->
+
+  <!-- https://cwiki.apache.org/WW/convention-plugin.html
+  When using this plugin with Jetty in embedded mode, you need to set the following constants:
+  -->
+  <constant name="struts.convention.exclude.parentClassLoader" value="false" />
+  <constant name="struts.convention.action.fileProtocols" value="jar,code-source" />
+
+
+  <package name="giane-default" extends="json-default">
+
+    <interceptors>
+
+      <interceptor
+        name="hibernateInjectionInterceptor"
+        class="com.github.kaitoy.sneo.giane.interceptor.HibernateSessionTransactionInjectionInterceptor"
+      />
+
+      <interceptor-stack name="gianeDefaultStack">
+        <interceptor-ref name="hibernateInjectionInterceptor" />
+        <interceptor-ref name="basicStack" >
+          <param name="exception.logEnabled">true</param>
+          <param name="exception.logLevel">ERROR</param>
+        </interceptor-ref>
+        <interceptor-ref name="validation">
+          <param name="excludeMethods">input,back,cancel</param>
+        </interceptor-ref>
+        <interceptor-ref name="jsonValidation"/>
+        <interceptor-ref name="workflow"/>
+      </interceptor-stack>
+
+      <!--
+      <interceptor-stack name="gianeHibernateValidationStack">
+        <interceptor-ref name="hibernateInjectionInterceptor" />
+        <interceptor-ref name="basicStack"/>
+        <interceptor-ref name="validation">
+          <param name="excludeMethods">input,back,cancel</param>
+        </interceptor-ref>
+        <interceptor-ref name="hibernateValidatorInterceptor"/>
+        <interceptor-ref name="jsonValidation"/>
+        <interceptor-ref name="workflow"/>
+      </interceptor-stack>
+      -->
+
+    </interceptors>
+
+
+    <global-results>
+        <result name="Exception" type="redirect">/exception.action</result>
+    </global-results>
+
+    <global-exception-mappings>
+        <exception-mapping exception="java.lang.Exception" result="Exception" />
+    </global-exception-mappings>
+
+
+  </package>
+
+</struts>

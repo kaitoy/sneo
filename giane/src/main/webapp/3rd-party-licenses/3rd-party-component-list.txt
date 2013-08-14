@@ -1,0 +1,26 @@
+The following component is licensed under the Apache License 2.0 and the Eclipse Public License 1.0.
+  - Jetty 7 (http://www.eclipse.org/jetty/)
+
+The following components are licensed under the Apache License 2.0.
+  - Apache Struts 2 (http://struts.apache.org/development/2.x/)
+  - Apache Struts 2 Convention Plugin (http://struts.apache.org/release/2.1.x/docs/convention-plugin.html)
+  - Apache Struts 2 Spring Plugin (http://struts.apache.org/release/2.0.x/docs/spring-plugin.html)
+  - Apache Struts 2 jQuery Plugin (http://code.google.com/p/struts2-jquery/)
+  - Apache Struts 2 JSON Plugin (http://struts.apache.org/release/2.2.x/docs/json-plugin.html)
+  - SNMP4J (http://www.snmp4j.org/)
+  - SNMP4J-Agent (http://www.snmp4j.org/)
+
+The following components are licensed under MIT License.
+  - SNeO (https://github.com/kaitoy/sneo)
+  - Pcap4J (http://www.pcap4j.org/)
+  - SLF4J (http://www.slf4j.org/)
+
+The following components are licensed under LGPL v2.1.
+  - Hibernate ORM (http://www.hibernate.org/)
+  - JNA 3.5 (https://github.com/twall/jna)
+
+The following component is licensed under the H2 License 1.0 and the Eclipse Public License 1.0.
+  - H2 database engine (http://www.h2database.com/)
+
+The following component is licensed under the MX4J License version 1.0.
+  - MX4J (http://mx4j.sourceforge.net/)
