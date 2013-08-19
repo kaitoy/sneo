@@ -110,13 +110,27 @@
             </configuration>
           </execution>
           <execution>
-            <id>unpack-dependencies</id>
+            <id>unpack-jetty-dependencies</id>
             <phase>prepare-package</phase>
             <goals>
               <goal>unpack-dependencies</goal>
             </goals>
             <configuration>
+              <excludeArtifactIds>giane</excludeArtifactIds>
               <excludes>**/META-INF/**,**/about_files/**,**/about.html,**/plugin.properties,**/OSGI-INF/**</excludes>
+              <outputDirectory>${project.build.directory}/${project.build.finalName}</outputDirectory>
+              <overWriteReleases>true</overWriteReleases>
+              <overWriteSnapshots>true</overWriteSnapshots>
+            </configuration>
+          </execution>
+          <execution>
+            <id>unpack-giane</id>
+            <phase>prepare-package</phase>
+            <goals>
+              <goal>unpack-dependencies</goal>
+            </goals>
+            <configuration>
+              <includeArtifactIds>giane</includeArtifactIds>
               <outputDirectory>${project.build.directory}/${project.build.finalName}</outputDirectory>
               <overWriteReleases>true</overWriteReleases>
               <overWriteSnapshots>true</overWriteSnapshots>
