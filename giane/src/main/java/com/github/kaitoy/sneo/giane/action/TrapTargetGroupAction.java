@@ -119,7 +119,7 @@ extends ActionSupport implements ModelDriven<TrapTargetGroup> {
     results = { @Result(name = "success", location = "empty.jsp") }
   )
   public String create() throws Exception {
-    trapTargetGroupDao.save(model);
+    trapTargetGroupDao.create(model);
     return "success";
   }
 

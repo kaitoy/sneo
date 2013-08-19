@@ -125,7 +125,7 @@ public class NodeAction extends ActionSupport implements ModelDriven<Node> {
     Map<String, Object> params = ActionContext.getContext().getParameters();
     Integer network_id = Integer.valueOf(((String[])params.get("network_id"))[0]);
     model.setNetwork(networkDao.findByKey(network_id));
-    nodeDao.save(model);
+    nodeDao.create(model);
 
     return "success";
   }

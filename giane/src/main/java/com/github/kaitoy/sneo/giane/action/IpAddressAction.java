@@ -77,7 +77,7 @@ extends ActionSupport implements ModelDriven<IpAddress> {
     model.setIpAddressRelation(
       ipAddressRelationDao.findByKey(ipAddressRelationId)
     );
-    ipAddressDao.save(model);
+    ipAddressDao.create(model);
 
     return "success";
   }

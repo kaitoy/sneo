@@ -15,14 +15,14 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.InterceptorRef;
 import org.apache.struts2.convention.annotation.ParentPackage;
 import org.apache.struts2.convention.annotation.Result;
-import org.hibernate.criterion.DetachedCriteria;
-import org.hibernate.criterion.Restrictions;
-
 import com.github.kaitoy.sneo.giane.model.FixedIpV4Route;
 import com.github.kaitoy.sneo.giane.model.dao.FixedIpV4RouteDao;
 import com.github.kaitoy.sneo.giane.model.dto.IpV4RouteDto;
@@ -182,18 +182,23 @@ public class FixedIpV4RouteGridAction extends ActionSupport {
     this.fixedIpV4RouteDao = fixedIpV4RouteDao;
   }
 
+  @Override
   @Action(
     results = {
       @Result(name = "success", type = "json")
     }
   )
   public String execute() {
-    DetachedCriteria criteria = DetachedCriteria.forClass(FixedIpV4Route.class);
+    CriteriaBuilder cb = fixedIpV4RouteDao.getCriteriaBuilder();
+    CriteriaQuery<FixedIpV4Route> cq = cb.createQuery(FixedIpV4Route.class);
+    Root<FixedIpV4Route> r = cq.from(FixedIpV4Route.class);
+    cq.select(r);
 
     Map<String, Object> params = ActionContext.getContext().getParameters();
     Integer node_id
       = Integer.valueOf(((String[])params.get("node_id"))[0]);
-    criteria.add(Restrictions.eq("node.id", node_id));
+    List<Predicate> predicates = new ArrayList<Predicate>();
+    predicates.add(cb.equal(r.get("node"), node_id));
 
     if (searchField != null) {
       if (
@@ -202,16 +207,16 @@ public class FixedIpV4RouteGridAction extends ActionSupport {
       ) {
         Integer searchValue = Integer.valueOf(searchString);
         if (searchOper.equals("eq")) {
-          criteria.add(Restrictions.eq(searchField, searchValue));
+          predicates.add(cb.equal(r.get(searchField), searchValue));
         }
         else if (searchOper.equals("ne")) {
-          criteria.add(Restrictions.ne(searchField, searchValue));
+          predicates.add(cb.notEqual(r.get(searchField), searchValue));
         }
         else if (searchOper.equals("lt")) {
-          criteria.add(Restrictions.lt(searchField, searchValue));
+          predicates.add(cb.lt(r.get(searchField).as(Integer.class), searchValue));
         }
         else if (searchOper.equals("gt")) {
-          criteria.add(Restrictions.gt(searchField, searchValue));
+          predicates.add(cb.gt(r.get(searchField).as(Integer.class), searchValue));
         }
       }
       else if (
@@ -220,24 +225,26 @@ public class FixedIpV4RouteGridAction extends ActionSupport {
         || searchField.equals("gateway")
       ) {
         if (searchOper.equals("eq")) {
-          criteria.add(Restrictions.eq(searchField, searchString));
+          predicates.add(cb.equal(r.get(searchField), searchString));
         }
         else if (searchOper.equals("ne")) {
-          criteria.add(Restrictions.ne(searchField, searchString));
+          predicates.add(cb.notEqual(r.get(searchField), searchString));
         }
         else if (searchOper.equals("bw")) {
-          criteria.add(Restrictions.like(searchField, searchString + "%"));
+          predicates.add(cb.like(r.get(searchField).as(String.class), searchString + "%"));
         }
         else if (searchOper.equals("ew")) {
-          criteria.add(Restrictions.like(searchField, "%" + searchString));
+          predicates.add(cb.like(r.get(searchField).as(String.class), "%" + searchString));
         }
         else if (searchOper.equals("cn")) {
-          criteria.add(Restrictions.like(searchField, "%" + searchString + "%"));
+          predicates.add(cb.like(r.get(searchField).as(String.class), "%" + searchString + "%"));
         }
       }
     }
 
-    List<FixedIpV4Route> models = fixedIpV4RouteDao.findByCriteria(criteria);
+    cq.where(cb.and(predicates.toArray(new Predicate[0])));
+
+    List<FixedIpV4Route> models = fixedIpV4RouteDao.findByCriteria(cq);
     gridModel = new ArrayList<IpV4RouteDto>();
     for (FixedIpV4Route entry: models) {
       gridModel.add(new IpV4RouteDto(entry));

@@ -17,14 +17,14 @@ import javax.persistence.DiscriminatorType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Transient;
-import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.Parameter;
 import com.github.kaitoy.sneo.network.dto.IpAddressDto;
 
 @Entity
@@ -46,16 +46,8 @@ public abstract class IpAddressRelation implements Serializable {
   private List<IpAddress> ipAddresses;
 
   @Id
-  @GeneratedValue(generator = "SequenceStyleGenerator")
-  @GenericGenerator(
-    name = "SequenceStyleGenerator",
-    strategy = "org.hibernate.id.enhanced.SequenceStyleGenerator",
-    parameters = {
-      @Parameter(name = "sequence_name", value = "IP_ADDRESS_RELATION_SEQUENCE"),
-      @Parameter(name = "initial_value", value = "1"),
-      @Parameter(name = "increment_size", value = "1")
-    }
-  )
+  @GeneratedValue(strategy=GenerationType.AUTO, generator="giane_seq_gen")
+  @SequenceGenerator(name="giane_seq_gen", sequenceName="GIANE_SEQ")
   @Column(name = "ID")
   public Integer getId() { return id; }
 

@@ -126,10 +126,10 @@ extends ActionSupport implements ModelDriven<Vlan> {
     VlanIpAddressRelation relation
       = new VlanIpAddressRelation();
     relation.setVlan(model);
-    ipAddressRelationDao.save(relation);
+    ipAddressRelationDao.create(relation);
 
     model.setIpAddressRelation(relation);
-    vlanDao.save(model);
+    vlanDao.create(model);
 
     return "success";
   }

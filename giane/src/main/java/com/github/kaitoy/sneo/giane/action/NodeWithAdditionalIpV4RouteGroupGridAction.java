@@ -13,14 +13,14 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.InterceptorRef;
 import org.apache.struts2.convention.annotation.ParentPackage;
 import org.apache.struts2.convention.annotation.Result;
-import org.hibernate.criterion.DetachedCriteria;
-import org.hibernate.criterion.Restrictions;
-
 import com.github.kaitoy.sneo.giane.model.AdditionalIpV4RouteGroup;
 import com.github.kaitoy.sneo.giane.model.Node;
 import com.github.kaitoy.sneo.giane.model.Simulation;
@@ -35,10 +35,10 @@ import com.opensymphony.xwork2.ActionSupport;
 public class NodeWithAdditionalIpV4RouteGroupGridAction extends ActionSupport {
 
   /**
-   * 
+   *
    */
   private static final long serialVersionUID = 8348410625009416488L;
-  
+
   private static final
   Map<String, Comparator<NodeWithAdditionalIpV4RouteGroupDto>> comparators
     = new HashMap<String, Comparator<NodeWithAdditionalIpV4RouteGroupDto>>();
@@ -126,13 +126,17 @@ public class NodeWithAdditionalIpV4RouteGroupGridAction extends ActionSupport {
     this.simulationDao = simulationDao;
   }
 
+  @Override
   @Action(
     results = {
       @Result(name = "success", type = "json")
     }
   )
   public String execute() {
-    DetachedCriteria criteria = DetachedCriteria.forClass(Node.class);
+    CriteriaBuilder cb = nodeDao.getCriteriaBuilder();
+    CriteriaQuery<Node> cq = cb.createQuery(Node.class);
+    Root<Node> r = cq.from(Node.class);
+    cq.select(r);
 
     Map<String, Object> params = ActionContext.getContext().getParameters();
     Integer simulationId
@@ -140,120 +144,123 @@ public class NodeWithAdditionalIpV4RouteGroupGridAction extends ActionSupport {
     Simulation conf
       = simulationDao.findByKey(simulationId);
 
-    criteria.add(Restrictions.eq("network.id", conf.getNetwork().getId()));
+    List<Predicate> predicates = new ArrayList<Predicate>();
+    predicates.add(cb.equal(r.get("network"), conf.getNetwork().getId()));
 
     if (searchField != null) {
       if (searchField.equals("id")) {
         Integer searchValue = Integer.valueOf(searchString);
         if (searchOper.equals("eq")) {
-          criteria.add(Restrictions.eq(searchField, searchValue));
+          predicates.add(cb.equal(r.get(searchField), searchValue));
         }
         else if (searchOper.equals("ne")) {
-          criteria.add(Restrictions.ne(searchField, searchValue));
+          predicates.add(cb.notEqual(r.get(searchField), searchValue));
         }
         else if (searchOper.equals("lt")) {
-          criteria.add(Restrictions.lt(searchField, searchValue));
+          predicates.add(cb.lt(r.get(searchField).as(Integer.class), searchValue));
         }
         else if (searchOper.equals("gt")) {
-          criteria.add(Restrictions.gt(searchField, searchValue));
+          predicates.add(cb.gt(r.get(searchField).as(Integer.class), searchValue));
         }
       }
       else if (searchField.equals("name")) {
         if (searchOper.equals("eq")) {
-          criteria.add(Restrictions.eq(searchField, searchString));
+          predicates.add(cb.equal(r.get(searchField), searchString));
         }
         else if (searchOper.equals("ne")) {
-          criteria.add(Restrictions.ne(searchField, searchString));
+          predicates.add(cb.notEqual(r.get(searchField), searchString));
         }
         else if (searchOper.equals("bw")) {
-          criteria.add(Restrictions.like(searchField, searchString + "%"));
+          predicates.add(cb.like(r.get(searchField).as(String.class), searchString + "%"));
         }
         else if (searchOper.equals("ew")) {
-          criteria.add(Restrictions.like(searchField, "%" + searchString));
+          predicates.add(cb.like(r.get(searchField).as(String.class), "%" + searchString));
         }
         else if (searchOper.equals("cn")) {
-          criteria.add(Restrictions.like(searchField, "%" + searchString + "%"));
+          predicates.add(cb.like(r.get(searchField).as(String.class), "%" + searchString + "%"));
         }
       }
     }
 
+    cq.where(cb.and(predicates.toArray(new Predicate[0])));
+
     gridModel =  new ArrayList<NodeWithAdditionalIpV4RouteGroupDto>();
     if (searchField != null && searchField.equals("additionalIpV4RouteGroup")) {
       if (searchOper.equals("eq")) {
-        for (Node model: nodeDao.findByCriteria(criteria)) {
-          AdditionalIpV4RouteGroup ttg = conf.getAdditionalIpV4RouteGroups().get(model);
-          if (ttg == null) {
-            if (!"".equals(searchString)) {
+        for (Node model: nodeDao.findByCriteria(cq)) {
+          AdditionalIpV4RouteGroup routeg = conf.getAdditionalIpV4RouteGroups().get(model);
+          if (routeg == null) {
+            if (searchString.length() != 0) {
               continue;
             }
           }
-          if (!ttg.getName().equals(searchString)) {
+          else if (!routeg.getName().equals(searchString)) {
             continue;
           }
-          gridModel.add(new NodeWithAdditionalIpV4RouteGroupDto(model, ttg));
+          gridModel.add(new NodeWithAdditionalIpV4RouteGroupDto(model, routeg));
         }
       }
       else if (searchOper.equals("ne")) {
-        for (Node model: nodeDao.findByCriteria(criteria)) {
-          AdditionalIpV4RouteGroup ttg = conf.getAdditionalIpV4RouteGroups().get(model);
-          if (ttg == null) {
-            if ("".equals(searchString)) {
+        for (Node model: nodeDao.findByCriteria(cq)) {
+          AdditionalIpV4RouteGroup routeg = conf.getAdditionalIpV4RouteGroups().get(model);
+          if (routeg == null) {
+            if (searchString.length() != 0) {
               continue;
             }
           }
-          if (ttg.getName().equals(searchString)) {
+          else if (routeg.getName().equals(searchString)) {
             continue;
           }
-          gridModel.add(new NodeWithAdditionalIpV4RouteGroupDto(model, ttg));
+          gridModel.add(new NodeWithAdditionalIpV4RouteGroupDto(model, routeg));
         }
       }
       else if (searchOper.equals("bw")) {
-        for (Node model: nodeDao.findByCriteria(criteria)) {
-          AdditionalIpV4RouteGroup ttg = conf.getAdditionalIpV4RouteGroups().get(model);
-          if (ttg == null) {
-            if (!"".startsWith(searchString)) {
+        for (Node model: nodeDao.findByCriteria(cq)) {
+          AdditionalIpV4RouteGroup routeg = conf.getAdditionalIpV4RouteGroups().get(model);
+          if (routeg == null) {
+            if (searchString.length() != 0) {
               continue;
             }
           }
-          if (!ttg.getName().startsWith(searchString)) {
+          else if (!routeg.getName().startsWith(searchString)) {
             continue;
           }
-          gridModel.add(new NodeWithAdditionalIpV4RouteGroupDto(model, ttg));
+          gridModel.add(new NodeWithAdditionalIpV4RouteGroupDto(model, routeg));
         }
       }
       else if (searchOper.equals("ew")) {
-        for (Node model: nodeDao.findByCriteria(criteria)) {
-          AdditionalIpV4RouteGroup ttg = conf.getAdditionalIpV4RouteGroups().get(model);
-          if (ttg == null) {
-            if (!"".endsWith(searchString)) {
+        for (Node model: nodeDao.findByCriteria(cq)) {
+          AdditionalIpV4RouteGroup routeg = conf.getAdditionalIpV4RouteGroups().get(model);
+          if (routeg == null) {
+            if (searchString.length() != 0) {
               continue;
             }
           }
-          if (!ttg.getName().endsWith(searchString)) {
+          else if (!routeg.getName().endsWith(searchString)) {
             continue;
           }
-          gridModel.add(new NodeWithAdditionalIpV4RouteGroupDto(model, ttg));
+          gridModel.add(new NodeWithAdditionalIpV4RouteGroupDto(model, routeg));
         }
       }
       else if (searchOper.equals("cn")) {
-        for (Node model: nodeDao.findByCriteria(criteria)) {
-          AdditionalIpV4RouteGroup ttg = conf.getAdditionalIpV4RouteGroups().get(model);
-          if (ttg == null) {
-            if (!"".contains(searchString)) {
+        for (Node model: nodeDao.findByCriteria(cq)) {
+          AdditionalIpV4RouteGroup routeg = conf.getAdditionalIpV4RouteGroups().get(model);
+          if (routeg == null) {
+            if (searchString.length() != 0) {
               continue;
             }
           }
-          if (!ttg.getName().contains(searchString)) {
+          else if (!routeg.getName().contains(searchString)) {
             continue;
           }
-          gridModel.add(new NodeWithAdditionalIpV4RouteGroupDto(model, ttg));
+          gridModel.add(new NodeWithAdditionalIpV4RouteGroupDto(model, routeg));
         }
       }
     }
     else {
-      for (Node model: nodeDao.findByCriteria(criteria)) {
-        AdditionalIpV4RouteGroup ttg = conf.getAdditionalIpV4RouteGroups().get(model);
-        gridModel.add(new NodeWithAdditionalIpV4RouteGroupDto(model, ttg));
+      for (Node model: nodeDao.findByCriteria(cq)) {
+        AdditionalIpV4RouteGroup routeg = conf.getAdditionalIpV4RouteGroups().get(model);
+        gridModel.add(new NodeWithAdditionalIpV4RouteGroupDto(model, routeg));
       }
     }
 

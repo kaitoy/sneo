@@ -60,7 +60,7 @@ public class FixedIpV4RouteEditGridEntryAction extends ActionSupport {
         = Integer.valueOf(((String[])params.get("node_id"))[0]);
       model.setNode(nodeDao.findByKey(node_id));
 
-      fixedIpV4RouteDao.save(model);
+      fixedIpV4RouteDao.create(model);
     }
     else if (oper.equalsIgnoreCase("edit")) {
       FixedIpV4Route model = fixedIpV4RouteDao.findByKey(id);

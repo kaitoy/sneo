@@ -100,7 +100,7 @@ extends ActionSupport implements ModelDriven<Simulation> {
     results = { @Result(name = "success", location = "empty.jsp") }
   )
   public String create() throws Exception {
-    simulationDao.save(model);
+    simulationDao.create(model);
     return "success";
   }
 

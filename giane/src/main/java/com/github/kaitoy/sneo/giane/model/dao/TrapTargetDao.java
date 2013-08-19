@@ -8,9 +8,7 @@
 package com.github.kaitoy.sneo.giane.model.dao;
 
 import java.util.List;
-
-import org.hibernate.criterion.DetachedCriteria;
-
+import javax.persistence.criteria.CriteriaQuery;
 import com.github.kaitoy.sneo.giane.model.TrapTarget;
 
 public interface TrapTargetDao extends BaseDao<TrapTarget> {
@@ -18,7 +16,9 @@ public interface TrapTargetDao extends BaseDao<TrapTarget> {
   public TrapTarget findByName(String name);
 
   public List<TrapTarget> findByCriteriaAndTrapTargetGroupId(
-    DetachedCriteria criteria, Integer trapTargetGroupId, boolean included
+    CriteriaQuery<TrapTarget> criteria,
+    Integer trapTargetGroupId, 
+    boolean included
   );
 
 }

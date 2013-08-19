@@ -142,10 +142,10 @@ extends ActionSupport implements ModelDriven<PhysicalNetworkInterface> {
     PhysicalNetworkInterfaceIpAddressRelation relation
       = new PhysicalNetworkInterfaceIpAddressRelation();
     relation.setPhysicalNetworkInterface(model);
-    ipAddressRelationDao.save(relation);
+    ipAddressRelationDao.create(relation);
 
     model.setIpAddressRelation(relation);
-    physicalNetworkInterfaceDao.save(model);
+    physicalNetworkInterfaceDao.create(model);
 
     return "success";
   }

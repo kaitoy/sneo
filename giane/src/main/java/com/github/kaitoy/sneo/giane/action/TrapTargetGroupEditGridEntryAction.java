@@ -31,7 +31,7 @@ public class TrapTargetGroupEditGridEntryAction extends ActionSupport {
     if (oper.equalsIgnoreCase("add")) {
       TrapTargetGroup model = new TrapTargetGroup();
       model.setName(name);
-      trapTargetGroupDao.save(model);
+      trapTargetGroupDao.create(model);
     }
     else if (oper.equalsIgnoreCase("edit")) {
       TrapTargetGroup model = trapTargetGroupDao.findByKey(id);

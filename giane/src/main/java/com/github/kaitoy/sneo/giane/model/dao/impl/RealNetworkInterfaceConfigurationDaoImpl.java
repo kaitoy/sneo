@@ -1,16 +1,13 @@
 /*_##########################################################################
   _##
-  _##  Copyright (C) 2012 Kaito Yamada
+  _##  Copyright (C) 2012-2013 Kaito Yamada
   _##
   _##########################################################################
 */
 
-package com.github.kaitoy.sneo.giane.model.dao.hibernate;
+package com.github.kaitoy.sneo.giane.model.dao.impl;
 
 import java.util.List;
-
-import org.hibernate.criterion.Restrictions;
-
 import com.github.kaitoy.sneo.giane.model.RealNetworkInterfaceConfiguration;
 import com.github.kaitoy.sneo.giane.model.dao.RealNetworkInterfaceConfigurationDao;
 
@@ -18,24 +15,16 @@ public class RealNetworkInterfaceConfigurationDaoImpl
 extends AbstractDao<RealNetworkInterfaceConfiguration>
 implements RealNetworkInterfaceConfigurationDao {
 
-  @SuppressWarnings("unchecked")
   public List<RealNetworkInterfaceConfiguration> list() {
-    return (List<RealNetworkInterfaceConfiguration>)getSession()
-             .createCriteria(RealNetworkInterfaceConfiguration.class).list();
+    return list(RealNetworkInterfaceConfiguration.class);
   }
 
   public RealNetworkInterfaceConfiguration findByKey(Integer id) {
-    return (RealNetworkInterfaceConfiguration)getSession()
-             .createCriteria(RealNetworkInterfaceConfiguration.class)
-             .add(Restrictions.idEq(id))
-             .uniqueResult();
+    return findSingleBy("id", id, RealNetworkInterfaceConfiguration.class);
   }
 
   public RealNetworkInterfaceConfiguration findByName(String name) {
-    return (RealNetworkInterfaceConfiguration)getSession()
-             .createCriteria(RealNetworkInterfaceConfiguration.class)
-             .add(Restrictions.eq("name", name))
-             .uniqueResult();
+    return findSingleBy("name", name, RealNetworkInterfaceConfiguration.class);
   }
 
 }

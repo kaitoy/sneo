@@ -9,23 +9,20 @@ package com.github.kaitoy.sneo.giane.model;
 
 import java.io.Serializable;
 import java.util.Map;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.MapKeyJoinColumn;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Transient;
-
-import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.Parameter;
-
 import com.opensymphony.xwork2.conversion.annotations.TypeConversion;
 import com.opensymphony.xwork2.validator.annotations.ConversionErrorFieldValidator;
 import com.opensymphony.xwork2.validator.annotations.RequiredFieldValidator;
@@ -49,16 +46,8 @@ public class Simulation implements Serializable {
   private Map<Node, AdditionalIpV4RouteGroup> additionalIpV4RouteGroups;
 
   @Id
-  @GeneratedValue(generator = "SequenceStyleGenerator")
-  @GenericGenerator(
-    name = "SequenceStyleGenerator",
-    strategy = "org.hibernate.id.enhanced.SequenceStyleGenerator",
-    parameters = {
-      @Parameter(name = "sequence_name", value = "SIMULATION_SEQUENCE"),
-      @Parameter(name = "initial_value", value = "1"),
-      @Parameter(name = "increment_size", value = "1")
-    }
-  )
+  @GeneratedValue(strategy=GenerationType.AUTO, generator="giane_seq_gen")
+  @SequenceGenerator(name="giane_seq_gen", sequenceName="GIANE_SEQ")
   @Column(name = "ID")
   public Integer getId() {
     return id;
@@ -168,7 +157,7 @@ public class Simulation implements Serializable {
     key.setId(realNetworkInterfaceId);
     return realNetworkInterfaceConfigurations.get(key);
   }
-  
+
   @ManyToMany(fetch = FetchType.LAZY)
   @MapKeyJoinColumn(name = "NODE_ID", nullable = false)
   @JoinTable(

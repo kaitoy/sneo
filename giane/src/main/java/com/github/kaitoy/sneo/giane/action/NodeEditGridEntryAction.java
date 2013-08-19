@@ -49,7 +49,7 @@ public class NodeEditGridEntryAction extends ActionSupport {
         = Integer.valueOf(((String[])params.get("network_id"))[0]);
       model.setNetwork(networkDao.findByKey(network_id));
 
-      nodeDao.save(model);
+      nodeDao.create(model);
     }
     else if (oper.equalsIgnoreCase("edit")) {
       Node model = nodeDao.findByKey(id);

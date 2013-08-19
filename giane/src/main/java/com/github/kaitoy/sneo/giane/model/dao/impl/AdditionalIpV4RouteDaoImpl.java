@@ -3,43 +3,34 @@
   _##  Copyright (C) 2013 Kaito Yamada
   _##
   _##########################################################################
-*/
+ */
 
-package com.github.kaitoy.sneo.giane.model.dao.hibernate;
+package com.github.kaitoy.sneo.giane.model.dao.impl;
 
 import java.util.Iterator;
 import java.util.List;
-
-import org.hibernate.criterion.DetachedCriteria;
-import org.hibernate.criterion.Restrictions;
-
+import javax.persistence.criteria.CriteriaQuery;
 import com.github.kaitoy.sneo.giane.model.AdditionalIpV4Route;
 import com.github.kaitoy.sneo.giane.model.AdditionalIpV4RouteGroup;
 import com.github.kaitoy.sneo.giane.model.dao.AdditionalIpV4RouteDao;
 
 public class AdditionalIpV4RouteDaoImpl
-extends AbstractDao<AdditionalIpV4Route> implements AdditionalIpV4RouteDao {
+  extends AbstractDao<AdditionalIpV4Route> implements AdditionalIpV4RouteDao {
 
   public AdditionalIpV4Route findByKey(Integer id) {
-    return (AdditionalIpV4Route)getSession()
-             .createCriteria(AdditionalIpV4Route.class)
-             .add(Restrictions.idEq(id))
-             .uniqueResult();
+    return findSingleBy("id", id, AdditionalIpV4Route.class);
   }
 
   public AdditionalIpV4Route findByName(String name) {
-    return (AdditionalIpV4Route)getSession()
-             .createCriteria(AdditionalIpV4Route.class)
-             .add(Restrictions.eq("name", name))
-             .uniqueResult();
+    return findSingleBy("name", name, AdditionalIpV4Route.class);
   }
-  
+
   public List<AdditionalIpV4Route> findByCriteriaAndAdditionalIpV4RouteGroupId(
-    DetachedCriteria criteria, Integer additionalIpV4RouteGroupId, boolean included
+    CriteriaQuery<AdditionalIpV4Route> criteria,
+    Integer additionalIpV4RouteGroupId,
+    boolean included
   ) {
-    @SuppressWarnings("unchecked")
-    List<AdditionalIpV4Route> list
-      = criteria.getExecutableCriteria(getSession()).list();
+    List<AdditionalIpV4Route> list = findByCriteria(criteria);
 
     Iterator<AdditionalIpV4Route> iter = list.iterator();
     while (iter.hasNext()) {

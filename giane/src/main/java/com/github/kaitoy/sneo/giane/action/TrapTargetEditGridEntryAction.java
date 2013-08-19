@@ -35,7 +35,7 @@ public class TrapTargetEditGridEntryAction extends ActionSupport {
       model.setName(name);
       model.setAddress(address);
       model.setPort(port);
-      trapTargetDao.save(model);
+      trapTargetDao.create(model);
     }
     else if (oper.equalsIgnoreCase("edit")) {
       TrapTarget model = trapTargetDao.findByKey(id);

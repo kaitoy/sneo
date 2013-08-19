@@ -31,7 +31,7 @@ public class AdditionalIpV4RouteGroupEditGridEntryAction extends ActionSupport {
     if (oper.equalsIgnoreCase("add")) {
       AdditionalIpV4RouteGroup model = new AdditionalIpV4RouteGroup();
       model.setName(name);
-      additionalIpV4RouteGroupDao.save(model);
+      additionalIpV4RouteGroupDao.create(model);
     }
     else if (oper.equalsIgnoreCase("edit")) {
       AdditionalIpV4RouteGroup model = additionalIpV4RouteGroupDao.findByKey(id);

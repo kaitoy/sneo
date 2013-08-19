@@ -88,7 +88,7 @@ extends ActionSupport implements ModelDriven<FixedIpV4Route> {
     Map<String, Object> params = ActionContext.getContext().getParameters();
     Integer node_id = Integer.valueOf(((String[])params.get("node_id"))[0]);
     model.setNode(nodeDao.findByKey(node_id));
-    fixedIpV4RouteDao.save(model);
+    fixedIpV4RouteDao.create(model);
 
     return "success";
   }

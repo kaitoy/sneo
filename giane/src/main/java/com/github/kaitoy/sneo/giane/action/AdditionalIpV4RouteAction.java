@@ -101,7 +101,7 @@ extends ActionSupport implements ModelDriven<AdditionalIpV4Route> {
     results = {@Result(name = "success", location = "empty.jsp")}
   )
   public String create() throws Exception {
-    additionalIpV4RouteDao.save(model);
+    additionalIpV4RouteDao.create(model);
     return "success";
   }
 

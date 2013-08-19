@@ -9,19 +9,17 @@ package com.github.kaitoy.sneo.giane.model;
 
 import java.io.Serializable;
 import java.util.List;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-
-import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.Parameter;
 import com.opensymphony.xwork2.validator.annotations.RequiredStringValidator;
 import com.opensymphony.xwork2.validator.annotations.StringLengthFieldValidator;
 
@@ -30,25 +28,17 @@ import com.opensymphony.xwork2.validator.annotations.StringLengthFieldValidator;
 public class AdditionalIpV4RouteGroup implements Serializable {
 
   /**
-   * 
+   *
    */
   private static final long serialVersionUID = -6638309871641624063L;
-  
+
   private Integer id;
   private String name;
   private List<AdditionalIpV4Route> additionalIpV4Routes;
 
   @Id
-  @GeneratedValue(generator = "SequenceStyleGenerator")
-  @GenericGenerator(
-    name = "SequenceStyleGenerator",
-    strategy = "org.hibernate.id.enhanced.SequenceStyleGenerator",
-    parameters = {
-      @Parameter(name = "sequence_name", value = "ADDITIONAL_IP_V4_ROUTE_GROUP_SEQUENCE"),
-      @Parameter(name = "initial_value", value = "1"),
-      @Parameter(name = "increment_size", value = "1")
-    }
-  )
+  @GeneratedValue(strategy=GenerationType.AUTO, generator="giane_seq_gen")
+  @SequenceGenerator(name="giane_seq_gen", sequenceName="GIANE_SEQ")
   @Column(name = "ID")
   public Integer getId() {
     return id;

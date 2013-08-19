@@ -74,7 +74,7 @@ implements SnmpAgentMessage {
       = simulationDao.findByKey(simulationId);
 
     config.getTrapTargetGroups().put(snmpAgent, trapTargetGroup);
-    simulationDao.save(config);
+    simulationDao.create(config);
 
     return "grid";
   }

@@ -53,7 +53,7 @@ public class IpAddressEditGridEntryAction extends ActionSupport {
         ipAddressRelationDao.findByKey(ipAddressRelationId)
       );
 
-      ipAddressDao.save(model);
+      ipAddressDao.create(model);
     }
     else if (oper.equalsIgnoreCase("edit")) {
       IpAddress model = ipAddressDao.findByKey(id);

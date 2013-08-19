@@ -47,7 +47,7 @@ public class L2ConnectionEditGridEntryAction extends ActionSupport {
         = Integer.valueOf(((String[])params.get("network_id"))[0]);
       model.setNetwork(networkDao.findByKey(network_id));
 
-      l2ConnectionDao.save(model);
+      l2ConnectionDao.create(model);
     }
     else if (oper.equalsIgnoreCase("edit")) {
       L2Connection model = l2ConnectionDao.findByKey(id);

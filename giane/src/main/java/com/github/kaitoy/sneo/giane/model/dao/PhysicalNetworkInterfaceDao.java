@@ -8,16 +8,16 @@
 package com.github.kaitoy.sneo.giane.model.dao;
 
 import java.util.List;
-
-import org.hibernate.criterion.DetachedCriteria;
-
+import javax.persistence.criteria.CriteriaQuery;
 import com.github.kaitoy.sneo.giane.model.PhysicalNetworkInterface;
 
 public interface PhysicalNetworkInterfaceDao
 extends BaseDao<PhysicalNetworkInterface> {
 
   public List<PhysicalNetworkInterface> findByCriteriaAndVlanId(
-    DetachedCriteria criteria, Integer vlanId, boolean included
+    CriteriaQuery<PhysicalNetworkInterface> criteria,
+    Integer vlanId,
+    boolean included
   );
 
   public List<PhysicalNetworkInterface> listSingles();

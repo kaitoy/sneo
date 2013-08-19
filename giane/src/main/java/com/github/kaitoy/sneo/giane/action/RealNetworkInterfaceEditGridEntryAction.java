@@ -49,7 +49,7 @@ public class RealNetworkInterfaceEditGridEntryAction extends ActionSupport {
         = Integer.valueOf(((String[])params.get("node_id"))[0]);
       model.setNode(nodeDao.findByKey(node_id));
 
-      realNetworkInterfaceDao.save(model);
+      realNetworkInterfaceDao.create(model);
     }
     else if (oper.equalsIgnoreCase("edit")) {
       RealNetworkInterface model

@@ -52,7 +52,7 @@ public class VlanEditGridEntryAction extends ActionSupport {
 
       model.setIpAddressRelation(new VlanIpAddressRelation());
 
-      vlanDao.save(model);
+      vlanDao.create(model);
     }
     else if (oper.equalsIgnoreCase("edit")) {
       Vlan model = vlanDao.findByKey(id);

@@ -48,7 +48,7 @@ public class AdditionalIpV4RouteEditGridEntryAction extends ActionSupport {
       model.setNetmask(netmask);
       model.setGateway(gateway);
       model.setMetric(metric);
-      additionalIpV4RouteDao.save(model);
+      additionalIpV4RouteDao.create(model);
     }
     else if (oper.equalsIgnoreCase("edit")) {
       AdditionalIpV4Route model = additionalIpV4RouteDao.findByKey(id);

@@ -51,7 +51,7 @@ extends ActionSupport {
       model.setIpAddressRelation(
         new RealNetworkInterfaceConfigurationIpAddressRelation()
       );
-      realNetworkInterfaceConfigurationDao.save(model);
+      realNetworkInterfaceConfigurationDao.create(model);
     }
     else if (oper.equalsIgnoreCase("edit")) {
       RealNetworkInterfaceConfiguration model

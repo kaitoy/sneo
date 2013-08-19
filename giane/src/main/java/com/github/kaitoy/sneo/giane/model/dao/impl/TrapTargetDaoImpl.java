@@ -5,14 +5,11 @@
   _##########################################################################
 */
 
-package com.github.kaitoy.sneo.giane.model.dao.hibernate;
+package com.github.kaitoy.sneo.giane.model.dao.impl;
 
 import java.util.Iterator;
 import java.util.List;
-
-import org.hibernate.criterion.DetachedCriteria;
-import org.hibernate.criterion.Restrictions;
-
+import javax.persistence.criteria.CriteriaQuery;
 import com.github.kaitoy.sneo.giane.model.TrapTarget;
 import com.github.kaitoy.sneo.giane.model.TrapTargetGroup;
 import com.github.kaitoy.sneo.giane.model.dao.TrapTargetDao;
@@ -21,23 +18,19 @@ public class TrapTargetDaoImpl
 extends AbstractDao<TrapTarget> implements TrapTargetDao {
 
   public TrapTarget findByKey(Integer id) {
-    return (TrapTarget)getSession().createCriteria(TrapTarget.class)
-             .add(Restrictions.idEq(id))
-             .uniqueResult();
+    return findSingleBy("id", id, TrapTarget.class);
   }
 
   public TrapTarget findByName(String name) {
-    return (TrapTarget)getSession().createCriteria(TrapTarget.class)
-             .add(Restrictions.eq("name", name))
-             .uniqueResult();
+    return findSingleBy("name", name, TrapTarget.class);
   }
 
   public List<TrapTarget> findByCriteriaAndTrapTargetGroupId(
-    DetachedCriteria criteria, Integer trapTargetGroupId, boolean included
+    CriteriaQuery<TrapTarget> criteria,
+    Integer trapTargetGroupId,
+    boolean included
   ) {
-    @SuppressWarnings("unchecked")
-    List<TrapTarget> list
-      = criteria.getExecutableCriteria(getSession()).list();
+    List<TrapTarget> list = findByCriteria(criteria);
 
     Iterator<TrapTarget> iter = list.iterator();
     while (iter.hasNext()) {

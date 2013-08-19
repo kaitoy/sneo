@@ -12,14 +12,14 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
-
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.InterceptorRef;
 import org.apache.struts2.convention.annotation.ParentPackage;
 import org.apache.struts2.convention.annotation.Result;
-import org.hibernate.criterion.DetachedCriteria;
-import org.hibernate.criterion.Restrictions;
-
 import com.github.kaitoy.sneo.giane.model.PhysicalNetworkInterface;
 import com.github.kaitoy.sneo.giane.model.dao.PhysicalNetworkInterfaceDao;
 import com.github.kaitoy.sneo.giane.model.dto.PhysicalNetworkInterfaceDto;
@@ -90,39 +90,65 @@ public class L2ConnectionUnassociatedPhysicalNetworkInterfaceGridAction extends 
     this.physicalNetworkInterfaceDao = physicalNetworkInterfaceDao;
   }
 
+  @Override
   @Action(
     results = {
       @Result(name = "success", type = "json")
     }
   )
   public String execute() {
-    DetachedCriteria criteria = DetachedCriteria.forClass(PhysicalNetworkInterface.class);
+    CriteriaBuilder cb = physicalNetworkInterfaceDao.getCriteriaBuilder();
+    CriteriaQuery<PhysicalNetworkInterface> cq
+      = cb.createQuery(PhysicalNetworkInterface.class);
+    Root<PhysicalNetworkInterface> r = cq.from(PhysicalNetworkInterface.class);
+    cq.select(r);
 
-    criteria.add(Restrictions.isNull("l2Connection"));
+    List<Predicate> predicates = new ArrayList<Predicate>();
+    predicates.add(cb.isNull(r.get("l2Connection")));
 
     Map<String, Object> params = ActionContext.getContext().getParameters();
     Integer network_id
       = Integer.valueOf(((String[])params.get("network_id"))[0]);
-    criteria.createCriteria("node").add(Restrictions.eq("network.id", network_id));
+    predicates.add(cb.equal(r.join("node").get("network"), network_id));
 
     if (searchField != null) {
       if (searchField.equals("id")) {
         Integer searchValue = Integer.valueOf(searchString);
-        if (searchOper.equals("eq")) criteria.add(Restrictions.eq(searchField, searchValue));
-        else if (searchOper.equals("ne")) criteria.add(Restrictions.ne(searchField, searchValue));
-        else if (searchOper.equals("lt")) criteria.add(Restrictions.lt(searchField, searchValue));
-        else if (searchOper.equals("gt")) criteria.add(Restrictions.gt(searchField, searchValue));
+        if (searchOper.equals("eq")) {
+          predicates.add(cb.equal(r.get(searchField), searchValue));
+        }
+        else if (searchOper.equals("ne")) {
+          predicates.add(cb.notEqual(r.get(searchField), searchValue));
+        }
+        else if (searchOper.equals("lt")) {
+          predicates.add(cb.lt(r.get(searchField).as(Integer.class), searchValue));
+        }
+        else if (searchOper.equals("gt")) {
+          predicates.add(cb.gt(r.get(searchField).as(Integer.class), searchValue));
+        }
       }
       else if (searchField.equals("name")) {
-        if (searchOper.equals("eq")) criteria.add(Restrictions.eq(searchField, searchString));
-        else if (searchOper.equals("ne")) criteria.add(Restrictions.ne(searchField, searchString));
-        else if (searchOper.equals("bw")) criteria.add(Restrictions.like(searchField, searchString + "%"));
-        else if (searchOper.equals("ew")) criteria.add(Restrictions.like(searchField, "%" + searchString));
-        else if (searchOper.equals("cn")) criteria.add(Restrictions.like(searchField, "%" + searchString + "%"));
+        if (searchOper.equals("eq")) {
+          predicates.add(cb.equal(r.get(searchField), searchString));
+        }
+        else if (searchOper.equals("ne")) {
+          predicates.add(cb.notEqual(r.get(searchField), searchString));
+        }
+        else if (searchOper.equals("bw")) {
+          predicates.add(cb.like(r.get(searchField).as(String.class), searchString + "%"));
+        }
+        else if (searchOper.equals("ew")) {
+          predicates.add(cb.like(r.get(searchField).as(String.class), "%" + searchString));
+        }
+        else if (searchOper.equals("cn")) {
+          predicates.add(cb.like(r.get(searchField).as(String.class), "%" + searchString + "%"));
+        }
       }
     }
 
-    List<PhysicalNetworkInterface> models = physicalNetworkInterfaceDao.findByCriteria(criteria);
+    cq.where(cb.and(predicates.toArray(new Predicate[0])));
+
+    List<PhysicalNetworkInterface> models = physicalNetworkInterfaceDao.findByCriteria(cq);
 
     gridModel = new ArrayList<PhysicalNetworkInterfaceDto>();
     for (PhysicalNetworkInterface nif: models) {

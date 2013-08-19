@@ -5,9 +5,7 @@
   _##########################################################################
 */
 
-package com.github.kaitoy.sneo.giane.model.dao.hibernate;
-
-import org.hibernate.criterion.Restrictions;
+package com.github.kaitoy.sneo.giane.model.dao.impl;
 
 import com.github.kaitoy.sneo.giane.model.FixedIpV4Route;
 import com.github.kaitoy.sneo.giane.model.dao.FixedIpV4RouteDao;
@@ -16,9 +14,7 @@ public class FixedIpV4RouteDaoImpl
 extends AbstractDao<FixedIpV4Route> implements FixedIpV4RouteDao {
 
   public FixedIpV4Route findByKey(Integer id) {
-    return (FixedIpV4Route)getSession().createCriteria(FixedIpV4Route.class)
-             .add(Restrictions.idEq(id))
-             .uniqueResult();
+    return findSingleBy("id", id, FixedIpV4Route.class);
   }
 
 }

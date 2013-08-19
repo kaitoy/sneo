@@ -141,10 +141,10 @@ implements ModelDriven<RealNetworkInterfaceConfiguration> {
     RealNetworkInterfaceConfigurationIpAddressRelation relation
       = new RealNetworkInterfaceConfigurationIpAddressRelation();
     relation.setRealNetworkInterfaceConfiguration(model);
-    ipAddressRelationDao.save(relation);
+    ipAddressRelationDao.create(relation);
 
     model.setIpAddressRelation(relation);
-    realNetworkInterfaceConfigurationDao.save(model);
+    realNetworkInterfaceConfigurationDao.create(model);
 
     return "success";
   }

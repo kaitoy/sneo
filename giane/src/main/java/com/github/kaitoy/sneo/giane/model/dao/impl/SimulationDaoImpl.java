@@ -1,13 +1,11 @@
 /*_##########################################################################
   _##
-  _##  Copyright (C) 2012 Kaito Yamada
+  _##  Copyright (C) 2012-2013 Kaito Yamada
   _##
   _##########################################################################
 */
 
-package com.github.kaitoy.sneo.giane.model.dao.hibernate;
-
-import org.hibernate.criterion.Restrictions;
+package com.github.kaitoy.sneo.giane.model.dao.impl;
 
 import com.github.kaitoy.sneo.giane.model.Simulation;
 import com.github.kaitoy.sneo.giane.model.dao.SimulationDao;
@@ -15,15 +13,11 @@ import com.github.kaitoy.sneo.giane.model.dao.SimulationDao;
 public class SimulationDaoImpl extends AbstractDao<Simulation> implements SimulationDao {
 
   public Simulation findByKey(Integer id) {
-    return (Simulation)getSession().createCriteria(Simulation.class)
-             .add(Restrictions.idEq(id))
-             .uniqueResult();
+    return findSingleBy("id", id, Simulation.class);
   }
 
   public Simulation findByName(String name) {
-    return (Simulation)getSession().createCriteria(Simulation.class)
-             .add(Restrictions.eq("name", name))
-             .uniqueResult();
+    return findSingleBy("name", name, Simulation.class);
   }
 
 }

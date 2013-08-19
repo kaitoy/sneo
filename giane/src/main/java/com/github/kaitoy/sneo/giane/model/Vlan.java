@@ -1,6 +1,6 @@
 /*_##########################################################################
   _##
-  _##  Copyright (C) 2012 Kaito Yamada
+  _##  Copyright (C) 2012-2013 Kaito Yamada
   _##
   _##########################################################################
 */
@@ -15,15 +15,15 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.Parameter;
 import com.github.kaitoy.sneo.network.dto.VlanDto;
 import com.github.kaitoy.sneo.network.dto.VlanMemberDto;
 import com.opensymphony.xwork2.validator.annotations.IntRangeFieldValidator;
@@ -48,16 +48,8 @@ public class Vlan implements Serializable {
   private Node node;
 
   @Id
-  @GeneratedValue(generator = "SequenceStyleGenerator")
-  @GenericGenerator(
-    name = "SequenceStyleGenerator",
-    strategy = "org.hibernate.id.enhanced.SequenceStyleGenerator",
-    parameters = {
-      @Parameter(name = "sequence_name", value = "VLAN_SEQUENCE"),
-      @Parameter(name = "initial_value", value = "1"),
-      @Parameter(name = "increment_size", value = "1")
-    }
-  )
+  @GeneratedValue(strategy=GenerationType.AUTO, generator="giane_seq_gen")
+  @SequenceGenerator(name="giane_seq_gen", sequenceName="GIANE_SEQ")
   @Column(name = "ID")
   public Integer getId() { return id; }
 

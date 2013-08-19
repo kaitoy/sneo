@@ -95,7 +95,7 @@ extends ActionSupport implements ModelDriven<TrapTarget> {
     results = { @Result(name = "success", location = "empty.jsp") }
   )
   public String create() throws Exception {
-    trapTargetDao.save(model);
+    trapTargetDao.create(model);
     return "success";
   }
 

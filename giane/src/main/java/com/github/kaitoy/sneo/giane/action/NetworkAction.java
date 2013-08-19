@@ -77,7 +77,7 @@ extends ActionSupport implements ModelDriven<Network> {
     results = { @Result(name = "success", location = "empty.jsp") }
   )
   public String create() throws Exception {
-    networkDao.save(model);
+    networkDao.create(model);
     return "success";
   }
 

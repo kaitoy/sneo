@@ -11,14 +11,13 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.InterceptorRef;
 import org.apache.struts2.convention.annotation.ParentPackage;
 import org.apache.struts2.convention.annotation.Result;
-import org.hibernate.criterion.DetachedCriteria;
-import org.hibernate.criterion.Restrictions;
-
 import com.github.kaitoy.sneo.giane.model.AdditionalIpV4RouteGroup;
 import com.github.kaitoy.sneo.giane.model.dao.AdditionalIpV4RouteGroupDao;
 import com.github.kaitoy.sneo.giane.model.dto.AdditionalIpV4RouteGroupDto;
@@ -29,7 +28,7 @@ import com.opensymphony.xwork2.ActionSupport;
 public class AdditionalIpV4RouteGroupGridAction extends ActionSupport {
 
   /**
-   * 
+   *
    */
   private static final long serialVersionUID = -4775634246430713535L;
 
@@ -81,37 +80,62 @@ public class AdditionalIpV4RouteGroupGridAction extends ActionSupport {
   private Integer records = 0;
 
   // for DI
-  public void setAdditionalIpV4RouteGroupDao(AdditionalIpV4RouteGroupDao additionalIpV4RouteGroupDao) {
+  public void setAdditionalIpV4RouteGroupDao(
+    AdditionalIpV4RouteGroupDao additionalIpV4RouteGroupDao
+  ) {
     this.additionalIpV4RouteGroupDao = additionalIpV4RouteGroupDao;
   }
 
+  @Override
   @Action(
     results = {
       @Result(name = "success", type = "json")
     }
   )
   public String execute() {
-    DetachedCriteria criteria = DetachedCriteria.forClass(AdditionalIpV4RouteGroup.class);
+    CriteriaBuilder cb = additionalIpV4RouteGroupDao.getCriteriaBuilder();
+    CriteriaQuery<AdditionalIpV4RouteGroup> cq
+      = cb.createQuery(AdditionalIpV4RouteGroup.class);
+    Root<AdditionalIpV4RouteGroup> r = cq.from(AdditionalIpV4RouteGroup.class);
+    cq.select(r);
 
     if (searchField != null) {
       if (searchField.equals("id")) {
         Integer searchValue = Integer.valueOf(searchString);
-        if (searchOper.equals("eq")) criteria.add(Restrictions.eq(searchField, searchValue));
-        else if (searchOper.equals("ne")) criteria.add(Restrictions.ne(searchField, searchValue));
-        else if (searchOper.equals("lt")) criteria.add(Restrictions.lt(searchField, searchValue));
-        else if (searchOper.equals("gt")) criteria.add(Restrictions.gt(searchField, searchValue));
+        if (searchOper.equals("eq")) {
+          cq.where(cb.equal(r.get(searchField), searchValue));
+        }
+        else if (searchOper.equals("ne")) {
+          cq.where(cb.notEqual(r.get(searchField), searchValue));
+        }
+        else if (searchOper.equals("lt")) {
+          cq.where(cb.lt(r.get(searchField).as(Integer.class), searchValue));
+        }
+        else if (searchOper.equals("gt")) {
+          cq.where(cb.gt(r.get(searchField).as(Integer.class), searchValue));
+        }
       }
       else if (searchField.equals("name")) {
-        if (searchOper.equals("eq")) criteria.add(Restrictions.eq(searchField, searchString));
-        else if (searchOper.equals("ne")) criteria.add(Restrictions.ne(searchField, searchString));
-        else if (searchOper.equals("bw")) criteria.add(Restrictions.like(searchField, searchString + "%"));
-        else if (searchOper.equals("ew")) criteria.add(Restrictions.like(searchField, "%" + searchString));
-        else if (searchOper.equals("cn")) criteria.add(Restrictions.like(searchField, "%" + searchString + "%"));
+        if (searchOper.equals("eq")) {
+          cq.where(cb.equal(r.get(searchField), searchString));
+        }
+        else if (searchOper.equals("ne")) {
+          cq.where(cb.notEqual(r.get(searchField), searchString));
+        }
+        else if (searchOper.equals("bw")) {
+          cq.where(cb.like(r.get(searchField).as(String.class), searchString + "%"));
+        }
+        else if (searchOper.equals("ew")) {
+          cq.where(cb.like(r.get(searchField).as(String.class), "%" + searchString));
+        }
+        else if (searchOper.equals("cn")) {
+          cq.where(cb.like(r.get(searchField).as(String.class), "%" + searchString + "%"));
+        }
       }
     }
 
     gridModel = new ArrayList<AdditionalIpV4RouteGroupDto>();
-    for (AdditionalIpV4RouteGroup additionalIpV4RouteGroup: additionalIpV4RouteGroupDao.findByCriteria(criteria)) {
+    for (AdditionalIpV4RouteGroup additionalIpV4RouteGroup: additionalIpV4RouteGroupDao.findByCriteria(cq)) {
       gridModel.add(new AdditionalIpV4RouteGroupDto(additionalIpV4RouteGroup));
     }
 

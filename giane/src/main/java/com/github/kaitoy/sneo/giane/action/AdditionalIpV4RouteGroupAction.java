@@ -120,7 +120,7 @@ extends ActionSupport implements ModelDriven<AdditionalIpV4RouteGroup> {
     results = { @Result(name = "success", location = "empty.jsp") }
   )
   public String create() throws Exception {
-    additionalIpV4RouteGroupDao.save(model);
+    additionalIpV4RouteGroupDao.create(model);
     return "success";
   }
 

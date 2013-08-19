@@ -74,7 +74,7 @@ implements NodeMessage {
       = simulationDao.findByKey(simulationId);
 
     config.getAdditionalIpV4RouteGroups().put(node, additionalIpV4RouteGroup);
-    simulationDao.save(config);
+    simulationDao.create(config);
 
     return "grid";
   }

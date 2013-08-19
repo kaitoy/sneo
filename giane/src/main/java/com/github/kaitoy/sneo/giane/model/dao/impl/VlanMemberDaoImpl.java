@@ -1,18 +1,15 @@
 /*_##########################################################################
   _##
-  _##  Copyright (C) 2012 Kaito Yamada
+  _##  Copyright (C) 2012-2013 Kaito Yamada
   _##
   _##########################################################################
 */
 
-package com.github.kaitoy.sneo.giane.model.dao.hibernate;
+package com.github.kaitoy.sneo.giane.model.dao.impl;
 
 import java.util.Iterator;
 import java.util.List;
-
-import org.hibernate.criterion.DetachedCriteria;
-import org.hibernate.criterion.Restrictions;
-
+import javax.persistence.criteria.CriteriaQuery;
 import com.github.kaitoy.sneo.giane.model.Node;
 import com.github.kaitoy.sneo.giane.model.PhysicalNetworkInterface;
 import com.github.kaitoy.sneo.giane.model.RealNetworkInterface;
@@ -24,17 +21,16 @@ public class VlanMemberDaoImpl
 extends AbstractDao<VlanMember> implements VlanMemberDao {
 
   public VlanMember findByKey(Integer id) {
-    return (VlanMember)getSession().createCriteria(VlanMember.class)
-             .add(Restrictions.idEq(id))
-             .uniqueResult();
+    return findSingleBy("id", id, VlanMember.class);
   }
 
   public List<VlanMember> findByCriteriaAndNodeIdAndVlanId(
-    DetachedCriteria criteria, Integer nodeId, Integer vlanId, boolean included
+    CriteriaQuery<VlanMember> criteria,
+    Integer nodeId,
+    Integer vlanId,
+    boolean included
   ) {
-    @SuppressWarnings("unchecked")
-    List<VlanMember> list
-      = criteria.getExecutableCriteria(getSession()).list();
+    List<VlanMember> list = findByCriteria(criteria);
 
     Iterator<VlanMember> iter = list.iterator();
     while (iter.hasNext()) {

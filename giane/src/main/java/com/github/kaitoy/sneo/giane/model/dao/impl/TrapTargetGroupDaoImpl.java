@@ -5,34 +5,25 @@
   _##########################################################################
 */
 
-package com.github.kaitoy.sneo.giane.model.dao.hibernate;
+package com.github.kaitoy.sneo.giane.model.dao.impl;
 
 import java.util.List;
-
-import org.hibernate.criterion.Restrictions;
-
 import com.github.kaitoy.sneo.giane.model.TrapTargetGroup;
 import com.github.kaitoy.sneo.giane.model.dao.TrapTargetGroupDao;
 
 public class TrapTargetGroupDaoImpl
 extends AbstractDao<TrapTargetGroup> implements TrapTargetGroupDao {
 
-  @SuppressWarnings("unchecked")
   public List<TrapTargetGroup> list() {
-    return (List<TrapTargetGroup>)getSession()
-             .createCriteria(TrapTargetGroup.class).list();
+    return list(TrapTargetGroup.class);
   }
 
   public TrapTargetGroup findByKey(Integer id) {
-    return (TrapTargetGroup)getSession().createCriteria(TrapTargetGroup.class)
-             .add(Restrictions.idEq(id))
-             .uniqueResult();
+    return findSingleBy("id", id, TrapTargetGroup.class);
   }
 
   public TrapTargetGroup findByName(String name) {
-    return (TrapTargetGroup)getSession().createCriteria(TrapTargetGroup.class)
-             .add(Restrictions.eq("name", name))
-             .uniqueResult();
+    return findSingleBy("name", name, TrapTargetGroup.class);
   }
 
 }

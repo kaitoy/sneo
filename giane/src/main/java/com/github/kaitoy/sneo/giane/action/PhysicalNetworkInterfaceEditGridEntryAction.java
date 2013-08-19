@@ -54,7 +54,7 @@ public class PhysicalNetworkInterfaceEditGridEntryAction extends ActionSupport {
         new PhysicalNetworkInterfaceIpAddressRelation()
       );
 
-      physicalNetworkInterfaceDao.save(model);
+      physicalNetworkInterfaceDao.create(model);
     }
     else if (oper.equalsIgnoreCase("edit")) {
       PhysicalNetworkInterface model

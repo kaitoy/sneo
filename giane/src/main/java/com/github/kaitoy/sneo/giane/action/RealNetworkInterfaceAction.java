@@ -142,7 +142,7 @@ extends ActionSupport implements ModelDriven<RealNetworkInterface> {
     Map<String, Object> params = ActionContext.getContext().getParameters();
     Integer node_id = Integer.valueOf(((String[])params.get("node_id"))[0]);
     model.setNode(nodeDao.findByKey(node_id));
-    realNetworkInterfaceDao.save(model);
+    realNetworkInterfaceDao.create(model);
 
     return "success";
   }

@@ -8,9 +8,7 @@
 package com.github.kaitoy.sneo.giane.model.dao;
 
 import java.util.List;
-
-import org.hibernate.criterion.DetachedCriteria;
-
+import javax.persistence.criteria.CriteriaQuery;
 import com.github.kaitoy.sneo.giane.model.AdditionalIpV4Route;
 
 public interface AdditionalIpV4RouteDao extends BaseDao<AdditionalIpV4Route> {
@@ -18,7 +16,9 @@ public interface AdditionalIpV4RouteDao extends BaseDao<AdditionalIpV4Route> {
   public AdditionalIpV4Route findByName(String name);
   
   public List<AdditionalIpV4Route> findByCriteriaAndAdditionalIpV4RouteGroupId(
-    DetachedCriteria criteria, Integer additionalIpV4RouteGroupId, boolean included
+    CriteriaQuery<AdditionalIpV4Route> criteria,
+    Integer additionalIpV4RouteGroupId,
+    boolean included
   );
 
 }

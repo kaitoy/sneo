@@ -1,6 +1,6 @@
 /*_##########################################################################
   _##
-  _##  Copyright (C) 2012 Kaito Yamada
+  _##  Copyright (C) 2012-2013 Kaito Yamada
   _##
   _##########################################################################
 */
@@ -12,14 +12,14 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
-
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.InterceptorRef;
 import org.apache.struts2.convention.annotation.ParentPackage;
 import org.apache.struts2.convention.annotation.Result;
-import org.hibernate.criterion.DetachedCriteria;
-import org.hibernate.criterion.Restrictions;
-
 import com.github.kaitoy.sneo.giane.model.Node;
 import com.github.kaitoy.sneo.giane.model.dao.NodeDao;
 import com.github.kaitoy.sneo.giane.model.dto.NodeDto;
@@ -93,38 +93,63 @@ public class NodeGridAction extends ActionSupport {
     this.nodeDao = nodeDao;
   }
 
+  @Override
   @Action(
     results = {
       @Result(name = "success", type = "json")
     }
   )
   public String execute() {
-    DetachedCriteria criteria = DetachedCriteria.forClass(Node.class);
+    CriteriaBuilder cb = nodeDao.getCriteriaBuilder();
+    CriteriaQuery<Node> cq = cb.createQuery(Node.class);
+    Root<Node> r = cq.from(Node.class);
+    cq.select(r);
 
     Map<String, Object> params = ActionContext.getContext().getParameters();
     Integer network_id
       = Integer.valueOf(((String[])params.get("network_id"))[0]);
-    criteria.add(Restrictions.eq("network.id", network_id));
+    List<Predicate> predicates = new ArrayList<Predicate>();
+    predicates.add(cb.equal(r.get("network"), network_id));
 
     if (searchField != null) {
       if (searchField.equals("id") || searchField.equals("ttl")) {
         Integer searchValue = Integer.valueOf(searchString);
-        if (searchOper.equals("eq")) criteria.add(Restrictions.eq(searchField, searchValue));
-        else if (searchOper.equals("ne")) criteria.add(Restrictions.ne(searchField, searchValue));
-        else if (searchOper.equals("lt")) criteria.add(Restrictions.lt(searchField, searchValue));
-        else if (searchOper.equals("gt")) criteria.add(Restrictions.gt(searchField, searchValue));
+        if (searchOper.equals("eq")) {
+          predicates.add(cb.equal(r.get(searchField), searchValue));
+        }
+        else if (searchOper.equals("ne")) {
+          predicates.add(cb.notEqual(r.get(searchField), searchValue));
+        }
+        else if (searchOper.equals("lt")) {
+          predicates.add(cb.lt(r.get(searchField).as(Integer.class), searchValue));
+        }
+        else if (searchOper.equals("gt")) {
+          predicates.add(cb.gt(r.get(searchField).as(Integer.class), searchValue));
+        }
       }
       else if (searchField.equals("name")) {
-        if (searchOper.equals("eq")) criteria.add(Restrictions.eq(searchField, searchString));
-        else if (searchOper.equals("ne")) criteria.add(Restrictions.ne(searchField, searchString));
-        else if (searchOper.equals("bw")) criteria.add(Restrictions.like(searchField, searchString + "%"));
-        else if (searchOper.equals("ew")) criteria.add(Restrictions.like(searchField, "%" + searchString));
-        else if (searchOper.equals("cn")) criteria.add(Restrictions.like(searchField, "%" + searchString + "%"));
+        if (searchOper.equals("eq")) {
+          predicates.add(cb.equal(r.get(searchField), searchString));
+        }
+        else if (searchOper.equals("ne")) {
+          predicates.add(cb.notEqual(r.get(searchField), searchString));
+        }
+        else if (searchOper.equals("bw")) {
+          predicates.add(cb.like(r.get(searchField).as(String.class), searchString + "%"));
+        }
+        else if (searchOper.equals("ew")) {
+          predicates.add(cb.like(r.get(searchField).as(String.class), "%" + searchString));
+        }
+        else if (searchOper.equals("cn")) {
+          predicates.add(cb.like(r.get(searchField).as(String.class), "%" + searchString + "%"));
+        }
       }
     }
 
+    cq.where(cb.and(predicates.toArray(new Predicate[0])));
+
     gridModel = new ArrayList<NodeDto>();
-    for (Node node: nodeDao.findByCriteria(criteria)) {
+    for (Node node: nodeDao.findByCriteria(cq)) {
       gridModel.add(new NodeDto(node));
     }
 

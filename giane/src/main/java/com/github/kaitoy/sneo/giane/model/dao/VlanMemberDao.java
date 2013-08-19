@@ -8,15 +8,16 @@
 package com.github.kaitoy.sneo.giane.model.dao;
 
 import java.util.List;
-
-import org.hibernate.criterion.DetachedCriteria;
-
+import javax.persistence.criteria.CriteriaQuery;
 import com.github.kaitoy.sneo.giane.model.VlanMember;
 
 public interface VlanMemberDao extends BaseDao<VlanMember> {
 
   public List<VlanMember> findByCriteriaAndNodeIdAndVlanId(
-    DetachedCriteria criteria, Integer nodeId, Integer vlanId, boolean included
+    CriteriaQuery<VlanMember> criteria,
+    Integer nodeId,
+    Integer vlanId,
+    boolean included
   );
 
 }

@@ -31,7 +31,7 @@ public class NetworkEditGridEntryAction extends ActionSupport {
     if (oper.equalsIgnoreCase("add")) {
       Network model = new Network();
       model.setName(name);
-      networkDao.save(model);
+      networkDao.create(model);
     }
     else if (oper.equalsIgnoreCase("edit")) {
       Network model = networkDao.findByKey(id);

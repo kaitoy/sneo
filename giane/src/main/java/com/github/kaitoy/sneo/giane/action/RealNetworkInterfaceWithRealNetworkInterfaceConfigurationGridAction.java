@@ -13,14 +13,14 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.InterceptorRef;
 import org.apache.struts2.convention.annotation.ParentPackage;
 import org.apache.struts2.convention.annotation.Result;
-import org.hibernate.criterion.DetachedCriteria;
-import org.hibernate.criterion.Restrictions;
-
 import com.github.kaitoy.sneo.giane.model.RealNetworkInterface;
 import com.github.kaitoy.sneo.giane.model.RealNetworkInterfaceConfiguration;
 import com.github.kaitoy.sneo.giane.model.Simulation;
@@ -130,13 +130,17 @@ extends ActionSupport {
     this.simulationDao = simulationDao;
   }
 
+  @Override
   @Action(
     results = {
       @Result(name = "success", type = "json")
     }
   )
   public String execute() {
-    DetachedCriteria criteria = DetachedCriteria.forClass(RealNetworkInterface.class);
+    CriteriaBuilder cb = realNetworkInterfaceDao.getCriteriaBuilder();
+    CriteriaQuery<RealNetworkInterface> cq = cb.createQuery(RealNetworkInterface.class);
+    Root<RealNetworkInterface> r = cq.from(RealNetworkInterface.class);
+    cq.select(r);
 
     Map<String, Object> params = ActionContext.getContext().getParameters();
     Integer simulationId
@@ -144,57 +148,59 @@ extends ActionSupport {
     Simulation simConf
       = simulationDao.findByKey(simulationId);
 
-    criteria.createCriteria("node")
-      .add(Restrictions.eq("network.id", simConf.getNetwork().getId()));
+    List<Predicate> predicates = new ArrayList<Predicate>();
+    predicates.add(cb.equal(r.join("node").get("network"), simConf.getNetwork().getId()));
 
     if (searchField != null) {
       if (searchField.equals("id")) {
         Integer searchValue = Integer.valueOf(searchString);
         if (searchOper.equals("eq")) {
-          criteria.add(Restrictions.eq(searchField, searchValue));
+          predicates.add(cb.equal(r.get(searchField), searchValue));
         }
         else if (searchOper.equals("ne")) {
-          criteria.add(Restrictions.ne(searchField, searchValue));
+          predicates.add(cb.notEqual(r.get(searchField), searchValue));
         }
         else if (searchOper.equals("lt")) {
-          criteria.add(Restrictions.lt(searchField, searchValue));
+          predicates.add(cb.lt(r.get(searchField).as(Integer.class), searchValue));
         }
         else if (searchOper.equals("gt")) {
-          criteria.add(Restrictions.gt(searchField, searchValue));
+          predicates.add(cb.gt(r.get(searchField).as(Integer.class), searchValue));
         }
       }
       else if (searchField.equals("name")) {
         if (searchOper.equals("eq")) {
-          criteria.add(Restrictions.eq(searchField, searchString));
+          predicates.add(cb.equal(r.get(searchField), searchString));
         }
         else if (searchOper.equals("ne")) {
-          criteria.add(Restrictions.ne(searchField, searchString));
+          predicates.add(cb.notEqual(r.get(searchField), searchString));
         }
         else if (searchOper.equals("bw")) {
-          criteria.add(Restrictions.like(searchField, searchString + "%"));
+          predicates.add(cb.like(r.get(searchField).as(String.class), searchString + "%"));
         }
         else if (searchOper.equals("ew")) {
-          criteria.add(Restrictions.like(searchField, "%" + searchString));
+          predicates.add(cb.like(r.get(searchField).as(String.class), "%" + searchString));
         }
         else if (searchOper.equals("cn")) {
-          criteria.add(Restrictions.like(searchField, "%" + searchString + "%"));
+          predicates.add(cb.like(r.get(searchField).as(String.class), "%" + searchString + "%"));
         }
       }
     }
+
+    cq.where(cb.and(predicates.toArray(new Predicate[0])));
 
     gridModel
       =  new ArrayList<RealNetworkInterfaceWithRealNetworkInterfaceConfigurationDto>();
     if (searchField != null && searchField.equals("realNetworkInterfaceConfiguration")) {
       if (searchOper.equals("eq")) {
-        for (RealNetworkInterface model: realNetworkInterfaceDao.findByCriteria(criteria)) {
+        for (RealNetworkInterface model: realNetworkInterfaceDao.findByCriteria(cq)) {
           RealNetworkInterfaceConfiguration nifConf
             = simConf.getRealNetworkInterfaceConfigurations().get(model);
           if (nifConf == null) {
-            if (!"".equals(searchString)) {
+            if (searchString.length() != 0) {
               continue;
             }
           }
-          if (!nifConf.getName().equals(searchString)) {
+          else if (!nifConf.getName().equals(searchString)) {
             continue;
           }
           gridModel.add(
@@ -203,15 +209,15 @@ extends ActionSupport {
         }
       }
       else if (searchOper.equals("ne")) {
-        for (RealNetworkInterface model: realNetworkInterfaceDao.findByCriteria(criteria)) {
+        for (RealNetworkInterface model: realNetworkInterfaceDao.findByCriteria(cq)) {
           RealNetworkInterfaceConfiguration nifConf
             = simConf.getRealNetworkInterfaceConfigurations().get(model);
           if (nifConf == null) {
-            if ("".equals(searchString)) {
+            if (searchString.length() != 0) {
               continue;
             }
           }
-          if (nifConf.getName().equals(searchString)) {
+          else if (nifConf.getName().equals(searchString)) {
             continue;
           }
           gridModel.add(
@@ -220,15 +226,15 @@ extends ActionSupport {
         }
       }
       else if (searchOper.equals("bw")) {
-        for (RealNetworkInterface model: realNetworkInterfaceDao.findByCriteria(criteria)) {
+        for (RealNetworkInterface model: realNetworkInterfaceDao.findByCriteria(cq)) {
           RealNetworkInterfaceConfiguration nifConf
             = simConf.getRealNetworkInterfaceConfigurations().get(model);
           if (nifConf == null) {
-            if (!"".startsWith(searchString)) {
+            if (searchString.length() != 0) {
               continue;
             }
           }
-          if (!nifConf.getName().startsWith(searchString)) {
+          else if (!nifConf.getName().startsWith(searchString)) {
             continue;
           }
           gridModel.add(
@@ -237,15 +243,15 @@ extends ActionSupport {
         }
       }
       else if (searchOper.equals("ew")) {
-        for (RealNetworkInterface model: realNetworkInterfaceDao.findByCriteria(criteria)) {
+        for (RealNetworkInterface model: realNetworkInterfaceDao.findByCriteria(cq)) {
           RealNetworkInterfaceConfiguration nifConf
             = simConf.getRealNetworkInterfaceConfigurations().get(model);
           if (nifConf == null) {
-            if (!"".endsWith(searchString)) {
+            if (searchString.length() != 0) {
               continue;
             }
           }
-          if (!nifConf.getName().endsWith(searchString)) {
+          else if (!nifConf.getName().endsWith(searchString)) {
             continue;
           }
           gridModel.add(
@@ -254,15 +260,15 @@ extends ActionSupport {
         }
       }
       else if (searchOper.equals("cn")) {
-        for (RealNetworkInterface model: realNetworkInterfaceDao.findByCriteria(criteria)) {
+        for (RealNetworkInterface model: realNetworkInterfaceDao.findByCriteria(cq)) {
           RealNetworkInterfaceConfiguration nifConf
             = simConf.getRealNetworkInterfaceConfigurations().get(model);
           if (nifConf == null) {
-            if (!"".contains(searchString)) {
+            if (searchString.length() != 0) {
               continue;
             }
           }
-          if (!nifConf.getName().contains(searchString)) {
+          else if (!nifConf.getName().contains(searchString)) {
             continue;
           }
           gridModel.add(
@@ -272,7 +278,7 @@ extends ActionSupport {
       }
     }
     else {
-      for (RealNetworkInterface model: realNetworkInterfaceDao.findByCriteria(criteria)) {
+      for (RealNetworkInterface model: realNetworkInterfaceDao.findByCriteria(cq)) {
         RealNetworkInterfaceConfiguration nifConf
           = simConf.getRealNetworkInterfaceConfigurations().get(model);
         gridModel.add(

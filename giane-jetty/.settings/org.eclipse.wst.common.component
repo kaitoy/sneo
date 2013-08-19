@@ -4,12 +4,6 @@
         <wb-resource deploy-path="/" source-path="/src/main/webapp" tag="defaultRootSource"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/resources"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/java"/>
-        <dependent-module deploy-path="/" handle="module:/overlay/prj/giane?includes=**/**&amp;excludes=META-INF/MANIFEST.MF">
-            <dependency-type>consumes</dependency-type>
-        </dependent-module>
-        <dependent-module deploy-path="/" handle="module:/overlay/slf/?includes=**/**&amp;excludes=META-INF/MANIFEST.MF">
-            <dependency-type>consumes</dependency-type>
-        </dependent-module>
         <property name="context-root" value="giane-jetty"/>
         <property name="java-output-path" value="/giane-jetty/target/classes"/>
         <property name="component.exclusion.patterns" value="WEB-INF/classes/com/github/kaitoy/sneo/giane/jetty/**,**/3rd-party-component-list_inc.txt"/>

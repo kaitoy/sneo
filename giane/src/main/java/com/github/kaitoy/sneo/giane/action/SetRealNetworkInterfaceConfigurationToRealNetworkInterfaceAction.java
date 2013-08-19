@@ -91,7 +91,7 @@ implements RealNetworkInterfaceMessage {
 
     config.getRealNetworkInterfaceConfigurations()
       .put(realNetworkInterface, realNetworkInterfaceConfiguration);
-    simulationDao.save(config);
+    simulationDao.create(config);
 
     return "grid";
   }

@@ -34,7 +34,7 @@ public class SimulationEditGridEntryAction extends ActionSupport {
       Simulation model = new Simulation();
       model.setName(name);
       model.setNetwork(network);
-      simulationDao.save(model);
+      simulationDao.create(model);
     }
     else if (oper.equalsIgnoreCase("edit")) {
       Simulation model = simulationDao.findByKey(id);

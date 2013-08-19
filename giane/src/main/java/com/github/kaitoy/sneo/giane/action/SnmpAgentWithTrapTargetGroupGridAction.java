@@ -15,14 +15,14 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.InterceptorRef;
 import org.apache.struts2.convention.annotation.ParentPackage;
 import org.apache.struts2.convention.annotation.Result;
-import org.hibernate.criterion.DetachedCriteria;
-import org.hibernate.criterion.Restrictions;
-
 import com.github.kaitoy.sneo.giane.model.Simulation;
 import com.github.kaitoy.sneo.giane.model.SnmpAgent;
 import com.github.kaitoy.sneo.giane.model.TrapTargetGroup;
@@ -158,13 +158,17 @@ public class SnmpAgentWithTrapTargetGroupGridAction extends ActionSupport {
     this.simulationDao = simulationDao;
   }
 
+  @Override
   @Action(
     results = {
       @Result(name = "success", type = "json")
     }
   )
   public String execute() {
-    DetachedCriteria criteria = DetachedCriteria.forClass(SnmpAgent.class);
+    CriteriaBuilder cb = snmpAgentDao.getCriteriaBuilder();
+    CriteriaQuery<SnmpAgent> cq = cb.createQuery(SnmpAgent.class);
+    Root<SnmpAgent> r = cq.from(SnmpAgent.class);
+    cq.select(r);
 
     Map<String, Object> params = ActionContext.getContext().getParameters();
     Integer simulationId
@@ -172,111 +176,113 @@ public class SnmpAgentWithTrapTargetGroupGridAction extends ActionSupport {
     Simulation conf
       = simulationDao.findByKey(simulationId);
 
-    criteria.createCriteria("node")
-      .add(Restrictions.eq("network.id", conf.getNetwork().getId()));
+    List<Predicate> predicates = new ArrayList<Predicate>();
+    predicates.add(cb.equal(r.join("node").get("network"), conf.getNetwork().getId()));
 
     if (searchField != null) {
       if (searchField.equals("id")) {
         Integer searchValue = Integer.valueOf(searchString);
         if (searchOper.equals("eq")) {
-          criteria.add(Restrictions.eq(searchField, searchValue));
+          predicates.add(cb.equal(r.get(searchField), searchValue));
         }
         else if (searchOper.equals("ne")) {
-          criteria.add(Restrictions.ne(searchField, searchValue));
+          predicates.add(cb.notEqual(r.get(searchField), searchValue));
         }
         else if (searchOper.equals("lt")) {
-          criteria.add(Restrictions.lt(searchField, searchValue));
+          predicates.add(cb.lt(r.get(searchField).as(Integer.class), searchValue));
         }
         else if (searchOper.equals("gt")) {
-          criteria.add(Restrictions.gt(searchField, searchValue));
+          predicates.add(cb.gt(r.get(searchField).as(Integer.class), searchValue));
         }
       }
       else if (searchField.equals("address") || searchField.equals("hostNode")) {
         if (searchOper.equals("eq")) {
-          criteria.add(Restrictions.eq(searchField, searchString));
+          predicates.add(cb.equal(r.get(searchField), searchString));
         }
         else if (searchOper.equals("ne")) {
-          criteria.add(Restrictions.ne(searchField, searchString));
+          predicates.add(cb.notEqual(r.get(searchField), searchString));
         }
         else if (searchOper.equals("bw")) {
-          criteria.add(Restrictions.like(searchField, searchString + "%"));
+          predicates.add(cb.like(r.get(searchField).as(String.class), searchString + "%"));
         }
         else if (searchOper.equals("ew")) {
-          criteria.add(Restrictions.like(searchField, "%" + searchString));
+          predicates.add(cb.like(r.get(searchField).as(String.class), "%" + searchString));
         }
         else if (searchOper.equals("cn")) {
-          criteria.add(Restrictions.like(searchField, "%" + searchString + "%"));
+          predicates.add(cb.like(r.get(searchField).as(String.class), "%" + searchString + "%"));
         }
       }
     }
 
+    cq.where(cb.and(predicates.toArray(new Predicate[0])));
+
     gridModel =  new ArrayList<SnmpAgentWithTrapTargetGroupDto>();
     if (searchField != null && searchField.equals("trapTargetGroup")) {
       if (searchOper.equals("eq")) {
-        for (SnmpAgent model: snmpAgentDao.findByCriteria(criteria)) {
+        for (SnmpAgent model: snmpAgentDao.findByCriteria(cq)) {
           TrapTargetGroup ttg = conf.getTrapTargetGroups().get(model);
           if (ttg == null) {
-            if (!"".equals(searchString)) {
+            if (searchString.length() != 0) {
               continue;
             }
           }
-          if (!ttg.getName().equals(searchString)) {
+          else if (!ttg.getName().equals(searchString)) {
             continue;
           }
           gridModel.add(new SnmpAgentWithTrapTargetGroupDto(model, ttg));
         }
       }
       else if (searchOper.equals("ne")) {
-        for (SnmpAgent model: snmpAgentDao.findByCriteria(criteria)) {
+        for (SnmpAgent model: snmpAgentDao.findByCriteria(cq)) {
           TrapTargetGroup ttg = conf.getTrapTargetGroups().get(model);
           if (ttg == null) {
-            if ("".equals(searchString)) {
+            if (searchString.length() != 0) {
               continue;
             }
           }
-          if (ttg.getName().equals(searchString)) {
+          else if (ttg.getName().equals(searchString)) {
             continue;
           }
           gridModel.add(new SnmpAgentWithTrapTargetGroupDto(model, ttg));
         }
       }
       else if (searchOper.equals("bw")) {
-        for (SnmpAgent model: snmpAgentDao.findByCriteria(criteria)) {
+        for (SnmpAgent model: snmpAgentDao.findByCriteria(cq)) {
           TrapTargetGroup ttg = conf.getTrapTargetGroups().get(model);
           if (ttg == null) {
-            if (!"".startsWith(searchString)) {
+            if (searchString.length() != 0) {
               continue;
             }
           }
-          if (!ttg.getName().startsWith(searchString)) {
+          else if (!ttg.getName().startsWith(searchString)) {
             continue;
           }
           gridModel.add(new SnmpAgentWithTrapTargetGroupDto(model, ttg));
         }
       }
       else if (searchOper.equals("ew")) {
-        for (SnmpAgent model: snmpAgentDao.findByCriteria(criteria)) {
+        for (SnmpAgent model: snmpAgentDao.findByCriteria(cq)) {
           TrapTargetGroup ttg = conf.getTrapTargetGroups().get(model);
           if (ttg == null) {
-            if (!"".endsWith(searchString)) {
+            if (searchString.length() != 0) {
               continue;
             }
           }
-          if (!ttg.getName().endsWith(searchString)) {
+          else if (!ttg.getName().endsWith(searchString)) {
             continue;
           }
           gridModel.add(new SnmpAgentWithTrapTargetGroupDto(model, ttg));
         }
       }
       else if (searchOper.equals("cn")) {
-        for (SnmpAgent model: snmpAgentDao.findByCriteria(criteria)) {
+        for (SnmpAgent model: snmpAgentDao.findByCriteria(cq)) {
           TrapTargetGroup ttg = conf.getTrapTargetGroups().get(model);
           if (ttg == null) {
-            if (!"".contains(searchString)) {
+            if (searchString.length() != 0) {
               continue;
             }
           }
-          if (!ttg.getName().contains(searchString)) {
+          else if (!ttg.getName().contains(searchString)) {
             continue;
           }
           gridModel.add(new SnmpAgentWithTrapTargetGroupDto(model, ttg));
@@ -284,7 +290,7 @@ public class SnmpAgentWithTrapTargetGroupGridAction extends ActionSupport {
       }
     }
     else {
-      for (SnmpAgent model: snmpAgentDao.findByCriteria(criteria)) {
+      for (SnmpAgent model: snmpAgentDao.findByCriteria(cq)) {
         TrapTargetGroup ttg = conf.getTrapTargetGroups().get(model);
         gridModel.add(new SnmpAgentWithTrapTargetGroupDto(model, ttg));
       }

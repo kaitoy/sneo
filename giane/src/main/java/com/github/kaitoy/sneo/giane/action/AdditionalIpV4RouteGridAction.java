@@ -15,14 +15,13 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.InterceptorRef;
 import org.apache.struts2.convention.annotation.ParentPackage;
 import org.apache.struts2.convention.annotation.Result;
-import org.hibernate.criterion.DetachedCriteria;
-import org.hibernate.criterion.Restrictions;
-
 import com.github.kaitoy.sneo.giane.model.AdditionalIpV4Route;
 import com.github.kaitoy.sneo.giane.model.dao.AdditionalIpV4RouteDao;
 import com.github.kaitoy.sneo.giane.model.dto.AdditionalIpV4RouteDto;
@@ -191,13 +190,17 @@ public class AdditionalIpV4RouteGridAction extends ActionSupport {
     this.additionalIpV4RouteDao = additionalIpV4RouteDao;
   }
 
+  @Override
   @Action(
     results = {
       @Result(name = "success", type = "json")
     }
   )
   public String execute() {
-    DetachedCriteria criteria = DetachedCriteria.forClass(AdditionalIpV4Route.class);
+    CriteriaBuilder cb = additionalIpV4RouteDao.getCriteriaBuilder();
+    CriteriaQuery<AdditionalIpV4Route> cq = cb.createQuery(AdditionalIpV4Route.class);
+    Root<AdditionalIpV4Route> r = cq.from(AdditionalIpV4Route.class);
+    cq.select(r);
 
     if (searchField != null) {
       if (
@@ -206,16 +209,16 @@ public class AdditionalIpV4RouteGridAction extends ActionSupport {
       ) {
         Integer searchValue = Integer.valueOf(searchString);
         if (searchOper.equals("eq")) {
-          criteria.add(Restrictions.eq(searchField, searchValue));
+          cq.where(cb.equal(r.get(searchField), searchValue));
         }
         else if (searchOper.equals("ne")) {
-          criteria.add(Restrictions.ne(searchField, searchValue));
+          cq.where(cb.notEqual(r.get(searchField), searchValue));
         }
         else if (searchOper.equals("lt")) {
-          criteria.add(Restrictions.lt(searchField, searchValue));
+          cq.where(cb.lt(r.get(searchField).as(Integer.class), searchValue));
         }
         else if (searchOper.equals("gt")) {
-          criteria.add(Restrictions.gt(searchField, searchValue));
+          cq.where(cb.gt(r.get(searchField).as(Integer.class), searchValue));
         }
       }
       else if (
@@ -225,24 +228,24 @@ public class AdditionalIpV4RouteGridAction extends ActionSupport {
         || searchField.equals("gateway")
       ) {
         if (searchOper.equals("eq")) {
-          criteria.add(Restrictions.eq(searchField, searchString));
+          cq.where(cb.equal(r.get(searchField), searchString));
         }
         else if (searchOper.equals("ne")) {
-          criteria.add(Restrictions.ne(searchField, searchString));
+          cq.where(cb.notEqual(r.get(searchField), searchString));
         }
         else if (searchOper.equals("bw")) {
-          criteria.add(Restrictions.like(searchField, searchString + "%"));
+          cq.where(cb.like(r.get(searchField).as(String.class), searchString + "%"));
         }
         else if (searchOper.equals("ew")) {
-          criteria.add(Restrictions.like(searchField, "%" + searchString));
+          cq.where(cb.like(r.get(searchField).as(String.class), "%" + searchString));
         }
         else if (searchOper.equals("cn")) {
-          criteria.add(Restrictions.like(searchField, "%" + searchString + "%"));
+          cq.where(cb.like(r.get(searchField).as(String.class), "%" + searchString + "%"));
         }
       }
     }
 
-    List<AdditionalIpV4Route> models = additionalIpV4RouteDao.findByCriteria(criteria);
+    List<AdditionalIpV4Route> models = additionalIpV4RouteDao.findByCriteria(cq);
     gridModel = new ArrayList<AdditionalIpV4RouteDto>();
     for (AdditionalIpV4Route entry: models) {
       gridModel.add(new AdditionalIpV4RouteDto(entry));

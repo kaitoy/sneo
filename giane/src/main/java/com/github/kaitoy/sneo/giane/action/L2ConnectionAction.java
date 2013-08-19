@@ -109,7 +109,7 @@ extends ActionSupport implements ModelDriven<L2Connection> {
     Map<String, Object> params = ActionContext.getContext().getParameters();
     Integer network_id = Integer.valueOf(((String[])params.get("network_id"))[0]);
     model.setNetwork(networkDao.findByKey(network_id));
-    l2ConnectionDao.save(model);
+    l2ConnectionDao.create(model);
 
     return "success";
   }
