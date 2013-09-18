@@ -27,10 +27,12 @@ public class FileMibAgentDynamicMBean extends AbstractDynamicMBean {
     setResource(mo);
   }
 
+  @Override
   protected String getMBeanDescription() {
     return "DynamicMBean of " + moClassName;
   }
 
+  @Override
   protected String getMBeanClassName() {
     return mbeanClassName;
   }
@@ -122,6 +124,7 @@ public class FileMibAgentDynamicMBean extends AbstractDynamicMBean {
     return maiList;
   }
 
+  @Override
   protected MBeanAttributeInfo[] createMBeanAttributeInfo() {
     return getMBeanAttributeInfoList().toArray(new MBeanAttributeInfo[0]);
   }
@@ -219,7 +222,7 @@ public class FileMibAgentDynamicMBean extends AbstractDynamicMBean {
           ),
         },
         String.class.getName(),
-        MBeanOperationInfo.INFO
+        MBeanOperationInfo.ACTION
       )
     );
     moiList.add(
@@ -234,6 +237,7 @@ public class FileMibAgentDynamicMBean extends AbstractDynamicMBean {
     return moiList;
   }
 
+  @Override
   protected MBeanOperationInfo[] createMBeanOperationInfo() {
     return getMBeanOperationInfoList().toArray(new MBeanOperationInfo[0]);
   }

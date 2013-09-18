@@ -787,6 +787,7 @@ public class FileMibAgent extends BaseAgent {
     }
   }
 
+  @Override
   public void stop() {
     synchronized (thisLock) {
       if (running) {
@@ -885,13 +886,15 @@ public class FileMibAgent extends BaseAgent {
            );
   }
 
-  public void removeMessageProcessor(String version) {
+  public String removeMessageProcessor(String version) {
     if (version.equals("1")) {
       dispatcher.removeMessageProcessingModel(new MPv1());
     }
     else if (version.equals("2c")) {
       dispatcher.removeMessageProcessingModel(new MPv2c());
     }
+
+    return version;
   }
 
   public String reportSnmpAccessStatistics() {

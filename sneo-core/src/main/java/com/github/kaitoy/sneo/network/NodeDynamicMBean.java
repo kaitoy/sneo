@@ -35,10 +35,12 @@ public class NodeDynamicMBean extends AbstractDynamicMBean {
     setResource(mo);
   }
 
+  @Override
   protected String getMBeanDescription() {
     return "DynamicMBean of " + moClassName;
   }
 
+  @Override
   protected String getMBeanClassName() {
     return mbeanClassName;
   }
@@ -102,6 +104,7 @@ public class NodeDynamicMBean extends AbstractDynamicMBean {
     return maiList;
   }
 
+  @Override
   protected MBeanAttributeInfo[] createMBeanAttributeInfo() {
     return getMBeanAttributeInfoList().toArray(new MBeanAttributeInfo[0]);
   }
@@ -198,6 +201,7 @@ public class NodeDynamicMBean extends AbstractDynamicMBean {
     return moiList;
   }
 
+  @Override
   protected MBeanOperationInfo[] createMBeanOperationInfo() {
     return getMBeanOperationInfoList()
              .toArray(new MBeanOperationInfo[0]);
@@ -269,23 +273,26 @@ public class NodeDynamicMBean extends AbstractDynamicMBean {
       return "No result";
     }
     else if (arg0.equals("getMib")) {
-      return (Object)mo.getAgent().getMib((String)arg1[0]);
+      return mo.getAgent().getMib((String)arg1[0]);
     }
     else if (arg0.equals("walkMib")) {
-      return (Object)mo.getAgent().walkMib((String)arg1[0], (Integer)arg1[1]);
+      return mo.getAgent().walkMib((String)arg1[0], (Integer)arg1[1]);
     }
     else if (arg0.equals("setMib")) {
       try {
-        return (Object)mo.getAgent().setMib((String)arg1[0]);
+        return mo.getAgent().setMib((String)arg1[0]);
       } catch (ParseException e) {
         throw new IllegalArgumentException(e);
       }
     }
+    else if (arg0.equals("removeMessageProcessor")) {
+      return (Object)mo.getAgent().removeMessageProcessor((String)arg1[0]);
+    }
     else if (arg0.equals("reportSnmpAccessStatistics")) {
-      return (Object)mo.getAgent().reportSnmpAccessStatistics();
+      return mo.getAgent().reportSnmpAccessStatistics();
     }
     else if (arg0.equals("getNifs")) {
-      return (Object)mo.getNifs();
+      return mo.getNifs();
     }
     else {
       return super.invoke(arg0, arg1, arg2);
