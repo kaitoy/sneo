@@ -91,12 +91,14 @@ public class SingleNodeRunner {
               .communityStringIndexes(communityStringIndexes);
       }
 
-      String address = (String)ArgumentParser.getValue(params, "a", 0);
+      @SuppressWarnings("unchecked")
+      List<String> addrs = (List<String>)params.get("a");
+      String mainAddr = addrs.remove(0);
       agentBuilder
         .address(
            (String)ArgumentParser.getValue(params, "proto", 0) + ":"
-             + address + "/"
-             + (Integer)ArgumentParser.getValue(params, "p", 0)
+             + mainAddr + "/"
+             + ArgumentParser.getValue(params, "p", 0)
          )
         .bcConfigFilePath((String)ArgumentParser.getValue(params, "bcfg", 0))
         .configFilePath((String)ArgumentParser.getValue(params, "cfg", 0))
@@ -144,6 +146,10 @@ public class SingleNodeRunner {
       String vNodeVlanIfName = "vNodeVlan1";
       vNode.addVlan(vNodeVlanIfName, agent.getInetAddress(), realNifMask, 1);
       vNode.addNifToVlan(vNodeIfName, 1, false);
+
+      for (String addr: addrs) {
+        vNode.addIpAddress(vNodeIfName, InetAddress.getByName(addr), realNifMask);
+      }
 
       Inet4Address vgwVirtualNifAddr
         = IpV4Helper.getNextAddress(
@@ -197,7 +203,7 @@ public class SingleNodeRunner {
         vNode,
         "Nodes:name="
           + ObjectName.quote(vNode.getClass().getSimpleName())
-          + ",address=" + ObjectName.quote(address)
+          + ",address=" + ObjectName.quote(mainAddr)
       );
 
       gw.start();
@@ -244,8 +250,8 @@ public class SingleNodeRunner {
       optList.add("-a[s<[0-9.]+>] ");
       optList.add("-p[i{=161}] ");
       optList.add("-proto[s{=udp}<udp>] ");
-      optList.add("-bcfg[s{=cfg/SingleVirtualNodeRunner_bc.cfg}] ");
-      optList.add("-cfg[s{=cfg/SingleVirtualNodeRunner.cfg}] ");
+      optList.add("-bcfg[s{=cfg/SingleNodeRunner_bc.cfg}] ");
+      optList.add("-cfg[s{=cfg/SingleNodeRunner.cfg}] ");
       optList.add("-c[s{=public}] ");
       optList.add("-s[s{=public}] ");
       optList.add("-f[s] ");
