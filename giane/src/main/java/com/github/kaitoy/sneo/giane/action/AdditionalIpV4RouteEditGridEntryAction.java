@@ -9,7 +9,6 @@ package com.github.kaitoy.sneo.giane.action;
 
 import org.apache.struts2.convention.annotation.InterceptorRef;
 import org.apache.struts2.convention.annotation.ParentPackage;
-
 import com.github.kaitoy.sneo.giane.model.AdditionalIpV4Route;
 import com.github.kaitoy.sneo.giane.model.dao.AdditionalIpV4RouteDao;
 import com.opensymphony.xwork2.ActionSupport;
@@ -32,6 +31,7 @@ public class AdditionalIpV4RouteEditGridEntryAction extends ActionSupport {
   private String netmask;
   private String gateway;
   private Integer metric;
+  private String descr;
 
   // for DI
   public void setAdditionalIpV4RouteDao(
@@ -40,6 +40,7 @@ public class AdditionalIpV4RouteEditGridEntryAction extends ActionSupport {
     this.additionalIpV4RouteDao = additionalIpV4RouteDao;
   }
 
+  @Override
   public String execute() throws Exception {
     if (oper.equalsIgnoreCase("add")) {
       AdditionalIpV4Route model = new AdditionalIpV4Route();
@@ -48,6 +49,7 @@ public class AdditionalIpV4RouteEditGridEntryAction extends ActionSupport {
       model.setNetmask(netmask);
       model.setGateway(gateway);
       model.setMetric(metric);
+      model.setDescr(descr);
       additionalIpV4RouteDao.create(model);
     }
     else if (oper.equalsIgnoreCase("edit")) {
@@ -57,6 +59,7 @@ public class AdditionalIpV4RouteEditGridEntryAction extends ActionSupport {
       model.setNetmask(netmask);
       model.setGateway(gateway);
       model.setMetric(metric);
+      model.setDescr(descr);
       additionalIpV4RouteDao.update(model);
     }
     else if (oper.equalsIgnoreCase("del")) {
@@ -121,6 +124,14 @@ public class AdditionalIpV4RouteEditGridEntryAction extends ActionSupport {
 
   public void setMetric(Integer metric) {
     this.metric = metric;
+  }
+
+  public String getDescr() {
+    return descr;
+  }
+
+  public void setDescr(String descr) {
+    this.descr = descr;
   }
 
 }

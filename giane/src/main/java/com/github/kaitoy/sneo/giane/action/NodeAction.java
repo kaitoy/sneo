@@ -9,18 +9,16 @@ package com.github.kaitoy.sneo.giane.action;
 
 import java.util.HashMap;
 import java.util.Map;
-
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.InterceptorRef;
 import org.apache.struts2.convention.annotation.ParentPackage;
 import org.apache.struts2.convention.annotation.Result;
 import org.apache.struts2.interceptor.validation.SkipValidation;
-
-import com.github.kaitoy.sneo.giane.model.Node;
 import com.github.kaitoy.sneo.giane.model.AdditionalIpV4RouteGroup;
+import com.github.kaitoy.sneo.giane.model.Node;
+import com.github.kaitoy.sneo.giane.model.dao.AdditionalIpV4RouteGroupDao;
 import com.github.kaitoy.sneo.giane.model.dao.NetworkDao;
 import com.github.kaitoy.sneo.giane.model.dao.NodeDao;
-import com.github.kaitoy.sneo.giane.model.dao.AdditionalIpV4RouteGroupDao;
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 import com.opensymphony.xwork2.ModelDriven;
@@ -56,7 +54,7 @@ public class NodeAction extends ActionSupport implements ModelDriven<Node> {
   public void setNetworkDao(NetworkDao networkDao) {
     this.networkDao = networkDao;
   }
-  
+
   // for DI
   public void setAdditionalIpV4RouteGroupDao(AdditionalIpV4RouteGroupDao additionalIpV4RouteGroupDao) {
     this.additionalIpV4RouteGroupDao = additionalIpV4RouteGroupDao;
@@ -69,7 +67,7 @@ public class NodeAction extends ActionSupport implements ModelDriven<Node> {
   public String getUniqueDomain() {
     return uniqueDomain;
   }
-  
+
   public Map<Integer, String> getAdditionalIpV4RouteGroups() {
     Map<Integer, String> map = new HashMap<Integer, String>();
     for (AdditionalIpV4RouteGroup routeg: additionalIpV4RouteGroupDao.list()) {
@@ -81,6 +79,7 @@ public class NodeAction extends ActionSupport implements ModelDriven<Node> {
     return map;
   }
 
+  @Override
   @SkipValidation
   public String execute() throws Exception {
     // The following code is different from ActionContext.getContext().getParameters()
@@ -107,7 +106,7 @@ public class NodeAction extends ActionSupport implements ModelDriven<Node> {
   public String tab() throws Exception {
     return "tab";
   }
-  
+
   @Action(
     value = "set-additional-ip-v4-route-group-to-node-tab-content",
     results = { @Result(name = "tab", location = "set-additional-ip-v4-route-group-to-node-tab-content.jsp")}
@@ -138,11 +137,13 @@ public class NodeAction extends ActionSupport implements ModelDriven<Node> {
     Node update = nodeDao.findByKey(model.getId());
     update.setName(model.getName());
     update.setTtl(model.getTtl());
+    update.setDescr(model.getDescr());
     nodeDao.update(update);
 
     return "success";
   }
 
+  @Override
   public void validate() {
     String contextName = ActionContext.getContext().getName();
 

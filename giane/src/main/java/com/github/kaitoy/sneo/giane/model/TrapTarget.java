@@ -38,6 +38,7 @@ public class TrapTarget implements Serializable {
   private String name;
   private String address;
   private Integer port;
+  private String descr;
   private List<TrapTargetGroup> trapTargetGroups;
 
   @Id
@@ -108,6 +109,21 @@ public class TrapTarget implements Serializable {
   )
   public void setPort(Integer port) {
     this.port = port;
+  }
+
+  @Column(name = "DESCR", nullable = true, length = 2000, unique = false)
+  public String getDescr() {
+    return descr;
+  }
+
+  @StringLengthFieldValidator(
+    key = "StringLengthFieldValidator.error.max",
+    trim = true,
+    maxLength = "2000",
+    shortCircuit = true // Stops checking if detects error
+  )
+  public void setDescr(String descr) {
+    this.descr = descr;
   }
 
   @ManyToMany(mappedBy = "trapTargets", fetch = FetchType.LAZY)

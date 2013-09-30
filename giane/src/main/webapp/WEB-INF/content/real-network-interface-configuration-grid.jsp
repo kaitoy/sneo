@@ -81,4 +81,15 @@
     searchoptions="{sopt:['eq','ne','bw','en','cn']}"
     width="300"
   />
+  <sjg:gridColumn
+    name="descr"
+    index="descr"
+    title="%{getText('realNetworkInterfaceConfiguration.descr.label')}"
+    sortable="true"
+    editable="true"
+    edittype="text"
+    search="true"
+    searchoptions="{sopt:['eq','ne','bw','en','cn']}"
+    width="200"
+  />
 </sjg:grid>

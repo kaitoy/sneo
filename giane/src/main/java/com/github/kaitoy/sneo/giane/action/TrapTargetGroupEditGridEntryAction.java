@@ -2,7 +2,6 @@ package com.github.kaitoy.sneo.giane.action;
 
 import org.apache.struts2.convention.annotation.InterceptorRef;
 import org.apache.struts2.convention.annotation.ParentPackage;
-
 import com.github.kaitoy.sneo.giane.model.TrapTargetGroup;
 import com.github.kaitoy.sneo.giane.model.dao.TrapTargetGroupDao;
 import com.opensymphony.xwork2.ActionSupport;
@@ -21,21 +20,25 @@ public class TrapTargetGroupEditGridEntryAction extends ActionSupport {
   private String oper;
   private Integer id;
   private String name;
+  private String descr;
 
   // for DI
   public void setTrapTargetGroupDao(TrapTargetGroupDao trapTargetGroupDao) {
     this.trapTargetGroupDao = trapTargetGroupDao;
   }
 
+  @Override
   public String execute() throws Exception {
     if (oper.equalsIgnoreCase("add")) {
       TrapTargetGroup model = new TrapTargetGroup();
       model.setName(name);
+      model.setDescr(descr);
       trapTargetGroupDao.create(model);
     }
     else if (oper.equalsIgnoreCase("edit")) {
       TrapTargetGroup model = trapTargetGroupDao.findByKey(id);
       model.setName(name);
+      model.setDescr(descr);
       trapTargetGroupDao.update(model);
     }
     else if (oper.equalsIgnoreCase("del")) {
@@ -68,6 +71,14 @@ public class TrapTargetGroupEditGridEntryAction extends ActionSupport {
 
   public void setName(String name) {
     this.name = name;
+  }
+
+  public String getDescr() {
+    return descr;
+  }
+
+  public void setDescr(String descr) {
+    this.descr = descr;
   }
 
 }

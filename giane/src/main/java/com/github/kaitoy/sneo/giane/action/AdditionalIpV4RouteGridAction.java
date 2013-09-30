@@ -147,6 +147,14 @@ public class AdditionalIpV4RouteGridAction extends ActionSupport {
         }
       }
     );
+    comparators.put(
+      "descr",
+      new Comparator<AdditionalIpV4RouteDto>() {
+        public int compare(AdditionalIpV4RouteDto o1, AdditionalIpV4RouteDto o2) {
+          return o2.getDescr().compareTo(o1.getDescr());
+        }
+      }
+    );
   }
 
   private AdditionalIpV4RouteDao additionalIpV4RouteDao;
@@ -226,6 +234,7 @@ public class AdditionalIpV4RouteGridAction extends ActionSupport {
         || searchField.equals("networkDestination")
         || searchField.equals("netmask")
         || searchField.equals("gateway")
+        || searchField.equals("descr")
       ) {
         if (searchOper.equals("eq")) {
           cq.where(cb.equal(r.get(searchField), searchString));

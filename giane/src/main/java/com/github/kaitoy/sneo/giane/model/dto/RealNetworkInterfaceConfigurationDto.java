@@ -8,7 +8,6 @@
 package com.github.kaitoy.sneo.giane.model.dto;
 
 import java.io.Serializable;
-
 import com.github.kaitoy.sneo.giane.model.RealNetworkInterfaceConfiguration;
 
 public class RealNetworkInterfaceConfigurationDto implements Serializable {
@@ -22,6 +21,7 @@ public class RealNetworkInterfaceConfigurationDto implements Serializable {
   private String name;
   private String deviceName;
   private String macAddress;
+  private String descr;
 
   public RealNetworkInterfaceConfigurationDto(
     RealNetworkInterfaceConfiguration conf
@@ -30,6 +30,7 @@ public class RealNetworkInterfaceConfigurationDto implements Serializable {
     this.name = conf.getName();
     this.deviceName = conf.getDeviceName();
     this.macAddress = conf.getMacAddress();
+    this.setDescr(conf.getDescr());
   }
 
   public Integer getId() {
@@ -62,6 +63,14 @@ public class RealNetworkInterfaceConfigurationDto implements Serializable {
 
   public void setMacAddress(String macAddress) {
     this.macAddress = macAddress;
+  }
+
+  public String getDescr() {
+    return descr;
+  }
+
+  public void setDescr(String descr) {
+    this.descr = descr;
   }
 
   @Override

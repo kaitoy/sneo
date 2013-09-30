@@ -17,10 +17,12 @@ public class AdditionalIpV4RouteDto extends IpV4RouteDto {
   private static final long serialVersionUID = 4900077162076357354L;
 
   private String name;
+  private String descr;
 
   public AdditionalIpV4RouteDto(AdditionalIpV4Route model) {
     super(model);
     this.name = model.getName();
+    this.descr = model.getDescr();
   }
 
   public String getName() {
@@ -29,6 +31,14 @@ public class AdditionalIpV4RouteDto extends IpV4RouteDto {
 
   public void setName(String name) {
     this.name = name;
+  }
+
+  public String getDescr() {
+    return descr;
+  }
+
+  public void setDescr(String descr) {
+    this.descr = descr;
   }
 
 }

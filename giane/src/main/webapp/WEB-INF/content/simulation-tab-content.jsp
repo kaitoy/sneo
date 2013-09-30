@@ -26,6 +26,10 @@
           <span id="simulation_create_form_networkError"></span>
         </div>
         <div>
+          <s:textarea name="model.descr" label="%{getText('simulation.descr.label')}" cols="30" rows="2" required="false" requiredposition="left" resizable="false" theme="xhtml" />
+          <span id="simulation_create_form_descrError"></span>
+        </div>
+        <div>
           <sj:submit
             targets="trash_box"
             replaceTarget="false"
@@ -72,6 +76,10 @@
             cssClass="select-field"
           />
           <span id="simulation_update_form_networkError"></span>
+        </div>
+        <div>
+          <s:textarea id="simulation_grid_selected_descr" name="model.descr" label="%{getText('simulation.descr.label')}" cols="30" rows="2" required="false" requiredposition="left" resizable="false" theme="xhtml" />
+          <span id="simulation_update_form_descrError"></span>
         </div>
         <div>
           <sj:submit

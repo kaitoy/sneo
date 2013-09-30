@@ -46,6 +46,12 @@ public class NetworkGridAction extends ActionSupport {
           return o2.getName().compareTo(o1.getName());
         }
       };
+  private static final Comparator<NetworkDto> descrComparator
+    = new Comparator<NetworkDto>() {
+        public int compare(NetworkDto o1, NetworkDto o2) {
+          return o2.getDescr().compareTo(o1.getDescr());
+        }
+      };
 
   // result List
   private List<NetworkDto> gridModel;
@@ -112,7 +118,7 @@ public class NetworkGridAction extends ActionSupport {
           cq.where(cb.gt(r.get(searchField).as(Integer.class), searchValue));
         }
       }
-      else if (searchField.equals("name")) {
+      else if (searchField.equals("name") || searchField.equals("descr")) {
         if (searchOper.equals("eq")) {
           cq.where(cb.equal(r.get(searchField), searchString));
         }
@@ -144,6 +150,9 @@ public class NetworkGridAction extends ActionSupport {
       }
       else if (sidx.equalsIgnoreCase("name")) {
         Collections.sort(gridModel, nameComparator);
+      }
+      else if (sidx.equalsIgnoreCase("descr")) {
+        Collections.sort(gridModel, descrComparator);
       }
 
       if (sord.equalsIgnoreCase("desc")) {

@@ -9,7 +9,6 @@ package com.github.kaitoy.sneo.giane.action;
 
 import org.apache.struts2.convention.annotation.InterceptorRef;
 import org.apache.struts2.convention.annotation.ParentPackage;
-
 import com.github.kaitoy.sneo.giane.model.RealNetworkInterfaceConfiguration;
 import com.github.kaitoy.sneo.giane.model.RealNetworkInterfaceConfigurationIpAddressRelation;
 import com.github.kaitoy.sneo.giane.model.dao.RealNetworkInterfaceConfigurationDao;
@@ -32,6 +31,7 @@ extends ActionSupport {
   private String name;
   private String macAddress;
   private String deviceName;
+  private String descr;
 
   // for DI
   public void setRealNetworkInterfaceConfigurationDao(
@@ -41,6 +41,7 @@ extends ActionSupport {
       = realNetworkInterfaceConfigurationDao;
   }
 
+  @Override
   public String execute() throws Exception {
     if (oper.equalsIgnoreCase("add")) {
       RealNetworkInterfaceConfiguration model
@@ -48,6 +49,7 @@ extends ActionSupport {
       model.setName(name);
       model.setMacAddress(macAddress);
       model.setDeviceName(deviceName);
+      model.setDescr(descr);
       model.setIpAddressRelation(
         new RealNetworkInterfaceConfigurationIpAddressRelation()
       );
@@ -59,6 +61,7 @@ extends ActionSupport {
       model.setName(name);
       model.setMacAddress(macAddress);
       model.setDeviceName(deviceName);
+      model.setDescr(descr);
       realNetworkInterfaceConfigurationDao.update(model);
     }
     else if (oper.equalsIgnoreCase("del")) {
@@ -108,6 +111,14 @@ extends ActionSupport {
 
   public void setDeviceName(String deviceName) {
     this.deviceName = deviceName;
+  }
+
+  public String getDescr() {
+    return descr;
+  }
+
+  public void setDescr(String descr) {
+    this.descr = descr;
   }
 
 }

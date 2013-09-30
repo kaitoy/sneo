@@ -30,6 +30,10 @@
           <span id="realNetworkInterfaceConfiguration_create_form_deviceNameError"></span>
         </div>
         <div>
+          <s:textarea name="model.descr" label="%{getText('realNetworkInterfaceConfiguration.descr.label')}" cols="30" rows="2" required="false" requiredposition="left" resizable="false" theme="xhtml" />
+          <span id="realNetworkInterfaceConfiguration_create_form_descrError"></span>
+        </div>
+        <div>
           <sj:submit
             targets="trash_box"
             replaceTarget="false"
@@ -80,6 +84,10 @@
             cssClass="select-field"
           />
           <span id="realNetworkInterfaceConfiguration_update_form_deviceNameError"></span>
+        </div>
+        <div>
+          <s:textarea id="realNetworkInterfaceConfiguration_grid_selected_descr" name="model.descr" label="%{getText('realNetworkInterfaceConfiguration.descr.label')}" cols="30" rows="2" required="false" requiredposition="left" resizable="false" theme="xhtml" />
+          <span id="realNetworkInterfaceConfiguration_update_form_descrError"></span>
         </div>
         <div>
           <sj:submit

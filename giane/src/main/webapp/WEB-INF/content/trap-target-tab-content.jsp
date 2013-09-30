@@ -21,6 +21,10 @@
           <span id="trapTarget_create_form_portError"></span>
         </div>
         <div>
+          <s:textarea name="model.descr" label="%{getText('trapTarget.descr.label')}" cols="30" rows="2" required="false" requiredposition="left" resizable="false" theme="xhtml" />
+          <span id="trapTarget_create_form_descrError"></span>
+        </div>
+        <div>
           <sj:submit
             targets="trash_box"
             replaceTarget="false"
@@ -45,7 +49,7 @@
       <fieldset>
         <legend><s:text name="selected.trapTarget" /></legend>
         <div>
-          <label for="trapTarget_grid_selected_id"><s:text name="trapTarget.id.label" />;</label>
+          <label for="trapTarget_grid_selected_id"><s:text name="trapTarget.id.label" />:</label>
           <s:hidden id="trapTarget_grid_selected_id" name="model.id" />
           <span id="trapTarget_grid_selected_id_span" ></span>
         </div>
@@ -60,6 +64,10 @@
         <div>
           <s:textfield id="trapTarget_grid_selected_port" name="model.port" label="%{getText('trapTarget.port.label')}" required="true" requiredposition="left" theme="xhtml" />
           <span id="trapTarget_update_form_portError"></span>
+        </div>
+        <div>
+          <s:textarea id="trapTarget_grid_selected_descr" name="model.descr" label="%{getText('trapTarget.descr.label')}" cols="30" rows="2" required="false" requiredposition="left" resizable="false" theme="xhtml" />
+          <span id="trapTarget_update_form_descrError"></span>
         </div>
         <div>
           <sj:submit

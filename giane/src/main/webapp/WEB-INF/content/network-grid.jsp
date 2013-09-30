@@ -57,6 +57,17 @@
     edittype="text"
     search="true"
     searchoptions="{sopt:['eq','ne','bw','en','cn']}"
+    width="100"
+  />
+  <sjg:gridColumn
+    name="descr"
+    index="descr"
+    title="%{getText('network.descr.label')}"
+    sortable="true"
+    editable="true"
+    edittype="text"
+    search="true"
+    searchoptions="{sopt:['eq','ne','bw','en','cn']}"
     width="200"
   />
 </sjg:grid>

@@ -79,6 +79,12 @@ public class TrapTargetGridAction extends ActionSupport {
           return o2.getPort().compareTo(o1.getPort());
         }
       };
+  private static final Comparator<TrapTargetDto> descrComparator
+    = new Comparator<TrapTargetDto>() {
+        public int compare(TrapTargetDto o1, TrapTargetDto o2) {
+          return o2.getDescr().compareTo(o1.getDescr());
+        }
+      };
 
   // result List
   private List<TrapTargetDto> gridModel;
@@ -145,7 +151,11 @@ public class TrapTargetGridAction extends ActionSupport {
           cq.where(cb.gt(r.get(searchField).as(Integer.class), searchValue));
         }
       }
-      else if (searchField.equals("name") || searchField.equals("address")) {
+      else if (
+           searchField.equals("name")
+        || searchField.equals("address")
+        || searchField.equals("descr")
+      ) {
         if (searchOper.equals("eq")) {
           cq.where(cb.equal(r.get(searchField), searchString));
         }
@@ -183,6 +193,9 @@ public class TrapTargetGridAction extends ActionSupport {
       }
       else if (sidx.equalsIgnoreCase("port")) {
         Collections.sort(gridModel, portComparator);
+      }
+      else if (sidx.equalsIgnoreCase("descr")) {
+        Collections.sort(gridModel, descrComparator);
       }
 
       if (sord.equalsIgnoreCase("desc")) {

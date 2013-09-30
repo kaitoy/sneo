@@ -38,6 +38,7 @@ public class RealNetworkInterfaceConfiguration implements Serializable {
   private String name;
   private String deviceName;
   private String macAddress;
+  private String descr;
   private RealNetworkInterfaceConfigurationIpAddressRelation ipAddressRelation;
 
   @Id
@@ -104,6 +105,21 @@ public class RealNetworkInterfaceConfiguration implements Serializable {
   )
   public void setMacAddress(String macAddress) {
     this.macAddress = macAddress;
+  }
+
+  @Column(name = "DESCR", nullable = true, length = 2000, unique = false)
+  public String getDescr() {
+    return descr;
+  }
+
+  @StringLengthFieldValidator(
+    key = "StringLengthFieldValidator.error.max",
+    trim = true,
+    maxLength = "2000",
+    shortCircuit = true // Stops checking if detects error
+  )
+  public void setDescr(String descr) {
+    this.descr = descr;
   }
 
   @OneToOne(

@@ -15,6 +15,11 @@ $(document).ready( function() {
       if (select.size() != 0) {
         select.find('option:contains("' + value + '")').attr('selected', 'true').addClass('selectedOption');
       }
+
+      var input = $('textarea[id="' + event.originalEvent.grid[0].id + '_selected_' + index + '"]');
+      if (input.size() != 0) {
+        input.attr('value', value).addClass('filled');
+      }
     });
   });
 

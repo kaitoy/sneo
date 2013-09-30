@@ -55,7 +55,12 @@ public class NodeGridAction extends ActionSupport {
           return o2.getTtl().compareTo(o1.getTtl());
         }
       };
-
+  private static final Comparator<NodeDto> descrComparator
+    = new Comparator<NodeDto>() {
+        public int compare(NodeDto o1, NodeDto o2) {
+          return o2.getDescr().compareTo(o1.getDescr());
+        }
+      };
   // result List
   private List<NodeDto> gridModel;
 
@@ -127,7 +132,7 @@ public class NodeGridAction extends ActionSupport {
           predicates.add(cb.gt(r.get(searchField).as(Integer.class), searchValue));
         }
       }
-      else if (searchField.equals("name")) {
+      else if (searchField.equals("name") || searchField.equals("descr")) {
         if (searchOper.equals("eq")) {
           predicates.add(cb.equal(r.get(searchField), searchString));
         }
@@ -164,6 +169,9 @@ public class NodeGridAction extends ActionSupport {
       }
       else if (sidx.equalsIgnoreCase("ttl")) {
         Collections.sort(gridModel, ttlComparator);
+      }
+      else if (sidx.equalsIgnoreCase("descr")) {
+        Collections.sort(gridModel, descrComparator);
       }
 
       if (sord.equalsIgnoreCase("desc")) {

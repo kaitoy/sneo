@@ -11,7 +11,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
-
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.InterceptorRef;
 import org.apache.struts2.convention.annotation.ParentPackage;
@@ -20,7 +19,6 @@ import org.apache.struts2.interceptor.validation.SkipValidation;
 import org.pcap4j.core.PcapNativeException;
 import org.pcap4j.core.PcapNetworkInterface;
 import org.pcap4j.core.Pcaps;
-
 import com.github.kaitoy.sneo.giane.model.RealNetworkInterfaceConfiguration;
 import com.github.kaitoy.sneo.giane.model.RealNetworkInterfaceConfigurationIpAddressRelation;
 import com.github.kaitoy.sneo.giane.model.dao.IpAddressRelationDao;
@@ -101,6 +99,7 @@ implements ModelDriven<RealNetworkInterfaceConfiguration> {
     return map;
   }
 
+  @Override
   @SkipValidation
   public String execute() throws Exception {
     @SuppressWarnings("unchecked")
@@ -159,6 +158,7 @@ implements ModelDriven<RealNetworkInterfaceConfiguration> {
     update.setName(model.getName());
     update.setMacAddress(model.getMacAddress());
     update.setDeviceName(model.getDeviceName());
+    update.setDescr(model.getDescr());
     realNetworkInterfaceConfigurationDao.update(update);
 
     return "success";
@@ -173,6 +173,7 @@ implements ModelDriven<RealNetworkInterfaceConfiguration> {
     return "success";
   }
 
+  @Override
   public void validate() {
     String contextName = ActionContext.getContext().getName();
 

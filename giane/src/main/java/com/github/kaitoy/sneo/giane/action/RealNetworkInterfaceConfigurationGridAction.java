@@ -68,6 +68,12 @@ public class RealNetworkInterfaceConfigurationGridAction extends ActionSupport {
           return o2.getDeviceName().compareTo(o1.getDeviceName());
         }
       };
+  private static final Comparator<RealNetworkInterfaceConfigurationDto> descrComparator
+    = new Comparator<RealNetworkInterfaceConfigurationDto>() {
+        public int compare(RealNetworkInterfaceConfigurationDto o1, RealNetworkInterfaceConfigurationDto o2) {
+          return o2.getDescr().compareTo(o1.getDescr());
+        }
+      };
 
   // result List
   private List<RealNetworkInterfaceConfigurationDto> gridModel;
@@ -143,6 +149,7 @@ public class RealNetworkInterfaceConfigurationGridAction extends ActionSupport {
            searchField.equals("name")
         || searchField.equals("macAddress")
         || searchField.equals("deviceName")
+        || searchField.equals("descr")
       ) {
         if (searchOper.equals("eq")) {
           cq.where(cb.equal(r.get(searchField), searchString));
@@ -183,6 +190,9 @@ public class RealNetworkInterfaceConfigurationGridAction extends ActionSupport {
       }
       else if (sidx.equalsIgnoreCase("deviceName")) {
         Collections.sort(gridModel, deviceNameComparator);
+      }
+      else if (sidx.equalsIgnoreCase("descr")) {
+        Collections.sort(gridModel, descrComparator);
       }
 
       if (sord.equalsIgnoreCase("desc")) {

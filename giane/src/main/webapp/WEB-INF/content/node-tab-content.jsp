@@ -24,6 +24,10 @@
           <span id="node_create_form_ttlError"></span>
         </div>
         <div>
+          <s:textarea name="model.descr" label="%{getText('node.descr.label')}" cols="30" rows="2" required="false" requiredposition="left" resizable="false" theme="xhtml" />
+          <span id="node_create_form_descrError"></span>
+        </div>
+        <div>
           <sj:submit
             href="%{node_create_url}"
             targets="trash_box"
@@ -60,6 +64,10 @@
         <div>
           <s:textfield id="node_grid_selected_ttl" name="model.ttl" label="%{getText('node.ttl.label')}" required="true" requiredposition="left" theme="xhtml"/>
           <span id="node_update_form_ttlError"></span>
+        </div>
+        <div>
+          <s:textarea id="node_grid_selected_descr" name="model.descr" label="%{getText('node.descr.label')}" cols="30" rows="2" required="false" requiredposition="left" resizable="false" theme="xhtml" />
+          <span id="node_update_form_descrError"></span>
         </div>
         <div>
           <sj:submit

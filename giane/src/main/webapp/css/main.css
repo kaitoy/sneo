@@ -58,3 +58,7 @@ div#breadcrumbs {
 fieldset div {
   margin-top: 2px;
 }
+
+textarea {
+  resize: none;
+}

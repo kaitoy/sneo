@@ -8,7 +8,6 @@
 package com.github.kaitoy.sneo.giane.model.dto;
 
 import java.io.Serializable;
-
 import com.github.kaitoy.sneo.giane.model.Simulation;
 
 public class SimulationDto implements Serializable {
@@ -21,11 +20,13 @@ public class SimulationDto implements Serializable {
   private Integer id;
   private String name;
   private String network;
+  private String descr;
 
   public SimulationDto(Simulation model) {
     this.id = model.getId();
     this.name = model.getName();
     this.network = model.getNetwork().getName();
+    this.setDescr(model.getDescr());
   }
 
   public Integer getId() {
@@ -50,6 +51,14 @@ public class SimulationDto implements Serializable {
 
   public void setNetwork(String network) {
     this.network = network;
+  }
+
+  public String getDescr() {
+    return descr;
+  }
+
+  public void setDescr(String descr) {
+    this.descr = descr;
   }
 
   @Override

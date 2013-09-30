@@ -41,6 +41,7 @@ public class Simulation implements Serializable {
   private Integer id;
   private String name;
   private Network network;
+  private String descr;
   private Map<SnmpAgent, TrapTargetGroup> trapTargetGroups;
   private Map<RealNetworkInterface, RealNetworkInterfaceConfiguration> realNetworkInterfaceConfigurations;
   private Map<Node, AdditionalIpV4RouteGroup> additionalIpV4RouteGroups;
@@ -94,6 +95,21 @@ public class Simulation implements Serializable {
   @TypeConversion(converter = "com.github.kaitoy.sneo.giane.typeconverter.NetworkConverter")
   public void setNetwork(Network network) {
     this.network = network;
+  }
+
+  @Column(name = "DESCR", nullable = true, length = 2000, unique = false)
+  public String getDescr() {
+    return descr;
+  }
+
+  @StringLengthFieldValidator(
+    key = "StringLengthFieldValidator.error.max",
+    trim = true,
+    maxLength = "2000",
+    shortCircuit = true // Stops checking if detects error
+  )
+  public void setDescr(String descr) {
+    this.descr = descr;
   }
 
   @ManyToMany(fetch = FetchType.LAZY)

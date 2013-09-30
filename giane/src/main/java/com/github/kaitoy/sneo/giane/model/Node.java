@@ -45,6 +45,7 @@ public class Node implements Serializable {
   private Integer id;
   private String name;
   private Integer ttl;
+  private String descr;
   private SnmpAgent agent;
   private List<PhysicalNetworkInterface> physicalNetworkInterfaces;
   private List<RealNetworkInterface> realNetworkInterfaces;
@@ -101,6 +102,21 @@ public class Node implements Serializable {
   )
   public void setTtl(Integer ttl) {
     this.ttl = ttl;
+  }
+
+  @Column(name = "DESCR", nullable = true, length = 2000, unique = false)
+  public String getDescr() {
+    return descr;
+  }
+
+  @StringLengthFieldValidator(
+    key = "StringLengthFieldValidator.error.max",
+    trim = true,
+    maxLength = "2000",
+    shortCircuit = true // Stops checking if detects error
+  )
+  public void setDescr(String descr) {
+    this.descr = descr;
   }
 
   @OneToOne(

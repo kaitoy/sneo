@@ -2,7 +2,6 @@ package com.github.kaitoy.sneo.giane.action;
 
 import org.apache.struts2.convention.annotation.InterceptorRef;
 import org.apache.struts2.convention.annotation.ParentPackage;
-
 import com.github.kaitoy.sneo.giane.model.Network;
 import com.github.kaitoy.sneo.giane.model.Simulation;
 import com.github.kaitoy.sneo.giane.model.dao.SimulationDao;
@@ -23,23 +22,27 @@ public class SimulationEditGridEntryAction extends ActionSupport {
   private Integer id;
   private String name;
   private Network network;
+  private String descr;
 
   // for DI
   public void setSimulationDao(SimulationDao simulationDao) {
     this.simulationDao = simulationDao;
   }
 
+  @Override
   public String execute() throws Exception {
     if (oper.equalsIgnoreCase("add")) {
       Simulation model = new Simulation();
       model.setName(name);
       model.setNetwork(network);
+      model.setDescr(descr);
       simulationDao.create(model);
     }
     else if (oper.equalsIgnoreCase("edit")) {
       Simulation model = simulationDao.findByKey(id);
       model.setName(name);
       model.setNetwork(network);
+      model.setDescr(descr);
       simulationDao.update(model);
     }
     else if (oper.equalsIgnoreCase("del")) {
@@ -80,6 +83,14 @@ public class SimulationEditGridEntryAction extends ActionSupport {
 
   public void setNetwork(Network network) {
     this.network = network;
+  }
+
+  public String getDescr() {
+    return descr;
+  }
+
+  public void setDescr(String descr) {
+    this.descr = descr;
   }
 
 }

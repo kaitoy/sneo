@@ -2,7 +2,6 @@ package com.github.kaitoy.sneo.giane.action;
 
 import org.apache.struts2.convention.annotation.InterceptorRef;
 import org.apache.struts2.convention.annotation.ParentPackage;
-
 import com.github.kaitoy.sneo.giane.model.Network;
 import com.github.kaitoy.sneo.giane.model.dao.NetworkDao;
 import com.opensymphony.xwork2.ActionSupport;
@@ -21,21 +20,25 @@ public class NetworkEditGridEntryAction extends ActionSupport {
   private String oper;
   private Integer id;
   private String name;
+  private String descr;
 
   // for DI
   public void setNetworkDao(NetworkDao networkDao) {
     this.networkDao = networkDao;
   }
 
+  @Override
   public String execute() throws Exception {
     if (oper.equalsIgnoreCase("add")) {
       Network model = new Network();
       model.setName(name);
+      model.setDescr(descr);
       networkDao.create(model);
     }
     else if (oper.equalsIgnoreCase("edit")) {
       Network model = networkDao.findByKey(id);
       model.setName(name);
+      model.setDescr(descr);
       networkDao.update(model);
     }
     else if (oper.equalsIgnoreCase("del")) {
@@ -68,6 +71,14 @@ public class NetworkEditGridEntryAction extends ActionSupport {
 
   public void setName(String name) {
     this.name = name;
+  }
+
+  public String getDescr() {
+    return descr;
+  }
+
+  public void setDescr(String descr) {
+    this.descr = descr;
   }
 
 }

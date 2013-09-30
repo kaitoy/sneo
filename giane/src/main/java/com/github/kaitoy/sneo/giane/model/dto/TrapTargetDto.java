@@ -8,7 +8,6 @@
 package com.github.kaitoy.sneo.giane.model.dto;
 
 import java.io.Serializable;
-
 import com.github.kaitoy.sneo.giane.model.TrapTarget;
 
 public class TrapTargetDto implements Serializable {
@@ -22,12 +21,14 @@ public class TrapTargetDto implements Serializable {
   private String name;
   private String address;
   private Integer port;
+  private String descr;
 
   public TrapTargetDto(TrapTarget model) {
     this.id = model.getId();
     this.name = model.getName();
     this.address = model.getAddress();
     this.port = model.getPort();
+    this.setDescr(model.getDescr());
   }
 
   public Integer getId() {
@@ -60,6 +61,14 @@ public class TrapTargetDto implements Serializable {
 
   public void setPort(Integer port) {
     this.port = port;
+  }
+
+  public String getDescr() {
+    return descr;
+  }
+
+  public void setDescr(String descr) {
+    this.descr = descr;
   }
 
   @Override

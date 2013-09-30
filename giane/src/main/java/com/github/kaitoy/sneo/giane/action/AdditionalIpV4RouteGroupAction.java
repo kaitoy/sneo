@@ -8,13 +8,11 @@
 package com.github.kaitoy.sneo.giane.action;
 
 import java.util.Map;
-
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.InterceptorRef;
 import org.apache.struts2.convention.annotation.ParentPackage;
 import org.apache.struts2.convention.annotation.Result;
 import org.apache.struts2.interceptor.validation.SkipValidation;
-
 import com.github.kaitoy.sneo.giane.model.AdditionalIpV4RouteGroup;
 import com.github.kaitoy.sneo.giane.model.dao.AdditionalIpV4RouteGroupDao;
 import com.opensymphony.xwork2.ActionContext;
@@ -28,7 +26,7 @@ public class AdditionalIpV4RouteGroupAction
 extends ActionSupport implements ModelDriven<AdditionalIpV4RouteGroup> {
 
   /**
-   * 
+   *
    */
   private static final long serialVersionUID = -6073538245923614284L;
 
@@ -51,6 +49,7 @@ extends ActionSupport implements ModelDriven<AdditionalIpV4RouteGroup> {
     return uniqueColumn;
   }
 
+  @Override
   @SkipValidation
   public String execute() throws Exception {
     @SuppressWarnings("unchecked")
@@ -131,11 +130,13 @@ extends ActionSupport implements ModelDriven<AdditionalIpV4RouteGroup> {
   public String update() throws Exception {
     AdditionalIpV4RouteGroup update = additionalIpV4RouteGroupDao.findByKey(model.getId());
     update.setName(model.getName());
+    update.setDescr(model.getDescr());
     additionalIpV4RouteGroupDao.update(update);
 
     return "success";
   }
 
+  @Override
   public void validate() {
     String contextName = ActionContext.getContext().getName();
 

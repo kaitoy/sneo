@@ -13,6 +13,10 @@
           <span id="network_create_form_nameError"></span>
         </div>
         <div>
+          <s:textarea name="model.descr" label="%{getText('network.descr.label')}" cols="30" rows="2" required="false" requiredposition="left" resizable="false" theme="xhtml" />
+          <span id="network_create_form_descrError"></span>
+        </div>
+        <div>
           <sj:submit
             targets="trash_box"
             replaceTarget="false"
@@ -44,6 +48,10 @@
         <div>
           <s:textfield id="network_grid_selected_name" name="model.name" label="%{getText('network.name.label')}" required="true" requiredposition="left" theme="xhtml" />
           <span id="network_update_form_nameError"></span>
+        </div>
+        <div>
+          <s:textarea id="network_grid_selected_descr" name="model.descr" label="%{getText('network.descr.label')}" cols="30" rows="2" required="false" requiredposition="left" resizable="false" theme="xhtml" />
+          <span id="network_update_form_descrError"></span>
         </div>
         <div>
           <sj:submit

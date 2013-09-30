@@ -8,13 +8,11 @@
 package com.github.kaitoy.sneo.giane.action;
 
 import java.util.Map;
-
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.InterceptorRef;
 import org.apache.struts2.convention.annotation.ParentPackage;
 import org.apache.struts2.convention.annotation.Result;
 import org.apache.struts2.interceptor.validation.SkipValidation;
-
 import com.github.kaitoy.sneo.giane.model.TrapTargetGroup;
 import com.github.kaitoy.sneo.giane.model.dao.TrapTargetGroupDao;
 import com.opensymphony.xwork2.ActionContext;
@@ -50,6 +48,7 @@ extends ActionSupport implements ModelDriven<TrapTargetGroup> {
     return uniqueColumn;
   }
 
+  @Override
   @SkipValidation
   public String execute() throws Exception {
     @SuppressWarnings("unchecked")
@@ -130,11 +129,13 @@ extends ActionSupport implements ModelDriven<TrapTargetGroup> {
   public String update() throws Exception {
     TrapTargetGroup update = trapTargetGroupDao.findByKey(model.getId());
     update.setName(model.getName());
+    update.setDescr(model.getDescr());
     trapTargetGroupDao.update(update);
 
     return "success";
   }
 
+  @Override
   public void validate() {
     String contextName = ActionContext.getContext().getName();
 

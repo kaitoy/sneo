@@ -34,6 +34,7 @@ public class Network implements Serializable {
 
   private Integer id;
   private String name;
+  private String descr;
   private List<Node> nodes;
   private List<L2Connection> l2Connections;
 
@@ -67,6 +68,21 @@ public class Network implements Serializable {
   )
   public void setName(String name) {
     this.name = name;
+  }
+
+  @Column(name = "DESCR", nullable = true, length = 2000, unique = false)
+  public String getDescr() {
+    return descr;
+  }
+
+  @StringLengthFieldValidator(
+    key = "StringLengthFieldValidator.error.max",
+    trim = true,
+    maxLength = "2000",
+    shortCircuit = true // Stops checking if detects error
+  )
+  public void setDescr(String descr) {
+    this.descr = descr;
   }
 
   @OneToMany(

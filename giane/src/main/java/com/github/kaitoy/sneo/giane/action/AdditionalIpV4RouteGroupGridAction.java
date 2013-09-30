@@ -46,6 +46,12 @@ public class AdditionalIpV4RouteGroupGridAction extends ActionSupport {
           return o2.getName().compareTo(o1.getName());
         }
       };
+  private static final Comparator<AdditionalIpV4RouteGroupDto> descrComparator
+    = new Comparator<AdditionalIpV4RouteGroupDto>() {
+        public int compare(AdditionalIpV4RouteGroupDto o1, AdditionalIpV4RouteGroupDto o2) {
+          return o2.getDescr().compareTo(o1.getDescr());
+        }
+      };
 
   // result List
   private List<AdditionalIpV4RouteGroupDto> gridModel;
@@ -115,7 +121,7 @@ public class AdditionalIpV4RouteGroupGridAction extends ActionSupport {
           cq.where(cb.gt(r.get(searchField).as(Integer.class), searchValue));
         }
       }
-      else if (searchField.equals("name")) {
+      else if (searchField.equals("name") || searchField.equals("descr")) {
         if (searchOper.equals("eq")) {
           cq.where(cb.equal(r.get(searchField), searchString));
         }
@@ -147,6 +153,9 @@ public class AdditionalIpV4RouteGroupGridAction extends ActionSupport {
       }
       else if (sidx.equalsIgnoreCase("name")) {
         Collections.sort(gridModel, nameComparator);
+      }
+      else if (sidx.equalsIgnoreCase("descr")) {
+        Collections.sort(gridModel, descrComparator);
       }
 
       if (sord.equalsIgnoreCase("desc")) {

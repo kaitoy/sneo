@@ -1,10 +1,8 @@
 package com.github.kaitoy.sneo.giane.action;
 
 import java.util.Map;
-
 import org.apache.struts2.convention.annotation.InterceptorRef;
 import org.apache.struts2.convention.annotation.ParentPackage;
-
 import com.github.kaitoy.sneo.giane.model.Node;
 import com.github.kaitoy.sneo.giane.model.dao.NetworkDao;
 import com.github.kaitoy.sneo.giane.model.dao.NodeDao;
@@ -27,6 +25,7 @@ public class NodeEditGridEntryAction extends ActionSupport {
   private Integer id;
   private String name;
   private Integer ttl;
+  private String descr;
 
   // for DI
   public void setNodeDao(NodeDao nodeDao) {
@@ -38,11 +37,13 @@ public class NodeEditGridEntryAction extends ActionSupport {
     this.networkDao = networkDao;
   }
 
+  @Override
   public String execute() throws Exception {
     if (oper.equalsIgnoreCase("add")) {
       Node model = new Node();
       model.setName(name);
       model.setTtl(ttl);
+      model.setDescr(descr);
 
       Map<String, Object> params = ActionContext.getContext().getParameters();
       Integer network_id
@@ -55,6 +56,7 @@ public class NodeEditGridEntryAction extends ActionSupport {
       Node model = nodeDao.findByKey(id);
       model.setName(name);
       model.setTtl(ttl);
+      model.setDescr(descr);
       nodeDao.update(model);
     }
     else if (oper.equalsIgnoreCase("del")) {
@@ -95,6 +97,14 @@ public class NodeEditGridEntryAction extends ActionSupport {
 
   public void setTtl(Integer ttl) {
     this.ttl = ttl;
+  }
+
+  public String getDescr() {
+    return descr;
+  }
+
+  public void setDescr(String descr) {
+    this.descr = descr;
   }
 
 }

@@ -52,6 +52,12 @@ public class SimulationGridAction extends ActionSupport {
           return o2.getNetwork().compareTo(o1.getNetwork());
         }
       };
+  private static final Comparator<SimulationDto> descrComparator
+    = new Comparator<SimulationDto>() {
+        public int compare(SimulationDto o1, SimulationDto o2) {
+          return o2.getDescr().compareTo(o1.getDescr());
+        }
+      };
 
   // result List
   private List<SimulationDto> gridModel;
@@ -121,6 +127,7 @@ public class SimulationGridAction extends ActionSupport {
       else if (
            searchField.equals("name")
         || searchField.equals("network")
+        || searchField.equals("descr")
       ) {
         if (searchOper.equals("eq")) {
           cq.where(cb.equal(r.get(searchField), searchString));
@@ -156,6 +163,9 @@ public class SimulationGridAction extends ActionSupport {
       }
       else if (sidx.equalsIgnoreCase("network")) {
         Collections.sort(gridModel, networkComparator);
+      }
+      else if (sidx.equalsIgnoreCase("descr")) {
+        Collections.sort(gridModel, descrComparator);
       }
 
       if (sord.equalsIgnoreCase("desc")) {
