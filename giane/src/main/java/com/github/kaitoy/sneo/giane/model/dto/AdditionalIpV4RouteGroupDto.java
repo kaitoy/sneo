@@ -24,7 +24,7 @@ public class AdditionalIpV4RouteGroupDto implements Serializable {
   public AdditionalIpV4RouteGroupDto(AdditionalIpV4RouteGroup model) {
     this.id = model.getId();
     this.name = model.getName();
-    this.descr = model.getDescr();
+    this.descr = model.getDescr().replaceAll("\n", " ");
   }
 
   public Integer getId() {

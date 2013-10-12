@@ -26,7 +26,7 @@ public class NodeDto implements Serializable {
     this.id = model.getId();
     this.name = model.getName();
     this.ttl = model.getTtl();
-    this.descr = model.getDescr();
+    this.descr = model.getDescr().replaceAll("\n", " ");
   }
 
   public Integer getId() {

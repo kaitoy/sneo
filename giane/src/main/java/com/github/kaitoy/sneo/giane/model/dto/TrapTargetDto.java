@@ -28,7 +28,7 @@ public class TrapTargetDto implements Serializable {
     this.name = model.getName();
     this.address = model.getAddress();
     this.port = model.getPort();
-    this.setDescr(model.getDescr());
+    this.descr = model.getDescr().replaceAll("\n", " ");
   }
 
   public Integer getId() {

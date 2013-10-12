@@ -24,7 +24,7 @@ public class TrapTargetGroupDto implements Serializable {
   public TrapTargetGroupDto(TrapTargetGroup model) {
     this.id = model.getId();
     this.name = model.getName();
-    this.descr = model.getDescr();
+    this.descr = model.getDescr().replaceAll("\n", " ");
   }
 
   public Integer getId() {

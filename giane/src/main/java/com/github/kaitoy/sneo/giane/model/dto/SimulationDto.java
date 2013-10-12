@@ -26,7 +26,7 @@ public class SimulationDto implements Serializable {
     this.id = model.getId();
     this.name = model.getName();
     this.network = model.getNetwork().getName();
-    this.setDescr(model.getDescr());
+    this.descr = model.getDescr().replaceAll("\n", " ");
   }
 
   public Integer getId() {
