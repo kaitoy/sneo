@@ -30,7 +30,7 @@ public class RealNetworkInterfaceConfigurationDto implements Serializable {
     this.name = conf.getName();
     this.deviceName = conf.getDeviceName();
     this.macAddress = conf.getMacAddress();
-    this.setDescr(conf.getDescr());
+    this.descr = conf.getDescr().replaceAll("\n", " ");
   }
 
   public Integer getId() {
