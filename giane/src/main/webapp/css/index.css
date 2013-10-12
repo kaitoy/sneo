@@ -8,7 +8,7 @@ div#header {
 }
 
 div#main {
-  height: 550px;
+  height: 450px;
   width: 1150px;
   padding: 0px;
   background-color: #FFFAFA;
@@ -19,7 +19,7 @@ div#signIn {
   display: table-cell;
   vertical-align: middle;
   text-align: center;
-  height: 550px;
+  height: 500px;
   width: 1150px;
   padding: 0px;
   margin: 0px;
@@ -30,7 +30,7 @@ img#main_indicator {
   width: 100px;
   height: 100px;
   position: absolute;
-  top: 350px;
+  top: 300px;
   left: 530px;
 }
 

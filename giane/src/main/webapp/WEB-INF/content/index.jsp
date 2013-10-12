@@ -13,6 +13,7 @@
     <link rel="stylesheet" type="text/css" href="css/association.css" />
     <link rel="stylesheet" type="text/css" href="css/odd_even_table.css" />
     <link rel="shortcut icon" type="image/png" href="images/favicon.png" />
+    <script type="text/javascript" src="js/form.js"></script>
     <script type="text/javascript" src="js/validation.js"></script>
     <script type="text/javascript" src="js/grid.js"></script>
     <script type="text/javascript" src="js/error.js"></script>
@@ -29,10 +30,10 @@
         <sj:div id="signIn" href="%{signIn_url}" indicator="main_indicator" />
       </div>
 
-      <img id="main_indicator" src="images/loading_big.gif" alt="Loading..." style="display:none" />
+      <img id="main_indicator" src="images/loading_big.gif" alt="Loading..." style="display: none;" />
 
-      <div id="trash_box" style="display: none"></div>
-      <div id="shared_dialog_box" style="display: none"></div>
+      <div id="trash_box" style="display: none;"></div>
+      <div id="shared_dialog_box" style="display: none;"></div>
 
     <div id="footer">Footer</div>
   </body>

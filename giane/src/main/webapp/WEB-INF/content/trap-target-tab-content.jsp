@@ -5,90 +5,129 @@
 
 <div class="left-column">
   <div>
-    <s:form id="trapTarget_create_form" action="trap-target-create" theme="simple">
+    <s:form id="trapTarget_form" theme="simple" cssClass="giane-form">
       <fieldset>
-        <legend><s:text name="new.trapTarget" /></legend>
+        <legend><s:text name="trapTarget.form" /></legend>
         <div>
-          <s:textfield name="model.name" label="%{getText('trapTarget.name.label')}" required="true" requiredposition="left" theme="xhtml" />
-          <span id="trapTarget_create_form_nameError"></span>
+          <s:hidden id="trapTarget_id" name="model.id" />
         </div>
         <div>
-          <s:textfield name="model.address" label="%{getText('trapTarget.address.label')}" required="true" requiredposition="left" theme="xhtml" />
-          <span id="trapTarget_create_form_addressError"></span>
-        </div>
-        <div>
-          <s:textfield name="model.port" label="%{getText('trapTarget.port.label')}" required="true" requiredposition="left" theme="xhtml" />
-          <span id="trapTarget_create_form_portError"></span>
-        </div>
-        <div>
-          <s:textarea name="model.descr" label="%{getText('trapTarget.descr.label')}" cols="30" rows="2" required="false" requiredposition="left" resizable="false" theme="xhtml" />
-          <span id="trapTarget_create_form_descrError"></span>
-        </div>
-        <div>
-          <sj:submit
-            targets="trash_box"
-            replaceTarget="false"
-            button="true"
-            indicator="trapTarget_create_indicator"
-            validate="true"
-            validateFunction="validation"
-            onBeforeTopics="removeErrors"
-            onSuccessTopics="removeErrors,trapTargetTableUpdated"
-            onErrorTopics="createError"
-            clearForm="true"
-            value="Create"
+          <s:textfield
+            id="trapTarget_name"
+            name="model.name"
+            label="%{getText('trapTarget.name.label')}"
+            required="true"
+            requiredposition="left"
+            theme="xhtml"
           />
-          <img id="trapTarget_create_indicator" src="images/loading_small.gif" alt="Loading..." style="display:none" />
+          <span id="trapTarget_form_nameError"></span>
+        </div>
+        <div>
+          <s:textfield
+            id="trapTarget_address"
+            name="model.address"
+            label="%{getText('trapTarget.address.label')}"
+            required="true"
+            requiredposition="left"
+            theme="xhtml"
+          />
+          <span id="trapTarget_form_addressError"></span>
+        </div>
+        <div>
+          <s:textfield
+            id="trapTarget_port"
+            name="model.port"
+            label="%{getText('trapTarget.port.label')}"
+            required="true"
+            requiredposition="left"
+            theme="xhtml"
+          />
+          <span id="trapTarget_form_portError"></span>
+        </div>
+        <div>
+          <s:textarea
+            id="trapTarget_descr"
+            name="model.descr"
+            label="%{getText('trapTarget.descr.label')}"
+            cols="30"
+            required="false"
+            requiredposition="left"
+            resizable="false"
+            theme="xhtml"
+          />
+          <span id="trapTarget_form_descrError"></span>
+        </div>
+        <div>
+          <table class="submits-table">
+            <tbody>
+              <tr>
+                <td class="left-button-cell">
+                  <sj:submit
+                    value="%{getText('form.createButton.label')}"
+                    button="true"
+                    cssClass="giane-form-button"
+                    onClickTopics="createButtonClicked"
+                  />
+                  <s:url var="trapTarget_create_url" action="trap-target-create" />
+                  <sj:submit
+                    listenTopics="doCreate_trapTarget"
+                    href="%{trapTarget_create_url}"
+                    targets="trash_box"
+                    replaceTarget="false"
+                    indicator="trapTarget_create_indicator"
+                    validate="true"
+                    validateFunction="validation"
+                    onBeforeTopics="removeErrors"
+                    onSuccessTopics="removeErrors,trapTargetTableUpdated"
+                    onErrorTopics="createError"
+                    clearForm="true"
+                    cssStyle="display: none;"
+                  />
+                </td>
+                <td class="left-button-indicator-cell">
+                  <img
+                    id="trapTarget_create_indicator"
+                    src="images/loading_small.gif"
+                    alt="Loading..."
+                    style="display: none;"
+                  />
+                </td>
+                <td class="right-button-cell">
+                  <sj:submit
+                    value="%{getText('form.updateButton.label')}"
+                    button="true"
+                    cssClass="giane-form-button"
+                    onClickTopics="updateButtonClicked"
+                  />
+                  <s:url var="trapTarget_update_url" action="trap-target-update" />
+                  <sj:submit
+                    listenTopics="doUpdate_trapTarget"
+                    href="%{trapTarget_update_url}"
+                    targets="trash_box"
+                    replaceTarget="false"
+                    indicator="trapTarget_update_indicator"
+                    validate="true"
+                    validateFunction="validation"
+                    onBeforeTopics="removeErrors"
+                    onSuccessTopics="removeErrors,trapTargetTableUpdated"
+                    onErrorTopics="updateError"
+                    clearForm="true"
+                    cssStyle="display: none;"
+                  />
+                  <img
+                    id="trapTarget_update_indicator"
+                    src="images/loading_small.gif"
+                    alt="Loading..."
+                    style="display: none;"
+                  />
+                </td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </fieldset>
     </s:form>
   </div>
-
-  <div>
-    <s:form id="trapTarget_update_form" action="trap-target-update" theme="simple">
-      <fieldset>
-        <legend><s:text name="selected.trapTarget" /></legend>
-        <div>
-          <label for="trapTarget_grid_selected_id"><s:text name="trapTarget.id.label" />:</label>
-          <s:hidden id="trapTarget_grid_selected_id" name="model.id" />
-          <span id="trapTarget_grid_selected_id_span" ></span>
-        </div>
-        <div>
-          <s:textfield id="trapTarget_grid_selected_name" name="model.name" label="%{getText('trapTarget.name.label')}" required="true" requiredposition="left" theme="xhtml" />
-          <span id="trapTarget_update_form_nameError"></span>
-        </div>
-        <div>
-          <s:textfield id="trapTarget_grid_selected_address" name="model.address" label="%{getText('trapTarget.address.label')}" required="true" requiredposition="left" theme="xhtml" />
-          <span id="trapTarget_update_form_addressError"></span>
-        </div>
-        <div>
-          <s:textfield id="trapTarget_grid_selected_port" name="model.port" label="%{getText('trapTarget.port.label')}" required="true" requiredposition="left" theme="xhtml" />
-          <span id="trapTarget_update_form_portError"></span>
-        </div>
-        <div>
-          <s:textarea id="trapTarget_grid_selected_descr" name="model.descr" label="%{getText('trapTarget.descr.label')}" cols="30" rows="2" required="false" requiredposition="left" resizable="false" theme="xhtml" />
-          <span id="trapTarget_update_form_descrError"></span>
-        </div>
-        <div>
-          <sj:submit
-            targets="trash_box"
-            replaceTarget="false"
-            button="true"
-            indicator="trapTarget_update_indicator"
-            validate="true"
-            validateFunction="validation"
-            onBeforeTopics="removeErrors"
-            onSuccessTopics="removeErrors,trapTargetTableUpdated"
-            onErrorTopics="updateError"
-            clearForm="true"
-            value="Update"
-          />
-          <img id="trapTarget_update_indicator" src="images/loading_small.gif" alt="Loading..." style="display:none" />
-        </div>
-      </fieldset>
-    </s:form>
-  </div>
-
 </div>
 
 <div class="right-column">

@@ -65,8 +65,8 @@
   <sj:div id="fixedIpV4Route_tab_content" href="%{fixedIpV4Route_tab_content_url}" indicator="fixedIpV4Route_tab_indicator" cssClass="tab-content" />
 </sj:tabbedpanel>
 
-<img id="snmpAgent_tab_indicator" src="images/loading_big.gif" alt="Loading..." style="display:none" class="tab-indicator" />
-<img id="physicalNetworkInterface_tab_indicator" src="images/loading_big.gif" alt="Loading..." style="display:none" class="tab-indicator" />
-<img id="realNetworkInterface_tab_indicator" src="images/loading_big.gif" alt="Loading..." style="display:none" class="tab-indicator" />
-<img id="vlan_tab_indicator" src="images/loading_big.gif" alt="Loading..." style="display:none" class="tab-indicator" />
-<img id="fixedIpV4Route_tab_indicator" src="images/loading_big.gif" alt="Loading..." style="display:none" class="tab-indicator" />
+<img id="snmpAgent_tab_indicator" src="images/loading_big.gif" alt="Loading..." style="display: none;" class="tab-indicator" />
+<img id="physicalNetworkInterface_tab_indicator" src="images/loading_big.gif" alt="Loading..." style="display: none;" class="tab-indicator" />
+<img id="realNetworkInterface_tab_indicator" src="images/loading_big.gif" alt="Loading..." style="display: none;" class="tab-indicator" />
+<img id="vlan_tab_indicator" src="images/loading_big.gif" alt="Loading..." style="display: none;" class="tab-indicator" />
+<img id="fixedIpV4Route_tab_indicator" src="images/loading_big.gif" alt="Loading..." style="display: none;" class="tab-indicator" />

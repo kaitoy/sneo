@@ -64,5 +64,5 @@
   <sj:div id="ipAddress_tab_content" href="%{ipAddress_tab_content_url}" indicator="ipAddress_tab_indicator" cssClass="tab-content" />
 </sj:tabbedpanel>
 
-<img id="associate_vlan_with_vlanMembers_tab_indicator" src="images/loading_big.gif" alt="Loading..." style="display:none" class="tab-indicator" />
-<img id="ipAddress_tab_indicator" src="images/loading_big.gif" alt="Loading..." style="display:none" class="tab-indicator" />
+<img id="associate_vlan_with_vlanMembers_tab_indicator" src="images/loading_big.gif" alt="Loading..." style="display: none;" class="tab-indicator" />
+<img id="ipAddress_tab_indicator" src="images/loading_big.gif" alt="Loading..." style="display: none;" class="tab-indicator" />

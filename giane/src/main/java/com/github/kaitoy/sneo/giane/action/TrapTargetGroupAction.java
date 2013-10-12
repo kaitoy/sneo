@@ -13,6 +13,7 @@ import org.apache.struts2.convention.annotation.InterceptorRef;
 import org.apache.struts2.convention.annotation.ParentPackage;
 import org.apache.struts2.convention.annotation.Result;
 import org.apache.struts2.interceptor.validation.SkipValidation;
+import com.github.kaitoy.sneo.giane.action.message.FormMessage;
 import com.github.kaitoy.sneo.giane.model.TrapTargetGroup;
 import com.github.kaitoy.sneo.giane.model.dao.TrapTargetGroupDao;
 import com.opensymphony.xwork2.ActionContext;
@@ -23,7 +24,7 @@ import com.opensymphony.xwork2.validator.annotations.VisitorFieldValidator;
 @ParentPackage("giane-default")
 @InterceptorRef("gianeDefaultStack")
 public class TrapTargetGroupAction
-extends ActionSupport implements ModelDriven<TrapTargetGroup> {
+extends ActionSupport implements ModelDriven<TrapTargetGroup>, FormMessage {
 
   /**
    *

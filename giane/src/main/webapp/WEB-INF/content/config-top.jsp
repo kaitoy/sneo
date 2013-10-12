@@ -37,12 +37,12 @@
   <sj:div id="simulation_tab_content" href="%{simulation_tab_content_url}" listenTopics="network_gridCompleted" indicator="simulation_tab_indicator" cssClass="tab-content" />
 </sj:tabbedpanel>
 
-<img id="network_tab_indicator" src="images/loading_big.gif" alt="Loading..." style="display:none" class="tab-indicator" />
-<img id="realNetworkInterfaceConfiguration_tab_indicator" src="images/loading_big.gif" alt="Loading..." style="display:none" class="tab-indicator" />
-<img id="additionalIpV4Route_tab_indicator" src="images/loading_big.gif" alt="Loading..." style="display:none" class="tab-indicator" />
-<img id="trapTarget_tab_indicator" src="images/loading_big.gif" alt="Loading..." style="display:none" class="tab-indicator" />
-<img id="trapTargetGroup_tab_indicator" src="images/loading_big.gif" alt="Loading..." style="display:none" class="tab-indicator" />
-<img id="additionalIpV4RouteGroup_tab_indicator" src="images/loading_big.gif" alt="Loading..." style="display:none" class="tab-indicator" />
-<img id="simulation_tab_indicator" src="images/loading_big.gif" alt="Loading..." style="display:none" class="tab-indicator" />
+<img id="network_tab_indicator" src="images/loading_big.gif" alt="Loading..." style="display: none;" class="tab-indicator" />
+<img id="realNetworkInterfaceConfiguration_tab_indicator" src="images/loading_big.gif" alt="Loading..." style="display: none;" class="tab-indicator" />
+<img id="additionalIpV4Route_tab_indicator" src="images/loading_big.gif" alt="Loading..." style="display: none;" class="tab-indicator" />
+<img id="trapTarget_tab_indicator" src="images/loading_big.gif" alt="Loading..." style="display: none;" class="tab-indicator" />
+<img id="trapTargetGroup_tab_indicator" src="images/loading_big.gif" alt="Loading..." style="display: none;" class="tab-indicator" />
+<img id="additionalIpV4RouteGroup_tab_indicator" src="images/loading_big.gif" alt="Loading..." style="display: none;" class="tab-indicator" />
+<img id="simulation_tab_indicator" src="images/loading_big.gif" alt="Loading..." style="display: none;" class="tab-indicator" />
 
 

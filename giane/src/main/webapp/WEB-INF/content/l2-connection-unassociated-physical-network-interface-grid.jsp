@@ -87,5 +87,5 @@
   />
 </sjg:grid>
 
-<div id="l2Connection_unassociated_physicalNetworkInterface_grid_expanded_groups" style="display:none"></div>
+<div id="l2Connection_unassociated_physicalNetworkInterface_grid_expanded_groups" style="display: none;"></div>
 

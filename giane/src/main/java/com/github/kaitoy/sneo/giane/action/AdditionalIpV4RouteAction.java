@@ -13,6 +13,7 @@ import org.apache.struts2.convention.annotation.InterceptorRef;
 import org.apache.struts2.convention.annotation.ParentPackage;
 import org.apache.struts2.convention.annotation.Result;
 import org.apache.struts2.interceptor.validation.SkipValidation;
+import com.github.kaitoy.sneo.giane.action.message.FormMessage;
 import com.github.kaitoy.sneo.giane.model.AdditionalIpV4Route;
 import com.github.kaitoy.sneo.giane.model.dao.AdditionalIpV4RouteDao;
 import com.opensymphony.xwork2.ActionContext;
@@ -23,7 +24,7 @@ import com.opensymphony.xwork2.validator.annotations.VisitorFieldValidator;
 @ParentPackage("giane-default")
 @InterceptorRef("gianeDefaultStack")
 public class AdditionalIpV4RouteAction
-extends ActionSupport implements ModelDriven<AdditionalIpV4Route> {
+extends ActionSupport implements ModelDriven<AdditionalIpV4Route>, FormMessage {
 
   /**
    *

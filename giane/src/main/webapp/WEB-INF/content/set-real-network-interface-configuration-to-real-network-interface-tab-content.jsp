@@ -52,7 +52,7 @@
             clearForm="true"
             value="Set"
           />
-          <img id="set_realNetworkInterfaceConfiguration_to_realNetworkInterface_indicator" src="images/loading_small.gif" alt="Loading..." style="display:none" />
+          <img id="set_realNetworkInterfaceConfiguration_to_realNetworkInterface_indicator" src="images/loading_small.gif" alt="Loading..." style="display: none;" />
         </div>
       </fieldset>
     </s:form>

@@ -52,7 +52,7 @@
             clearForm="true"
             value="Set"
           />
-          <img id="set_additionalIpV4RouteGroup_to_node_indicator" src="images/loading_small.gif" alt="Loading..." style="display:none" />
+          <img id="set_additionalIpV4RouteGroup_to_node_indicator" src="images/loading_small.gif" alt="Loading..." style="display: none;" />
         </div>
       </fieldset>
     </s:form>

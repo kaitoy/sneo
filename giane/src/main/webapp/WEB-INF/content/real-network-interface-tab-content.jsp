@@ -3,77 +3,90 @@
 <%@ taglib prefix="sj" uri="/struts-jquery-tags" %>
 <%@ taglib prefix="sjg" uri="/struts-jquery-grid-tags" %>
 
-<s:url var="realNetworkInterface_create_url" action="real-network-interface-create">
-  <s:param name="node_id" value="%{#parameters.node_id}" />
-</s:url>
-<s:url var="realNetworkInterface_update_url" action="real-network-interface-update">
-  <s:param name="node_id" value="%{#parameters.node_id}" />
-</s:url>
-
 <div class="left-column">
   <div>
-    <s:form id="realNetworkInterface_create_form" theme="simple">
+    <s:form id="realNetworkInterface_form" theme="simple" cssClass="giane-form">
       <fieldset>
-        <legend><s:text name="new.realNetworkInterface" /></legend>
+        <legend><s:text name="realNetworkInterface.form" /></legend>
         <div>
-          <s:textfield name="model.name"  label="%{getText('realNetworkInterface.name.label')}" required="true" requiredposition="left" theme="xhtml" />
-          <span id="realNetworkInterface_create_form_nameError"></span>
+          <s:hidden id="realNetworkInterface_id" name="model.id" />
         </div>
         <div>
-          <sj:submit
-            href="%{realNetworkInterface_create_url}"
-            targets="trash_box"
-            replaceTarget="false"
-            button="true"
-            indicator="realNetworkInterface_create_indicator"
-            validate="true"
-            validateFunction="validation"
-            onBeforeTopics="removeErrors"
-            onSuccessTopics="removeErrors,realNetworkInterfaceTableUpdated"
-            onErrorTopics="createError"
-            clearForm="true"
-            value="Create"
+          <s:textfield
+            id="realNetworkInterface_name"
+            name="model.name"
+            label="%{getText('realNetworkInterface.name.label')}"
+            required="true"
+            requiredposition="left"
+            theme="xhtml"
           />
-          <img id="realNetworkInterface_create_indicator" src="images/loading_small.gif" alt="Loading..." style="display: none" />
+          <span id="realNetworkInterface_form_nameError"></span>
+        </div>
+        <div>
+          <table class="submits-table">
+            <tbody>
+              <tr>
+                <td class="left-button-cell">
+                  <sj:submit
+                    value="%{getText('form.createButton.label')}"
+                    button="true"
+                    cssClass="giane-form-button"
+                    onClickTopics="createButtonClicked"
+                  />
+                  <s:url var="realNetworkInterface_create_url" action="real-network-interface-create">
+                    <s:param name="node_id" value="%{#parameters.node_id}" />
+                  </s:url>
+                  <sj:submit
+                    listenTopics="doCreate_realNetworkInterface"
+                    href="%{realNetworkInterface_create_url}"
+                    targets="trash_box"
+                    replaceTarget="false"
+                    indicator="realNetworkInterface_create_indicator"
+                    validate="true"
+                    validateFunction="validation"
+                    onBeforeTopics="removeErrors"
+                    onSuccessTopics="removeErrors,realNetworkInterfaceTableUpdated"
+                    onErrorTopics="createError"
+                    clearForm="true"
+                    cssStyle="display: none;"
+                  />
+                </td>
+                <td class="left-button-indicator-cell">
+                  <img id="realNetworkInterface_create_indicator" src="images/loading_small.gif" alt="Loading..." style="display: none;" />
+                </td>
+                <td class="right-button-cell">
+                  <sj:submit
+                    value="%{getText('form.updateButton.label')}"
+                    button="true"
+                    cssClass="giane-form-button"
+                    onClickTopics="updateButtonClicked"
+                  />
+                  <s:url var="realNetworkInterface_update_url" action="real-network-interface-update">
+                    <s:param name="node_id" value="%{#parameters.node_id}" />
+                  </s:url>
+                    <sj:submit
+                      listenTopics="doUpdate_realNetworkInterface"
+                      href="%{realNetworkInterface_update_url}"
+                      targets="trash_box"
+                      replaceTarget="false"
+                      indicator="realNetworkInterface_update_indicator"
+                      validate="true"
+                      validateFunction="validation"
+                      onBeforeTopics="removeErrors"
+                      onSuccessTopics="removeErrors,realNetworkInterfaceTableUpdated"
+                      onErrorTopics="updateError"
+                      clearForm="true"
+                      cssStyle="display: none;"
+                    />
+                    <img id="realNetworkInterface_update_indicator" src="images/loading_small.gif" alt="Loading..." style="display: none;" />
+                </td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </fieldset>
     </s:form>
   </div>
-
-  <div>
-    <s:form id="realNetworkInterface_update_form" theme="simple">
-      <fieldset>
-        <legend><s:text name="selected.realNetworkInterface" /></legend>
-        <div>
-          <label for="realNetworkInterface_grid_selected_id"><s:text name="realNetworkInterface.id.label" />:</label>
-          <span id="realNetworkInterface_grid_selected_id_span" ></span>
-          <s:hidden id="realNetworkInterface_grid_selected_id" name="model.id" />
-        </div>
-        <div>
-          <s:textfield id="realNetworkInterface_grid_selected_name" name="model.name" label="%{getText('realNetworkInterface.name.label')}" required="true" requiredposition="left" theme="xhtml" />
-          <span id="realNetworkInterface_update_form_nameError"></span>
-        </div>
-        <div>
-          <sj:submit
-            href="%{realNetworkInterface_update_url}"
-            targets="trash_box"
-            replaceTarget="false"
-            button="true"
-            indicator="realNetworkInterface_update_indicator"
-            validate="true"
-            validateFunction="validation"
-            onBeforeTopics="removeErrors"
-            onSuccessTopics="removeErrors,realNetworkInterfaceTableUpdated"
-            onErrorTopics="updateError"
-            clearForm="true"
-            value="Update"
-          />
-          <img id="realNetworkInterface_update_indicator" src="images/loading_small.gif" alt="Loading..." style="display: none" />
-        </div>
-      </fieldset>
-    </s:form>
-  </div>
-
 </div>
 
 <div class="right-column">

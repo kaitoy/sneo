@@ -3,85 +3,105 @@
 <%@ taglib prefix="sj" uri="/struts-jquery-tags" %>
 <%@ taglib prefix="sjg" uri="/struts-jquery-grid-tags" %>
 
-<s:url var="vlan_create_url" action="vlan-create">
-  <s:param name="node_id" value="%{#parameters.node_id}" />
-</s:url>
-<s:url var="vlan_update_url" action="vlan-update">
-  <s:param name="node_id" value="%{#parameters.node_id}" />
-</s:url>
-
 <div class="left-column">
   <div>
-    <s:form id="vlan_create_form" theme="simple">
+    <s:form id="vlan_form" theme="simple" cssClass="giane-form">
       <fieldset>
-        <legend><s:text name="new.vlan" /></legend>
+        <legend><s:text name="vlan.form" /></legend>
         <div>
-          <s:textfield name="model.name" label="%{getText('vlan.name.label')}" required="true" requiredposition="left" theme="xhtml" />
-          <span id="vlan_create_form_nameError"></span>
+          <s:hidden id="vlan_id" name="model.id" />
         </div>
         <div>
-          <s:textfield name="model.vid" label="%{getText('vlan.vid.label')}" required="true" requiredposition="left" theme="xhtml" />
-          <span id="vlan_create_form_vidError"></span>
-        </div>
-        <div>
-          <sj:submit
-            href="%{vlan_create_url}"
-            targets="trash_box"
-            replaceTarget="false"
-            button="true"
-            indicator="vlan_create_indicator"
-            validate="true"
-            validateFunction="validation"
-            onBeforeTopics="removeErrors"
-            onSuccessTopics="removeErrors,vlanTableUpdated"
-            onErrorTopics="createError"
-            clearForm="true"
-            value="Create"
+          <s:textfield
+            id="vlan_name"
+            name="model.name"
+            label="%{getText('vlan.name.label')}"
+            required="true"
+            requiredposition="left"
+            theme="xhtml"
           />
-          <img id="vlan_create_indicator" src="images/loading_small.gif" alt="Loading..." style="display:none" />
+          <span id="vlan_form_nameError"></span>
+        </div>
+        <div>
+          <s:textfield
+            id="vlan_vid"
+            name="model.vid"
+            label="%{getText('vlan.vid.label')}"
+            required="true" requiredposition="left"
+            theme="xhtml"
+          />
+          <span id="vlan_form_vidError"></span>
+        </div>
+        <div>
+          <table class="submits-table">
+            <tbody>
+              <tr>
+                <td class="left-button-cell">
+                  <sj:submit
+                    value="%{getText('form.createButton.label')}"
+                    button="true"
+                    cssClass="giane-form-button"
+                    onClickTopics="createButtonClicked"
+                  />
+                  <s:url var="vlan_create_url" action="vlan-create">
+                    <s:param name="node_id" value="%{#parameters.node_id}" />
+                  </s:url>
+                  <sj:submit
+                    listenTopics="doCreate_vlan"
+                    href="%{vlan_create_url}"
+                    targets="trash_box"
+                    replaceTarget="false"
+                    indicator="vlan_create_indicator"
+                    validate="true"
+                    validateFunction="validation"
+                    onBeforeTopics="removeErrors"
+                    onSuccessTopics="removeErrors,vlanTableUpdated"
+                    onErrorTopics="createError"
+                    clearForm="true"
+                    cssStyle="display: none;"
+                  />
+                </td>
+                <td class="left-button-indicator-cell">
+                  <img
+                    id="vlan_create_indicator"
+                    src="images/loading_small.gif"
+                    alt="Loading..."
+                    style="display: none;"
+                  />
+                </td>
+                <td class="right-button-cell">
+                  <sj:submit
+                    value="%{getText('form.updateButton.label')}"
+                    button="true"
+                    cssClass="giane-form-button"
+                    onClickTopics="updateButtonClicked"
+                  />
+                  <s:url var="vlan_update_url" action="vlan-update">
+                    <s:param name="node_id" value="%{#parameters.node_id}" />
+                  </s:url>
+                <sj:submit
+                  listenTopics="doUpdate_vlan"
+                  href="%{vlan_update_url}"
+                  targets="trash_box"
+                  replaceTarget="false"
+                  indicator="vlan_update_indicator"
+                  validate="true"
+                  validateFunction="validation"
+                  onBeforeTopics="removeErrors"
+                  onSuccessTopics="removeErrors,vlanTableUpdated"
+                  onErrorTopics="updateError"
+                  clearForm="true"
+                  cssStyle="display: none;"
+                />
+                <img id="vlan_update_indicator" src="images/loading_small.gif" alt="Loading..." style="display: none;" />
+                </td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </fieldset>
     </s:form>
   </div>
-
-  <div>
-    <s:form id="vlan_update_form" theme="simple">
-      <fieldset>
-        <legend><s:text name="selected.vlan" /></legend>
-        <div>
-          <label for="vlan_grid_selected_id"><s:text name="vlan.id.label" />:</label>
-          <s:hidden id="vlan_grid_selected_id" name="model.id" />
-          <span id="vlan_grid_selected_id_span" ></span>
-        </div>
-        <div>
-          <s:textfield id="vlan_grid_selected_name" name="model.name" label="%{getText('vlan.name.label')}" required="true" requiredposition="left" theme="xhtml" />
-          <span id="vlan_update_form_nameError"></span>
-        </div>
-        <div>
-          <s:textfield id="vlan_grid_selected_vid" name="model.vid" label="%{getText('vlan.vid.label')}" required="true" requiredposition="left" theme="xhtml" />
-          <span id="vlan_update_form_vidError"></span>
-        </div>
-        <div>
-          <sj:submit
-            href="%{vlan_update_url}"
-            targets="trash_box"
-            replaceTarget="false"
-            button="true"
-            indicator="vlan_update_indicator"
-            validate="true"
-            validateFunction="validation"
-            onBeforeTopics="removeErrors"
-            onSuccessTopics="removeErrors,vlanTableUpdated"
-            onErrorTopics="updateError"
-            clearForm="true"
-            value="Update"
-          />
-          <img id="vlan_update_indicator" src="images/loading_small.gif" alt="Loading..." style="display:none" />
-        </div>
-      </fieldset>
-    </s:form>
-  </div>
-
 </div>
 
 <div class="right-column">
@@ -93,10 +113,10 @@
 <s:url var="vlan_url" action="vlan" />
 <sj:submit
   href="%{vlan_url}"
-  formIds="vlan_update_form"
+  formIds="vlan_form"
   targets="main"
   replaceTarget="false"
   indicator="main_indicator"
   listenTopics="vlan_rowDblClicked"
-  style="display:none"
+  style="display: none;"
 />

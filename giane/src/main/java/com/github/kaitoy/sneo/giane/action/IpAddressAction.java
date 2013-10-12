@@ -1,6 +1,6 @@
 /*_##########################################################################
   _##
-  _##  Copyright (C) 2012 Kaito Yamada
+  _##  Copyright (C) 2012-2013 Kaito Yamada
   _##
   _##########################################################################
 */
@@ -8,13 +8,12 @@
 package com.github.kaitoy.sneo.giane.action;
 
 import java.util.Map;
-
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.InterceptorRef;
 import org.apache.struts2.convention.annotation.ParentPackage;
 import org.apache.struts2.convention.annotation.Result;
 import org.apache.struts2.interceptor.validation.SkipValidation;
-
+import com.github.kaitoy.sneo.giane.action.message.FormMessage;
 import com.github.kaitoy.sneo.giane.model.IpAddress;
 import com.github.kaitoy.sneo.giane.model.dao.IpAddressDao;
 import com.github.kaitoy.sneo.giane.model.dao.IpAddressRelationDao;
@@ -26,7 +25,7 @@ import com.opensymphony.xwork2.validator.annotations.VisitorFieldValidator;
 @ParentPackage("giane-default")
 @InterceptorRef("gianeDefaultStack")
 public class IpAddressAction
-extends ActionSupport implements ModelDriven<IpAddress> {
+extends ActionSupport implements ModelDriven<IpAddress>, FormMessage {
 
   /**
    *
@@ -98,6 +97,7 @@ extends ActionSupport implements ModelDriven<IpAddress> {
     return "success";
   }
 
+  @Override
   public void validate() {
     if (ActionContext.getContext().getName().equals("ip-address-update")) {
       if (model.getId() == null) {

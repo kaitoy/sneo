@@ -5,74 +5,97 @@
 
 <div class="left-column">
   <div>
-    <s:form id="network_create_form" action="network-create" theme="simple">
+    <s:form id="network_form" theme="simple" cssClass="giane-form">
       <fieldset>
-        <legend><s:text name="new.network" /></legend>
+        <legend><s:text name="network.form" /></legend>
         <div>
-          <s:textfield name="model.name" label="%{getText('network.name.label')}" required="true" requiredposition="left" theme="xhtml" />
-          <span id="network_create_form_nameError"></span>
+          <s:hidden id="network_id" name="model.id" />
         </div>
         <div>
-          <s:textarea name="model.descr" label="%{getText('network.descr.label')}" cols="30" rows="2" required="false" requiredposition="left" resizable="false" theme="xhtml" />
-          <span id="network_create_form_descrError"></span>
-        </div>
-        <div>
-          <sj:submit
-            targets="trash_box"
-            replaceTarget="false"
-            button="true"
-            indicator="network_create_indicator"
-            validate="true"
-            validateFunction="validation"
-            onBeforeTopics="removeErrors"
-            onSuccessTopics="removeErrors,networkTableUpdated"
-            onErrorTopics="createError"
-            clearForm="true"
-            value="Create"
+          <s:textfield
+            id="network_name"
+            name="model.name"
+            label="%{getText('network.name.label')}"
+            required="true"
+            requiredposition="left"
+            theme="xhtml"
           />
-          <img id="network_create_indicator" src="images/loading_small.gif" alt="Loading..." style="display:none" />
+          <span id="network_form_nameError"></span>
+        </div>
+        <div>
+          <s:textarea
+            id="network_descr"
+            name="model.descr"
+            label="%{getText('network.descr.label')}"
+            cols="30"
+            required="false"
+            requiredposition="left"
+            resizable="false"
+            theme="xhtml"
+          />
+          <span id="network_form_descrError"></span>
+        </div>
+        <div>
+          <table class="submits-table">
+            <tbody>
+              <tr>
+                <td class="left-button-cell">
+                  <sj:submit
+                    value="%{getText('form.createButton.label')}"
+                    button="true"
+                    cssClass="giane-form-button"
+                    onClickTopics="createButtonClicked"
+                  />
+                  <s:url var="network_create_url" action="network-create" />
+                  <sj:submit
+                    listenTopics="doCreate_network"
+                    href="%{network_create_url}"
+                    targets="trash_box"
+                    replaceTarget="false"
+                    indicator="network_create_indicator"
+                    validate="true"
+                    validateFunction="validation"
+                    onBeforeTopics="removeErrors"
+                    onSuccessTopics="removeErrors,networkTableUpdated"
+                    onErrorTopics="createError"
+                    clearForm="true"
+                    cssStyle="display: none;"
+                  />
+                </td>
+                <td class="left-button-indicator-cell">
+                  <img id="network_create_indicator" src="images/loading_small.gif" alt="Loading..." style="display: none;" />
+                </td>
+                <td class="right-button-cell">
+                  <sj:submit
+                    value="%{getText('form.updateButton.label')}"
+                    button="true"
+                    cssClass="giane-form-button"
+                    onClickTopics="updateButtonClicked"
+                  />
+                  <s:url var="network_update_url" action="network-update" />
+                  <sj:submit
+                    listenTopics="doUpdate_network"
+                    href="%{network_update_url}"
+                    targets="trash_box"
+                    replaceTarget="false"
+                    indicator="network_update_indicator"
+                    validate="true"
+                    validateFunction="validation"
+                    onBeforeTopics="removeErrors"
+                    onSuccessTopics="removeErrors,networkTableUpdated"
+                    onErrorTopics="updateError"
+                    clearForm="true"
+                    cssStyle="display: none;"
+                  />
+                  <img id="network_update_indicator" src="images/loading_small.gif" alt="Loading..." style="display: none;" />
+                </td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </fieldset>
     </s:form>
   </div>
-
-  <div>
-    <s:form id="network_update_form" action="network-update" theme="simple">
-      <fieldset>
-        <legend><s:text name="selected.network" /></legend>
-        <div>
-          <label for="network_grid_selected_id"><s:text name="network.id.label" />:</label>
-          <s:hidden id="network_grid_selected_id" name="model.id" />
-          <span id="network_grid_selected_id_span" ></span>
-        </div>
-        <div>
-          <s:textfield id="network_grid_selected_name" name="model.name" label="%{getText('network.name.label')}" required="true" requiredposition="left" theme="xhtml" />
-          <span id="network_update_form_nameError"></span>
-        </div>
-        <div>
-          <s:textarea id="network_grid_selected_descr" name="model.descr" label="%{getText('network.descr.label')}" cols="30" rows="2" required="false" requiredposition="left" resizable="false" theme="xhtml" />
-          <span id="network_update_form_descrError"></span>
-        </div>
-        <div>
-          <sj:submit
-            targets="trash_box"
-            replaceTarget="false"
-            button="true"
-            indicator="network_update_indicator"
-            validate="true"
-            validateFunction="validation"
-            onBeforeTopics="removeErrors"
-            onSuccessTopics="removeErrors,networkTableUpdated"
-            onErrorTopics="updateError"
-            clearForm="true"
-            value="Update"
-          />
-          <img id="network_update_indicator" src="images/loading_small.gif" alt="Loading..." style="display:none" />
-        </div>
-      </fieldset>
-    </s:form>
-  </div>
-
 </div>
 
 <div class="right-column">
@@ -84,12 +107,10 @@
 <s:url var="network_url" action="network" />
 <sj:submit
   href="%{network_url}"
-  formIds="network_update_form"
+  formIds="network_form"
   targets="main"
   replaceTarget="false"
   indicator="main_indicator"
   listenTopics="network_rowDblClicked"
-  style="display: none"
+  style="display: none;"
 />
-
-<div id="network_grid_box"></div>

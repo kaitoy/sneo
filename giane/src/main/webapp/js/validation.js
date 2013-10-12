@@ -1,6 +1,6 @@
 $(document).ready( function() {
-  $.subscribe('removeErrors', function(event, data) {
-    $('.errorLabel').html('').removeClass('errorLabel');
+  $.subscribe("removeErrors", function(event, data) {
+    $(".errorLabel").html("").removeClass("errorLabel");
   });
 });
 
@@ -14,10 +14,10 @@ function validation(form, errors) {
 
   if (errors.fieldErrors) {
     $.each(errors.fieldErrors, function(index, value) {
-      var elem = $('#' + form[0].id + '_' + index + 'Error');
+      var elem = $("#" + form[0].id + "_" + index + "Error");
       if(elem) {
         elem.html(value[0]);
-        elem.addClass('errorLabel');
+        elem.addClass("errorLabel");
       }
     });
   }

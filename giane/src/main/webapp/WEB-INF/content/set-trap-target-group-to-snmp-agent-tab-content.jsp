@@ -56,7 +56,7 @@
             clearForm="true"
             value="Set"
           />
-          <img id="set_trapTargetGroup_to_snmpAgent_indicator" src="images/loading_small.gif" alt="Loading..." style="display:none" />
+          <img id="set_trapTargetGroup_to_snmpAgent_indicator" src="images/loading_small.gif" alt="Loading..." style="display: none;" />
         </div>
       </fieldset>
     </s:form>

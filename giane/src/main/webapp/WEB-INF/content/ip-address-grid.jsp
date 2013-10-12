@@ -31,7 +31,7 @@
   viewrecords="true"
   viewsortcols="[true, 'vertical', true]"
   gridModel="gridModel"
-  rowNum="15"
+  rowNum="12"
   rownumbers="true"
   width="650"
   shrinkToFit="true"

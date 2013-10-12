@@ -32,6 +32,6 @@
   <sj:div id="l2Connection_tab_content" href="%{l2Connection_tab_content_url}" indicator="l2Connection_tab_indicator" cssClass="tab-content" />
 </sj:tabbedpanel>
 
-<img id="node_tab_indicator" src="images/loading_big.gif" alt="Loading..." style="display:none" class="tab-indicator" />
-<img id="l2Connection_tab_indicator" src="images/loading_big.gif" alt="Loading..." style="display:none" class="tab-indicator" />
+<img id="node_tab_indicator" src="images/loading_big.gif" alt="Loading..." style="display: none;" class="tab-indicator" />
+<img id="l2Connection_tab_indicator" src="images/loading_big.gif" alt="Loading..." style="display: none;" class="tab-indicator" />
 

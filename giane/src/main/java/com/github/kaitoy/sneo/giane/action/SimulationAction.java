@@ -1,6 +1,6 @@
 /*_##########################################################################
   _##
-  _##  Copyright (C) 2012 Kaito Yamada
+  _##  Copyright (C) 2012-2013 Kaito Yamada
   _##
   _##########################################################################
 */
@@ -14,6 +14,7 @@ import org.apache.struts2.convention.annotation.InterceptorRef;
 import org.apache.struts2.convention.annotation.ParentPackage;
 import org.apache.struts2.convention.annotation.Result;
 import org.apache.struts2.interceptor.validation.SkipValidation;
+import com.github.kaitoy.sneo.giane.action.message.FormMessage;
 import com.github.kaitoy.sneo.giane.model.Network;
 import com.github.kaitoy.sneo.giane.model.Simulation;
 import com.github.kaitoy.sneo.giane.model.dao.NetworkDao;
@@ -26,7 +27,7 @@ import com.opensymphony.xwork2.validator.annotations.VisitorFieldValidator;
 @ParentPackage("giane-default")
 @InterceptorRef("gianeDefaultStack")
 public class SimulationAction
-extends ActionSupport implements ModelDriven<Simulation> {
+extends ActionSupport implements ModelDriven<Simulation>, FormMessage {
 
   /**
    *

@@ -8,13 +8,12 @@
 package com.github.kaitoy.sneo.giane.action;
 
 import java.util.Map;
-
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.InterceptorRef;
 import org.apache.struts2.convention.annotation.ParentPackage;
 import org.apache.struts2.convention.annotation.Result;
 import org.apache.struts2.interceptor.validation.SkipValidation;
-
+import com.github.kaitoy.sneo.giane.action.message.FormMessage;
 import com.github.kaitoy.sneo.giane.model.FixedIpV4Route;
 import com.github.kaitoy.sneo.giane.model.dao.FixedIpV4RouteDao;
 import com.github.kaitoy.sneo.giane.model.dao.NodeDao;
@@ -26,7 +25,7 @@ import com.opensymphony.xwork2.validator.annotations.VisitorFieldValidator;
 @ParentPackage("giane-default")
 @InterceptorRef("gianeDefaultStack")
 public class FixedIpV4RouteAction
-extends ActionSupport implements ModelDriven<FixedIpV4Route> {
+extends ActionSupport implements ModelDriven<FixedIpV4Route>, FormMessage {
 
   /**
    *
@@ -52,6 +51,7 @@ extends ActionSupport implements ModelDriven<FixedIpV4Route> {
     this.nodeDao = nodeDao;
   }
 
+  @Override
   @SkipValidation
   public String execute() throws Exception {
     @SuppressWarnings("unchecked")
@@ -110,6 +110,7 @@ extends ActionSupport implements ModelDriven<FixedIpV4Route> {
     return "success";
   }
 
+  @Override
   public void validate() {
     if (ActionContext.getContext().getName().equals("fixed-ip-v4-route-update")) {
       if (model.getId() == null) {

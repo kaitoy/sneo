@@ -20,7 +20,7 @@
         id="associate_l2Connection_with_physicalNetworkInterfaces_left_column_indicator"
         src="images/loading_middle.gif"
         alt="Loading..."
-        style="display:none"
+        style="display: none;"
         class="association-grid-indicator"
       />
     </sj:div>
@@ -61,7 +61,7 @@
           value="%{getText('save.associated.grid.button.value')}"
         />
         <br />
-        <img id="associate_l2Connection_with_physicalNetworkInterfaces_indicator" src="images/loading_small.gif" alt="Loading..." style="display:none" />
+        <img id="associate_l2Connection_with_physicalNetworkInterfaces_indicator" src="images/loading_small.gif" alt="Loading..." style="display: none;" />
       </s:form>
     </div>
   </div>
@@ -81,7 +81,7 @@
       id="associate_l2Connection_with_physicalNetworkInterfaces_right_column_indicator"
       src="images/loading_middle.gif"
       alt="Loading..."
-      style="display:none"
+      style="display: none;"
       class="association-grid-indicator"
     />
   </sj:div>

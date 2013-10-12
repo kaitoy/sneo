@@ -5,74 +5,117 @@
 
 <div class="left-column">
   <div>
-    <s:form id="additionalIpV4RouteGroup_create_form" action="additional-ip-v4-route-group-create" theme="simple">
+    <s:form
+      id="additionalIpV4RouteGroup_form"
+      theme="simple"
+      cssClass="giane-form"
+    >
       <fieldset>
-        <legend><s:text name="new.additionalIpV4RouteGroup" /></legend>
+        <legend><s:text name="additionalIpV4RouteGroup.form" /></legend>
         <div>
-          <s:textfield name="model.name" label="%{getText('additionalIpV4RouteGroup.name.label')}" required="true" requiredposition="left" theme="xhtml" />
-          <span id="additionalIpV4RouteGroup_create_form_nameError"></span>
+          <s:hidden id="additionalIpV4RouteGroup_id" name="model.id" />
         </div>
         <div>
-          <s:textarea name="model.descr" label="%{getText('additionalIpV4RouteGroup.descr.label')}" cols="30" rows="2" required="false" requiredposition="left" resizable="false" theme="xhtml" />
-          <span id="additionalIpV4RouteGroup_create_form_descrError"></span>
-        </div>
-        <div>
-          <sj:submit
-            targets="trash_box"
-            replaceTarget="false"
-            button="true"
-            indicator="additionalIpV4RouteGroup_create_indicator"
-            validate="true"
-            validateFunction="validation"
-            onBeforeTopics="removeErrors"
-            onSuccessTopics="removeErrors,additionalIpV4RouteGroupTableUpdated"
-            onErrorTopics="createError"
-            clearForm="true"
-            value="Create"
+          <s:textfield
+            id="additionalIpV4RouteGroup_name"
+            name="model.name"
+            label="%{getText('additionalIpV4RouteGroup.name.label')}"
+            required="true"
+            requiredposition="left"
+            theme="xhtml"
           />
-          <img id="additionalIpV4RouteGroup_create_indicator" src="images/loading_small.gif" alt="Loading..." style="display:none" />
+          <span id="additionalIpV4RouteGroup_form_nameError"></span>
+        </div>
+        <div>
+          <s:textarea
+            id="additionalIpV4RouteGroup_descr"
+            name="model.descr"
+            label="%{getText('additionalIpV4RouteGroup.descr.label')}"
+            cols="30"
+            required="false"
+            requiredposition="left"
+            resizable="false"
+            theme="xhtml"
+          />
+          <span id="additionalIpV4RouteGroup_form_descrError"></span>
+        </div>
+        <div>
+          <table class="submits-table">
+            <tbody>
+              <tr>
+                <td class="left-button-cell">
+                  <sj:submit
+                    value="%{getText('form.createButton.label')}"
+                    button="true"
+                    cssClass="giane-form-button"
+                    onClickTopics="createButtonClicked"
+                  />
+                  <s:url
+                    var="additionalIpV4RouteGroup_create_url"
+                    action="additional-ip-v4-route-group-create"
+                  />
+                  <sj:submit
+                    listenTopics="doCreate_additionalIpV4RouteGroup"
+                    href="%{additionalIpV4RouteGroup_create_url}"
+                    targets="trash_box"
+                    replaceTarget="false"
+                    indicator="additionalIpV4RouteGroup_create_indicator"
+                    validate="true"
+                    validateFunction="validation"
+                    onBeforeTopics="removeErrors"
+                    onSuccessTopics="removeErrors,additionalIpV4RouteGroupTableUpdated"
+                    onErrorTopics="createError"
+                    clearForm="true"
+                    cssStyle="display: none;"
+                  />
+                </td>
+                <td class="left-button-indicator-cell">
+                  <img
+                    id="additionalIpV4RouteGroup_create_indicator"
+                    src="images/loading_small.gif"
+                    alt="Loading..."
+                    style="display: none;"
+                  />
+                </td>
+                <td class="right-button-cell">
+                  <sj:submit
+                    value="%{getText('form.updateButton.label')}"
+                    button="true"
+                    cssClass="giane-form-button"
+                    onClickTopics="updateButtonClicked"
+                  />
+                  <s:url
+                    var="additionalIpV4RouteGroup_update_url"
+                    action="additional-ip-v4-route-group-update"
+                  />
+                  <sj:submit
+                    listenTopics="doUpdate_additionalIpV4RouteGroup"
+                    href="%{additionalIpV4RouteGroup_update_url}"
+                    targets="trash_box"
+                    replaceTarget="false"
+                    indicator="additionalIpV4RouteGroup_update_indicator"
+                    validate="true"
+                    validateFunction="validation"
+                    onBeforeTopics="removeErrors"
+                    onSuccessTopics="removeErrors,additionalIpV4RouteGroupTableUpdated"
+                    onErrorTopics="updateError"
+                    clearForm="true"
+                    cssStyle="display: none;"
+                  />
+                  <img
+                    id="additionalIpV4RouteGroup_update_indicator"
+                    src="images/loading_small.gif"
+                    alt="Loading..."
+                    style="display: none;"
+                  />
+                </td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </fieldset>
     </s:form>
   </div>
-
-  <div>
-    <s:form id="additionalIpV4RouteGroup_update_form" action="additional-ip-v4-route-group-update" theme="simple">
-      <fieldset>
-        <legend><s:text name="selected.additionalIpV4RouteGroup" /></legend>
-        <div>
-          <label for="additionalIpV4RouteGroup_grid_selected_id"><s:text name="additionalIpV4RouteGroup.id.label" />:</label>
-          <s:hidden id="additionalIpV4RouteGroup_grid_selected_id" name="model.id" />
-          <span id="additionalIpV4RouteGroup_grid_selected_id_span" ></span>
-        </div>
-        <div>
-          <s:textfield id="additionalIpV4RouteGroup_grid_selected_name" name="model.name" label="%{getText('additionalIpV4RouteGroup.name.label')}" required="true" requiredposition="left" theme="xhtml" />
-          <span id="additionalIpV4RouteGroup_update_form_nameError"></span>
-        </div>
-        <div>
-          <s:textarea id="additionalIpV4RouteGroup_grid_selected_descr" name="model.descr" label="%{getText('additionalIpV4RouteGroup.descr.label')}" cols="30" rows="2" required="false" requiredposition="left" resizable="false" theme="xhtml" />
-          <span id="additionalIpV4RouteGroup_update_form_descrError"></span>
-        </div>
-        <div>
-          <sj:submit
-            targets="trash_box"
-            replaceTarget="false"
-            button="true"
-            indicator="additionalIpV4RouteGroup_update_indicator"
-            validate="true"
-            validateFunction="validation"
-            onBeforeTopics="removeErrors"
-            onSuccessTopics="removeErrors,additionalIpV4RouteGroupTableUpdated"
-            onErrorTopics="updateError"
-            clearForm="true"
-            value="Update"
-          />
-          <img id="additionalIpV4RouteGroup_update_indicator" src="images/loading_small.gif" alt="Loading..." style="display:none" />
-        </div>
-      </fieldset>
-    </s:form>
-  </div>
-
 </div>
 
 <div class="right-column">
@@ -84,10 +127,10 @@
 <s:url var="additionalIpV4RouteGroup_url" action="additional-ip-v4-route-group" />
 <sj:submit
   href="%{additionalIpV4RouteGroup_url}"
-  formIds="additionalIpV4RouteGroup_update_form"
+  formIds="additionalIpV4RouteGroup_form"
   targets="main"
   replaceTarget="false"
   indicator="main_indicator"
   listenTopics="additionalIpV4RouteGroup_rowDblClicked"
-  style="display:none"
+  style="display: none;"
 />

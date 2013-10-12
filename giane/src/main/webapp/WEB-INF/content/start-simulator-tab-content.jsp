@@ -7,16 +7,6 @@
   <tbody>
     <tr>
       <td style="text-align:right;">
-      <!--
-        <sj:div
-          id="startSimulator_start_wrapper"
-          events="click"
-          effect="bounce"
-          effectMode="effect"
-          effectOptions="{ times:3 }"
-          effectDuration="300"
-        >
-      -->
           <s:url var="startSimulator_start_url" action="start-simulator" >
             <s:param name="simulation_id" value="%{#parameters.simulation_id}" />
           </s:url>
@@ -32,7 +22,6 @@
           >
             <s:text name="startSimulator.start.button.label" />
           </sj:a>
-        <!--</sj:div>-->
       </td>
       <td style="text-align:left;">
         <!--

@@ -44,6 +44,6 @@
   id="associate_trapTargetGroup_with_trapTargets_tab_indicator"
   src="images/loading_big.gif"
   alt="Loading..."
-  style="display:none"
+  style="display: none;"
   class="tab-indicator"
 />

@@ -61,10 +61,11 @@
         <result name="Exception" type="redirect">/exception.action</result>
     </global-results>
 
+    <!-- 
     <global-exception-mappings>
         <exception-mapping exception="java.lang.Exception" result="Exception" />
     </global-exception-mappings>
-
+    -->
 
   </package>
 

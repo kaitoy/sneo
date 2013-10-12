@@ -5,19 +5,40 @@
 
 <div class="left-column">
   <div>
-    <s:form id="realNetworkInterfaceConfiguration_create_form" action="real-network-interface-configuration-create" theme="simple">
+    <s:form
+      id="realNetworkInterfaceConfiguration_form"
+      theme="simple"
+      cssClass="giane-form"
+    >
       <fieldset>
-        <legend><s:text name="new.realNetworkInterfaceConfiguration" /></legend>
+        <legend><s:text name="realNetworkInterfaceConfiguration.form" /></legend>
         <div>
-          <s:textfield name="model.name" label="%{getText('realNetworkInterfaceConfiguration.name.label')}" required="true" requiredposition="left" theme="xhtml" />
-          <span id="realNetworkInterfaceConfiguration_create_form_nameError"></span>
+          <s:hidden id="realNetworkInterfaceConfiguration_id" name="model.id" />
         </div>
         <div>
-          <s:textfield name="model.macAddress" label="%{getText('realNetworkInterfaceConfiguration.macAddress.label')}" required="true" requiredposition="left" theme="xhtml" />
-          <span id="realNetworkInterfaceConfiguration_create_form_macAddressError"></span>
+          <s:textfield
+            id="realNetworkInterfaceConfiguration_name"
+            name="model.name"
+            label="%{getText('realNetworkInterfaceConfiguration.name.label')}"
+            required="true" requiredposition="left"
+            theme="xhtml"
+          />
+          <span id="realNetworkInterfaceConfiguration_form_nameError"></span>
+        </div>
+        <div>
+          <s:textfield
+            id="realNetworkInterfaceConfiguration_macAddress"
+            name="model.macAddress"
+            label="%{getText('realNetworkInterfaceConfiguration.macAddress.label')}"
+            required="true"
+            requiredposition="left"
+            theme="xhtml"
+          />
+          <span id="realNetworkInterfaceConfiguration_form_macAddressError"></span>
         </div>
         <div>
           <s:select
+            id="realNetworkInterfaceConfiguration_deviceName"
             name="model.deviceName"
             label="%{getText('realNetworkInterfaceConfiguration.deviceName.label')}"
             list="%{devices}"
@@ -27,83 +48,94 @@
             theme="xhtml"
             cssClass="select-field"
           />
-          <span id="realNetworkInterfaceConfiguration_create_form_deviceNameError"></span>
+          <span id="realNetworkInterfaceConfiguration_form_deviceNameError"></span>
         </div>
         <div>
-          <s:textarea name="model.descr" label="%{getText('realNetworkInterfaceConfiguration.descr.label')}" cols="30" rows="2" required="false" requiredposition="left" resizable="false" theme="xhtml" />
-          <span id="realNetworkInterfaceConfiguration_create_form_descrError"></span>
-        </div>
-        <div>
-          <sj:submit
-            targets="trash_box"
-            replaceTarget="false"
-            button="true"
-            indicator="realNetworkInterfaceConfiguration_create_indicator"
-            validate="true"
-            validateFunction="validation"
-            onBeforeTopics="removeErrors"
-            onSuccessTopics="removeErrors,realNetworkInterfaceConfigurationTableUpdated"
-            onErrorTopics="createError"
-            clearForm="true"
-            value="Create"
-          />
-          <img id="realNetworkInterfaceConfiguration_create_indicator" src="images/loading_small.gif" alt="Loading..." style="display:none" />
-        </div>
-      </fieldset>
-    </s:form>
-  </div>
-
-  <div>
-    <s:form id="realNetworkInterfaceConfiguration_update_form" action="real-network-interface-configuration-update" theme="simple">
-      <fieldset>
-        <legend><s:text name="selected.realNetworkInterfaceConfiguration" /></legend>
-        <div>
-          <label for="realNetworkInterfaceConfiguration_grid_selected_id"><s:text name="realNetworkInterfaceConfiguration.id.label" />:</label>
-          <s:hidden id="realNetworkInterfaceConfiguration_grid_selected_id" name="model.id" />
-          <span id="realNetworkInterfaceConfiguration_grid_selected_id_span" ></span>
-        </div>
-        <div>
-          <s:textfield id="realNetworkInterfaceConfiguration_grid_selected_name" name="model.name" label="%{getText('realNetworkInterfaceConfiguration.name.label')}" required="true" requiredposition="left" theme="xhtml" />
-          <span id="realNetworkInterfaceConfiguration_update_form_nameError"></span>
-        </div>
-        <div>
-          <s:textfield id="realNetworkInterfaceConfiguration_grid_selected_macAddress" name="model.macAddress" label="%{getText('realNetworkInterfaceConfiguration.macAddress.label')}" required="true" requiredposition="left" theme="xhtml" />
-          <span id="realNetworkInterfaceConfiguration_update_form_macAddressError"></span>
-        </div>
-        <div>
-          <s:select
-            id="realNetworkInterfaceConfiguration_grid_selected_deviceName"
-            name="model.deviceName"
-            label="%{getText('realNetworkInterfaceConfiguration.deviceName.label')}"
-            list="%{devices}"
-            emptyOption="true"
-            multiple="false"
-            required="true"
+          <s:textarea
+            id="realNetworkInterfaceConfiguration_descr"
+            name="model.descr"
+            label="%{getText('realNetworkInterfaceConfiguration.descr.label')}"
+            cols="30"
+            required="false"
             requiredposition="left"
+            resizable="false"
             theme="xhtml"
-            cssClass="select-field"
           />
-          <span id="realNetworkInterfaceConfiguration_update_form_deviceNameError"></span>
+          <span id="realNetworkInterfaceConfiguration_form_descrError"></span>
         </div>
         <div>
-          <s:textarea id="realNetworkInterfaceConfiguration_grid_selected_descr" name="model.descr" label="%{getText('realNetworkInterfaceConfiguration.descr.label')}" cols="30" rows="2" required="false" requiredposition="left" resizable="false" theme="xhtml" />
-          <span id="realNetworkInterfaceConfiguration_update_form_descrError"></span>
-        </div>
-        <div>
-          <sj:submit
-            targets="trash_box"
-            replaceTarget="false"
-            button="true"
-            indicator="realNetworkInterfaceConfiguration_update_indicator"
-            validate="true"
-            validateFunction="validation"
-            onBeforeTopics="removeErrors"
-            onSuccessTopics="removeErrors,realNetworkInterfaceConfigurationTableUpdated"
-            onErrorTopics="updateError"
-            clearForm="true"
-            value="Update"
-          />
-          <img id="realNetworkInterfaceConfiguration_update_indicator" src="images/loading_small.gif" alt="Loading..." style="display:none" />
+          <table class="submits-table">
+            <tbody>
+              <tr>
+                <td class="left-button-cell">
+                  <sj:submit
+                    value="%{getText('form.createButton.label')}"
+                    button="true"
+                    cssClass="giane-form-button"
+                    onClickTopics="createButtonClicked"
+                  />
+                  <s:url
+                    var="realNetworkInterfaceConfiguration_create_url"
+                    action="real-network-interface-configuration-create"
+                  />
+                  <sj:submit
+                    listenTopics="doCreate_realNetworkInterfaceConfiguration"
+                    href="%{realNetworkInterfaceConfiguration_create_url}"
+                    targets="trash_box"
+                    replaceTarget="false"
+                    indicator="realNetworkInterfaceConfiguration_create_indicator"
+                    validate="true"
+                    validateFunction="validation"
+                    onBeforeTopics="removeErrors"
+                    onSuccessTopics="removeErrors,realNetworkInterfaceConfigurationTableUpdated"
+                    onErrorTopics="createError"
+                    clearForm="true"
+                    cssStyle="display: none;"
+                  />
+                </td>
+                <td class="left-button-indicator-cell">
+                  <img
+                    id="realNetworkInterfaceConfiguration_create_indicator"
+                    src="images/loading_small.gif"
+                    alt="Loading..."
+                    style="display: none;"
+                  />
+                </td>
+                <td class="right-button-cell">
+                  <sj:submit
+                    value="%{getText('form.updateButton.label')}"
+                    button="true"
+                    cssClass="giane-form-button"
+                    onClickTopics="updateButtonClicked"
+                  />
+                  <s:url
+                    var="realNetworkInterfaceConfiguration_update_url"
+                    action="real-network-interface-configuration-update"
+                  />
+                  <sj:submit
+                    listenTopics="doUpdate_realNetworkInterfaceConfiguration"
+                    href="%{realNetworkInterfaceConfiguration_update_url}"
+                    targets="trash_box"
+                    replaceTarget="false"
+                    indicator="realNetworkInterfaceConfiguration_update_indicator"
+                    validate="true"
+                    validateFunction="validation"
+                    onBeforeTopics="removeErrors"
+                    onSuccessTopics="removeErrors,realNetworkInterfaceConfigurationTableUpdated"
+                    onErrorTopics="updateError"
+                    clearForm="true"
+                    cssStyle="display: none;"
+                  />
+                  <img
+                    id="realNetworkInterfaceConfiguration_update_indicator"
+                    src="images/loading_small.gif"
+                    alt="Loading..."
+                    style="display: none;"
+                  />
+                </td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </fieldset>
     </s:form>
@@ -130,7 +162,6 @@
   >
     <s:text name="showDeviceList.button.text" />
   </sj:a>
-
 </div>
 
 <div class="right-column">
@@ -142,10 +173,10 @@
 <s:url var="realNetworkInterfaceConfiguration_url" action="real-network-interface-configuration" />
 <sj:submit
   href="%{realNetworkInterfaceConfiguration_url}"
-  formIds="realNetworkInterfaceConfiguration_update_form"
+  formIds="realNetworkInterfaceConfiguration_form"
   targets="main"
   replaceTarget="false"
   indicator="main_indicator"
   listenTopics="realNetworkInterfaceConfiguration_rowDblClicked"
-  style="display: none"
+  style="display: none;"
 />

@@ -44,6 +44,6 @@
   id="associate_additionalIpV4RouteGroup_with_additionalIpV4Routes_tab_indicator"
   src="images/loading_big.gif"
   alt="Loading..."
-  style="display:none"
+  style="display: none;"
   class="tab-indicator"
 />

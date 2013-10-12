@@ -1,6 +1,6 @@
 /*_##########################################################################
   _##
-  _##  Copyright (C) 2012 Kaito Yamada
+  _##  Copyright (C) 2012-2013 Kaito Yamada
   _##
   _##########################################################################
 */
@@ -8,13 +8,12 @@
 package com.github.kaitoy.sneo.giane.action;
 
 import java.util.Map;
-
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.InterceptorRef;
 import org.apache.struts2.convention.annotation.ParentPackage;
 import org.apache.struts2.convention.annotation.Result;
 import org.apache.struts2.interceptor.validation.SkipValidation;
-
+import com.github.kaitoy.sneo.giane.action.message.FormMessage;
 import com.github.kaitoy.sneo.giane.model.PhysicalNetworkInterface;
 import com.github.kaitoy.sneo.giane.model.PhysicalNetworkInterfaceIpAddressRelation;
 import com.github.kaitoy.sneo.giane.model.dao.IpAddressRelationDao;
@@ -28,7 +27,7 @@ import com.opensymphony.xwork2.validator.annotations.VisitorFieldValidator;
 @ParentPackage("giane-default")
 @InterceptorRef("gianeDefaultStack")
 public class PhysicalNetworkInterfaceAction
-extends ActionSupport implements ModelDriven<PhysicalNetworkInterface> {
+extends ActionSupport implements ModelDriven<PhysicalNetworkInterface>, FormMessage {
 
   /**
    *
@@ -72,6 +71,7 @@ extends ActionSupport implements ModelDriven<PhysicalNetworkInterface> {
     return uniqueDomain;
   }
 
+  @Override
   @SkipValidation
   public String execute() throws Exception {
     @SuppressWarnings("unchecked")
@@ -163,6 +163,7 @@ extends ActionSupport implements ModelDriven<PhysicalNetworkInterface> {
     return "success";
   }
 
+  @Override
   public void validate() {
     String contextName = ActionContext.getContext().getName();
 
