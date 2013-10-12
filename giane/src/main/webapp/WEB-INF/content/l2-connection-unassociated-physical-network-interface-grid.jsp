@@ -34,7 +34,7 @@
   viewsortcols="[true, 'vertical', true]"
   gridModel="gridModel"
   rownumbers="false"
-  height="400"
+  height="320"
   width="450"
   loadonce="true"
   scroll="false"
@@ -61,7 +61,7 @@
     sortable="true"
     search="true"
     searchoptions="{sopt:['eq','ne','lt','gt']}"
-    width="50"
+    hidden="true"
   />
   <sjg:gridColumn
     name="name"

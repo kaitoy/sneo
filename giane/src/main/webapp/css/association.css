@@ -1,5 +1,5 @@
 .association-container {
-  width: 70%;
+  width: 80%;
   margin: 0 auto;
 }
 .association-wrapper-column {
@@ -28,5 +28,5 @@
 
 .association-grid-indicator {
   position: absolute;
-  top: 260px;
+  top: 210px;
 }

@@ -34,7 +34,7 @@
   gridModel="gridModel"
   rowNum="12"
   rownumbers="true"
-  width="650"
+  width="550"
   shrinkToFit="true"
   altRows="true"
   gridview="true"
@@ -52,7 +52,7 @@
     sortable="true"
     search="true"
     searchoptions="{sopt:['eq','ne','lt','gt']}"
-    width="50"
+    hidden="true"
   />
   <sjg:gridColumn
     name="address"
@@ -74,7 +74,7 @@
     edittype="text"
     search="true"
     searchoptions="{sopt:['eq','ne','lt','gt']}"
-    width="50"
+    width="30"
   />
   <sjg:gridColumn
     name="communityName"
@@ -85,7 +85,7 @@
     edittype="text"
     search="true"
     searchoptions="{sopt:['eq','ne','bw','en','cn']}"
-    width="100"
+    width="60"
   />
   <sjg:gridColumn
     name="securityName"
@@ -96,7 +96,7 @@
     edittype="text"
     search="true"
     searchoptions="{sopt:['eq','ne','bw','en','cn']}"
-    width="100"
+    width="60"
   />
   <sjg:gridColumn
     name="fileMibPath"
@@ -130,6 +130,6 @@
     editable="true"
     edittype="text"
     search="false"
-    width="50"
+    width="70"
   />
 </sjg:grid>

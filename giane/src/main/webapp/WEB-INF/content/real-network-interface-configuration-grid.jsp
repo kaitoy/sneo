@@ -29,7 +29,7 @@
   gridModel="gridModel"
   rowNum="12"
   rownumbers="true"
-  width="650"
+  width="550"
   shrinkToFit="true"
   altRows="true"
   onSelectRowTopics="rowSelected"
