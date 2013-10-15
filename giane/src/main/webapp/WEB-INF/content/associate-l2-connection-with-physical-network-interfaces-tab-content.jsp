@@ -58,7 +58,7 @@
           onErrorTopics="save_l2Connection_associated_physicalNetworkInterface_grid_error"
           button="true"
           indicator="associate_l2Connection_with_physicalNetworkInterfaces_indicator"
-          value="%{getText('save.associated.grid.button.value')}"
+          value="%{getText('associateAction.save.button.value')}"
         />
         <br />
         <img id="associate_l2Connection_with_physicalNetworkInterfaces_indicator" src="images/loading_small.gif" alt="Loading..." style="display: none;" />
@@ -93,9 +93,9 @@
     hideEffect="puff"
     autoOpen="false"
     modal="true"
-    title="%{getText('save.associated.grid.error.dialog.title')}"
+    title="%{getText('associateAction.error.dialog.title')}"
     dialogClass="dialog"
   >
-    <s:text name="save.associated.grid.error.dialog.text" />
+    <s:text name="associateAction.error.dialog.text" />
   </sj:dialog>
 </div>

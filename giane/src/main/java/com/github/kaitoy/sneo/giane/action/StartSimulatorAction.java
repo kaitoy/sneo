@@ -9,13 +9,12 @@ package com.github.kaitoy.sneo.giane.action;
 
 import java.util.HashMap;
 import java.util.Map;
-
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.InterceptorRef;
 import org.apache.struts2.convention.annotation.ParentPackage;
 import org.apache.struts2.convention.annotation.Result;
 import org.apache.struts2.interceptor.validation.SkipValidation;
-
+import com.github.kaitoy.sneo.giane.action.message.StartSimulatorMessage;
 import com.github.kaitoy.sneo.giane.model.AdditionalIpV4Route;
 import com.github.kaitoy.sneo.giane.model.AdditionalIpV4RouteGroup;
 import com.github.kaitoy.sneo.giane.model.RealNetworkInterfaceConfiguration;
@@ -34,7 +33,8 @@ import com.opensymphony.xwork2.ActionSupport;
 
 @ParentPackage("giane-default")
 @InterceptorRef("gianeDefaultStack")
-public class StartSimulatorAction extends ActionSupport {
+public class StartSimulatorAction extends ActionSupport
+implements StartSimulatorMessage {
 
   /**
    *
@@ -63,6 +63,7 @@ public class StartSimulatorAction extends ActionSupport {
     return dialogTextKey;
   }
 
+  @Override
   @Action(
     results = {
       @Result(name = "success", location = "dialog.jsp"),
@@ -95,7 +96,7 @@ public class StartSimulatorAction extends ActionSupport {
         if (ttg != null) {
           agentDto.setTrapTargetGroup(ttg.toDto());
         }
-        
+
         AdditionalIpV4RouteGroup routeg = conf.getAdditionalIpV4RouteGroup(nodeDto.getId());
         if (routeg != null) {
           for (AdditionalIpV4Route route: routeg.getAdditionalIpV4Routes()) {

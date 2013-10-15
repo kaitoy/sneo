@@ -13,7 +13,10 @@ import org.apache.struts2.convention.annotation.InterceptorRef;
 import org.apache.struts2.convention.annotation.ParentPackage;
 import org.apache.struts2.convention.annotation.Result;
 import org.apache.struts2.interceptor.validation.SkipValidation;
+import com.github.kaitoy.sneo.giane.action.message.AssociateActionMessage;
+import com.github.kaitoy.sneo.giane.action.message.BreadCrumbsMessage;
 import com.github.kaitoy.sneo.giane.action.message.FormMessage;
+import com.github.kaitoy.sneo.giane.action.message.VlanMessage;
 import com.github.kaitoy.sneo.giane.model.Vlan;
 import com.github.kaitoy.sneo.giane.model.VlanIpAddressRelation;
 import com.github.kaitoy.sneo.giane.model.dao.IpAddressRelationDao;
@@ -27,7 +30,9 @@ import com.opensymphony.xwork2.validator.annotations.VisitorFieldValidator;
 @ParentPackage("giane-default")
 @InterceptorRef("gianeDefaultStack")
 public class VlanAction
-extends ActionSupport implements ModelDriven<Vlan>, FormMessage {
+extends ActionSupport
+implements ModelDriven<Vlan>, FormMessage, VlanMessage, BreadCrumbsMessage,
+  AssociateActionMessage {
 
   /**
    *

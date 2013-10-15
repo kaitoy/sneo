@@ -1,6 +1,6 @@
 /*_##########################################################################
   _##
-  _##  Copyright (C) 2012 Kaito Yamada
+  _##  Copyright (C) 2012-2013 Kaito Yamada
   _##
   _##########################################################################
 */
@@ -12,18 +12,21 @@ import org.apache.struts2.convention.annotation.InterceptorRef;
 import org.apache.struts2.convention.annotation.ParentPackage;
 import org.apache.struts2.convention.annotation.Result;
 import org.apache.struts2.interceptor.validation.SkipValidation;
-
+import com.github.kaitoy.sneo.giane.action.message.BreadCrumbsMessage;
+import com.github.kaitoy.sneo.giane.action.message.ConfigTopMessage;
 import com.opensymphony.xwork2.ActionSupport;
 
 @ParentPackage("giane-default")
 @InterceptorRef("gianeDefaultStack")
-public class ConfigTopAction extends ActionSupport {
+public class ConfigTopAction extends ActionSupport
+implements ConfigTopMessage, BreadCrumbsMessage {
 
   /**
    *
    */
   private static final long serialVersionUID = -5818597703027952674L;
 
+  @Override
   @Action(
     results = {
       @Result(name = "success", location = "config-top.jsp")

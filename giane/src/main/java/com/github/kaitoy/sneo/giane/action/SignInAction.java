@@ -12,13 +12,14 @@ import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.InterceptorRef;
 import org.apache.struts2.convention.annotation.ParentPackage;
 import org.apache.struts2.convention.annotation.Result;
+import com.github.kaitoy.sneo.giane.action.message.SignInMessage;
 import com.github.kaitoy.sneo.jmx.HttpJmxAgent;
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 
 @ParentPackage("giane-default")
 @InterceptorRef("gianeDefaultStack")
-public class SignInAction extends ActionSupport {
+public class SignInAction extends ActionSupport implements SignInMessage {
 
   /**
    *
@@ -27,6 +28,7 @@ public class SignInAction extends ActionSupport {
 
   private static final Object lock = new Object();
 
+  @Override
   @Action(
     results = { @Result(name = "success", location = "sign-in.jsp") }
   )

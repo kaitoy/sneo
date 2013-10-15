@@ -10,12 +10,11 @@ package com.github.kaitoy.sneo.giane.action;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.InterceptorRef;
 import org.apache.struts2.convention.annotation.ParentPackage;
 import org.apache.struts2.convention.annotation.Result;
-
+import com.github.kaitoy.sneo.giane.action.message.AssociateActionMessage;
 import com.github.kaitoy.sneo.giane.model.AdditionalIpV4Route;
 import com.github.kaitoy.sneo.giane.model.AdditionalIpV4RouteGroup;
 import com.github.kaitoy.sneo.giane.model.dao.AdditionalIpV4RouteDao;
@@ -25,13 +24,15 @@ import com.opensymphony.xwork2.ActionSupport;
 
 @ParentPackage("giane-default")
 @InterceptorRef("gianeDefaultStack")
-public class AssociateAdditionalIpV4RouteGroupWithAdditionalIpV4RoutesAction extends ActionSupport {
+public class AssociateAdditionalIpV4RouteGroupWithAdditionalIpV4RoutesAction
+extends ActionSupport
+implements AssociateActionMessage {
 
   /**
-   * 
+   *
    */
   private static final long serialVersionUID = -1568203010254123584L;
-  
+
   private AdditionalIpV4RouteDao additionalIpV4RouteDao;
   private AdditionalIpV4RouteGroupDao additionalIpV4RouteGroupDao;
   private String idList;
@@ -64,6 +65,7 @@ public class AssociateAdditionalIpV4RouteGroupWithAdditionalIpV4RoutesAction ext
     return dialogTextKey;
   }
 
+  @Override
   @Action(
     results = {
       @Result(name = "success", location = "dialog.jsp"),
@@ -73,9 +75,9 @@ public class AssociateAdditionalIpV4RouteGroupWithAdditionalIpV4RoutesAction ext
   public String execute() throws Exception {
     if (idList.equals("undefined")) {
       dialogTitleKey
-        = "associate.additionalIpV4RouteGroup.with.additionalIpV4Routes.noChange.dialog.title";
+        = "associateAction.noChange.dialog.title";
       dialogTextKey
-        = "associate.additionalIpV4RouteGroup.with.additionalIpV4Routes.noChange.dialog.text";
+        = "associateAction.noChange.dialog.text";
       return "noChange";
     }
 
@@ -106,9 +108,9 @@ public class AssociateAdditionalIpV4RouteGroupWithAdditionalIpV4RoutesAction ext
 
     if (foundAll && additionalIpV4RouteGroup.getAdditionalIpV4Routes().size() == additionalIpV4Routes.size()) {
       dialogTitleKey
-        = "associate.additionalIpV4RouteGroup.with.additionalIpV4Routes.noChange.dialog.title";
+        = "associateAction.noChange.dialog.title";
       dialogTextKey
-        = "associate.additionalIpV4RouteGroup.with.additionalIpV4Routes.noChange.dialog.text";
+        = "associateAction.noChange.dialog.text";
       return "noChange";
     }
 
@@ -116,9 +118,9 @@ public class AssociateAdditionalIpV4RouteGroupWithAdditionalIpV4RoutesAction ext
     additionalIpV4RouteGroupDao.update(additionalIpV4RouteGroup);
 
     dialogTitleKey
-      = "associate.additionalIpV4RouteGroup.with.additionalIpV4Routes.success.dialog.title";
+      = "associateAction.success.dialog.title";
     dialogTextKey
-      = "associate.additionalIpV4RouteGroup.with.additionalIpV4Routes.success.dialog.text";
+      = "associateAction.success.dialog.text";
     return "success";
   }
 

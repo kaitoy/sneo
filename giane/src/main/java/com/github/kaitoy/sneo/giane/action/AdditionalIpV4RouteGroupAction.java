@@ -13,6 +13,9 @@ import org.apache.struts2.convention.annotation.InterceptorRef;
 import org.apache.struts2.convention.annotation.ParentPackage;
 import org.apache.struts2.convention.annotation.Result;
 import org.apache.struts2.interceptor.validation.SkipValidation;
+import com.github.kaitoy.sneo.giane.action.message.AdditionalIpV4RouteGroupMessage;
+import com.github.kaitoy.sneo.giane.action.message.AssociateActionMessage;
+import com.github.kaitoy.sneo.giane.action.message.BreadCrumbsMessage;
 import com.github.kaitoy.sneo.giane.action.message.FormMessage;
 import com.github.kaitoy.sneo.giane.model.AdditionalIpV4RouteGroup;
 import com.github.kaitoy.sneo.giane.model.dao.AdditionalIpV4RouteGroupDao;
@@ -24,7 +27,9 @@ import com.opensymphony.xwork2.validator.annotations.VisitorFieldValidator;
 @ParentPackage("giane-default")
 @InterceptorRef("gianeDefaultStack")
 public class AdditionalIpV4RouteGroupAction
-extends ActionSupport implements ModelDriven<AdditionalIpV4RouteGroup>, FormMessage {
+extends ActionSupport
+implements ModelDriven<AdditionalIpV4RouteGroup>, FormMessage,
+  AdditionalIpV4RouteGroupMessage, BreadCrumbsMessage, AssociateActionMessage {
 
   /**
    *

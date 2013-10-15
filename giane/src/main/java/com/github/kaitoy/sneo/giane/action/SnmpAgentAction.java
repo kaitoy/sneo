@@ -15,6 +15,7 @@ import org.apache.struts2.convention.annotation.ParentPackage;
 import org.apache.struts2.convention.annotation.Result;
 import org.apache.struts2.interceptor.validation.SkipValidation;
 import com.github.kaitoy.sneo.giane.action.message.FormMessage;
+import com.github.kaitoy.sneo.giane.action.message.SnmpAgentMessage;
 import com.github.kaitoy.sneo.giane.model.FileMibFormat;
 import com.github.kaitoy.sneo.giane.model.SnmpAgent;
 import com.github.kaitoy.sneo.giane.model.TrapTargetGroup;
@@ -29,7 +30,7 @@ import com.opensymphony.xwork2.validator.annotations.VisitorFieldValidator;
 @ParentPackage("giane-default")
 @InterceptorRef("gianeDefaultStack")
 public class SnmpAgentAction
-extends ActionSupport implements ModelDriven<SnmpAgent>, FormMessage {
+extends ActionSupport implements ModelDriven<SnmpAgent>, FormMessage, SnmpAgentMessage {
 
   /**
    *

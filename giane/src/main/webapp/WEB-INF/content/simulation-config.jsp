@@ -15,7 +15,7 @@
   >
     [<s:text name="breadcrumbs.config.top" />]
   </sj:a>
-  &nbsp;&gt;&nbsp;[<s:text name="breadcrumbs.simulation" />: <s:property value="#parameters.simulation_name" />]
+  &nbsp;&gt;&nbsp;[<s:text name="breadcrumbs.simulation.configuration" />: <s:property value="#parameters.simulation_name" />]
 </div>
 
 <sj:tabbedpanel id="simulation_tabs" animate="true" cssClass="tabs">

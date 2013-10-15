@@ -13,7 +13,10 @@ import org.apache.struts2.convention.annotation.InterceptorRef;
 import org.apache.struts2.convention.annotation.ParentPackage;
 import org.apache.struts2.convention.annotation.Result;
 import org.apache.struts2.interceptor.validation.SkipValidation;
+import com.github.kaitoy.sneo.giane.action.message.AssociateActionMessage;
+import com.github.kaitoy.sneo.giane.action.message.BreadCrumbsMessage;
 import com.github.kaitoy.sneo.giane.action.message.FormMessage;
+import com.github.kaitoy.sneo.giane.action.message.L2ConnectionMessage;
 import com.github.kaitoy.sneo.giane.model.L2Connection;
 import com.github.kaitoy.sneo.giane.model.dao.L2ConnectionDao;
 import com.github.kaitoy.sneo.giane.model.dao.NetworkDao;
@@ -25,7 +28,9 @@ import com.opensymphony.xwork2.validator.annotations.VisitorFieldValidator;
 @ParentPackage("giane-default")
 @InterceptorRef("gianeDefaultStack")
 public class L2ConnectionAction
-extends ActionSupport implements ModelDriven<L2Connection>, FormMessage {
+extends ActionSupport
+implements ModelDriven<L2Connection>, FormMessage, L2ConnectionMessage,
+  BreadCrumbsMessage, AssociateActionMessage {
 
   /**
    *

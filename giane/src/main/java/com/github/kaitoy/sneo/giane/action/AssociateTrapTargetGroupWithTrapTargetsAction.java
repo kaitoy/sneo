@@ -10,12 +10,11 @@ package com.github.kaitoy.sneo.giane.action;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.InterceptorRef;
 import org.apache.struts2.convention.annotation.ParentPackage;
 import org.apache.struts2.convention.annotation.Result;
-
+import com.github.kaitoy.sneo.giane.action.message.AssociateActionMessage;
 import com.github.kaitoy.sneo.giane.model.TrapTarget;
 import com.github.kaitoy.sneo.giane.model.TrapTargetGroup;
 import com.github.kaitoy.sneo.giane.model.dao.TrapTargetDao;
@@ -25,7 +24,8 @@ import com.opensymphony.xwork2.ActionSupport;
 
 @ParentPackage("giane-default")
 @InterceptorRef("gianeDefaultStack")
-public class AssociateTrapTargetGroupWithTrapTargetsAction extends ActionSupport {
+public class AssociateTrapTargetGroupWithTrapTargetsAction extends ActionSupport
+implements AssociateActionMessage {
 
   /**
    *
@@ -64,6 +64,7 @@ public class AssociateTrapTargetGroupWithTrapTargetsAction extends ActionSupport
     return dialogTextKey;
   }
 
+  @Override
   @Action(
     results = {
       @Result(name = "success", location = "dialog.jsp"),
@@ -73,9 +74,9 @@ public class AssociateTrapTargetGroupWithTrapTargetsAction extends ActionSupport
   public String execute() throws Exception {
     if (idList.equals("undefined")) {
       dialogTitleKey
-        = "associate.trapTargetGroup.with.trapTargets.noChange.dialog.title";
+        = "associateAction.noChange.dialog.title";
       dialogTextKey
-        = "associate.trapTargetGroup.with.trapTargets.noChange.dialog.text";
+        = "associateAction.noChange.dialog.text";
       return "noChange";
     }
 
@@ -106,9 +107,9 @@ public class AssociateTrapTargetGroupWithTrapTargetsAction extends ActionSupport
 
     if (foundAll && trapTargetGroup.getTrapTargets().size() == trapTargets.size()) {
       dialogTitleKey
-        = "associate.trapTargetGroup.with.trapTargets.noChange.dialog.title";
+        = "associateAction.noChange.dialog.title";
       dialogTextKey
-        = "associate.trapTargetGroup.with.trapTargets.noChange.dialog.text";
+        = "associateAction.noChange.dialog.text";
       return "noChange";
     }
 
@@ -116,9 +117,9 @@ public class AssociateTrapTargetGroupWithTrapTargetsAction extends ActionSupport
     trapTargetGroupDao.update(trapTargetGroup);
 
     dialogTitleKey
-      = "associate.trapTargetGroup.with.trapTargets.success.dialog.title";
+      = "associateAction.success.dialog.title";
     dialogTextKey
-      = "associate.trapTargetGroup.with.trapTargets.success.dialog.text";
+      = "associateAction.success.dialog.text";
     return "success";
   }
 

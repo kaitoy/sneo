@@ -19,7 +19,9 @@ import org.apache.struts2.interceptor.validation.SkipValidation;
 import org.pcap4j.core.PcapNativeException;
 import org.pcap4j.core.PcapNetworkInterface;
 import org.pcap4j.core.Pcaps;
+import com.github.kaitoy.sneo.giane.action.message.BreadCrumbsMessage;
 import com.github.kaitoy.sneo.giane.action.message.FormMessage;
+import com.github.kaitoy.sneo.giane.action.message.RealNetworkInterfaceConfigurationMessage;
 import com.github.kaitoy.sneo.giane.model.RealNetworkInterfaceConfiguration;
 import com.github.kaitoy.sneo.giane.model.RealNetworkInterfaceConfigurationIpAddressRelation;
 import com.github.kaitoy.sneo.giane.model.dao.IpAddressRelationDao;
@@ -33,7 +35,8 @@ import com.opensymphony.xwork2.validator.annotations.VisitorFieldValidator;
 @InterceptorRef("gianeDefaultStack")
 public class RealNetworkInterfaceConfigurationAction
 extends ActionSupport
-implements ModelDriven<RealNetworkInterfaceConfiguration>, FormMessage {
+implements ModelDriven<RealNetworkInterfaceConfiguration>, FormMessage,
+  RealNetworkInterfaceConfigurationMessage, BreadCrumbsMessage {
 
   /**
    *

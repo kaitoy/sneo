@@ -15,6 +15,7 @@ import org.apache.struts2.convention.annotation.ParentPackage;
 import org.apache.struts2.convention.annotation.Result;
 import org.apache.struts2.interceptor.validation.SkipValidation;
 import com.github.kaitoy.sneo.giane.action.message.FormMessage;
+import com.github.kaitoy.sneo.giane.action.message.RealNetworkInterfaceMessage;
 import com.github.kaitoy.sneo.giane.model.RealNetworkInterface;
 import com.github.kaitoy.sneo.giane.model.RealNetworkInterfaceConfiguration;
 import com.github.kaitoy.sneo.giane.model.dao.NodeDao;
@@ -28,7 +29,8 @@ import com.opensymphony.xwork2.validator.annotations.VisitorFieldValidator;
 @ParentPackage("giane-default")
 @InterceptorRef("gianeDefaultStack")
 public class RealNetworkInterfaceAction
-extends ActionSupport implements ModelDriven<RealNetworkInterface>, FormMessage {
+extends ActionSupport
+implements ModelDriven<RealNetworkInterface>, FormMessage, RealNetworkInterfaceMessage {
 
   /**
    *

@@ -1,6 +1,6 @@
 /*_##########################################################################
   _##
-  _##  Copyright (C) 2012 Kaito Yamada
+  _##  Copyright (C) 2012-2013 Kaito Yamada
   _##
   _##########################################################################
 */
@@ -10,12 +10,11 @@ package com.github.kaitoy.sneo.giane.action;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.InterceptorRef;
 import org.apache.struts2.convention.annotation.ParentPackage;
 import org.apache.struts2.convention.annotation.Result;
-
+import com.github.kaitoy.sneo.giane.action.message.AssociateActionMessage;
 import com.github.kaitoy.sneo.giane.model.L2Connection;
 import com.github.kaitoy.sneo.giane.model.PhysicalNetworkInterface;
 import com.github.kaitoy.sneo.giane.model.dao.L2ConnectionDao;
@@ -26,7 +25,8 @@ import com.opensymphony.xwork2.ActionSupport;
 @ParentPackage("giane-default")
 @InterceptorRef("gianeDefaultStack")
 public class AssociateL2ConnectionWithPhysicalNetworkInterfacesAction
-extends ActionSupport {
+extends ActionSupport
+implements AssociateActionMessage {
 
   /**
    *
@@ -67,6 +67,7 @@ extends ActionSupport {
     return dialogTextKey;
   }
 
+  @Override
   @Action(
     results = {
       @Result(name = "success", location = "dialog.jsp"),
@@ -76,9 +77,9 @@ extends ActionSupport {
   public String execute() throws Exception {
     if (idList.equals("undefined")) {
       dialogTitleKey
-        = "associate.l2Connection.with.physicalNetworkInterfaces.noChange.dialog.title";
+        = "associateAction.noChange.dialog.title";
       dialogTextKey
-        = "associate.l2Connection.with.physicalNetworkInterfaces.noChange.dialog.text";
+        = "associateAction.noChange.dialog.text";
       return "noChange";
     }
 
@@ -111,9 +112,9 @@ extends ActionSupport {
 
     if (foundAll && l2Conn.getPhysicalNetworkInterfaces().size() == nifs.size()) {
       dialogTitleKey
-        = "associate.l2Connection.with.physicalNetworkInterfaces.noChange.dialog.title";
+        = "associateAction.noChange.dialog.title";
       dialogTextKey
-        = "associate.l2Connection.with.physicalNetworkInterfaces.noChange.dialog.text";
+        = "associateAction.noChange.dialog.text";
       return "noChange";
     }
 
@@ -137,9 +138,9 @@ extends ActionSupport {
     physicalNetworkInterfaceDao.update(removedNifs);
 
     dialogTitleKey
-      = "associate.l2Connection.with.physicalNetworkInterfaces.success.dialog.title";
+      = "associateAction.success.dialog.title";
     dialogTextKey
-      = "associate.l2Connection.with.physicalNetworkInterfaces.success.dialog.text";
+      = "associateAction.success.dialog.text";
     return "success";
   }
 

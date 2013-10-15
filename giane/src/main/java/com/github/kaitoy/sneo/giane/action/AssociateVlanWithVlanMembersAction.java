@@ -10,12 +10,11 @@ package com.github.kaitoy.sneo.giane.action;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.InterceptorRef;
 import org.apache.struts2.convention.annotation.ParentPackage;
 import org.apache.struts2.convention.annotation.Result;
-
+import com.github.kaitoy.sneo.giane.action.message.AssociateActionMessage;
 import com.github.kaitoy.sneo.giane.model.Vlan;
 import com.github.kaitoy.sneo.giane.model.VlanMember;
 import com.github.kaitoy.sneo.giane.model.dao.VlanDao;
@@ -25,7 +24,8 @@ import com.opensymphony.xwork2.ActionSupport;
 
 @ParentPackage("giane-default")
 @InterceptorRef("gianeDefaultStack")
-public class AssociateVlanWithVlanMembersAction extends ActionSupport {
+public class AssociateVlanWithVlanMembersAction extends ActionSupport
+implements AssociateActionMessage {
 
   /**
    *
@@ -64,6 +64,7 @@ public class AssociateVlanWithVlanMembersAction extends ActionSupport {
     return dialogTextKey;
   }
 
+  @Override
   @Action(
     results = {
       @Result(name = "success", location = "dialog.jsp"),
@@ -73,9 +74,9 @@ public class AssociateVlanWithVlanMembersAction extends ActionSupport {
   public String execute() throws Exception {
     if (idList.equals("undefined")) {
       dialogTitleKey
-        = "associate.vlan.with.vlanMembers.noChange.dialog.title";
+        = "associateAction.noChange.dialog.title";
       dialogTextKey
-        = "associate.vlan.with.vlanMembers.noChange.dialog.text";
+        = "associateAction.noChange.dialog.text";
       return "noChange";
     }
 
@@ -106,9 +107,9 @@ public class AssociateVlanWithVlanMembersAction extends ActionSupport {
 
     if (foundAll && vlan.getVlanMembers().size() == members.size()) {
       dialogTitleKey
-        = "associate.vlan.with.vlanMembers.noChange.dialog.title";
+        = "associateAction.noChange.dialog.title";
       dialogTextKey
-        = "associate.vlan.with.vlanMembers.noChange.dialog.text";
+        = "associateAction.noChange.dialog.text";
       return "noChange";
     }
 
@@ -116,9 +117,9 @@ public class AssociateVlanWithVlanMembersAction extends ActionSupport {
     vlanDao.update(vlan);
 
     dialogTitleKey
-      = "associate.vlan.with.vlanMembers.success.dialog.title";
+      = "associateAction.success.dialog.title";
     dialogTextKey
-      = "associate.vlan.with.vlanMembers.success.dialog.text";
+      = "associateAction.success.dialog.text";
     return "success";
   }
 
