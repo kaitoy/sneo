@@ -34,7 +34,7 @@
 
   <sj:tab id="simulation_tab" target="simulation_tab_content" label="%{getText('config.top.simulation.tab.label')}" />
   <s:url var="simulation_tab_content_url" action="simulation-tab-content" />
-  <sj:div id="simulation_tab_content" href="%{simulation_tab_content_url}" listenTopics="network_gridCompleted" indicator="simulation_tab_indicator" cssClass="tab-content" />
+  <sj:div id="simulation_tab_content" href="%{simulation_tab_content_url}" indicator="simulation_tab_indicator" cssClass="tab-content" />
 </sj:tabbedpanel>
 
 <img id="network_tab_indicator" src="images/loading_big.gif" alt="Loading..." style="display: none;" class="tab-indicator" />

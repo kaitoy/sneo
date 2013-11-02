@@ -33,7 +33,7 @@
   shrinkToFit="true"
   altRows="true"
   onSelectRowTopics="rowSelected"
-  onCompleteTopics="gridCompleted,network_gridCompleted"
+  onCompleteTopics="gridCompleted"
   onDblClickRowTopics="network_rowDblClicked"
   reloadTopics="networkTableUpdated"
 >
