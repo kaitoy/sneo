@@ -258,7 +258,7 @@ public class Node implements Serializable {
   public boolean equals(Object obj) {
     if (obj == this) { return true; }
     if (!this.getClass().isInstance(obj)) { return false; }
-    return this.getId() == ((Node)obj).getId();
+    return this.getId().equals(((Node)obj).getId());
   }
 
   @Override

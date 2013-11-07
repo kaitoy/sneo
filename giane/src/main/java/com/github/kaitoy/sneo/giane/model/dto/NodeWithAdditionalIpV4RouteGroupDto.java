@@ -8,7 +8,6 @@
 package com.github.kaitoy.sneo.giane.model.dto;
 
 import java.io.Serializable;
-
 import com.github.kaitoy.sneo.giane.model.AdditionalIpV4RouteGroup;
 import com.github.kaitoy.sneo.giane.model.Node;
 
@@ -64,7 +63,7 @@ public class NodeWithAdditionalIpV4RouteGroupDto implements Serializable {
   public boolean equals(Object obj) {
     if (obj == this) { return true; }
     if (!this.getClass().isInstance(obj)) { return false; }
-    return this.id == ((NodeWithAdditionalIpV4RouteGroupDto)obj).getId();
+    return this.id.equals(((NodeWithAdditionalIpV4RouteGroupDto)obj).getId());
   }
 
   @Override

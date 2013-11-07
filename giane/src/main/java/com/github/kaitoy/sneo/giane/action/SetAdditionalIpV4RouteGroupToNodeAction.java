@@ -8,12 +8,11 @@
 package com.github.kaitoy.sneo.giane.action;
 
 import java.util.Map;
-
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.InterceptorRef;
 import org.apache.struts2.convention.annotation.ParentPackage;
 import org.apache.struts2.convention.annotation.Result;
-
+import com.github.kaitoy.sneo.giane.action.message.FormMessage;
 import com.github.kaitoy.sneo.giane.action.message.NodeMessage;
 import com.github.kaitoy.sneo.giane.model.AdditionalIpV4RouteGroup;
 import com.github.kaitoy.sneo.giane.model.Node;
@@ -27,7 +26,7 @@ import com.opensymphony.xwork2.validator.annotations.ConversionErrorFieldValidat
 @ParentPackage("giane-default")
 @InterceptorRef("gianeDefaultStack")
 public class SetAdditionalIpV4RouteGroupToNodeAction extends ActionSupport
-implements NodeMessage {
+implements FormMessage, NodeMessage {
 
   /**
    *
@@ -51,7 +50,9 @@ implements NodeMessage {
     key = "ConversionErrorFieldValidator.error",
     shortCircuit = true
   )
-  @TypeConversion(converter = "com.github.kaitoy.sneo.giane.typeconverter.AdditionalIpV4RouteGroupConverter")
+  @TypeConversion(
+    converter = "com.github.kaitoy.sneo.giane.typeconverter.AdditionalIpV4RouteGroupConverter"
+  )
   public void setAdditionalIpV4RouteGroup(AdditionalIpV4RouteGroup additionalIpV4RouteGroup) {
     this.additionalIpV4RouteGroup = additionalIpV4RouteGroup;
   }
@@ -63,9 +64,8 @@ implements NodeMessage {
     this.simulationDao = simulationDao;
   }
 
-  @Action(
-    results = { @Result(name = "grid", location = "node-with-additional-ip-v4-route-group-grid.jsp")}
-  )
+  @Override
+  @Action(results = { @Result(name = "success", location = "empty.jsp") })
   public String execute() throws Exception {
     Map<String, Object> params = ActionContext.getContext().getParameters();
     Integer simulationId
@@ -73,12 +73,18 @@ implements NodeMessage {
     Simulation config
       = simulationDao.findByKey(simulationId);
 
-    config.getAdditionalIpV4RouteGroups().put(node, additionalIpV4RouteGroup);
-    simulationDao.create(config);
+    if (additionalIpV4RouteGroup != null) {
+      config.getAdditionalIpV4RouteGroups().put(node, additionalIpV4RouteGroup);
+    }
+    else {
+      config.getAdditionalIpV4RouteGroups().remove(node);
+    }
+    simulationDao.update(config);
 
-    return "grid";
+    return "success";
   }
 
+  @Override
   public void validate() {
     if (node == null) {
       addActionError(getText("select.a.row"));

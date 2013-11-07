@@ -8,12 +8,11 @@
 package com.github.kaitoy.sneo.giane.action;
 
 import java.util.Map;
-
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.InterceptorRef;
 import org.apache.struts2.convention.annotation.ParentPackage;
 import org.apache.struts2.convention.annotation.Result;
-
+import com.github.kaitoy.sneo.giane.action.message.FormMessage;
 import com.github.kaitoy.sneo.giane.action.message.SnmpAgentMessage;
 import com.github.kaitoy.sneo.giane.model.Simulation;
 import com.github.kaitoy.sneo.giane.model.SnmpAgent;
@@ -27,7 +26,7 @@ import com.opensymphony.xwork2.validator.annotations.ConversionErrorFieldValidat
 @ParentPackage("giane-default")
 @InterceptorRef("gianeDefaultStack")
 public class SetTrapTargetGroupToSnmpAgentAction extends ActionSupport
-implements SnmpAgentMessage {
+implements FormMessage, SnmpAgentMessage {
 
   /**
    *
@@ -63,9 +62,8 @@ implements SnmpAgentMessage {
     this.simulationDao = simulationDao;
   }
 
-  @Action(
-    results = { @Result(name = "grid", location = "snmp-agent-with-trap-target-group-grid.jsp")}
-  )
+  @Override
+  @Action(results = { @Result(name = "success", location = "empty.jsp") })
   public String execute() throws Exception {
     Map<String, Object> params = ActionContext.getContext().getParameters();
     Integer simulationId
@@ -73,12 +71,18 @@ implements SnmpAgentMessage {
     Simulation config
       = simulationDao.findByKey(simulationId);
 
-    config.getTrapTargetGroups().put(snmpAgent, trapTargetGroup);
-    simulationDao.create(config);
+    if (trapTargetGroup != null) {
+      config.getTrapTargetGroups().put(snmpAgent, trapTargetGroup);
+    }
+    else {
+      config.getTrapTargetGroups().remove(snmpAgent);
+    }
+    simulationDao.update(config);
 
-    return "grid";
+    return "success";
   }
 
+  @Override
   public void validate() {
     if (snmpAgent == null) {
       addActionError(getText("select.a.row"));

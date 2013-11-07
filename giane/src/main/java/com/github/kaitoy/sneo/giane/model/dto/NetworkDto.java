@@ -21,7 +21,7 @@ public class NetworkDto implements Serializable {
   public NetworkDto(Network model) {
     this.id = model.getId();
     this.name = model.getName();
-    this.descr = model.getDescr().replaceAll("\n", " ");
+    this.descr = model.getDescr();
   }
 
   public Integer getId() {
@@ -52,7 +52,7 @@ public class NetworkDto implements Serializable {
   public boolean equals(Object obj) {
     if (obj == this) { return true; }
     if (!this.getClass().isInstance(obj)) { return false; }
-    return this.id == ((NetworkDto)obj).getId();
+    return this.id.equals(((NetworkDto)obj).getId());
   }
 
   @Override

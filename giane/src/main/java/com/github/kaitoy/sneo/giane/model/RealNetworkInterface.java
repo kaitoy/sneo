@@ -37,6 +37,7 @@ public class RealNetworkInterface extends VlanMember {
     this.node = node;
   }
 
+  @Override
   public RealNetworkInterfaceDto toDto() {
     RealNetworkInterfaceDto dto = new RealNetworkInterfaceDto();
     dto.setId(getId());
@@ -48,7 +49,7 @@ public class RealNetworkInterface extends VlanMember {
   public boolean equals(Object obj) {
     if (obj == this) { return true; }
     if (!this.getClass().isInstance(obj)) { return false; }
-    return this.getId() == ((RealNetworkInterface)obj).getId();
+    return this.getId().equals(((RealNetworkInterface)obj).getId());
   }
 
   @Override

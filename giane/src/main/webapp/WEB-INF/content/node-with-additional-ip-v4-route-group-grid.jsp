@@ -35,7 +35,7 @@
   onSelectRowTopics="rowSelected"
   onCompleteTopics="gridCompleted"
   onDblClickRowTopics="node_with_additionalIpV4RouteGroup_rowDblClicked"
-  listenTopics="set_additionalIpV4RouteGroup_to_node_success"
+  reloadTopics="set_additionalIpV4RouteGroup_to_node_success"
 >
   <sjg:gridColumn
     name="id"
@@ -47,7 +47,7 @@
     editable="false"
     search="true"
     searchoptions="{sopt:['eq','ne','lt','gt']}"
-    width="50"
+    hidden="true"
   />
   <sjg:gridColumn
     name="name"

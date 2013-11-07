@@ -114,5 +114,6 @@
     search="true"
     searchoptions="{sopt:['eq','ne','bw','en','cn']}"
     width="200"
+    formatter="oneLine"
   />
 </sjg:grid>

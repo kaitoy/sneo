@@ -22,7 +22,7 @@ public class AdditionalIpV4RouteDto extends IpV4RouteDto {
   public AdditionalIpV4RouteDto(AdditionalIpV4Route model) {
     super(model);
     this.name = model.getName();
-    this.descr = model.getDescr().replaceAll("\n", " ");
+    this.descr = model.getDescr();
   }
 
   public String getName() {

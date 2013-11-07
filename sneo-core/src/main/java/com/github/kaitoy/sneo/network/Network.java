@@ -225,7 +225,7 @@ public class Network {
       }
 
       for (VlanMemberDto nifDto: vlanDto.getVlanMembers()) {
-        node.addNifToVlan(nifDto.getName(), vlanDto.getId(), false);
+        node.addNifToVlan(nifDto.getName(), vlanDto.getVid(), false);
       }
     }
 

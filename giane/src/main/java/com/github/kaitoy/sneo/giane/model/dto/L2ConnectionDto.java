@@ -8,7 +8,6 @@
 package com.github.kaitoy.sneo.giane.model.dto;
 
 import java.io.Serializable;
-
 import com.github.kaitoy.sneo.giane.model.L2Connection;
 
 public class L2ConnectionDto implements Serializable {
@@ -46,7 +45,7 @@ public class L2ConnectionDto implements Serializable {
   public boolean equals(Object obj) {
     if (obj == this) { return true; }
     if (!this.getClass().isInstance(obj)) { return false; }
-    return this.id == ((L2ConnectionDto)obj).getId();
+    return this.id.equals(((L2ConnectionDto)obj).getId());
   }
 
   @Override

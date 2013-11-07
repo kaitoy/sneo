@@ -116,7 +116,7 @@ public class TrapTargetGroup implements Serializable {
   public boolean equals(Object obj) {
     if (obj == this) { return true; }
     if (!this.getClass().isInstance(obj)) { return false; }
-    return this.getId() == ((TrapTargetGroup)obj).getId();
+    return this.getId().equals(((TrapTargetGroup)obj).getId());
   }
 
   @Override

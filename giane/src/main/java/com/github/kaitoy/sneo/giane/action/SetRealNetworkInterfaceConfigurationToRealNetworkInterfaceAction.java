@@ -8,12 +8,11 @@
 package com.github.kaitoy.sneo.giane.action;
 
 import java.util.Map;
-
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.InterceptorRef;
 import org.apache.struts2.convention.annotation.ParentPackage;
 import org.apache.struts2.convention.annotation.Result;
-
+import com.github.kaitoy.sneo.giane.action.message.FormMessage;
 import com.github.kaitoy.sneo.giane.action.message.RealNetworkInterfaceMessage;
 import com.github.kaitoy.sneo.giane.model.RealNetworkInterface;
 import com.github.kaitoy.sneo.giane.model.RealNetworkInterfaceConfiguration;
@@ -28,7 +27,7 @@ import com.opensymphony.xwork2.validator.annotations.ConversionErrorFieldValidat
 @InterceptorRef("gianeDefaultStack")
 public class SetRealNetworkInterfaceConfigurationToRealNetworkInterfaceAction
 extends ActionSupport
-implements RealNetworkInterfaceMessage {
+implements FormMessage, RealNetworkInterfaceMessage {
 
   /**
    *
@@ -73,15 +72,8 @@ implements RealNetworkInterfaceMessage {
     this.simulationDao = simulationDao;
   }
 
-  @Action(
-    results = {
-      @Result(
-        name = "grid",
-        location
-          = "real-network-interface-with-real-network-interface-configuration-grid.jsp"
-      )
-    }
-  )
+  @Override
+  @Action(results = { @Result(name = "success", location = "empty.jsp") })
   public String execute() throws Exception {
     Map<String, Object> params = ActionContext.getContext().getParameters();
     Integer simulationId
@@ -89,13 +81,19 @@ implements RealNetworkInterfaceMessage {
     Simulation config
       = simulationDao.findByKey(simulationId);
 
-    config.getRealNetworkInterfaceConfigurations()
-      .put(realNetworkInterface, realNetworkInterfaceConfiguration);
-    simulationDao.create(config);
+    if (realNetworkInterfaceConfiguration != null) {
+      config.getRealNetworkInterfaceConfigurations()
+        .put(realNetworkInterface, realNetworkInterfaceConfiguration);
+    }
+    else {
+      config.getRealNetworkInterfaceConfigurations().remove(realNetworkInterface);
+    }
+    simulationDao.update(config);
 
-    return "grid";
+    return "success";
   }
 
+  @Override
   public void validate() {
     if (realNetworkInterface == null) {
       addActionError(getText("select.a.row"));

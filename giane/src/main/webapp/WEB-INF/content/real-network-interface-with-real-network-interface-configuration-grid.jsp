@@ -35,7 +35,7 @@
   onSelectRowTopics="rowSelected"
   onCompleteTopics="gridCompleted"
   onDblClickRowTopics="realNetworkInterface_with_realNetworkInterfaceConfiguration_rowDblClicked"
-  listenTopics="set_realNetworkInterfaceConfiguration_to_realNetworkInterface_success"
+  reloadTopics="set_realNetworkInterfaceConfiguration_to_realNetworkInterface_success"
 >
   <sjg:gridColumn
     name="id"
@@ -47,7 +47,7 @@
     editable="false"
     search="true"
     searchoptions="{sopt:['eq','ne','lt','gt']}"
-    width="50"
+    hidden="true"
   />
   <sjg:gridColumn
     name="name"

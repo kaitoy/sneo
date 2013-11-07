@@ -24,7 +24,7 @@ public class AdditionalIpV4RouteGroupDto implements Serializable {
   public AdditionalIpV4RouteGroupDto(AdditionalIpV4RouteGroup model) {
     this.id = model.getId();
     this.name = model.getName();
-    this.descr = model.getDescr().replaceAll("\n", " ");
+    this.descr = model.getDescr();
   }
 
   public Integer getId() {
@@ -55,7 +55,7 @@ public class AdditionalIpV4RouteGroupDto implements Serializable {
   public boolean equals(Object obj) {
     if (obj == this) { return true; }
     if (!this.getClass().isInstance(obj)) { return false; }
-    return this.id == ((AdditionalIpV4RouteGroupDto)obj).getId();
+    return this.id.equals(((AdditionalIpV4RouteGroupDto)obj).getId());
   }
 
   @Override

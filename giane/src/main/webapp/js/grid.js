@@ -1,11 +1,11 @@
 $(document).ready( function() {
   $.subscribe("rowSelected", function(event, data) {
     $.each($("#" + event.originalEvent.grid[0].id).jqGrid("getRowData", event.originalEvent.id), function(index, value) {
-      var id = event.originalEvent.grid[0].id;
-      id = id.substring(0, id.lastIndexOf("grid"));
-      id += index;
+      var fieldId = event.originalEvent.grid[0].id;
+      fieldId = fieldId.substring(0, fieldId.lastIndexOf("grid"));
+      fieldId += index;
       
-      var obj = $("*[id='" + id + "']");
+      var obj = $("*[id='" + fieldId + "']");
       if (obj.size() != 0) {
         var tagName = obj.get(0).tagName.toLowerCase();
         switch (tagName) {
@@ -30,3 +30,11 @@ $(document).ready( function() {
     $(".selectedOption").removeAttr("selected").removeClass("selectedOption");
   });
 });
+
+// formatter
+function oneLine(cellvalue, options, rowObject) {
+  options.colModel.unformat = function () {
+    return cellvalue;
+  };
+  return cellvalue.replace(/\n|\r/g, " ");
+}

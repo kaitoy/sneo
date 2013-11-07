@@ -28,7 +28,7 @@ public class TrapTargetDto implements Serializable {
     this.name = model.getName();
     this.address = model.getAddress();
     this.port = model.getPort();
-    this.descr = model.getDescr().replaceAll("\n", " ");
+    this.descr = model.getDescr();
   }
 
   public Integer getId() {
@@ -75,7 +75,7 @@ public class TrapTargetDto implements Serializable {
   public boolean equals(Object obj) {
     if (obj == this) { return true; }
     if (!this.getClass().isInstance(obj)) { return false; }
-    return this.id == ((TrapTargetDto)obj).getId();
+    return this.id.equals(((TrapTargetDto)obj).getId());
   }
 
   @Override

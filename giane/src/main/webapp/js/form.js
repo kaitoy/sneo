@@ -15,4 +15,11 @@ $(document).ready( function() {
     
     $.publish("doUpdate_" + modelName);
   });
+
+  $.subscribe("saveButtonClicked", function(event, data) {
+    var formId = event.originalEvent.currentTarget.form.id;
+    var topic = "doSave_" + formId.substring(0, formId.lastIndexOf("_form"));
+    
+    $.publish(topic);
+  });
 });

@@ -24,7 +24,7 @@ public class TrapTargetGroupDto implements Serializable {
   public TrapTargetGroupDto(TrapTargetGroup model) {
     this.id = model.getId();
     this.name = model.getName();
-    this.descr = model.getDescr().replaceAll("\n", " ");
+    this.descr = model.getDescr();
   }
 
   public Integer getId() {
@@ -55,7 +55,7 @@ public class TrapTargetGroupDto implements Serializable {
   public boolean equals(Object obj) {
     if (obj == this) { return true; }
     if (!this.getClass().isInstance(obj)) { return false; }
-    return this.id == ((TrapTargetGroupDto)obj).getId();
+    return this.id.equals(((TrapTargetGroupDto)obj).getId());
   }
 
   @Override

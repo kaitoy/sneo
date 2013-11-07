@@ -35,7 +35,7 @@
   onSelectRowTopics="rowSelected"
   onCompleteTopics="gridCompleted"
   onDblClickRowTopics="snmpAgent_with_trapTargetGroup_rowDblClicked"
-  listenTopics="set_trapTargetGroup_to_snmpAgent_success"
+  reloadTopics="set_trapTargetGroup_to_snmpAgent_success"
 >
   <sjg:gridColumn
     name="id"
@@ -47,7 +47,7 @@
     editable="false"
     search="true"
     searchoptions="{sopt:['eq','ne','lt','gt']}"
-    width="50"
+    hidden="true"
   />
   <sjg:gridColumn
     name="address"

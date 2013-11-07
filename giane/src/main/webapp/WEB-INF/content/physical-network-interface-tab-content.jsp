@@ -23,10 +23,10 @@
           <span id="physicalNetworkInterface_form_nameError"></span>
         </div>
         <div>
-          <table class="submits-table">
+          <table class="submit-button-table">
             <tbody>
               <tr>
-                <td class="left-button-cell">
+                <td class="create-button-cell">
                   <sj:submit
                     value="%{getText('form.createButton.label')}"
                     button="true"
@@ -51,7 +51,7 @@
                     cssStyle="display: none;"
                   />
                 </td>
-                <td class="left-button-indicator-cell">
+                <td class="create-button-indicator-cell">
                   <img
                     id="physicalNetworkInterface_create_indicator"
                     src="images/loading_small.gif"
@@ -59,7 +59,7 @@
                     style="display: none;"
                   />
                 </td>
-                <td class="right-button-cell">
+                <td class="update-button-cell">
                   <sj:submit
                     value="%{getText('form.updateButton.label')}"
                     button="true"

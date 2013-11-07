@@ -6,7 +6,7 @@
 <table id="startSimulator_container">
   <tbody>
     <tr>
-      <td style="text-align:right;">
+      <td class="start-button-cell">
           <s:url var="startSimulator_start_url" action="start-simulator" >
             <s:param name="simulation_id" value="%{#parameters.simulation_id}" />
           </s:url>
@@ -23,17 +23,7 @@
             <s:text name="startSimulator.start.button.label" />
           </sj:a>
       </td>
-      <td style="text-align:left;">
-        <!--
-        <sj:div
-          id="startSimulator_stop_wrapper"
-          events="click"
-          effect="bounce"
-          effectMode="effect"
-          effectOptions="{ times:3 }"
-          effectDuration="300"
-        >
-         -->
+      <td class="stop-button-cell">
           <s:url var="startSimulator_stop_url" action="stop-simulator" >
             <s:param name="simulation_id" value="%{#parameters.simulation_id}" />
           </s:url>
@@ -49,7 +39,6 @@
           >
             <s:text name="startSimulator.stop.button.label" />
           </sj:a>
-        <!-- </sj:div> -->
       </td>
     </tr>
   </tbody>

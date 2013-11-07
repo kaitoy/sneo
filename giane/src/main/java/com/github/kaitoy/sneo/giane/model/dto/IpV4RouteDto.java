@@ -8,7 +8,6 @@
 package com.github.kaitoy.sneo.giane.model.dto;
 
 import java.io.Serializable;
-
 import com.github.kaitoy.sneo.giane.model.IpV4Route;
 
 public class IpV4RouteDto implements Serializable {
@@ -76,7 +75,7 @@ public class IpV4RouteDto implements Serializable {
   public boolean equals(Object obj) {
     if (obj == this) { return true; }
     if (!this.getClass().isInstance(obj)) { return false; }
-    return this.id == ((IpV4RouteDto)obj).getId();
+    return this.id.equals(((IpV4RouteDto)obj).getId());
   }
 
   @Override

@@ -26,7 +26,7 @@ public class NodeDto implements Serializable {
     this.id = model.getId();
     this.name = model.getName();
     this.ttl = model.getTtl();
-    this.descr = model.getDescr().replaceAll("\n", " ");
+    this.descr = model.getDescr();
   }
 
   public Integer getId() {
@@ -65,7 +65,7 @@ public class NodeDto implements Serializable {
   public boolean equals(Object obj) {
     if (obj == this) { return true; }
     if (!this.getClass().isInstance(obj)) { return false; }
-    return this.id == ((NodeDto)obj).getId();
+    return this.id.equals(((NodeDto)obj).getId());
   }
 
   @Override

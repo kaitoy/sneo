@@ -6,31 +6,61 @@
   padding-right: 0.5em;
 }
 
-.giane-form textarea {
-  height: 5em;
+.giane-form fieldset div:after {
+  content: "";
+  clear: both;
+  display: block;
 }
 
-.submits-table {
+.giane-form textarea {
+  height: 5em;
+  resize: none;
+}
+
+.giane-form .select-field {
+  width: 60%;
+}
+
+.giane-form fieldset div {
+  margin-top: 12px;
+}
+
+.giane-form .submit-button-table {
   width: 100%;
 }
 
-.submits-table .left-button-cell {
+.giane-form .submit-button-table .create-button-cell {
   width: 40%;
   text-align: right;
 }
 
-.submits-table .left-button-indicator-cell {
+.giane-form .submit-button-table .create-button-indicator-cell {
   width: 10%;
   text-align: left;
 }
 
-.submits-table .right-button-cell {
+.giane-form .submit-button-table .update-button-cell {
   width: 50%;
   text-align: left;
 }
 
-.submits-table .giane-form-button {
+.giane-form .submit-button-table .set-button-cell {
+  width: 50%;
+  text-align: right;
+}
+
+.giane-form .submit-button-table .set-button-indicator-cell {
+  width: 50%;
+  text-align: left;
+}
+
+.giane-form-button {
   width: 7em;
+}
+
+.giane-disabled-field {
+  border: none;
+  color: black;
 }
 
 div#breadcrumbs {
@@ -42,22 +72,20 @@ div#breadcrumbs {
   height: 94%;
 }
 
-.tab-content {
-  height: 100%;
-}
-
 .left-column {
   width: 40%;
   float: left;
 }
 
-.left-column .select-field {
-  width: 60%;
-}
-
 .right-column {
   width: 60%;
   float: right;
+}
+
+.tab-content:after {
+  content: "";
+  clear: both;
+  display: block;
 }
 
 .grid-box{
@@ -76,22 +104,27 @@ div#breadcrumbs {
   font-size: 10px;
 }
 
+#startSimulator_tab_content {
+  height: 50%;
+}
+
 #startSimulator_container {
-  vertical-align: middle;
-  text-align: center;
   height:100%;
   width: 100%;
   font-size: 17px;
+}
+
+#startSimulator_container .start-button-cell {
+  vertical-align: bottom;
+  text-align: right;
+}
+
+#startSimulator_container .stop-button-cell {
+  vertical-align: bottom;
+  text-align: left;
 }
 
 .required {
   color: red;
 }
 
-fieldset div {
-  margin-top: 12px;
-}
-
-textarea {
-  resize: none;
-}

@@ -8,7 +8,6 @@
 package com.github.kaitoy.sneo.giane.model.dto;
 
 import java.io.Serializable;
-
 import com.github.kaitoy.sneo.giane.model.VlanMember;
 
 public class VlanMemberDto implements Serializable {
@@ -46,7 +45,7 @@ public class VlanMemberDto implements Serializable {
   public boolean equals(Object obj) {
     if (obj == this) { return true; }
     if (!this.getClass().isInstance(obj)) { return false; }
-    return this.id == ((VlanMemberDto)obj).getId();
+    return this.id.equals(((VlanMemberDto)obj).getId());
   }
 
   @Override

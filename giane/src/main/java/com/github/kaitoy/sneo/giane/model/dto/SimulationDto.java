@@ -26,7 +26,7 @@ public class SimulationDto implements Serializable {
     this.id = model.getId();
     this.name = model.getName();
     this.network = model.getNetwork().getName();
-    this.descr = model.getDescr().replaceAll("\n", " ");
+    this.descr = model.getDescr();
   }
 
   public Integer getId() {
@@ -65,7 +65,7 @@ public class SimulationDto implements Serializable {
   public boolean equals(Object obj) {
     if (obj == this) { return true; }
     if (!this.getClass().isInstance(obj)) { return false; }
-    return this.id == ((SimulationDto)obj).getId();
+    return this.id.equals(((SimulationDto)obj).getId());
   }
 
   @Override

@@ -30,7 +30,7 @@ public class RealNetworkInterfaceConfigurationDto implements Serializable {
     this.name = conf.getName();
     this.deviceName = conf.getDeviceName();
     this.macAddress = conf.getMacAddress();
-    this.descr = conf.getDescr().replaceAll("\n", " ");
+    this.descr = conf.getDescr();
   }
 
   public Integer getId() {
@@ -77,7 +77,7 @@ public class RealNetworkInterfaceConfigurationDto implements Serializable {
   public boolean equals(Object obj) {
     if (obj == this) { return true; }
     if (!this.getClass().isInstance(obj)) { return false; }
-    return this.id == ((RealNetworkInterfaceConfigurationDto)obj).getId();
+    return this.id.equals(((RealNetworkInterfaceConfigurationDto)obj).getId());
   }
 
   @Override

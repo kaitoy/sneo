@@ -8,7 +8,6 @@
 package com.github.kaitoy.sneo.giane.model.dto;
 
 import java.io.Serializable;
-
 import com.github.kaitoy.sneo.giane.model.RealNetworkInterface;
 import com.github.kaitoy.sneo.giane.model.RealNetworkInterfaceConfiguration;
 
@@ -66,7 +65,7 @@ public class RealNetworkInterfaceWithRealNetworkInterfaceConfigurationDto implem
   public boolean equals(Object obj) {
     if (obj == this) { return true; }
     if (!this.getClass().isInstance(obj)) { return false; }
-    return this.id == ((RealNetworkInterfaceWithRealNetworkInterfaceConfigurationDto)obj).getId();
+    return this.id.equals(((RealNetworkInterfaceWithRealNetworkInterfaceConfigurationDto)obj).getId());
   }
 
   @Override

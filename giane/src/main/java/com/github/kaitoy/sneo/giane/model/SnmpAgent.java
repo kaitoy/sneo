@@ -201,7 +201,7 @@ public class SnmpAgent implements Serializable {
   public boolean equals(Object obj) {
     if (obj == this) { return true; }
     if (!this.getClass().isInstance(obj)) { return false; }
-    return this.id == ((SnmpAgent)obj).getId();
+    return this.id.equals(((SnmpAgent)obj).getId());
   }
 
   @Override
