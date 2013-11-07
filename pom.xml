@@ -5,7 +5,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.github.kaitoy.sneo</groupId>
   <artifactId>sneo</artifactId>
-  <version>1.2.0-SNAPSHOT</version>
+  <version>1.2.0</version>
   <packaging>pom</packaging>
   <name>SNeO</name>
   <description>An SNMP Network Simulator.</description>
@@ -301,7 +301,7 @@
                     </goals>
                   </pluginExecutionFilter>
                   <action>
-                    <ignore></ignore>
+                    <ignore />
                   </action>
                 </pluginExecution>
               </pluginExecutions>
