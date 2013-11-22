@@ -135,6 +135,24 @@ implements ModelDriven<PhysicalNetworkInterface>, FormMessage,
   }
 
   @Action(
+    value = "lag-associated-physical-network-interface-grid-box",
+    results = { @Result(name = "grid", location = "lag-associated-physical-network-interface-grid.jsp")}
+  )
+  @SkipValidation
+  public String lagAssociatedGrid() throws Exception {
+    return "grid";
+  }
+
+  @Action(
+    value = "lag-unassociated-physical-network-interface-grid-box",
+    results = { @Result(name = "grid", location = "lag-unassociated-physical-network-interface-grid.jsp")}
+  )
+  @SkipValidation
+  public String lagUnassociatedGrid() throws Exception {
+    return "grid";
+  }
+
+  @Action(
     value = "physical-network-interface-create",
     results = { @Result(name = "success", location = "empty.jsp") }
   )

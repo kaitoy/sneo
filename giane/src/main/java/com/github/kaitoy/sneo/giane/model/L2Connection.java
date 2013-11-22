@@ -10,7 +10,6 @@ package com.github.kaitoy.sneo.giane.model;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -53,7 +52,7 @@ public class L2Connection implements Serializable {
     this.id = id;
   }
 
-  @Column(name = "NAME", nullable = false, length = 50)
+  @Column(name = "NAME", nullable = false, length = 1000)
   public String getName() {
     return name;
   }
@@ -66,7 +65,7 @@ public class L2Connection implements Serializable {
   @StringLengthFieldValidator(
     key = "StringLengthFieldValidator.error.max",
     trim = true,
-    maxLength = "50",
+    maxLength = "1000",
     shortCircuit = true
   )
   public void setName(String name) {
@@ -76,10 +75,7 @@ public class L2Connection implements Serializable {
   @OneToMany(
     mappedBy = "l2Connection",
     fetch = FetchType.LAZY,
-    cascade = {
-      CascadeType.PERSIST,
-      CascadeType.MERGE
-    }
+    orphanRemoval = false
   )
   public List<PhysicalNetworkInterface> getPhysicalNetworkInterfaces() {
     return physicalNetworkInterfaces;

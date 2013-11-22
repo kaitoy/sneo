@@ -13,6 +13,8 @@
     <class>com.github.kaitoy.sneo.giane.model.IpAddressRelation</class>
     <class>com.github.kaitoy.sneo.giane.model.IpV4Route</class>
     <class>com.github.kaitoy.sneo.giane.model.L2Connection</class>
+    <class>com.github.kaitoy.sneo.giane.model.Lag</class>
+    <class>com.github.kaitoy.sneo.giane.model.LagIpAddressRelation</class>
     <class>com.github.kaitoy.sneo.giane.model.Network</class>
     <class>com.github.kaitoy.sneo.giane.model.Node</class>
     <class>com.github.kaitoy.sneo.giane.model.PhysicalNetworkInterface</class>

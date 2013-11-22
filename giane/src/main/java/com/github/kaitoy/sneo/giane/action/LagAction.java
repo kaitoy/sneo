@@ -1,6 +1,6 @@
 /*_##########################################################################
   _##
-  _##  Copyright (C) 2012-2013 Kaito Yamada
+  _##  Copyright (C) 2013 Kaito Yamada
   _##
   _##########################################################################
 */
@@ -16,12 +16,12 @@ import org.apache.struts2.interceptor.validation.SkipValidation;
 import com.github.kaitoy.sneo.giane.action.message.AssociateActionMessage;
 import com.github.kaitoy.sneo.giane.action.message.BreadCrumbsMessage;
 import com.github.kaitoy.sneo.giane.action.message.FormMessage;
-import com.github.kaitoy.sneo.giane.action.message.VlanMessage;
-import com.github.kaitoy.sneo.giane.model.Vlan;
-import com.github.kaitoy.sneo.giane.model.VlanIpAddressRelation;
+import com.github.kaitoy.sneo.giane.action.message.LagMessage;
+import com.github.kaitoy.sneo.giane.model.Lag;
+import com.github.kaitoy.sneo.giane.model.LagIpAddressRelation;
 import com.github.kaitoy.sneo.giane.model.dao.IpAddressRelationDao;
+import com.github.kaitoy.sneo.giane.model.dao.LagDao;
 import com.github.kaitoy.sneo.giane.model.dao.NodeDao;
-import com.github.kaitoy.sneo.giane.model.dao.VlanDao;
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 import com.opensymphony.xwork2.ModelDriven;
@@ -29,41 +29,41 @@ import com.opensymphony.xwork2.validator.annotations.VisitorFieldValidator;
 
 @ParentPackage("giane-default")
 @InterceptorRef("gianeDefaultStack")
-public class VlanAction
+public class LagAction
 extends ActionSupport
-implements ModelDriven<Vlan>, FormMessage, VlanMessage, BreadCrumbsMessage,
+implements ModelDriven<Lag>, FormMessage, LagMessage, BreadCrumbsMessage,
   AssociateActionMessage {
 
   /**
    *
    */
-  private static final long serialVersionUID = -5289730548784449639L;
+  private static final long serialVersionUID = 6917277494829749632L;
 
-  private Vlan model = new Vlan();
-  private VlanDao vlanDao;
-  private IpAddressRelationDao ipAddressRelationDao;
+  private Lag model = new Lag();
+  private LagDao lagDao;
   private NodeDao nodeDao;
+  private IpAddressRelationDao ipAddressRelationDao;
   private String uniqueColumn;
   private String uniqueDomain;
 
-  public Vlan getModel() { return model; }
+  public Lag getModel() { return model; }
 
   @VisitorFieldValidator(appendPrefix = false)
-  public void setModel(Vlan model) { this.model = model; }
+  public void setModel(Lag model) { this.model = model; }
 
   // for DI
-  public void setVlanDao(VlanDao vlanDao) {
-    this.vlanDao = vlanDao;
-  }
-
-  // for DI
-  public void setIpAddressRelationDao(IpAddressRelationDao ipAddressRelationDao) {
-    this.ipAddressRelationDao = ipAddressRelationDao;
+  public void setLagDao(LagDao lagDao) {
+    this.lagDao = lagDao;
   }
 
   // for DI
   public void setNodeDao(NodeDao nodeDao) {
     this.nodeDao = nodeDao;
+  }
+
+  // for DI
+  public void setIpAddressRelationDao(IpAddressRelationDao ipAddressRelationDao) {
+    this.ipAddressRelationDao = ipAddressRelationDao;
   }
 
   public String getUniqueColumn() {
@@ -81,13 +81,13 @@ implements ModelDriven<Vlan>, FormMessage, VlanMessage, BreadCrumbsMessage,
     Map<String, Object> parameters
       = (Map<String, Object>)ActionContext.getContext().get("parameters");
     if (parameters.get("network_id") == null) {
-      setModel(vlanDao.findByKey(model.getId()));
+      setModel(lagDao.findByKey(model.getId()));
       parameters.put("network_id", model.getNode().getNetwork().getId());
       parameters.put("network_name", model.getNode().getNetwork().getName());
       parameters.put("node_id", model.getNode().getId());
       parameters.put("node_name", model.getNode().getName());
-      parameters.put("vlan_id", model.getId());
-      parameters.put("vlan_name", model.getName());
+      parameters.put("lag_id", model.getId());
+      parameters.put("lag_name", model.getName());
       parameters.put(
         "ipAddressRelation_id", model.getIpAddressRelation().getId()
       );
@@ -97,8 +97,8 @@ implements ModelDriven<Vlan>, FormMessage, VlanMessage, BreadCrumbsMessage,
   }
 
   @Action(
-    value = "vlan-tab-content",
-    results = { @Result(name = "tab", location = "vlan-tab-content.jsp")}
+    value = "lag-tab-content",
+    results = { @Result(name = "tab", location = "lag-tab-content.jsp")}
   )
   @SkipValidation
   public String tab() throws Exception {
@@ -106,21 +106,21 @@ implements ModelDriven<Vlan>, FormMessage, VlanMessage, BreadCrumbsMessage,
   }
 
   @Action(
-    value = "associate-vlan-with-vlan-members-tab-content",
+    value = "associate-lag-with-physical-network-interfaces-tab-content",
     results = {
       @Result(
         name = "tab",
-        location = "associate-vlan-with-vlan-members-tab-content.jsp"
+        location = "associate-lag-with-physical-network-interfaces-tab-content.jsp"
       )
     }
   )
   @SkipValidation
-  public String associateVlanMembersTab() throws Exception {
+  public String associatePhysicalNetworkInterfacesTab() throws Exception {
     return "tab";
   }
 
   @Action(
-    value = "vlan-create",
+    value = "lag-create",
     results = { @Result(name = "success", location = "empty.jsp") }
   )
   public String create() throws Exception {
@@ -128,26 +128,26 @@ implements ModelDriven<Vlan>, FormMessage, VlanMessage, BreadCrumbsMessage,
     Integer node_id = Integer.valueOf(((String[])params.get("node_id"))[0]);
     model.setNode(nodeDao.findByKey(node_id));
 
-    VlanIpAddressRelation relation
-      = new VlanIpAddressRelation();
-    relation.setVlan(model);
+    LagIpAddressRelation relation
+      = new LagIpAddressRelation();
+    relation.setLag(model);
     ipAddressRelationDao.create(relation);
 
     model.setIpAddressRelation(relation);
-    vlanDao.create(model);
+    lagDao.create(model);
 
     return "success";
   }
 
   @Action(
-    value = "vlan-update",
+    value = "lag-update",
     results = { @Result(name = "success", location = "empty.jsp") }
   )
   public String update() throws Exception {
-    Vlan update = vlanDao.findByKey(model.getId());
+    Lag update = lagDao.findByKey(model.getId());
     update.setName(model.getName());
-    update.setVid(model.getVid());
-    vlanDao.update(update);
+    update.setChannelGroupNumber(model.getChannelGroupNumber());
+    lagDao.update(update);
 
     return "success";
   }
@@ -156,7 +156,7 @@ implements ModelDriven<Vlan>, FormMessage, VlanMessage, BreadCrumbsMessage,
   public void validate() {
     String contextName = ActionContext.getContext().getName();
 
-    if (contextName.equals("vlan-update")) {
+    if (contextName.equals("lag-update")) {
       if (model.getId() == null) {
         addActionError(getText("select.a.row"));
       }
@@ -167,25 +167,25 @@ implements ModelDriven<Vlan>, FormMessage, VlanMessage, BreadCrumbsMessage,
           = (Map<String, Object>)ActionContext.getContext().get("parameters");
         Integer nodeId = Integer.valueOf(((String[])params.get("node_id"))[0]);
 
-        Vlan someone= vlanDao.findByNameAndNodeId(model.getName(), nodeId);
+        Lag someone= lagDao.findByNameAndNodeId(model.getName(), nodeId);
         if (someone != null && !someone.getId().equals(model.getId())) {
-          uniqueDomain = getText("vlan.node.label");
-          uniqueColumn = getText("vlan.name.label");
+          uniqueDomain = getText("lag.node.label");
+          uniqueColumn = getText("lag.name.label");
           addActionError(getText("need.to.be.unique.in.domain"));
           return;
         }
       }
     }
 
-    if (contextName.equals("vlan-create")) {
+    if (contextName.equals("lag-create")) {
       Map<String, Object> params = ActionContext.getContext().getParameters();
       Integer nodeId = Integer.valueOf(((String[])params.get("node_id"))[0]);
       if (
            model.getName() != null
-        && vlanDao.findByNameAndNodeId(model.getName(), nodeId) != null
+        && lagDao.findByNameAndNodeId(model.getName(), nodeId) != null
       ) {
-        uniqueDomain = getText("vlan.node.label");
-        uniqueColumn = getText("vlan.name.label");
+        uniqueDomain = getText("lag.node.label");
+        uniqueColumn = getText("lag.name.label");
         addActionError(getText("need.to.be.unique.in.domain"));
         return;
       }

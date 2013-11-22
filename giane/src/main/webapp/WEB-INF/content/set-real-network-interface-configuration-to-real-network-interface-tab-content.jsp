@@ -40,7 +40,6 @@
           <label for="realNetworkInterface_with_realNetworkInterfaceConfiguration_realNetworkInterfaceConfiguration"><span id="set_realNetworkInterfaceConfiguration_to_realNetworkInterface_form_realNetworkInterfaceConfigurationError"></span></label>
         </div>
         <div>
-        <div>
           <table class="submit-button-table">
             <tbody>
               <tr>

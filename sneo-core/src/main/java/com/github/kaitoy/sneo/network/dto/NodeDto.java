@@ -22,6 +22,7 @@ public class NodeDto implements Serializable {
   private Integer ttl;
   private SnmpAgentDto agent;
   private List<PhysicalNetworkInterfaceDto> physicalNetworkInterfaces;
+  private List<LagDto> lags;
   private List<RealNetworkInterfaceDto> realNetworkInterfaces;
   private List<VlanDto> vlans;
   private List<IpV4RouteDto> ipV4Routes;
@@ -66,6 +67,14 @@ public class NodeDto implements Serializable {
     List<PhysicalNetworkInterfaceDto> physicalNetworkInterfaces
   ) {
     this.physicalNetworkInterfaces = physicalNetworkInterfaces;
+  }
+
+  public List<LagDto> getLags() {
+    return lags;
+  }
+
+  public void setLags(List<LagDto> lags) {
+    this.lags = lags;
   }
 
   public List<RealNetworkInterfaceDto> getRealNetworkInterfaces() {

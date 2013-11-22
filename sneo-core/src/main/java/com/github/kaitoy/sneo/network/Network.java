@@ -17,6 +17,7 @@ import com.github.kaitoy.sneo.jmx.JmxAgent;
 import com.github.kaitoy.sneo.network.dto.IpAddressDto;
 import com.github.kaitoy.sneo.network.dto.IpV4RouteDto;
 import com.github.kaitoy.sneo.network.dto.L2ConnectionDto;
+import com.github.kaitoy.sneo.network.dto.LagDto;
 import com.github.kaitoy.sneo.network.dto.NetworkDto;
 import com.github.kaitoy.sneo.network.dto.NodeDto;
 import com.github.kaitoy.sneo.network.dto.PhysicalNetworkInterfaceDto;
@@ -226,6 +227,32 @@ public class Network {
 
       for (VlanMemberDto nifDto: vlanDto.getVlanMembers()) {
         node.addNifToVlan(nifDto.getName(), vlanDto.getVid(), false);
+      }
+    }
+
+    for (LagDto lagDto: nodeDto.getLags()) {
+      List<IpAddressDto> ipAddrDtos = lagDto.getIpAddresses();
+      if (ipAddrDtos != null && ipAddrDtos.size() != 0) {
+        IpAddressDto firstOne = ipAddrDtos.remove(0);
+        node.addLag(
+          lagDto.getName(),
+          firstOne.getAddress(),
+          firstOne.getPrefixLength(),
+          lagDto.getChannelGroupNumber()
+        );
+
+        for (IpAddressDto ipAddrDto: ipAddrDtos) {
+          node.addIpAddress(
+            lagDto.getName(), ipAddrDto.getAddress(), ipAddrDto.getPrefixLength()
+          );
+        }
+      }
+      else {
+        node.addLag(lagDto.getName(), null, null, lagDto.getChannelGroupNumber());
+      }
+
+      for (PhysicalNetworkInterfaceDto nifDto: lagDto.getPhysicalNetworkInterfaces()) {
+        node.addNifToLag(nifDto.getName(), lagDto.getChannelGroupNumber());
       }
     }
 

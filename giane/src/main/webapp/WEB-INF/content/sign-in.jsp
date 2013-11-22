@@ -11,7 +11,7 @@
   button="true"
   indicator="main_indicator"
 >
-  <s:text name="signIn.button.labellllll">Giane</s:text>
+  <s:text name="signIn.button.label" />
 </sj:a>
 
 

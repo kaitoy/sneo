@@ -8,7 +8,7 @@
     <s:url var="vlan_associated_vlanMember_grid_box_url" action="vlan-associated-vlan-member-grid-box"  escapeAmp="false">
       <s:param name="node_id" value="%{#parameters.node_id}" />
       <s:param name="vlan_id" value="%{#parameters.vlan_id}" />
-      <s:param name="vlan_vid" value="%{#parameters.vlan_vid}" />
+      <s:param name="vlan_name" value="%{#parameters.vlan_name}" />
     </s:url>
     <sj:div
       id="associate_vlan_with_vlanMembers_left_column"
@@ -45,7 +45,6 @@
       <s:form id="save_vlan_associated_vlanMember_grid_form" theme="simple">
         <s:url var="associate_vlan_with_vlanMembers_url" action="associate-vlan-with-vlan-members" escapeAmp="false">
           <s:param name="vlan_id" value="%{#parameters.vlan_id}" />
-          <s:param name="vlan_vid" value="%{#parameters.vlan_vid}" />
         </s:url>
         <div class="type-hidden">
           <s:hidden id="vlan_associated_vlanMember_grid_id_list" name="idList" value="undefined" />
@@ -70,7 +69,7 @@
   <s:url var="vlan_unassociated_vlanMember_grid_box_url" action="vlan-unassociated-vlan-member-grid-box"  escapeAmp="false">
     <s:param name="node_id" value="%{#parameters.node_id}" />
     <s:param name="vlan_id" value="%{#parameters.vlan_id}" />
-    <s:param name="vlan_vid" value="%{#parameters.vlan_vid}" />
+    <s:param name="vlan_name" value="%{#parameters.vlan_name}" />
   </s:url>
   <sj:div
     id="associate_vlan_with_vlanMembers_right_column"

@@ -1,6 +1,6 @@
 /*_##########################################################################
   _##
-  _##  Copyright (C) 2012 Kaito Yamada
+  _##  Copyright (C) 2013 Kaito Yamada
   _##
   _##########################################################################
 */
@@ -10,18 +10,18 @@ package com.github.kaitoy.sneo.network.dto;
 import java.io.Serializable;
 import java.util.List;
 
-public class VlanDto implements Serializable  {
+public class LagDto implements Serializable {
 
   /**
    *
    */
-  private static final long serialVersionUID = 5541241260538484516L;
+  private static final long serialVersionUID = -1272808890618220921L;
 
   private Integer id;
   private String name;
-  private Integer vid;
+  private Integer channelGroupNumber;
   private List<IpAddressDto> ipAddresses;
-  private List<VlanMemberDto> vlanMembers;
+  private List<PhysicalNetworkInterfaceDto> physicalNetworkInterfaces;
 
   public Integer getId() {
     return id;
@@ -39,12 +39,9 @@ public class VlanDto implements Serializable  {
     this.name = name;
   }
 
-  public Integer getVid() {
-    return vid;
-  }
 
-  public void setVid(Integer vid) {
-    this.vid = vid;
+  public Integer getChannelGroupNumber() {
+    return channelGroupNumber;
   }
 
   public List<IpAddressDto> getIpAddresses() {
@@ -55,19 +52,25 @@ public class VlanDto implements Serializable  {
     this.ipAddresses = ipAddresses;
   }
 
-  public List<VlanMemberDto> getVlanMembers() {
-    return vlanMembers;
+  public void setChannelGroupNumber(Integer channelGroupNumber) {
+    this.channelGroupNumber = channelGroupNumber;
   }
 
-  public void setVlanMembers(List<VlanMemberDto> vlanMembers) {
-    this.vlanMembers = vlanMembers;
+  public List<PhysicalNetworkInterfaceDto> getPhysicalNetworkInterfaces() {
+    return physicalNetworkInterfaces;
+  }
+
+  public void setPhysicalNetworkInterfaces(
+    List<PhysicalNetworkInterfaceDto> physicalNetworkInterfaces
+  ) {
+    this.physicalNetworkInterfaces = physicalNetworkInterfaces;
   }
 
   @Override
   public boolean equals(Object obj) {
     if (obj == this) { return true; }
     if (!this.getClass().isInstance(obj)) { return false; }
-    return this.id == ((VlanDto)obj).getId();
+    return this.id == ((LagDto)obj).getId();
   }
 
   @Override

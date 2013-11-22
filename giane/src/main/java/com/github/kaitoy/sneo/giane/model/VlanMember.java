@@ -46,7 +46,7 @@ public abstract class VlanMember implements Serializable {
 
   public void setId(Integer id) { this.id = id; }
 
-  @Column(name = "NAME", nullable = false, length = 50)
+  @Column(name = "NAME", nullable = false, length = 200)
   public String getName() {
     return name;
   }
@@ -59,7 +59,7 @@ public abstract class VlanMember implements Serializable {
   @StringLengthFieldValidator(
     key = "StringLengthFieldValidator.error.max",
     trim = true,
-    maxLength = "50",
+    maxLength = "200",
     shortCircuit = true
   )
   public void setName(String name) {

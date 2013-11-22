@@ -58,7 +58,7 @@ public class Simulation implements Serializable {
     this.id = id;
   }
 
-  @Column(name = "NAME", nullable = false, length = 50, unique = true)
+  @Column(name = "NAME", nullable = false, length = 200, unique = true)
   public String getName() {
     return name;
   }
@@ -71,7 +71,7 @@ public class Simulation implements Serializable {
   @StringLengthFieldValidator(
     key = "StringLengthFieldValidator.error.max",
     trim = true,
-    maxLength = "50",
+    maxLength = "200",
     shortCircuit = true
   )
   public void setName(String name) {
@@ -97,7 +97,7 @@ public class Simulation implements Serializable {
     this.network = network;
   }
 
-  @Column(name = "DESCR", nullable = true, length = 2000, unique = false)
+  @Column(name = "DESCR", nullable = true, length = 5000, unique = false)
   public String getDescr() {
     return descr;
   }
@@ -105,7 +105,7 @@ public class Simulation implements Serializable {
   @StringLengthFieldValidator(
     key = "StringLengthFieldValidator.error.max",
     trim = true,
-    maxLength = "2000",
+    maxLength = "5000",
     shortCircuit = true // Stops checking if detects error
   )
   public void setDescr(String descr) {

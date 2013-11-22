@@ -27,6 +27,7 @@ public class PhysicalNetworkInterface extends VlanMember {
 
   private L2Connection l2Connection;
   private PhysicalNetworkInterfaceIpAddressRelation ipAddressRelation;
+  private Lag lag;
   private Node node;
 
   @ManyToOne(optional = true, fetch = FetchType.LAZY)
@@ -62,6 +63,16 @@ public class PhysicalNetworkInterface extends VlanMember {
     this.ipAddressRelation = ipAddressRelation;
   }
 
+  @ManyToOne(optional = true, fetch = FetchType.LAZY)
+  @JoinColumn(name = "LAG_ID", nullable = true)
+  public Lag getLag() {
+    return lag;
+  }
+
+  public void setLag(Lag lag) {
+    this.lag = lag;
+  }
+
   @ManyToOne(optional = false, fetch = FetchType.LAZY)
   @JoinColumn(name = "NODE_ID", nullable = false)
   public Node getNode() {
@@ -72,12 +83,25 @@ public class PhysicalNetworkInterface extends VlanMember {
     this.node = node;
   }
 
+  @Override
   public PhysicalNetworkInterfaceDto toDto() {
     PhysicalNetworkInterfaceDto dto = new PhysicalNetworkInterfaceDto();
     dto.setId(getId());
     dto.setName(getName());
     dto.setIpAddresses(ipAddressRelation.getIpAddressDtos());
     return dto;
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (obj == this) { return true; }
+    if (!this.getClass().isInstance(obj)) { return false; }
+    return this.getId().equals(((PhysicalNetworkInterface)obj).getId());
+  }
+
+  @Override
+  public int hashCode() {
+    return getId();
   }
 
 }

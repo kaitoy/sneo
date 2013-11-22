@@ -58,6 +58,12 @@
   </s:url>
   <sj:div id="vlan_tab_content" href="%{vlan_tab_content_url}" indicator="vlan_tab_indicator" cssClass="tab-content" />
 
+  <sj:tab id="lag_tab" target="lag_tab_content" label="%{getText('node.config.lag.tab.label')}" />
+  <s:url var="lag_tab_content_url" action="lag-tab-content">
+    <s:param name="node_id" value="%{#parameters.node_id}" />
+  </s:url>
+  <sj:div id="lag_tab_content" href="%{lag_tab_content_url}" indicator="lag_tab_indicator" cssClass="tab-content" />
+
   <sj:tab id="fixedIpV4Route_tab" target="fixedIpV4Route_tab_content" label="%{getText('node.config.fixedIpV4Route.tab.label')}" />
   <s:url var="fixedIpV4Route_tab_content_url" action="fixed-ip-v4-route-tab-content">
     <s:param name="node_id" value="%{#parameters.node_id}" />
@@ -69,4 +75,5 @@
 <img id="physicalNetworkInterface_tab_indicator" src="images/loading_big.gif" alt="Loading..." style="display: none;" class="tab-indicator" />
 <img id="realNetworkInterface_tab_indicator" src="images/loading_big.gif" alt="Loading..." style="display: none;" class="tab-indicator" />
 <img id="vlan_tab_indicator" src="images/loading_big.gif" alt="Loading..." style="display: none;" class="tab-indicator" />
+<img id="lag_tab_indicator" src="images/loading_big.gif" alt="Loading..." style="display: none;" class="tab-indicator" />
 <img id="fixedIpV4Route_tab_indicator" src="images/loading_big.gif" alt="Loading..." style="display: none;" class="tab-indicator" />

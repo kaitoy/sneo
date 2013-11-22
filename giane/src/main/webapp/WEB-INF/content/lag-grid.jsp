@@ -2,14 +2,18 @@
 <%@ taglib prefix="s" uri="/struts-tags" %>
 <%@ taglib prefix="sjg" uri="/struts-jquery-grid-tags" %>
 
-<s:url var="network_grid_url" action="network-grid"/>
-<s:url var="network_edit_grid_entry_url" action="network-edit-grid-entry"/>
+<s:url var="lag_grid_url" action="lag-grid">
+  <s:param name="node_id" value="%{#parameters.node_id}" />
+</s:url>
+<s:url var="lag_edit_grid_entry_url" action="lag-edit-grid-entry">
+  <s:param name="node_id" value="%{#parameters.node_id}" />
+</s:url>
 
 <sjg:grid
-  id="network_grid"
-  caption="%{getText('network.grid.caption')}"
+  id="lag_grid"
+  caption="%{getText('lag.grid.caption')}"
   dataType="json"
-  href="%{network_grid_url}"
+  href="%{lag_grid_url}"
   pager="true"
   toppager="false"
   navigator="true"
@@ -21,7 +25,7 @@
   navigatorDeleteOptions="{modal:true, drag:true, reloadAfterSubmit:true, width:300, left:0}"
   navigatorSearch="true"
   navigatorSearchOptions="{modal:true, drag:true, closeAfterSearch:true, closeAfterReset:true}"
-  editurl="%{network_edit_grid_entry_url}"
+  editurl="%{lag_edit_grid_entry_url}"
   editinline="false"
   multiselect="false"
   viewrecords="true"
@@ -32,44 +36,43 @@
   width="550"
   shrinkToFit="true"
   altRows="true"
+  gridview="true"
   onSelectRowTopics="rowSelected"
   onCompleteTopics="gridCompleted"
-  onDblClickRowTopics="network_rowDblClicked"
-  reloadTopics="networkTableUpdated"
+  onDblClickRowTopics="lag_rowDblClicked"
+  reloadTopics="lagTableUpdated"
 >
   <sjg:gridColumn
     name="id"
     index="id"
-    title="%{getText('network.id.label')}"
+    title="%{getText('lag.id.label')}"
     formatter="integer"
     key="true"
     sortable="true"
     search="true"
     searchoptions="{sopt:['eq','ne','lt','gt']}"
     hidden="true"
-    cssClass="id-colmn"
   />
   <sjg:gridColumn
     name="name"
     index="name"
-    title="%{getText('network.name.label')}"
-    sortable="true"
-    editable="true"
-    edittype="text"
-    search="true"
-    searchoptions="{sopt:['eq','ne','bw','en','cn']}"
-    width="100"
-  />
-  <sjg:gridColumn
-    name="descr"
-    index="descr"
-    title="%{getText('network.descr.label')}"
+    title="%{getText('lag.name.label')}"
     sortable="true"
     editable="true"
     edittype="text"
     search="true"
     searchoptions="{sopt:['eq','ne','bw','en','cn']}"
     width="200"
-    formatter="oneLine"
+  />
+  <sjg:gridColumn
+    name="channelGroupNumber"
+    index="channelGroupNumber"
+    title="%{getText('lag.channelGroupNumber.label')}"
+    sortable="true"
+    editable="true"
+    edittype="text"
+    search="true"
+    searchoptions="{sopt:['eq','ne','lt','gt']}"
+    width="100"
   />
 </sjg:grid>

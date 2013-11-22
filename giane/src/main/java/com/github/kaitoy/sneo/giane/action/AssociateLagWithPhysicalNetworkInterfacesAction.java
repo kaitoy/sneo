@@ -1,6 +1,6 @@
 /*_##########################################################################
   _##
-  _##  Copyright (C) 2012-2013 Kaito Yamada
+  _##  Copyright (C) 2013 Kaito Yamada
   _##
   _##########################################################################
 */
@@ -15,26 +15,25 @@ import org.apache.struts2.convention.annotation.InterceptorRef;
 import org.apache.struts2.convention.annotation.ParentPackage;
 import org.apache.struts2.convention.annotation.Result;
 import com.github.kaitoy.sneo.giane.action.message.AssociateActionMessage;
-import com.github.kaitoy.sneo.giane.model.L2Connection;
+import com.github.kaitoy.sneo.giane.model.Lag;
 import com.github.kaitoy.sneo.giane.model.PhysicalNetworkInterface;
-import com.github.kaitoy.sneo.giane.model.dao.L2ConnectionDao;
+import com.github.kaitoy.sneo.giane.model.dao.LagDao;
 import com.github.kaitoy.sneo.giane.model.dao.PhysicalNetworkInterfaceDao;
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 
 @ParentPackage("giane-default")
 @InterceptorRef("gianeDefaultStack")
-public class AssociateL2ConnectionWithPhysicalNetworkInterfacesAction
-extends ActionSupport
+public class AssociateLagWithPhysicalNetworkInterfacesAction extends ActionSupport
 implements AssociateActionMessage {
 
   /**
    *
    */
-  private static final long serialVersionUID = -6021384373237360601L;
+  private static final long serialVersionUID = 7957474802263528822L;
 
   private PhysicalNetworkInterfaceDao physicalNetworkInterfaceDao;
-  private L2ConnectionDao l2ConnectionDao;
+  private LagDao lagDao;
   private String idList;
   private String dialogTitleKey;
   private String dialogTextKey;
@@ -47,8 +46,8 @@ implements AssociateActionMessage {
   }
 
   // for DI
-  public void setL2ConnectionDao(L2ConnectionDao l2ConnectionDao) {
-    this.l2ConnectionDao = l2ConnectionDao;
+  public void setLagDao(LagDao lagDao) {
+    this.lagDao = lagDao;
   }
 
   public String getIdList() {
@@ -91,24 +90,24 @@ implements AssociateActionMessage {
     }
 
     Map<String, Object> params = ActionContext.getContext().getParameters();
-    Integer l2Connection_id = Integer.valueOf(((String[])params.get("l2Connection_id"))[0]);
-    L2Connection l2Conn = l2ConnectionDao.findByKey(l2Connection_id);
+    Integer lag_id = Integer.valueOf(((String[])params.get("lag_id"))[0]);
+    Lag lag = lagDao.findByKey(lag_id);
 
-    if (pnifs.equals(l2Conn.getPhysicalNetworkInterfaces())) {
+    if (pnifs.equals(lag.getPhysicalNetworkInterfaces())) {
       dialogTitleKey = "associateAction.noChange.dialog.title";
-      dialogTextKey  = "associateAction.noChange.dialog.text";
+      dialogTextKey = "associateAction.noChange.dialog.text";
       return "noChange";
     }
 
-    for (PhysicalNetworkInterface pnif: l2Conn.getPhysicalNetworkInterfaces()) {
+    for (PhysicalNetworkInterface pnif: lag.getPhysicalNetworkInterfaces()) {
       if (!pnifs.contains(pnif)) {
-        pnif.setL2Connection(null);
+        pnif.setLag(null);
         physicalNetworkInterfaceDao.update(pnif);
       }
     }
     for (PhysicalNetworkInterface pnif: pnifs) {
-      if (!l2Conn.getPhysicalNetworkInterfaces().contains(pnif)) {
-        pnif.setL2Connection(l2Conn);
+      if (!lag.getPhysicalNetworkInterfaces().contains(pnif)) {
+        pnif.setLag(lag);
         physicalNetworkInterfaceDao.update(pnif);
       }
     }

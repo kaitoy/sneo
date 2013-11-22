@@ -33,8 +33,14 @@ $(document).ready( function() {
 
 // formatter
 function oneLine(cellvalue, options, rowObject) {
-  options.colModel.unformat = function () {
-    return cellvalue;
-  };
-  return cellvalue.replace(/\n|\r/g, " ");
+  if (!options.colModel.unformat) {
+    options.colModel.unformat = function(c, o, r) {
+      var clone = $(r).clone();
+      clone.children("span").text("\n");
+      return clone.text();
+    };
+  }
+  
+  return cellvalue.replace(/\n/g, "<span/>");
 }
+

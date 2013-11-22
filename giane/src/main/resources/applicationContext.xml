@@ -12,6 +12,7 @@
   <bean id="ipAddressRelationDao" class="com.github.kaitoy.sneo.giane.model.dao.impl.IpAddressRelationDaoImpl" scope="prototype" />
   <bean id="ipV4RouteDao" class="com.github.kaitoy.sneo.giane.model.dao.impl.IpV4RouteDaoImpl" scope="prototype" />
   <bean id="l2ConnectionDao" class="com.github.kaitoy.sneo.giane.model.dao.impl.L2ConnectionDaoImpl" scope="prototype" />
+  <bean id="lagDao" class="com.github.kaitoy.sneo.giane.model.dao.impl.LagDaoImpl" scope="prototype" />
   <bean id="networkDao" class="com.github.kaitoy.sneo.giane.model.dao.impl.NetworkDaoImpl" scope="prototype" />
   <bean id="nodeDao" class="com.github.kaitoy.sneo.giane.model.dao.impl.NodeDaoImpl" scope="prototype" />
   <bean id="physicalNetworkInterfaceDao" class="com.github.kaitoy.sneo.giane.model.dao.impl.PhysicalNetworkInterfaceDaoImpl" scope="prototype" />

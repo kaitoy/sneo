@@ -24,6 +24,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import com.github.kaitoy.sneo.network.dto.IpV4RouteDto;
+import com.github.kaitoy.sneo.network.dto.LagDto;
 import com.github.kaitoy.sneo.network.dto.NodeDto;
 import com.github.kaitoy.sneo.network.dto.PhysicalNetworkInterfaceDto;
 import com.github.kaitoy.sneo.network.dto.RealNetworkInterfaceDto;
@@ -48,6 +49,7 @@ public class Node implements Serializable {
   private String descr;
   private SnmpAgent agent;
   private List<PhysicalNetworkInterface> physicalNetworkInterfaces;
+  private List<Lag> lags;
   private List<RealNetworkInterface> realNetworkInterfaces;
   private List<Vlan> vlans;
   private List<FixedIpV4Route> ipV4Routes;
@@ -65,7 +67,7 @@ public class Node implements Serializable {
     this.id = id;
   }
 
-  @Column(name = "NAME", nullable = false, length = 50)
+  @Column(name = "NAME", nullable = false, length = 200)
   public String getName() {
     return name;
   }
@@ -78,7 +80,7 @@ public class Node implements Serializable {
   @StringLengthFieldValidator(
     key = "StringLengthFieldValidator.error.max",
     trim = true,
-    maxLength = "50",
+    maxLength = "200",
     shortCircuit = true
   )
   public void setName(String name) {
@@ -104,7 +106,7 @@ public class Node implements Serializable {
     this.ttl = ttl;
   }
 
-  @Column(name = "DESCR", nullable = true, length = 2000, unique = false)
+  @Column(name = "DESCR", nullable = true, length = 5000, unique = false)
   public String getDescr() {
     return descr;
   }
@@ -112,7 +114,7 @@ public class Node implements Serializable {
   @StringLengthFieldValidator(
     key = "StringLengthFieldValidator.error.max",
     trim = true,
-    maxLength = "2000",
+    maxLength = "5000",
     shortCircuit = true // Stops checking if detects error
   )
   public void setDescr(String descr) {
@@ -151,6 +153,22 @@ public class Node implements Serializable {
     List<PhysicalNetworkInterface> physicalNetworkInterfaces
   ) {
     this.physicalNetworkInterfaces = physicalNetworkInterfaces;
+  }
+
+  @OneToMany(
+    mappedBy = "node",
+    fetch = FetchType.LAZY,
+    orphanRemoval = true,
+    cascade = {
+      CascadeType.REMOVE
+    }
+  )
+  public List<Lag> getLags() {
+    return lags;
+  }
+
+  public void setLags(List<Lag> lags) {
+    this.lags = lags;
   }
 
   @OneToMany(
@@ -223,6 +241,11 @@ public class Node implements Serializable {
       physicalNetworkInterfaceDtos.add(physicalNetworkInterface.toDto());
     }
 
+    List<LagDto> lagDtos = new ArrayList<LagDto>();
+    for (Lag lag: lags) {
+      lagDtos.add(lag.toDto());
+    }
+
     List<RealNetworkInterfaceDto> realNetworkInterfaceDtos
       = new ArrayList<RealNetworkInterfaceDto>();
     for (
@@ -248,6 +271,7 @@ public class Node implements Serializable {
     dto.setTtl(ttl);
     dto.setAgent(agent.toDto());
     dto.setPhysicalNetworkInterfaces(physicalNetworkInterfaceDtos);
+    dto.setLags(lagDtos);
     dto.setRealNetworkInterfaces(realNetworkInterfaceDtos);
     dto.setVlans(vlanDtos);
     dto.setIpV4Routes(ipV4RouteDtos);

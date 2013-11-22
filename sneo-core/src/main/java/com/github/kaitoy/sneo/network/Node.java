@@ -33,13 +33,13 @@ import org.snmp4j.log.LogAdapter;
 import org.snmp4j.log.LogFactory;
 import com.github.kaitoy.sneo.agent.FileMibAgent;
 import com.github.kaitoy.sneo.network.protocol.ArpHelper;
+import com.github.kaitoy.sneo.network.protocol.ArpHelper.ArpTable;
 import com.github.kaitoy.sneo.network.protocol.EthernetHelper;
 import com.github.kaitoy.sneo.network.protocol.IcmpV4Helper;
 import com.github.kaitoy.sneo.network.protocol.IpV4Helper;
-import com.github.kaitoy.sneo.network.protocol.UdpHelper;
-import com.github.kaitoy.sneo.network.protocol.ArpHelper.ArpTable;
 import com.github.kaitoy.sneo.network.protocol.IpV4Helper.RoutingTable;
 import com.github.kaitoy.sneo.network.protocol.IpV4Helper.RoutingTable.RoutingTableEntry;
+import com.github.kaitoy.sneo.network.protocol.UdpHelper;
 import com.github.kaitoy.sneo.transport.SneoUdpTransportMapping;
 
 public class Node {
@@ -188,6 +188,41 @@ public class Node {
     getVlanNif(vid).addNif(ifName, nifs.get(ifName), tagged);
   }
 
+  public void addLag(
+    String name, InetAddress ipAddr, InetAddress subnetMask, int channelGroupNumber
+  ) {
+    NetworkInterface nif
+      = new LagInterface(
+        name,
+          MacAddressManager.getInstance().generateVirtualMacAddress(),
+          ipAddr,
+          subnetMask,
+          channelGroupNumber,
+          new PacketListenerImpl(name)
+        );
+
+    if (ipAddr != null) {
+      MacAddressManager.getInstance()
+        .registerVirtualMacAddress(ipAddr, nif.getMacAddress());
+    }
+
+    nifs.put(name, nif);
+  }
+
+  public void addLag(String name, String ipAddr, int prefixLength, int channelGroupNumber) {
+    InetAddress inetAddr;
+    try {
+      inetAddr = InetAddress.getByName(ipAddr);
+    } catch (UnknownHostException e) {
+      throw new IllegalArgumentException(e);
+    }
+    addVlan(name, inetAddr, IpV4Helper.getSubnetMaskFrom(prefixLength), channelGroupNumber);
+  }
+
+  public void addNifToLag(String ifName, int channelGroupNumber) {
+    getLagNif(channelGroupNumber).addNif(ifName, nifs.get(ifName));
+  }
+
   public void addIpAddress(
     String ifName, InetAddress addr, InetAddress subnetMask
   ) {
@@ -235,6 +270,18 @@ public class Node {
         VlanInterface vNif = (VlanInterface)nif;
         if (vNif.getVid() == vid) {
           return vNif;
+        }
+      }
+    }
+    return null;
+  }
+
+  public LagInterface getLagNif(int channelGroupNumber) {
+    for (NetworkInterface nif: nifs.values()) {
+      if (nif instanceof LagInterface) {
+        LagInterface li = (LagInterface)nif;
+        if (li.getVid() == channelGroupNumber) {
+          return li;
         }
       }
     }

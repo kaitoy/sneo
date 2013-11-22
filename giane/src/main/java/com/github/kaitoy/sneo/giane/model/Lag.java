@@ -1,6 +1,6 @@
 /*_##########################################################################
   _##
-  _##  Copyright (C) 2012-2013 Kaito Yamada
+  _##  Copyright (C) 2013 Kaito Yamada
   _##
   _##########################################################################
 */
@@ -18,33 +18,32 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-import com.github.kaitoy.sneo.network.dto.VlanDto;
-import com.github.kaitoy.sneo.network.dto.VlanMemberDto;
+import com.github.kaitoy.sneo.network.dto.LagDto;
+import com.github.kaitoy.sneo.network.dto.PhysicalNetworkInterfaceDto;
 import com.opensymphony.xwork2.validator.annotations.IntRangeFieldValidator;
 import com.opensymphony.xwork2.validator.annotations.RequiredFieldValidator;
 import com.opensymphony.xwork2.validator.annotations.RequiredStringValidator;
 import com.opensymphony.xwork2.validator.annotations.StringLengthFieldValidator;
 
 @Entity
-@Table(name = "VLAN")
-public class Vlan implements Serializable {
+@Table(name = "LAG")
+public class Lag implements Serializable {
 
   /**
    *
    */
-  private static final long serialVersionUID = 5819690592116317232L;
+  private static final long serialVersionUID = -2959495249780946320L;
 
   private Integer id;
   private String name;
-  private Integer vid;
-  private VlanIpAddressRelation ipAddressRelation;
-  private List<VlanMember> vlanMembers;
+  private Integer channelGroupNumber;
+  private LagIpAddressRelation ipAddressRelation;
+  private List<PhysicalNetworkInterface> physicalNetworkInterfaces;
   private Node node;
 
   @Id
@@ -75,9 +74,9 @@ public class Vlan implements Serializable {
     this.name = name;
   }
 
-  @Column(name = "VID", nullable = false)
-  public Integer getVid() {
-    return vid;
+  @Column(name = "CHANNEL_GROUP_NUMBER", nullable = false)
+  public Integer getChannelGroupNumber() {
+    return channelGroupNumber;
   }
 
   @RequiredFieldValidator(
@@ -90,8 +89,8 @@ public class Vlan implements Serializable {
     max = "4094",
     shortCircuit = true
   )
-  public void setVid(Integer vid) {
-    this.vid = vid;
+  public void setChannelGroupNumber(Integer channelGroupNumber) {
+    this.channelGroupNumber = channelGroupNumber;
   }
 
   @OneToOne(
@@ -107,26 +106,27 @@ public class Vlan implements Serializable {
     nullable = false,
     unique = true
   )
-  public VlanIpAddressRelation getIpAddressRelation() {
+  public LagIpAddressRelation getIpAddressRelation() {
     return ipAddressRelation;
   }
 
-  public void setIpAddressRelation(VlanIpAddressRelation ipAddressRelation) {
+  public void setIpAddressRelation(LagIpAddressRelation ipAddressRelation) {
     this.ipAddressRelation = ipAddressRelation;
   }
 
-  @ManyToMany(fetch = FetchType.LAZY, cascade = {})
-  @JoinTable(
-    name = "VLAN__VLAN_MEMBER",
-    joinColumns = @JoinColumn(name = "VLAN_ID", nullable = false),
-    inverseJoinColumns = @JoinColumn(name = "VLAN_MEMBER_ID", nullable = false)
+  @OneToMany(
+    mappedBy = "lag",
+    fetch = FetchType.LAZY,
+    orphanRemoval = false
   )
-  public List<VlanMember> getVlanMembers() {
-    return vlanMembers;
+  public List<PhysicalNetworkInterface> getPhysicalNetworkInterfaces() {
+    return physicalNetworkInterfaces;
   }
 
-  public void setVlanMembers(List<VlanMember> vlanMembers) {
-    this.vlanMembers = vlanMembers;
+  public void setPhysicalNetworkInterfaces(
+    List<PhysicalNetworkInterface> physicalNetworkInterfaces
+  ) {
+    this.physicalNetworkInterfaces = physicalNetworkInterfaces;
   }
 
   @ManyToOne(optional = false, fetch = FetchType.LAZY)
@@ -139,19 +139,19 @@ public class Vlan implements Serializable {
     this.node = node;
   }
 
-  public VlanDto toDto() {
-    List<VlanMemberDto> vlanMemberDtos
-      = new ArrayList<VlanMemberDto>();
-    for (VlanMember vlanMember: vlanMembers) {
-      vlanMemberDtos.add(vlanMember.toDto());
+  public LagDto toDto() {
+    List<PhysicalNetworkInterfaceDto> pnifDtos
+      = new ArrayList<PhysicalNetworkInterfaceDto>();
+    for (PhysicalNetworkInterface pnif: physicalNetworkInterfaces) {
+      pnifDtos.add(pnif.toDto());
     }
 
-    VlanDto dto = new VlanDto();
+    LagDto dto = new LagDto();
     dto.setId(id);
     dto.setName(name);
-    dto.setVid(vid);
-    dto.setVlanMembers(vlanMemberDtos);
+    dto.setChannelGroupNumber(channelGroupNumber);
     dto.setIpAddresses(ipAddressRelation.getIpAddressDtos());
+    dto.setPhysicalNetworkInterfaces(pnifDtos);
     return dto;
   }
 

@@ -31,7 +31,7 @@ public class AdditionalIpV4Route extends IpV4Route {
   private String descr;
   private List<AdditionalIpV4RouteGroup> additionalIpV4RouteGroups;
 
-  @Column(name = "NAME", nullable = false, length = 50, unique = true)
+  @Column(name = "NAME", nullable = false, length = 200, unique = true)
   public String getName() {
     return name;
   }
@@ -44,14 +44,14 @@ public class AdditionalIpV4Route extends IpV4Route {
   @StringLengthFieldValidator(
     key = "StringLengthFieldValidator.error.max",
     trim = true,
-    maxLength = "50",
+    maxLength = "200",
     shortCircuit = true
   )
   public void setName(String name) {
     this.name = name;
   }
 
-  @Column(name = "DESCR", nullable = true, length = 2000, unique = false)
+  @Column(name = "DESCR", nullable = true, length = 5000, unique = false)
   public String getDescr() {
     return descr;
   }
@@ -59,7 +59,7 @@ public class AdditionalIpV4Route extends IpV4Route {
   @StringLengthFieldValidator(
     key = "StringLengthFieldValidator.error.max",
     trim = true,
-    maxLength = "2000",
+    maxLength = "5000",
     shortCircuit = true // Stops checking if detects error
   )
   public void setDescr(String descr) {
