@@ -1,6 +1,6 @@
 /*_##########################################################################
   _##
-  _##  Copyright (C) 2011-2012  Kaito Yamada
+  _##  Copyright (C) 2011-2013  Kaito Yamada
   _##
   _##########################################################################
 */
@@ -9,6 +9,9 @@ package com.github.kaitoy.sneo.network;
 
 import java.io.IOException;
 import java.net.InetAddress;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Random;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -48,9 +51,8 @@ public final class RealNetworkInterface implements NetworkInterface {
 
   private final String name;
   private final MacAddress macAddress;
-  private final InetAddress ipAddress;
-  private final InetAddress subnetMask;
-  private final String deviceName;
+  private final List<NifIpAddress> ipAddresses
+    = Collections.synchronizedList(new ArrayList<NifIpAddress>());
   private final PacketListener host;
   private final PcapNetworkInterface pcapNif;
   private final PcapHandle handle2capture;
@@ -64,32 +66,23 @@ public final class RealNetworkInterface implements NetworkInterface {
   public RealNetworkInterface(
     String name,
     MacAddress macAddress,
-    InetAddress ipAddress,
-    InetAddress subnetMask,
     String deviceName,
     PacketListener host
   ) {
     if (
          name == null
       || macAddress == null
-      || ipAddress == null
-      || subnetMask == null
       || host == null
     ) {
       StringBuilder sb = new StringBuilder(80);
       sb.append("name: ").append(name)
         .append(" macAddress: ").append(macAddress)
-        .append(" ipAddress: ").append(ipAddress)
-        .append(" subnetMask: ").append(subnetMask)
         .append(" host: ").append(host);
       throw new NullPointerException(sb.toString());
     }
 
     this.name = name;
     this.macAddress = macAddress;
-    this.ipAddress = ipAddress;
-    this.subnetMask = subnetMask;
-    this.deviceName = deviceName;
     this.host = host;
     this.packetCaptorExecutor
       = Executors.newSingleThreadExecutor(
@@ -180,12 +173,12 @@ public final class RealNetworkInterface implements NetworkInterface {
     return macAddress;
   }
 
-  public InetAddress getIpAddress() {
-    return ipAddress;
+  public List<NifIpAddress> getIpAddresses() {
+    return new ArrayList<NifIpAddress>(ipAddresses);
   }
 
-  public InetAddress getSubnetMask() {
-    return subnetMask;
+  public void addIpAddress(NifIpAddress addr) {
+    ipAddresses.add(addr);
   }
 
   @Deprecated

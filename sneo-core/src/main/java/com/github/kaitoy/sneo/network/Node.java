@@ -92,131 +92,55 @@ public class Node {
     return ttl;
   }
 
-  List<NetworkInterface> getNifs() {
+  public List<NetworkInterface> getNifs() {
     return new ArrayList<NetworkInterface>(nifs.values());
   }
 
-  public void addNif(String ifName, InetAddress ipAddr, InetAddress subnetMask) {
+  public void addNif(String ifName) {
     PhysicalNetworkInterface nif
       = new PhysicalNetworkInterface(
           ifName,
           MacAddressManager.getInstance().generateVirtualMacAddress(),
-          ipAddr,
-          subnetMask,
           new PacketListenerImpl(ifName)
         );
-
-    if (ipAddr != null) {
-      MacAddressManager.getInstance()
-        .registerVirtualMacAddress(ipAddr, nif.getMacAddress());
-    }
-
     nifs.put(ifName, nif);
   }
 
-  public void addNif(String ifName, String ipAddr, int prefixLength) {
-    InetAddress inetAddr;
-    try {
-      inetAddr = InetAddress.getByName(ipAddr);
-    } catch (UnknownHostException e) {
-      throw new IllegalArgumentException(e);
-    }
-    addNif(ifName, inetAddr, IpV4Helper.getSubnetMaskFrom(prefixLength));
-  }
-
-  public void addRealNif(String ifName, MacAddress macAddr, InetAddress ipAddr, InetAddress mask, String deviceName) {
+  public void addRealNif(String ifName, MacAddress macAddr, String deviceName) {
     RealNetworkInterface rnif
       = new RealNetworkInterface(
           ifName,
           macAddr,
-          ipAddr,
-          mask,
           deviceName,
           new PacketListenerImpl(ifName)
         );
     nifs.put(ifName, rnif);
   }
 
-  public void addRealNif(String ifName, String macAddr, String ipAddr, int prefixLength, String deviceName) {
-    InetAddress inetAddr;
-    try {
-      inetAddr = InetAddress.getByName(ipAddr);
-    } catch (UnknownHostException e) {
-      throw new IllegalArgumentException(e);
-    }
-    addRealNif(
-      ifName,
-      MacAddress.getByName(macAddr),
-      inetAddr,
-      IpV4Helper.getSubnetMaskFrom(prefixLength),
-      deviceName
-    );
-  }
-
-  public void addVlan(
-    String ifName, InetAddress ipAddr, InetAddress subnetMask, int vid
-  ) {
+  public void addVlan(String ifName, int vid) {
     NetworkInterface nif
       = new VlanInterface(
           ifName,
           MacAddressManager.getInstance().generateVirtualMacAddress(),
-          ipAddr,
-          subnetMask,
           vid,
           new PacketListenerImpl(ifName)
         );
-
-    if (ipAddr != null) {
-      MacAddressManager.getInstance()
-        .registerVirtualMacAddress(ipAddr, nif.getMacAddress());
-    }
-
     nifs.put(ifName, nif);
-  }
-
-  public void addVlan(String ifName, String ipAddr, int prefixLength, int vid) {
-    InetAddress inetAddr;
-    try {
-      inetAddr = InetAddress.getByName(ipAddr);
-    } catch (UnknownHostException e) {
-      throw new IllegalArgumentException(e);
-    }
-    addVlan(ifName, inetAddr, IpV4Helper.getSubnetMaskFrom(prefixLength), vid);
   }
 
   public void addNifToVlan(String ifName, int vid, boolean tagged) {
     getVlanNif(vid).addNif(ifName, nifs.get(ifName), tagged);
   }
 
-  public void addLag(
-    String name, InetAddress ipAddr, InetAddress subnetMask, int channelGroupNumber
-  ) {
+  public void addLag(String name, int channelGroupNumber) {
     NetworkInterface nif
       = new LagInterface(
         name,
           MacAddressManager.getInstance().generateVirtualMacAddress(),
-          ipAddr,
-          subnetMask,
           channelGroupNumber,
           new PacketListenerImpl(name)
         );
-
-    if (ipAddr != null) {
-      MacAddressManager.getInstance()
-        .registerVirtualMacAddress(ipAddr, nif.getMacAddress());
-    }
-
     nifs.put(name, nif);
-  }
-
-  public void addLag(String name, String ipAddr, int prefixLength, int channelGroupNumber) {
-    InetAddress inetAddr;
-    try {
-      inetAddr = InetAddress.getByName(ipAddr);
-    } catch (UnknownHostException e) {
-      throw new IllegalArgumentException(e);
-    }
-    addVlan(name, inetAddr, IpV4Helper.getSubnetMaskFrom(prefixLength), channelGroupNumber);
   }
 
   public void addNifToLag(String ifName, int channelGroupNumber) {
@@ -224,28 +148,12 @@ public class Node {
   }
 
   public void addIpAddress(
-    String ifName, InetAddress addr, InetAddress subnetMask
+    String ifName, InetAddress addr, int prefixLength
   ) {
-    String name = ifName + ":" + addr;
-
-    MacAddress macAddr
-      = MacAddressManager.getInstance().generateVirtualMacAddress();
+    NetworkInterface target = nifs.get(ifName);
     MacAddressManager.getInstance()
-      .registerVirtualMacAddress(addr, macAddr);
-
-    NetworkInterface nif = nifs.get(ifName);
-
-    nifs.put(
-      name,
-      new AliasNetworkInterface(
-        name,
-        macAddr,
-        addr,
-        subnetMask,
-        nif,
-        new PacketListenerImpl(name)
-      )
-    );
+      .registerVirtualMacAddress(addr, target.getMacAddress());
+    target.addIpAddress(new NifIpV4Address((Inet4Address)addr, prefixLength));
   }
 
   public void addIpAddress(
@@ -257,7 +165,7 @@ public class Node {
     } catch (UnknownHostException e) {
       throw new IllegalArgumentException(e);
     }
-    addIpAddress(ifName, inetAddr, IpV4Helper.getSubnetMaskFrom(prefixLength));
+    addIpAddress(ifName, inetAddr, prefixLength);
   }
 
   public NetworkInterface getNif(String ifName) {
@@ -411,46 +319,24 @@ public class Node {
 
   public NetworkInterface getNifByDstIpAddr(Inet4Address dstIpAddr) {
     for (NetworkInterface nif: nifs.values()) {
-      if (nif.getIpAddress() == null) {
-        continue;
-      }
-
-      if (
-        IpV4Helper.isSameNetwork(
-          dstIpAddr,
-          (Inet4Address)nif.getIpAddress(),
-          (Inet4Address)nif.getSubnetMask()
-        )
-      ) {
+      if (IpV4Helper.isSameNetwork(dstIpAddr, nif)) {
         return nif;
       }
     }
 
     Inet4Address nextHop = IpV4Helper.getNextHop(dstIpAddr, routingTable);
     if (nextHop == null) {
-      logger.warn("Couldn't get next hop from dst IP address: " + dstIpAddr);
-      // TODO throw new SendPacketException
+      logger.warn("Couldn't get next hop by dest IP address: " + dstIpAddr);
       return null;
     }
 
     for (NetworkInterface nif: nifs.values()) {
-      if (nif.getIpAddress() == null) {
-        continue;
-      }
-
-      if (
-        IpV4Helper.isSameNetwork(
-          nextHop,
-          (Inet4Address)nif.getIpAddress(),
-          (Inet4Address)nif.getSubnetMask()
-        )
-      ) {
+      if (IpV4Helper.isSameNetwork(nextHop, nif)) {
         return nif;
       }
     }
 
-    logger.error("Couldn't get NIF for dst IP address: " + dstIpAddr);
-    // TODO throw new SendPacketException
+    logger.error("Couldn't find a NIF for the next hop " + nextHop + ". Dest IP address: " + dstIpAddr);
     return null;
   }
 
@@ -489,13 +375,8 @@ public class Node {
       Inet4Address dstIpAddr
         = packet.get(IpV4Packet.class).getHeader().getDstAddr();
 
-      if (
-        IpV4Helper.isSameNetwork(
-          dstIpAddr,
-          (Inet4Address)sender.getIpAddress(),
-          (Inet4Address)sender.getSubnetMask()
-        )
-      ) {
+
+      if (IpV4Helper.isSameNetwork(dstIpAddr, sender)) {
         nextHop = dstIpAddr;
       }
       else {
@@ -613,6 +494,7 @@ public class Node {
 
     SneoContext context = agent.getContextfulWorkerPool().unregisterContext();
     if (context != null) {
+      // response
       sender = context.getGetter();
       srcAddr = context.getRequestPacket().get(IpV4Packet.class).getHeader()
                   .getDstAddr();
@@ -620,8 +502,9 @@ public class Node {
                   .getDstPort().value() & 0xFFFF;
     }
     else {
+      // trap
       sender = getNifByDstIpAddr((Inet4Address)dstAddr);
-      srcAddr = (Inet4Address)sender.getIpAddress();
+      srcAddr = (Inet4Address)agent.getInetAddress();
       srcPort = TRAP_SRC_PORT;
     }
     UnknownPacket.Builder unknownb = new UnknownPacket.Builder();
@@ -651,17 +534,7 @@ public class Node {
       NetworkInterface getter = nifs.get(ifName);
       if (packet.contains(IpV4Packet.class)) {
         for (NetworkInterface nif: nifs.values()) {
-          if (nif.getIpAddress() == null) {
-            continue;
-          }
-
-          if (
-            IpV4Helper.matchesDestination(
-              packet,
-              (Inet4Address)nif.getIpAddress(),
-              (Inet4Address)nif.getSubnetMask()
-            )
-          ) {
+          if (IpV4Helper.matchesDestination(packet, nif)) {
             process(packet, getter);
             return;
           }
@@ -694,11 +567,17 @@ public class Node {
       else if (packet.contains(ArpPacket.class)) {
         ArpHeader ah = packet.get(ArpPacket.class).getHeader();
 
-        if (!getter.getIpAddress().equals(ah.getDstProtocolAddr())) {
-          if (logger.isDebugEnabled()) {
-            logger.debug("Dropped an ARP packet not to me: " + packet);
+        for (NifIpAddress nifIpAddr: getter.getIpAddresses()) {
+          boolean toMe = false;
+          if (nifIpAddr.getIpAddr().equals(ah.getDstProtocolAddr())) {
+            toMe = true;
           }
-          return;
+          if (!toMe) {
+            if (logger.isDebugEnabled()) {
+              logger.debug("Dropped an ARP packet not to me: " + packet);
+            }
+            return;
+          }
         }
 
         ArpOperation op = ah.getOperation();

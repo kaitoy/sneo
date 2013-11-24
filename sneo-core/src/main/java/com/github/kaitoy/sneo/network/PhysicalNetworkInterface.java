@@ -1,13 +1,12 @@
 /*_##########################################################################
   _##
-  _##  Copyright (C) 2011  Kaito Yamada
+  _##  Copyright (C) 2011-2013 Kaito Yamada
   _##
   _##########################################################################
 */
 
 package com.github.kaitoy.sneo.network;
 
-import java.net.InetAddress;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -26,8 +25,8 @@ extends PacketReceiver implements NetworkInterface {
     = LogFactory.getLogger(PhysicalNetworkInterface.class);
 
   private final MacAddress macAddress;
-  private final InetAddress ipAddress;
-  private final InetAddress subnetMask;
+  private final List<NifIpAddress> ipAddresses
+    = Collections.synchronizedList(new ArrayList<NifIpAddress>());
   private final PacketListener host;
   private final List<PacketListener> users
     = Collections.synchronizedList(new ArrayList<PacketListener>());
@@ -37,14 +36,10 @@ extends PacketReceiver implements NetworkInterface {
   public PhysicalNetworkInterface(
     String name,
     MacAddress macAddress,
-    InetAddress ipAddress,
-    InetAddress subnetMask,
     PacketListener host
   ) {
     super(name);
     this.macAddress = macAddress;
-    this.ipAddress = ipAddress;
-    this.subnetMask = subnetMask;
     this.host = host;
   }
 
@@ -52,12 +47,12 @@ extends PacketReceiver implements NetworkInterface {
     return macAddress;
   }
 
-  public InetAddress getIpAddress() {
-    return ipAddress;
+  public List<NifIpAddress> getIpAddresses() {
+    return new ArrayList<NifIpAddress>(ipAddresses);
   }
 
-  public InetAddress getSubnetMask() {
-    return subnetMask;
+  public void addIpAddress(NifIpAddress addr) {
+    ipAddresses.add(addr);
   }
 
   public void addUser(PacketListener user) {
@@ -122,10 +117,11 @@ extends PacketReceiver implements NetworkInterface {
     StringBuilder sb = new StringBuilder();
     sb.append(this.getClass().getSimpleName()).append("{")
       .append("name[").append(getName()).append("] ")
-      .append("macAddress[").append(macAddress).append("]")
-      .append("ipAddress[").append(ipAddress).append("]")
-      .append("subnetMask[").append(subnetMask).append("]")
-      .append("}");
+      .append("macAddress[").append(macAddress).append("]");
+    for (NifIpAddress ipAddr: ipAddresses) {
+      sb.append("ipAddress[").append(ipAddr).append("]");
+    }
+    sb.append("}");
     return sb.toString();
   }
 

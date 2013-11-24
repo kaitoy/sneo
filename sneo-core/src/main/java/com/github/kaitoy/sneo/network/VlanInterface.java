@@ -1,13 +1,12 @@
 /*_##########################################################################
   _##
-  _##  Copyright (C) 2012  Kaito Yamada
+  _##  Copyright (C) 2012-2013  Kaito Yamada
   _##
   _##########################################################################
 */
 
 package com.github.kaitoy.sneo.network;
 
-import java.net.InetAddress;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -27,8 +26,8 @@ public class VlanInterface implements NetworkInterface {
 
   private final String name;
   private final MacAddress macAddress;
-  private final InetAddress ipAddress;
-  private final InetAddress subnetMask;
+  private final List<NifIpAddress> ipAddresses
+    = Collections.synchronizedList(new ArrayList<NifIpAddress>());
   private final int vid;
   private final Map<NetworkInterface, Boolean> tagged
     = new ConcurrentHashMap<NetworkInterface, Boolean>();
@@ -43,15 +42,11 @@ public class VlanInterface implements NetworkInterface {
   public VlanInterface(
     String name,
     MacAddress macAddress,
-    InetAddress ipAddress,
-    InetAddress subnetMask,
     int vid,
     PacketListener packetListener
   ) {
     this.name = name;
     this.macAddress = macAddress;
-    this.ipAddress = ipAddress;
-    this.subnetMask = subnetMask;
     this.vid = vid;
     this.host = packetListener;
   }
@@ -64,12 +59,12 @@ public class VlanInterface implements NetworkInterface {
     return macAddress;
   }
 
-  public InetAddress getIpAddress() {
-    return ipAddress;
+  public List<NifIpAddress> getIpAddresses() {
+    return new ArrayList<NifIpAddress>(ipAddresses);
   }
 
-  public InetAddress getSubnetMask() {
-    return subnetMask;
+  public void addIpAddress(NifIpAddress addr) {
+    ipAddresses.add(addr);
   }
 
   public void addUser(PacketListener user) {

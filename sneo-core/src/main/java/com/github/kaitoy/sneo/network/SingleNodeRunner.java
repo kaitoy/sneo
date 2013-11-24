@@ -131,36 +131,37 @@ public class SingleNodeRunner {
           );
       InetAddress realNifIpAddr
         = InetAddress.getByName(vgwRealNifAddrAndPrefixLength[0]);
+      int realNifPrefixLength = Integer.parseInt(vgwRealNifAddrAndPrefixLength[1]);
       InetAddress realNifMask
         = IpV4Helper.getSubnetMaskFrom(Integer.parseInt(vgwRealNifAddrAndPrefixLength[1]));
       Node gw = new Node("GW", null, 100);
-      gw.addRealNif("realNif", realNifMacAddr, realNifIpAddr, realNifMask, null);
+      gw.addRealNif("realNif", realNifMacAddr, null);
+      gw.addIpAddress("realNif", realNifIpAddr, realNifPrefixLength);
 
       Node vNode = new Node(agent.getAddress(), agent, 100);
 
       String vNodeIfName = "vNodeNif";
-      InetAddress agentNifMask = realNifMask;
-      //vNode.addNif(vNodeIfName, agent.getInetAddress(), agentNifMask);
-      vNode.addNif(vNodeIfName, null, null);
+      vNode.addNif(vNodeIfName);
 
       String vNodeVlanIfName = "vNodeVlan1";
-      vNode.addVlan(vNodeVlanIfName, agent.getInetAddress(), realNifMask, 1);
+      vNode.addVlan(vNodeVlanIfName, 1);
+      vNode.addIpAddress(vNodeVlanIfName, agent.getInetAddress(), realNifPrefixLength);
       vNode.addNifToVlan(vNodeIfName, 1, false);
 
       for (String addr: addrs) {
-        vNode.addIpAddress(vNodeIfName, InetAddress.getByName(addr), realNifMask);
+        vNode.addIpAddress(vNodeIfName, InetAddress.getByName(addr), realNifPrefixLength);
       }
 
       Inet4Address vgwVirtualNifAddr
         = IpV4Helper.getNextAddress(
             (Inet4Address)agent.getInetAddress(),
-            (Inet4Address)agentNifMask
+            (Inet4Address)realNifMask
           );
       if (vgwVirtualNifAddr == null) {
         vgwVirtualNifAddr
           = IpV4Helper.getPrevAddress(
               (Inet4Address)agent.getInetAddress(),
-              (Inet4Address)agentNifMask
+              (Inet4Address)realNifMask
             );
       }
       if (vgwVirtualNifAddr == null) {
@@ -168,7 +169,8 @@ public class SingleNodeRunner {
       }
 
       String gwNifName = "gwNif";
-      gw.addNif(gwNifName, vgwVirtualNifAddr, agentNifMask);
+      gw.addNif(gwNifName);
+      gw.addIpAddress(gwNifName, vgwVirtualNifAddr, realNifPrefixLength);
       L2Connection l2
         = L2Connection.connect(
             (PhysicalNetworkInterface)vNode.getNif(vNodeIfName),

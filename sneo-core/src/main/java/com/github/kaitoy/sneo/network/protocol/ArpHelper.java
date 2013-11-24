@@ -1,6 +1,6 @@
 /*_##########################################################################
   _##
-  _##  Copyright (C) 2011-2012  Kaito Yamada
+  _##  Copyright (C) 2011-2013  Kaito Yamada
   _##
   _##########################################################################
 */
@@ -65,9 +65,6 @@ public final class ArpHelper {
     long resolveTimeout,
     TimeUnit unit
   ) {
-    InetAddress srcIpAddr = nif.getIpAddress();
-    MacAddress srcMacAddr = nif.getMacAddress();
-
     FutureData<MacAddress> fd;
     Boolean hit;
     synchronized (arpTable) {
@@ -83,6 +80,8 @@ public final class ArpHelper {
     }
 
     if (!hit) {
+      InetAddress srcIpAddr = nif.getIpAddresses().get(0).getIpAddr();
+      MacAddress srcMacAddr = nif.getMacAddress();
       sendRequest(targetIpAddr, srcIpAddr, srcMacAddr, node, nif);
     }
 

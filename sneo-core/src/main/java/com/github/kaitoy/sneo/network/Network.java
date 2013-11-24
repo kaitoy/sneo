@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 import javax.management.ObjectName;
 import mx4j.log.Log4JLogger;
+import org.pcap4j.util.MacAddress;
 import org.snmp4j.SNMP4JSettings;
 import org.snmp4j.log.Log4jLogFactory;
 import org.snmp4j.log.LogFactory;
@@ -148,29 +149,16 @@ public class Network {
     FileMibAgent agent = newSnmpAgent(nodeDto.getAgent());
     agents.add(agent);
 
-    Node node
-      = new Node(nodeDto.getName(), agent, nodeDto.getTtl());
+    Node node = new Node(nodeDto.getName(), agent, nodeDto.getTtl());
 
     for (PhysicalNetworkInterfaceDto nifDto: nodeDto.getPhysicalNetworkInterfaces()) {
-      List<IpAddressDto> ipAddrDtos = nifDto.getIpAddresses();
-      if (ipAddrDtos != null && ipAddrDtos.size() != 0) {
-        IpAddressDto firstOne = ipAddrDtos.remove(0);
-        node.addNif(
+      node.addNif(nifDto.getName());
+      for (IpAddressDto ipAddrDto: nifDto.getIpAddresses()) {
+        node.addIpAddress(
           nifDto.getName(),
-          firstOne.getAddress(),
-          firstOne.getPrefixLength()
+          ipAddrDto.getAddress(),
+          ipAddrDto.getPrefixLength()
         );
-
-        for (IpAddressDto ipAddrDto: ipAddrDtos) {
-          node.addIpAddress(
-            nifDto.getName(),
-            ipAddrDto.getAddress(),
-            ipAddrDto.getPrefixLength()
-          );
-        }
-      }
-      else {
-        node.addNif(nifDto.getName(), null, null);
       }
 
       physNifs.put(
@@ -180,77 +168,43 @@ public class Network {
     }
 
     for (RealNetworkInterfaceDto nifDto: nodeDto.getRealNetworkInterfaces()) {
-      List<IpAddressDto> ipAddrDtos = nifDto.getIpAddresses();
-      if (ipAddrDtos != null && ipAddrDtos.size() != 0) {
-        IpAddressDto firstOne = ipAddrDtos.remove(0);
-        node.addRealNif(
+      node.addRealNif(
+        nifDto.getName(),
+        MacAddress.getByName(nifDto.getMacAddress()),
+        nifDto.getDeviceName()
+      );
+      for (IpAddressDto ipAddrDto: nifDto.getIpAddresses()) {
+        node.addIpAddress(
           nifDto.getName(),
-          nifDto.getMacAddress(),
-          firstOne.getAddress(),
-          firstOne.getPrefixLength(),
-          nifDto.getDeviceName()
+          ipAddrDto.getAddress(),
+          ipAddrDto.getPrefixLength()
         );
-
-        for (IpAddressDto ipAddrDto: ipAddrDtos) {
-          node.addIpAddress(
-            nifDto.getName(),
-            ipAddrDto.getAddress(),
-            ipAddrDto.getPrefixLength()
-          );
-        }
-      }
-      else {
-        node.addNif(nifDto.getName(), null, null);
       }
     }
 
     for (VlanDto vlanDto: nodeDto.getVlans()) {
-      List<IpAddressDto> ipAddrDtos = vlanDto.getIpAddresses();
-      if (ipAddrDtos != null && ipAddrDtos.size() != 0) {
-        IpAddressDto firstOne = ipAddrDtos.remove(0);
-        node.addVlan(
+      node.addVlan(vlanDto.getName(), vlanDto.getVid());
+      for (IpAddressDto ipAddrDto: vlanDto.getIpAddresses()) {
+        node.addIpAddress(
           vlanDto.getName(),
-          firstOne.getAddress(),
-          firstOne.getPrefixLength(),
-          vlanDto.getVid()
+          ipAddrDto.getAddress(),
+          ipAddrDto.getPrefixLength()
         );
-
-        for (IpAddressDto ipAddrDto: ipAddrDtos) {
-          node.addIpAddress(
-            vlanDto.getName(), ipAddrDto.getAddress(), ipAddrDto.getPrefixLength()
-          );
-        }
       }
-      else {
-        node.addVlan(vlanDto.getName(), null, null, vlanDto.getVid());
-      }
-
       for (VlanMemberDto nifDto: vlanDto.getVlanMembers()) {
         node.addNifToVlan(nifDto.getName(), vlanDto.getVid(), false);
       }
     }
 
     for (LagDto lagDto: nodeDto.getLags()) {
-      List<IpAddressDto> ipAddrDtos = lagDto.getIpAddresses();
-      if (ipAddrDtos != null && ipAddrDtos.size() != 0) {
-        IpAddressDto firstOne = ipAddrDtos.remove(0);
-        node.addLag(
+      node.addLag(lagDto.getName(), lagDto.getChannelGroupNumber());
+      for (IpAddressDto ipAddrDto: lagDto.getIpAddresses()) {
+        node.addIpAddress(
           lagDto.getName(),
-          firstOne.getAddress(),
-          firstOne.getPrefixLength(),
-          lagDto.getChannelGroupNumber()
+          ipAddrDto.getAddress(),
+          ipAddrDto.getPrefixLength()
         );
-
-        for (IpAddressDto ipAddrDto: ipAddrDtos) {
-          node.addIpAddress(
-            lagDto.getName(), ipAddrDto.getAddress(), ipAddrDto.getPrefixLength()
-          );
-        }
       }
-      else {
-        node.addLag(lagDto.getName(), null, null, lagDto.getChannelGroupNumber());
-      }
-
       for (PhysicalNetworkInterfaceDto nifDto: lagDto.getPhysicalNetworkInterfaces()) {
         node.addNifToLag(nifDto.getName(), lagDto.getChannelGroupNumber());
       }

@@ -7,7 +7,6 @@
 
 package com.github.kaitoy.sneo.network;
 
-import java.net.InetAddress;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -27,8 +26,8 @@ public class LagInterface implements NetworkInterface {
 
   private final String name;
   private final MacAddress macAddress;
-  private final InetAddress ipAddress;
-  private final InetAddress subnetMask;
+  private final List<NifIpAddress> ipAddresses
+    = Collections.synchronizedList(new ArrayList<NifIpAddress>());
   private final int lagId;
   private final Map<String, NetworkInterface> nifs
     = new ConcurrentHashMap<String, NetworkInterface>();
@@ -41,15 +40,11 @@ public class LagInterface implements NetworkInterface {
   public LagInterface(
     String name,
     MacAddress macAddress,
-    InetAddress ipAddress,
-    InetAddress subnetMask,
     int lagId,
     PacketListener packetListener
   ) {
     this.name = name;
     this.macAddress = macAddress;
-    this.ipAddress = ipAddress;
-    this.subnetMask = subnetMask;
     this.lagId = lagId;
     this.host = packetListener;
   }
@@ -62,12 +57,12 @@ public class LagInterface implements NetworkInterface {
     return macAddress;
   }
 
-  public InetAddress getIpAddress() {
-    return ipAddress;
+  public List<NifIpAddress> getIpAddresses() {
+    return new ArrayList<NifIpAddress>(ipAddresses);
   }
 
-  public InetAddress getSubnetMask() {
-    return subnetMask;
+  public void addIpAddress(NifIpAddress addr) {
+    ipAddresses.add(addr);
   }
 
   public void addUser(PacketListener user) {

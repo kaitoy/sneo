@@ -1,13 +1,13 @@
 /*_##########################################################################
   _##
-  _##  Copyright (C) 2011  Kaito Yamada
+  _##  Copyright (C) 2011-2013  Kaito Yamada
   _##
   _##########################################################################
 */
 
 package com.github.kaitoy.sneo.network;
 
-import java.net.InetAddress;
+import java.util.List;
 import org.pcap4j.core.PacketListener;
 import org.pcap4j.packet.Packet;
 import org.pcap4j.util.MacAddress;
@@ -18,9 +18,9 @@ public interface NetworkInterface {
 
   public MacAddress getMacAddress();
 
-  public InetAddress getIpAddress();
+  public List<NifIpAddress> getIpAddresses();
 
-  public InetAddress getSubnetMask();
+  public void addIpAddress(NifIpAddress addr);
 
   public void addUser(PacketListener user);
 

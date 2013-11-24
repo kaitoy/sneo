@@ -1,30 +1,32 @@
 /*_##########################################################################
   _##
-  _##  Copyright (C) 2011-2012  Kaito Yamada
+  _##  Copyright (C) 2011-2013  Kaito Yamada
   _##
   _##########################################################################
 */
 
 package com.github.kaitoy.sneo.network.protocol;
 
-import org.pcap4j.packet.AbstractPacket.AbstractBuilder;
 import java.net.Inet4Address;
+import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeoutException;
+import org.pcap4j.packet.AbstractPacket.AbstractBuilder;
 import org.pcap4j.packet.IcmpV4CommonPacket;
+import org.pcap4j.packet.IpV4Packet;
 import org.pcap4j.packet.IpV4Rfc791Tos;
 import org.pcap4j.packet.Packet;
-import org.pcap4j.packet.IpV4Packet;
 import org.pcap4j.packet.UdpPacket;
 import org.pcap4j.packet.namednumber.IpNumber;
 import org.pcap4j.packet.namednumber.IpVersion;
 import org.pcap4j.util.ByteArrays;
 import com.github.kaitoy.sneo.network.NetworkInterface;
+import com.github.kaitoy.sneo.network.NifIpAddress;
+import com.github.kaitoy.sneo.network.NifIpV4Address;
 
 public final class IpV4Helper {
 
@@ -54,6 +56,19 @@ public final class IpV4Helper {
     return isBroadcastAddr(dstAddr, subnetmask);
   }
 
+  public static boolean matchesDestination(Packet packet, NetworkInterface nif) {
+    for (NifIpAddress nifAddr: nif.getIpAddresses()) {
+      if (nifAddr instanceof NifIpV4Address) {
+        NifIpV4Address nifV4Addr = (NifIpV4Address)nifAddr;
+        Inet4Address mask = getSubnetMaskFrom(nifV4Addr.getPrefixLength());
+        if (matchesDestination(packet, nifV4Addr.getIpAddr(), mask)) {
+          return true;
+        }
+      }
+    }
+    return false;
+  }
+
   public static boolean isBroadcastAddr(Inet4Address addr, Inet4Address subnetmask) {
     int subnetmaskBitMap = ByteArrays.getInt(subnetmask.getAddress(), 0);
     int addrBitMap = ByteArrays.getInt(addr.getAddress(), 0);
@@ -73,6 +88,21 @@ public final class IpV4Helper {
     int addr2BitMap = ByteArrays.getInt(addr2.getAddress(), 0);
     int subnetmaskBitMap = ByteArrays.getInt(subnetmask.getAddress(), 0);
     return (addr1BitMap & subnetmaskBitMap) == (addr2BitMap & subnetmaskBitMap);
+  }
+
+  public static boolean isSameNetwork(
+    Inet4Address addr1, NetworkInterface nif
+  ) {
+    for (NifIpAddress nifAddr: nif.getIpAddresses()) {
+      if (nifAddr instanceof NifIpV4Address) {
+        NifIpV4Address nifV4Addr = (NifIpV4Address)nifAddr;
+        Inet4Address mask = getSubnetMaskFrom(nifV4Addr.getPrefixLength());
+        if (isSameNetwork(addr1, nifV4Addr.getIpAddr(), mask)) {
+          return true;
+        }
+      }
+    }
+    return false;
   }
 
   public static Inet4Address getSubnetMaskFrom(int prefixLength) {
@@ -99,7 +129,7 @@ public final class IpV4Helper {
     }
 
     try {
-      return (Inet4Address)Inet4Address.getByAddress(mask);
+      return (Inet4Address)InetAddress.getByAddress(mask);
     } catch (UnknownHostException e) {
       throw new AssertionError("Never get here");
     }
@@ -128,7 +158,7 @@ public final class IpV4Helper {
 
     Inet4Address newAddr;
     try {
-      newAddr = (Inet4Address)Inet4Address.getByAddress(rawAddr);
+      newAddr = (Inet4Address)InetAddress.getByAddress(rawAddr);
     } catch (UnknownHostException e) {
       throw new AssertionError("Never get here.");
     }
@@ -151,7 +181,7 @@ public final class IpV4Helper {
 
     Inet4Address newAddr;
     try {
-      newAddr = (Inet4Address)Inet4Address.getByAddress(rawAddr);
+      newAddr = (Inet4Address)InetAddress.getByAddress(rawAddr);
     } catch (UnknownHostException e) {
       throw new AssertionError("Never get here.");
     }
@@ -189,6 +219,7 @@ public final class IpV4Helper {
              .dstAddr(dst)
              .payloadBuilder(
                 new AbstractBuilder() {
+                  @Override
                   public Packet build() { return payload; }
                 }
               )
@@ -196,26 +227,26 @@ public final class IpV4Helper {
              .correctLengthAtBuild(true)
              .build();
   }
-
-  public static NetworkInterface selectNif4Neighbor(
-    Inet4Address neighbor, Collection<? extends NetworkInterface> nifs
-  ) {
-    for (NetworkInterface nif: nifs) {
-      if (nif.getIpAddress() == null) { continue; }
-
-      if(
-        IpV4Helper.isSameNetwork(
-          neighbor,
-          (Inet4Address)nif.getIpAddress(),
-          (Inet4Address)nif.getSubnetMask()
-        )
-      ) {
-        return nif;
-      }
-    }
-
-    return null;
-  }
+//
+//  public static NetworkInterface selectNif4Neighbor(
+//    Inet4Address neighbor, Collection<? extends NetworkInterface> nifs
+//  ) {
+//    for (NetworkInterface nif: nifs) {
+//      if (nif.getIpAddress() == null) { continue; }
+//
+//      if(
+//        IpV4Helper.isSameNetwork(
+//          neighbor,
+//          (Inet4Address)nif.getIpAddress(),
+//          (Inet4Address)nif.getSubnetMask()
+//        )
+//      ) {
+//        return nif;
+//      }
+//    }
+//
+//    return null;
+//  }
 
   public static IpV4Packet decrementTtl(
     IpV4Packet packet
@@ -274,7 +305,7 @@ public final class IpV4Helper {
     public void addDefaultRoute(Inet4Address gw) {
       Inet4Address addr;
       try {
-        addr = (Inet4Address)Inet4Address.getByName("0.0.0.0");
+        addr = (Inet4Address)InetAddress.getByName("0.0.0.0");
       } catch (UnknownHostException e) {
         throw new AssertionError("Never get here");
       }

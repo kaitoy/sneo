@@ -1,6 +1,6 @@
 /*_##########################################################################
   _##
-  _##  Copyright (C) 2011-2012  Kaito Yamada
+  _##  Copyright (C) 2011-2013  Kaito Yamada
   _##
   _##########################################################################
 */
@@ -103,7 +103,7 @@ public final class IcmpV4Helper {
     try {
       node.sendL4Packet(
         icmpV4Common.build(),
-        nif.getIpAddress(),
+        nif.getIpAddresses().get(0).getIpAddr(),
         ipv4Packet.getHeader().getSrcAddr(),
         nif
       );
