@@ -173,6 +173,8 @@ public final class RealNetworkInterface implements NetworkInterface {
     return macAddress;
   }
 
+  public boolean isTrunk() { return false; }
+
   public List<NifIpAddress> getIpAddresses() {
     return new ArrayList<NifIpAddress>(ipAddresses);
   }
@@ -284,7 +286,7 @@ public final class RealNetworkInterface implements NetworkInterface {
       handle2send.close();
     }
 
-    logger.info("shutdowned");
+    logger.info("A real network interface has been shutdown.");
   }
 
   private class PacketCaptor implements Runnable {

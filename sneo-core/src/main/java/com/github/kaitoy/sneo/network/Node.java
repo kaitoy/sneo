@@ -96,11 +96,12 @@ public class Node {
     return new ArrayList<NetworkInterface>(nifs.values());
   }
 
-  public void addNif(String ifName) {
+  public void addNif(String ifName, boolean trunk) {
     PhysicalNetworkInterface nif
       = new PhysicalNetworkInterface(
           ifName,
           MacAddressManager.getInstance().generateVirtualMacAddress(),
+          trunk,
           new PacketListenerImpl(ifName)
         );
     nifs.put(ifName, nif);
@@ -128,14 +129,14 @@ public class Node {
     nifs.put(ifName, nif);
   }
 
-  public void addNifToVlan(String ifName, int vid, boolean tagged) {
-    getVlanNif(vid).addNif(ifName, nifs.get(ifName), tagged);
+  public void addNifToVlan(String ifName, int vid) {
+    getVlanNif(vid).addNif(ifName, nifs.get(ifName));
   }
 
   public void addLag(String name, int channelGroupNumber) {
     NetworkInterface nif
       = new LagInterface(
-        name,
+          name,
           MacAddressManager.getInstance().generateVirtualMacAddress(),
           channelGroupNumber,
           new PacketListenerImpl(name)
@@ -144,7 +145,8 @@ public class Node {
   }
 
   public void addNifToLag(String ifName, int channelGroupNumber) {
-    getLagNif(channelGroupNumber).addNif(ifName, nifs.get(ifName));
+    getLagNif(channelGroupNumber)
+      .addNif(ifName, (PhysicalNetworkInterface)nifs.get(ifName));
   }
 
   public void addIpAddress(
@@ -188,7 +190,7 @@ public class Node {
     for (NetworkInterface nif: nifs.values()) {
       if (nif instanceof LagInterface) {
         LagInterface li = (LagInterface)nif;
-        if (li.getVid() == channelGroupNumber) {
+        if (li.getChannelGroupNumber() == channelGroupNumber) {
           return li;
         }
       }
@@ -278,7 +280,7 @@ public class Node {
       }
     }
 
-    logger.info("shutdowned");
+    logger.info("A node has been shutdown.");
   }
 
   protected void process(Packet packet, NetworkInterface getter) {
@@ -299,7 +301,7 @@ public class Node {
           == tm.getAddress().getPort()
       ) {
         agent.getContextfulWorkerPool()
-          .registerContext(new SneoContext(packet, getter));
+          .registerContext(new SnmpContext(packet, getter));
         tm.processMessage(packet);
       }
     }
@@ -374,7 +376,6 @@ public class Node {
       Inet4Address nextHop;
       Inet4Address dstIpAddr
         = packet.get(IpV4Packet.class).getHeader().getDstAddr();
-
 
       if (IpV4Helper.isSameNetwork(dstIpAddr, sender)) {
         nextHop = dstIpAddr;
@@ -492,7 +493,7 @@ public class Node {
     int srcPort;
     NetworkInterface sender;
 
-    SneoContext context = agent.getContextfulWorkerPool().unregisterContext();
+    SnmpContext context = agent.getContextfulWorkerPool().unregisterContext();
     if (context != null) {
       // response
       sender = context.getGetter();

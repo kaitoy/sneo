@@ -45,6 +45,7 @@ public class Network {
     );
   }
 
+  private final String name;
   private List<FileMibAgent> agents = new ArrayList<FileMibAgent>();
   private List<Node> nodes = new ArrayList<Node>();
   private List<L2Connection> l2conns = new ArrayList<L2Connection>();
@@ -52,6 +53,8 @@ public class Network {
     = new HashMap<Integer, PhysicalNetworkInterface>();
 
   public Network(NetworkDto networkDto) {
+    this.name = networkDto.getName();
+
     for (NodeDto nodeDto: networkDto.getNodes()) {
       nodes.add(newNode(nodeDto));
     }
@@ -95,9 +98,13 @@ public class Network {
   }
 
   private String formObjectName(Node node) {
-    StringBuilder sb = new StringBuilder(70);
-    sb.append("Nodes:name=")
+    StringBuilder sb = new StringBuilder(200);
+    sb.append(ObjectName.quote(name))
+      .append(":")
+      .append("type=,")
       .append(ObjectName.quote(node.getClass().getSimpleName()))
+      .append(",name=")
+      .append(ObjectName.quote(node.getName()))
       .append(",address=")
       .append(ObjectName.quote(node.getAgent().getAddress()));
     return sb.toString();
@@ -152,7 +159,7 @@ public class Network {
     Node node = new Node(nodeDto.getName(), agent, nodeDto.getTtl());
 
     for (PhysicalNetworkInterfaceDto nifDto: nodeDto.getPhysicalNetworkInterfaces()) {
-      node.addNif(nifDto.getName());
+      node.addNif(nifDto.getName(), nifDto.isTrunk());
       for (IpAddressDto ipAddrDto: nifDto.getIpAddresses()) {
         node.addIpAddress(
           nifDto.getName(),
@@ -182,20 +189,6 @@ public class Network {
       }
     }
 
-    for (VlanDto vlanDto: nodeDto.getVlans()) {
-      node.addVlan(vlanDto.getName(), vlanDto.getVid());
-      for (IpAddressDto ipAddrDto: vlanDto.getIpAddresses()) {
-        node.addIpAddress(
-          vlanDto.getName(),
-          ipAddrDto.getAddress(),
-          ipAddrDto.getPrefixLength()
-        );
-      }
-      for (VlanMemberDto nifDto: vlanDto.getVlanMembers()) {
-        node.addNifToVlan(nifDto.getName(), vlanDto.getVid(), false);
-      }
-    }
-
     for (LagDto lagDto: nodeDto.getLags()) {
       node.addLag(lagDto.getName(), lagDto.getChannelGroupNumber());
       for (IpAddressDto ipAddrDto: lagDto.getIpAddresses()) {
@@ -207,6 +200,33 @@ public class Network {
       }
       for (PhysicalNetworkInterfaceDto nifDto: lagDto.getPhysicalNetworkInterfaces()) {
         node.addNifToLag(nifDto.getName(), lagDto.getChannelGroupNumber());
+      }
+    }
+
+    for (VlanDto vlanDto: nodeDto.getVlans()) {
+      node.addVlan(vlanDto.getName(), vlanDto.getVid());
+      for (IpAddressDto ipAddrDto: vlanDto.getIpAddresses()) {
+        node.addIpAddress(
+          vlanDto.getName(),
+          ipAddrDto.getAddress(),
+          ipAddrDto.getPrefixLength()
+        );
+      }
+      for (VlanMemberDto nifDto: vlanDto.getVlanMembers()) {
+        String aggregatorName = null;
+        if (nifDto instanceof PhysicalNetworkInterfaceDto) {
+          aggregatorName
+            = ((PhysicalNetworkInterfaceDto)nifDto).getAggregatorName();
+        }
+
+        if (aggregatorName != null) {
+          // Add an aggregater instead of a NIF itself
+          // so forwarding done in VlanInterface works well.
+          node.addNifToVlan(aggregatorName, vlanDto.getVid());
+        }
+        else {
+          node.addNifToVlan(nifDto.getName(), vlanDto.getVid());
+        }
       }
     }
 
@@ -225,7 +245,7 @@ public class Network {
   private L2Connection newL2Connection(L2ConnectionDto l2Dto) {
     List<PhysicalNetworkInterface> vnifs
       = new ArrayList<PhysicalNetworkInterface>();
-    for (VlanMemberDto nifDto: l2Dto.getPhysicalNetworkInterfaces()) {
+    for (PhysicalNetworkInterfaceDto nifDto: l2Dto.getPhysicalNetworkInterfaces()) {
       vnifs.add(physNifs.get(nifDto.getId()));
     }
 

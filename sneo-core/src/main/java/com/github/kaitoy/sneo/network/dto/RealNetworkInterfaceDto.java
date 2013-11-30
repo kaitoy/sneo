@@ -38,6 +38,10 @@ public class RealNetworkInterfaceDto implements VlanMemberDto {
     this.name = name;
   }
 
+  public boolean isTrunk() {
+    return false;
+  }
+
   public String getDeviceName() {
     return deviceName;
   }

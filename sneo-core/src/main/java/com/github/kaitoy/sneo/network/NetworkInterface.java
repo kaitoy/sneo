@@ -18,6 +18,8 @@ public interface NetworkInterface {
 
   public MacAddress getMacAddress();
 
+  public boolean isTrunk();
+
   public List<NifIpAddress> getIpAddresses();
 
   public void addIpAddress(NifIpAddress addr);
@@ -32,6 +34,6 @@ public interface NetworkInterface {
 
   public boolean isRunning();
 
-  public void sendPacket(Packet packet);
+  public void sendPacket(Packet packet) throws SendPacketException;
 
 }

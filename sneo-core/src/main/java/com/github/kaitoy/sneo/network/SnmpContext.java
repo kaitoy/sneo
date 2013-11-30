@@ -9,12 +9,12 @@ package com.github.kaitoy.sneo.network;
 
 import org.pcap4j.packet.Packet;
 
-public class SneoContext {
+public class SnmpContext {
 
   private final Packet requestPacket;
   private final NetworkInterface getter;
 
-  public SneoContext(Packet requestPacket, NetworkInterface getter) {
+  public SnmpContext(Packet requestPacket, NetworkInterface getter) {
     this.requestPacket = requestPacket;
     this.getter = getter;
   }

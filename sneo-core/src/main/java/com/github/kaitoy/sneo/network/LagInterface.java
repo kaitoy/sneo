@@ -28,9 +28,9 @@ public class LagInterface implements NetworkInterface {
   private final MacAddress macAddress;
   private final List<NifIpAddress> ipAddresses
     = Collections.synchronizedList(new ArrayList<NifIpAddress>());
-  private final int lagId;
-  private final Map<String, NetworkInterface> nifs
-    = new ConcurrentHashMap<String, NetworkInterface>();
+  private final int channelGroupNumber;
+  private final Map<String, PhysicalNetworkInterface> aggregatedNifs
+    = new ConcurrentHashMap<String, PhysicalNetworkInterface>();
   private final PacketListener host;
   private final List<PacketListener> users
     = Collections.synchronizedList(new ArrayList<PacketListener>());
@@ -40,13 +40,13 @@ public class LagInterface implements NetworkInterface {
   public LagInterface(
     String name,
     MacAddress macAddress,
-    int lagId,
-    PacketListener packetListener
+    int channelGroupNumber,
+    PacketListener host
   ) {
     this.name = name;
     this.macAddress = macAddress;
-    this.lagId = lagId;
-    this.host = packetListener;
+    this.channelGroupNumber = channelGroupNumber;
+    this.host = host;
   }
 
   public String getName() {
@@ -55,6 +55,13 @@ public class LagInterface implements NetworkInterface {
 
   public MacAddress getMacAddress() {
     return macAddress;
+  }
+
+  public boolean isTrunk() {
+    for (PhysicalNetworkInterface pnif: aggregatedNifs.values()) {
+      return pnif.isTrunk();
+    }
+    return false;
   }
 
   public List<NifIpAddress> getIpAddresses() {
@@ -69,8 +76,8 @@ public class LagInterface implements NetworkInterface {
     users.add(user);
   }
 
-  public int getVid() {
-    return lagId;
+  public int getChannelGroupNumber() {
+    return channelGroupNumber;
   }
 
   public void start() {
@@ -89,36 +96,50 @@ public class LagInterface implements NetworkInterface {
     return running;
   }
 
-  public void addNif(String ifName, NetworkInterface nif) {
+  public void addNif(String ifName, PhysicalNetworkInterface nif) {
     nif.addUser(new PacketListenerImpl(ifName));
-    nifs.put(ifName, nif);
+    aggregatedNifs.put(ifName, nif);
   }
 
-  public void sendPacket(Packet packet) {
+  public void sendPacket(Packet packet) throws SendPacketException {
     if (!running) {
       if (logger.isDebugEnabled()) {
         logger.warn("Not running. Can't send a packet: " + packet);
+        throw new SendPacketException();
       }
     }
 
-    for (NetworkInterface nif: nifs.values()) {
+    boolean packetIsSent = false;
+    for (NetworkInterface nif: aggregatedNifs.values()) {
       if (nif.isRunning()) {
         if (logger.isDebugEnabled()) {
           StringBuilder sb = new StringBuilder();
-          sb.append("Send a packet via ")
+          sb.append("Sending a packet via ")
             .append(nif.getName())
             .append(": ")
             .append(packet);
           logger.debug(sb.toString());
         }
-        nif.sendPacket(packet);
-        break;
+
+        try {
+          nif.sendPacket(packet);
+          packetIsSent = true;
+          break;
+        } catch (SendPacketException e) {
+          logger.error("Failed to send a packet: " + packet, e);
+        }
       }
+    }
+
+    if (packetIsSent) {
+      logger.debug("Succeeded in sending the packet.");
+    }
+    else {
+      throw new SendPacketException();
     }
   }
 
-  private
-  final class PacketListenerImpl implements PacketListener {
+  private final class PacketListenerImpl implements PacketListener {
 
     private final String ifName;
 

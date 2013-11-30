@@ -17,6 +17,7 @@ import org.pcap4j.packet.Packet;
 import org.pcap4j.util.MacAddress;
 import org.snmp4j.log.LogAdapter;
 import org.snmp4j.log.LogFactory;
+import com.github.kaitoy.sneo.network.protocol.Dot1qVlanTagHelper;
 import com.github.kaitoy.sneo.network.protocol.EthernetHelper;
 
 public class VlanInterface implements NetworkInterface {
@@ -29,9 +30,7 @@ public class VlanInterface implements NetworkInterface {
   private final List<NifIpAddress> ipAddresses
     = Collections.synchronizedList(new ArrayList<NifIpAddress>());
   private final int vid;
-  private final Map<NetworkInterface, Boolean> tagged
-    = new ConcurrentHashMap<NetworkInterface, Boolean>();
-  private final Map<String, NetworkInterface> nifs
+  private final Map<String, NetworkInterface> memberNifs
     = new ConcurrentHashMap<String, NetworkInterface>();
   private final PacketListener host;
   private final List<PacketListener> users
@@ -43,12 +42,12 @@ public class VlanInterface implements NetworkInterface {
     String name,
     MacAddress macAddress,
     int vid,
-    PacketListener packetListener
+    PacketListener host
   ) {
     this.name = name;
     this.macAddress = macAddress;
     this.vid = vid;
-    this.host = packetListener;
+    this.host = host;
   }
 
   public String getName() {
@@ -58,6 +57,8 @@ public class VlanInterface implements NetworkInterface {
   public MacAddress getMacAddress() {
     return macAddress;
   }
+
+  public boolean isTrunk() { return false; }
 
   public List<NifIpAddress> getIpAddresses() {
     return new ArrayList<NifIpAddress>(ipAddresses);
@@ -91,38 +92,57 @@ public class VlanInterface implements NetworkInterface {
     return running;
   }
 
-  public void addNif(String ifName, NetworkInterface nif, Boolean tagged) {
+  public void addNif(String ifName, NetworkInterface nif) {
+    if (memberNifs.containsKey(ifName)) {
+      return;
+    }
+
     nif.addUser(new PacketListenerImpl(ifName));
-    nifs.put(ifName, nif);
-    this.tagged.put(nif, tagged);
+    memberNifs.put(ifName, nif);
   }
 
-  public void sendPacket(Packet packet) {
+  public void sendPacket(Packet packet) throws SendPacketException {
     if (!running) {
       if (logger.isDebugEnabled()) {
         logger.warn("Not running. Can't send a packet: " + packet);
+        throw new SendPacketException();
       }
     }
 
-    for (NetworkInterface nif: nifs.values()) {
-      if (tagged.get(nif)) {
-
+    Packet taggedPacket = null;
+    Packet untaggedPacket = null;
+    for (NetworkInterface nif: memberNifs.values()) {
+      Packet sendingPacket;
+      if (nif.isTrunk()) {
+        if (taggedPacket == null) {
+          taggedPacket = Dot1qVlanTagHelper.tag(packet, vid);
+        }
+        sendingPacket = taggedPacket;
+      }
+      else {
+        if (untaggedPacket == null) {
+          untaggedPacket = Dot1qVlanTagHelper.untag(packet);
+        }
+        sendingPacket = untaggedPacket;
       }
 
-      if (logger.isDebugEnabled()) {
-        StringBuilder sb = new StringBuilder();
-        sb.append("Send a packet via ")
-          .append(nif.getName())
-          .append(": ")
-          .append(packet);
-        logger.debug(sb.toString());
+      try {
+        nif.sendPacket(sendingPacket);
+        if (logger.isDebugEnabled()) {
+          StringBuilder sb = new StringBuilder();
+          sb.append("Sent a packet via ")
+            .append(nif.getName())
+            .append(": ")
+            .append(sendingPacket);
+          logger.debug(sb.toString());
+        }
+      } catch (SendPacketException e) {
+        logger.error("Failed to send a packet: " + sendingPacket, e);
       }
-      nif.sendPacket(packet);
     }
   }
 
-  private
-  final class PacketListenerImpl implements PacketListener {
+  private final class PacketListenerImpl implements PacketListener {
 
     private final String ifName;
 
@@ -135,23 +155,57 @@ public class VlanInterface implements NetworkInterface {
         user.gotPacket(packet);
       }
 
-      // forward
-      for (String name: nifs.keySet()) {
-        if (ifName.equals(name)) {
+      if (memberNifs.get(ifName).isTrunk()) {
+        if (!Dot1qVlanTagHelper.isTagged(packet, vid)) {
+          if (logger.isDebugEnabled()) {
+            StringBuilder sb = new StringBuilder();
+            sb.append("Dropped a packet not tagged with VLAN ")
+              .append(vid)
+              .append(": ")
+              .append(packet);
+            logger.debug(sb.toString());
+          }
+          return;
+        }
+      }
+
+      // forwarding
+      Packet taggedPacket = null;
+      Packet untaggedPacket = null;
+      for (NetworkInterface nif: memberNifs.values()) {
+        if (ifName.equals(nif.getName())) {
           continue;
         }
 
-        if (logger.isDebugEnabled()) {
-          StringBuilder sb = new StringBuilder();
-          sb.append("Forward a packet from ")
-            .append(ifName)
-            .append(" to ")
-            .append(name)
-            .append(": ")
-            .append(packet);
-          logger.debug(sb.toString());
+        Packet sendingPacket;
+        if (nif.isTrunk()) {
+          if (taggedPacket == null) {
+            taggedPacket = Dot1qVlanTagHelper.tag(packet, vid);
+          }
+          sendingPacket = taggedPacket;
         }
-        nifs.get(name).sendPacket(packet);
+        else {
+          if (untaggedPacket == null) {
+            untaggedPacket = Dot1qVlanTagHelper.untag(packet);
+          }
+          sendingPacket = untaggedPacket;
+        }
+
+        try {
+          nif.sendPacket(sendingPacket);
+          if (logger.isDebugEnabled()) {
+            StringBuilder sb = new StringBuilder();
+            sb.append("Forwarded a packet from ")
+              .append(ifName)
+              .append(" to ")
+              .append(nif.getName())
+              .append(": ")
+              .append(sendingPacket);
+            logger.debug(sb.toString());
+          }
+        } catch (SendPacketException e) {
+          logger.error("Failed to forward a packet: " + sendingPacket, e);
+        }
       }
 
       if (EthernetHelper.matchesDestination(packet, macAddress)) {

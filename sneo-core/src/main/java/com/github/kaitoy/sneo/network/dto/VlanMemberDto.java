@@ -15,4 +15,6 @@ public interface VlanMemberDto extends Serializable  {
 
   public String getName();
 
+  public boolean isTrunk();
+
 }

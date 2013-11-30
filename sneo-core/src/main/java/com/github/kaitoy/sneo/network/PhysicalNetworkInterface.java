@@ -25,26 +25,33 @@ extends PacketReceiver implements NetworkInterface {
     = LogFactory.getLogger(PhysicalNetworkInterface.class);
 
   private final MacAddress macAddress;
+  private final boolean trunk;
   private final List<NifIpAddress> ipAddresses
     = Collections.synchronizedList(new ArrayList<NifIpAddress>());
   private final PacketListener host;
   private final List<PacketListener> users
     = Collections.synchronizedList(new ArrayList<PacketListener>());
 
-  private volatile BlockingQueue<Packet> sendPacketQueue = null;
+  private volatile BlockingQueue<PacketContainer> sendPacketQueue = null;
 
   public PhysicalNetworkInterface(
     String name,
     MacAddress macAddress,
+    boolean trunk,
     PacketListener host
   ) {
     super(name);
     this.macAddress = macAddress;
+    this.trunk = trunk;
     this.host = host;
   }
 
   public MacAddress getMacAddress() {
     return macAddress;
+  }
+
+  public boolean isTrunk() {
+    return trunk;
   }
 
   public List<NifIpAddress> getIpAddresses() {
@@ -59,18 +66,25 @@ extends PacketReceiver implements NetworkInterface {
     users.add(user);
   }
 
-  void setSendPacketQueue(BlockingQueue<Packet> sendPacketQueue) {
+  void setSendPacketQueue(BlockingQueue<PacketContainer> sendPacketQueue) {
     this.sendPacketQueue = sendPacketQueue;
   }
 
-  public void sendPacket(Packet packet) {
-    BlockingQueue<Packet> q = sendPacketQueue;
-    if (q == null) {
-      logger.warn("Not yet be connected, dropped a packet: " + packet);
-      return;
+  public void sendPacket(Packet packet) throws SendPacketException {
+    if (!isRunning()) {
+      if (logger.isDebugEnabled()) {
+        logger.warn("Not running. Can't send a packet: " + packet);
+        throw new SendPacketException();
+      }
     }
 
-    boolean offered = q.offer(packet);
+    BlockingQueue<PacketContainer> q = sendPacketQueue;
+    if (q == null) {
+      logger.warn("Not yet be connected. Dropped a packet: " + packet);
+      throw new SendPacketException();
+    }
+
+    boolean offered = q.offer(new PacketContainer(packet, this));
     if (offered) {
       if (logger.isDebugEnabled()) {
         logger.debug("Sent a packet: " + packet);
@@ -78,20 +92,27 @@ extends PacketReceiver implements NetworkInterface {
     }
     else {
       logger.error("Couldn't send a packet: " + packet);
+      throw new SendPacketException();
     }
   }
 
   @Override
-  protected void process(Packet packet) {
-    if (logger.isDebugEnabled()) {
-      logger.debug("Received a packet: " + packet);
-    }
+  protected void process(PacketContainer pc) {
+    Packet packet = pc.getPacket();
 
-//  no need
-//  if (!packet.isValid()) {
-//    logger.warn("Dropped an invalid packet: " + packet);
-//    return;
-//  }
+    if (logger.isDebugEnabled()) {
+      StringBuilder sb = new StringBuilder();
+      sb.append("Received a packet from ");
+      if (pc.getSrc() != null) {
+        sb.append(pc.getSrc().getName());
+      }
+      else {
+        sb.append("a L2 connection");
+      }
+      sb.append(": ")
+        .append(packet);
+      logger.debug(sb.toString());
+    }
 
     for (PacketListener user: users) {
       user.gotPacket(packet);

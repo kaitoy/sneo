@@ -27,8 +27,8 @@ public abstract class PacketReceiver {
     = TimeUnit.MILLISECONDS;
 
   private final String name;
-  private final StoppableLinkedBlockingQueue<Packet> recvPacketQueue
-    = new StoppableLinkedBlockingQueue<Packet>(
+  private final StoppableLinkedBlockingQueue<PacketContainer> recvPacketQueue
+    = new StoppableLinkedBlockingQueue<PacketContainer>(
         NetworkPropertiesLoader.getPacketQueueSize()
       );
   private final ExecutorService packetTakerExecutor;
@@ -57,7 +57,7 @@ public abstract class PacketReceiver {
     return name;
   }
 
-  public BlockingQueue<Packet> getRecvPacketQueue() {
+  public BlockingQueue<PacketContainer> getRecvPacketQueue() {
     return recvPacketQueue;
   }
 
@@ -119,14 +119,14 @@ public abstract class PacketReceiver {
       }
     }
 
-    logger.info("shutdowned");
+    logger.info("A packet receiver has been shutdown.");
   }
 
   public boolean isRunning() {
     return running;
   }
 
-  protected abstract void process(Packet packet);
+  protected abstract void process(PacketContainer pc);
 
   private class PacketTaker implements Runnable {
 
@@ -134,7 +134,7 @@ public abstract class PacketReceiver {
       logger.info("start.");
       while (isRunning()) {
         try {
-          final Packet packet = recvPacketQueue.take();
+          final PacketContainer packet = recvPacketQueue.take();
           packetProcessorThreadPool.execute(
             new Runnable() {
               public void run() {
@@ -147,6 +147,26 @@ public abstract class PacketReceiver {
         }
       }
       logger.info("stopped.");
+    }
+
+  }
+
+  public static class PacketContainer {
+
+    private final Packet packet;
+    private final NetworkInterface src;
+
+    public PacketContainer(Packet packet, NetworkInterface src) {
+      this.packet = packet;
+      this.src = src;
+    }
+
+    public Packet getPacket() {
+      return packet;
+    }
+
+    public NetworkInterface getSrc() {
+      return src;
     }
 
   }

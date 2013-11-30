@@ -71,7 +71,7 @@ import com.github.kaitoy.sneo.agent.mo.MutableStaticMOGroup;
 import com.github.kaitoy.sneo.agent.mo.SnmpAccessStatisticsGatherer;
 import com.github.kaitoy.sneo.agent.mo.SnmpAccessStatisticsGathererImpl;
 import com.github.kaitoy.sneo.agent.mo.SysUpTimeImpl;
-import com.github.kaitoy.sneo.network.SneoContext;
+import com.github.kaitoy.sneo.network.SnmpContext;
 import com.github.kaitoy.sneo.util.ColonSeparatedOidTypeValueVariableTextFormat;
 import com.github.kaitoy.sneo.util.ContextfulWorkerPool;
 import com.github.kaitoy.sneo.util.SneoVariableTextFormat;
@@ -96,7 +96,7 @@ public class FileMibAgent extends BaseAgent {
   private final String securityName;
   private final String trapTarget;
   private final FileMibLoader fileMIBLoader;
-  private final ContextfulWorkerPool<SneoContext> contextfulWorkerPool;
+  private final ContextfulWorkerPool<SnmpContext> contextfulWorkerPool;
   private final SysUpTimeImpl sysUpTime = new SysUpTimeImpl();
   private final Object thisLock = new Object();
 
@@ -121,7 +121,7 @@ public class FileMibAgent extends BaseAgent {
     this.trapTarget = b.trapTarget;
     this.fileMIBLoader = new FileMibLoader(b.format);
     this.contextfulWorkerPool
-      = new ContextfulWorkerPool<SneoContext>(
+      = new ContextfulWorkerPool<SnmpContext>(
           "CommandProcessor_" + this.address,
           AgentPropertiesLoader.getInstance().getWorkerPoolSize()
         );
@@ -232,7 +232,7 @@ public class FileMibAgent extends BaseAgent {
     this.fileMibPath = fileMibPath;
   }
 
-  public ContextfulWorkerPool<SneoContext> getContextfulWorkerPool() {
+  public ContextfulWorkerPool<SnmpContext> getContextfulWorkerPool() {
     return contextfulWorkerPool;
   }
 
@@ -804,7 +804,7 @@ public class FileMibAgent extends BaseAgent {
         stop();
       }
       contextfulWorkerPool.stop();
-      logger.info("shutdowned");
+      logger.info("A snmp agent has been shutdown.");
     }
   }
 

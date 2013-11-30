@@ -18,6 +18,8 @@ public class PhysicalNetworkInterfaceDto implements VlanMemberDto {
 
   private Integer id;
   private String name;
+  private boolean trunk;
+  private String aggregatorName = null;
   private List<IpAddressDto> ipAddresses;
 
   public Integer getId() {
@@ -34,6 +36,22 @@ public class PhysicalNetworkInterfaceDto implements VlanMemberDto {
 
   public void setName(String name) {
     this.name = name;
+  }
+
+  public boolean isTrunk() {
+    return trunk;
+  }
+
+  public void setTrunk(boolean trunk) {
+    this.trunk = trunk;
+  }
+
+  public String getAggregatorName() {
+    return aggregatorName;
+  }
+
+  public void setAggregatorName(String aggregatorName) {
+    this.aggregatorName = aggregatorName;
   }
 
   public List<IpAddressDto> getIpAddresses() {

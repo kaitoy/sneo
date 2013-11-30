@@ -141,12 +141,12 @@ public class SingleNodeRunner {
       Node vNode = new Node(agent.getAddress(), agent, 100);
 
       String vNodeIfName = "vNodeNif";
-      vNode.addNif(vNodeIfName);
+      vNode.addNif(vNodeIfName, false);
 
       String vNodeVlanIfName = "vNodeVlan1";
       vNode.addVlan(vNodeVlanIfName, 1);
       vNode.addIpAddress(vNodeVlanIfName, agent.getInetAddress(), realNifPrefixLength);
-      vNode.addNifToVlan(vNodeIfName, 1, false);
+      vNode.addNifToVlan(vNodeIfName, 1);
 
       for (String addr: addrs) {
         vNode.addIpAddress(vNodeIfName, InetAddress.getByName(addr), realNifPrefixLength);
@@ -169,7 +169,7 @@ public class SingleNodeRunner {
       }
 
       String gwNifName = "gwNif";
-      gw.addNif(gwNifName);
+      gw.addNif(gwNifName, false);
       gw.addIpAddress(gwNifName, vgwVirtualNifAddr, realNifPrefixLength);
       L2Connection l2
         = L2Connection.connect(

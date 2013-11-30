@@ -120,7 +120,7 @@ public class NodeDynamicMBean extends AbstractDynamicMBean {
         moiList.add(
           new MBeanOperationInfo(
             "start",
-            "Start SNMP agent and listening ICMP.",
+            "Start this node.",
             new MBeanParameterInfo[0],
             Void.class.getName(),
             MBeanOperationInfo.ACTION
@@ -149,7 +149,7 @@ public class NodeDynamicMBean extends AbstractDynamicMBean {
         moiList.add(
           new MBeanOperationInfo(
             "stop",
-            "Stop SNMP agent and listening ICMP.",
+            "Stop this node.",
             new MBeanParameterInfo[0],
             Void.class.getName(),
             MBeanOperationInfo.ACTION
@@ -286,7 +286,7 @@ public class NodeDynamicMBean extends AbstractDynamicMBean {
       }
     }
     else if (arg0.equals("removeMessageProcessor")) {
-      return (Object)mo.getAgent().removeMessageProcessor((String)arg1[0]);
+      return mo.getAgent().removeMessageProcessor((String)arg1[0]);
     }
     else if (arg0.equals("reportSnmpAccessStatistics")) {
       return mo.getAgent().reportSnmpAccessStatistics();

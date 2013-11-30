@@ -10,9 +10,7 @@ package com.github.kaitoy.sneo.network;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import org.pcap4j.packet.EthernetPacket;
 import org.pcap4j.packet.Packet;
-import org.pcap4j.util.MacAddress;
 
 public class L2Connection extends PacketReceiver {
 
@@ -58,16 +56,23 @@ public class L2Connection extends PacketReceiver {
   }
 
   @Override
-  public void process(Packet packet) {
+  public void process(PacketContainer pc) {
+    Packet packet = pc.getPacket();
+
     if (logger.isDebugEnabled()) {
-      logger.debug("Received a packet: " + packet);
+      StringBuilder sb = new StringBuilder();
+      sb.append("Received a packet from ")
+        .append(pc.getSrc().getName())
+        .append(": ")
+        .append(packet);
+      logger.debug(sb.toString());
     }
 
-    MacAddress src = packet.get(EthernetPacket.class).getHeader().getSrcAddr();
+    NetworkInterface src = pc.getSrc();
 
     for (PhysicalNetworkInterface nif: connectedNifs) {
-      if (!src.equals(nif.getMacAddress())) {
-        boolean offered = nif.getRecvPacketQueue().offer(packet);
+      if (src != nif && nif.isRunning()) {
+        boolean offered = nif.getRecvPacketQueue().offer(new PacketContainer(packet, null));
         if (offered) {
           if (logger.isDebugEnabled()) {
             logger.debug("Sent a packet: " + packet);
