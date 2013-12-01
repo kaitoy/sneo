@@ -78,21 +78,27 @@ extends ActionSupport implements ModelDriven<SnmpAgent>, FormMessage, SnmpAgentM
   }
 
   @Override
-  @SkipValidation
   public String execute() throws Exception {
     @SuppressWarnings("unchecked")
     Map<String, Object> parameters
       = (Map<String, Object>)ActionContext.getContext().get("parameters");
-    if (parameters.get("network_id") == null) {
-      setModel(snmpAgentDao.findByKey(model.getId()));
-      parameters.put("network_id", model.getNode().getNetwork().getId());
-      parameters.put("network_name", model.getNode().getNetwork().getName());
-      parameters.put("node_id", model.getNode().getId());
-      parameters.put("node_name", model.getNode().getName());
-      parameters.put("snmpAgent_id", model.getId());
-      parameters.put("snmpAgent_address", model.getAddress());
-    }
+    setModel(snmpAgentDao.findByKey(model.getId()));
+    parameters.put("network_id", model.getNode().getNetwork().getId());
+    parameters.put("network_name", model.getNode().getNetwork().getName());
+    parameters.put("node_id", model.getNode().getId());
+    parameters.put("node_name", model.getNode().getName());
+    parameters.put("snmpAgent_id", model.getId());
+    parameters.put("snmpAgent_address", model.getAddress());
 
+    return "config";
+  }
+
+  @Action(
+    value = "back-to-snmp-agent-config",
+    results = { @Result(name = "config", location = "snmp-agent-config.jsp")}
+  )
+  @SkipValidation
+  public String back() throws Exception {
     return "config";
   }
 
@@ -154,6 +160,13 @@ extends ActionSupport implements ModelDriven<SnmpAgent>, FormMessage, SnmpAgentM
   @Override
   public void validate() {
     String contextName = ActionContext.getContext().getName();
+
+    if (contextName.equals("snmp-agent")) {
+      if (model.getId() == null) {
+        addActionError(getText("select.a.row"));
+        return;
+      }
+    }
 
     if (contextName.equals("snmp-agent-create")) {
       Map<String, Object> params = ActionContext.getContext().getParameters();

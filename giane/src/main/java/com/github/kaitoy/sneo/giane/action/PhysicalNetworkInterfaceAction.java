@@ -76,24 +76,30 @@ implements ModelDriven<PhysicalNetworkInterface>, FormMessage,
   }
 
   @Override
-  @SkipValidation
   public String execute() throws Exception {
     @SuppressWarnings("unchecked")
     Map<String, Object> parameters
       = (Map<String, Object>)ActionContext.getContext().get("parameters");
-    if (parameters.get("network_id") == null) {
-      setModel(physicalNetworkInterfaceDao.findByKey(model.getId()));
-      parameters.put("network_id", model.getNode().getNetwork().getId());
-      parameters.put("network_name", model.getNode().getNetwork().getName());
-      parameters.put("node_id", model.getNode().getId());
-      parameters.put("node_name", model.getNode().getName());
-      parameters.put("physicalNetworkInterface_id", model.getId());
-      parameters.put("physicalNetworkInterface_name", model.getName());
-      parameters.put(
-        "ipAddressRelation_id", model.getIpAddressRelation().getId()
-      );
-    }
+    setModel(physicalNetworkInterfaceDao.findByKey(model.getId()));
+    parameters.put("network_id", model.getNode().getNetwork().getId());
+    parameters.put("network_name", model.getNode().getNetwork().getName());
+    parameters.put("node_id", model.getNode().getId());
+    parameters.put("node_name", model.getNode().getName());
+    parameters.put("physicalNetworkInterface_id", model.getId());
+    parameters.put("physicalNetworkInterface_name", model.getName());
+    parameters.put(
+      "ipAddressRelation_id", model.getIpAddressRelation().getId()
+    );
 
+    return "config";
+  }
+
+  @Action(
+    value = "back-to-physical-network-interface-config",
+    results = { @Result(name = "config", location = "physical-network-interface-config.jsp")}
+  )
+  @SkipValidation
+  public String back() throws Exception {
     return "config";
   }
 
@@ -180,6 +186,7 @@ implements ModelDriven<PhysicalNetworkInterface>, FormMessage,
     PhysicalNetworkInterface update
       = physicalNetworkInterfaceDao.findByKey(model.getId());
     update.setName(model.getName());
+    update.setTrunk(model.isTrunk());
     physicalNetworkInterfaceDao.update(update);
 
     return "success";
@@ -188,6 +195,13 @@ implements ModelDriven<PhysicalNetworkInterface>, FormMessage,
   @Override
   public void validate() {
     String contextName = ActionContext.getContext().getName();
+
+    if (contextName.equals("physical-network-interface")) {
+      if (model.getId() == null) {
+        addActionError(getText("select.a.row"));
+        return;
+      }
+    }
 
     if (contextName.equals("physical-network-interface-update")) {
       if (model.getId() == null) {

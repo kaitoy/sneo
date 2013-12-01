@@ -84,21 +84,27 @@ implements ModelDriven<Node>, FormMessage, NodeMessage, BreadCrumbsMessage {
   }
 
   @Override
-  @SkipValidation
   public String execute() throws Exception {
     // The following code is different from ActionContext.getContext().getParameters()
     // and ActionContext.getContext().setParameters() seems not to work.
     @SuppressWarnings("unchecked")
     Map<String, Object> parameters
       = (Map<String, Object>)ActionContext.getContext().get("parameters");
-    if (parameters.get("network_id") == null) {
-      setModel(nodeDao.findByKey(model.getId()));
-      parameters.put("network_id", model.getNetwork().getId());
-      parameters.put("network_name", model.getNetwork().getName());
-      parameters.put("node_id", model.getId());
-      parameters.put("node_name", model.getName());
-    }
+    setModel(nodeDao.findByKey(model.getId()));
+    parameters.put("network_id", model.getNetwork().getId());
+    parameters.put("network_name", model.getNetwork().getName());
+    parameters.put("node_id", model.getId());
+    parameters.put("node_name", model.getName());
 
+    return "config";
+  }
+
+  @Action(
+    value = "back-to-node-config",
+    results = { @Result(name = "config", location = "node-config.jsp")}
+  )
+  @SkipValidation
+  public String back() throws Exception {
     return "config";
   }
 
@@ -150,6 +156,13 @@ implements ModelDriven<Node>, FormMessage, NodeMessage, BreadCrumbsMessage {
   @Override
   public void validate() {
     String contextName = ActionContext.getContext().getName();
+
+    if (contextName.equals("node")) {
+      if (model.getId() == null) {
+        addActionError(getText("select.a.row"));
+        return;
+      }
+    }
 
     if (contextName.equals("node-update")) {
       if (model.getId() == null) {

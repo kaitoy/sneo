@@ -134,6 +134,8 @@
   targets="main"
   replaceTarget="false"
   indicator="main_indicator"
-  listenTopics="simulation_rowDblClicked"
+  validate="true"
+  validateFunction="validation"
+  listenTopics="simulation_rowDblClicked,simulation_configButtonClicked"
   style="display: none;"
 />

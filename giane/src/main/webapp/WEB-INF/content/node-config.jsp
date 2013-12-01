@@ -5,7 +5,7 @@
 
 <div id="breadcrumbs">
   <s:url var="config_top_url" action="config-top" />
-  <s:url var="network_url" action="network" escapeAmp="false">
+  <s:url var="network_url" action="back-to-network-config" escapeAmp="false">
     <s:param name="network_id" value="%{#parameters.network_id}" />
     <s:param name="network_name" value="%{#parameters.network_name}" />
   </s:url>

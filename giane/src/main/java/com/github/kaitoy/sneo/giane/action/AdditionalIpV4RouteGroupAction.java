@@ -56,16 +56,22 @@ implements ModelDriven<AdditionalIpV4RouteGroup>, FormMessage,
   }
 
   @Override
-  @SkipValidation
   public String execute() throws Exception {
     @SuppressWarnings("unchecked")
     Map<String, Object> parameters
       = (Map<String, Object>)ActionContext.getContext().get("parameters");
-    if (parameters.get("additionalIpV4RouteGroup_id") == null) {
-      parameters.put("additionalIpV4RouteGroup_id", model.getId());
-      parameters.put("additionalIpV4RouteGroup_name", model.getName());
-    }
+    parameters.put("additionalIpV4RouteGroup_id", model.getId());
+    parameters.put("additionalIpV4RouteGroup_name", model.getName());
 
+    return "config";
+  }
+
+  @Action(
+    value = "back-to-additional-ip-v4-route-group-config",
+    results = { @Result(name = "config", location = "additional-ip-v4-route-group-config.jsp")}
+  )
+  @SkipValidation
+  public String back() throws Exception {
     return "config";
   }
 
@@ -145,6 +151,13 @@ implements ModelDriven<AdditionalIpV4RouteGroup>, FormMessage,
   @Override
   public void validate() {
     String contextName = ActionContext.getContext().getName();
+
+    if (contextName.equals("additional-ip-v4-route-group")) {
+      if (model.getId() == null) {
+        addActionError(getText("select.a.row"));
+        return;
+      }
+    }
 
     if (contextName.equals("additional-ip-v4-route-group-update")) {
       if (model.getId() == null) {

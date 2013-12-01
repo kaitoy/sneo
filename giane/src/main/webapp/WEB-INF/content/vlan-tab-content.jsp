@@ -117,6 +117,8 @@
   targets="main"
   replaceTarget="false"
   indicator="main_indicator"
-  listenTopics="vlan_rowDblClicked"
+  validate="true"
+  validateFunction="validation"
+  listenTopics="vlan_rowDblClicked,vlan_configButtonClicked"
   style="display: none;"
 />

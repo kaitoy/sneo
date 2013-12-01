@@ -67,19 +67,25 @@ implements ModelDriven<L2Connection>, FormMessage, L2ConnectionMessage,
   }
 
   @Override
-  @SkipValidation
   public String execute() throws Exception {
     @SuppressWarnings("unchecked")
     Map<String, Object> parameters
       = (Map<String, Object>)ActionContext.getContext().get("parameters");
-    if (parameters.get("network_id") == null) {
-      setModel(l2ConnectionDao.findByKey(model.getId()));
-      parameters.put("network_id", model.getNetwork().getId());
-      parameters.put("network_name", model.getNetwork().getName());
-      parameters.put("l2Connection_id", model.getId());
-      parameters.put("l2Connection_name", model.getName());
-    }
+    setModel(l2ConnectionDao.findByKey(model.getId()));
+    parameters.put("network_id", model.getNetwork().getId());
+    parameters.put("network_name", model.getNetwork().getName());
+    parameters.put("l2Connection_id", model.getId());
+    parameters.put("l2Connection_name", model.getName());
 
+    return "config";
+  }
+
+  @Action(
+    value = "back-to-l2-connection-config",
+    results = { @Result(name = "config", location = "l2-connection-config.jsp")}
+  )
+  @SkipValidation
+  public String back() throws Exception {
     return "config";
   }
 
@@ -134,6 +140,13 @@ implements ModelDriven<L2Connection>, FormMessage, L2ConnectionMessage,
   @Override
   public void validate() {
     String contextName = ActionContext.getContext().getName();
+
+    if (contextName.equals("l2-connection")) {
+      if (model.getId() == null) {
+        addActionError(getText("select.a.row"));
+        return;
+      }
+    }
 
     if (contextName.equals("l2-connection-update")) {
       if (model.getId() == null) {

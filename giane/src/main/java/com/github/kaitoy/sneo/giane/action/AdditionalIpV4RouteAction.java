@@ -54,17 +54,22 @@ implements ModelDriven<AdditionalIpV4Route>, FormMessage, AdditionalIpV4RouteMes
   }
 
   @Override
-  @SkipValidation
   public String execute() throws Exception {
     @SuppressWarnings("unchecked")
     Map<String, Object> parameters
       = (Map<String, Object>)ActionContext.getContext().get("parameters");
-    if (parameters.get("network_id") == null) {
-      setModel(additionalIpV4RouteDao.findByKey(model.getId()));
-      parameters.put("additionalIpV4Route_id", model.getId());
-      parameters.put("additionalIpV4Route_name", model.getName());
-    }
+    parameters.put("additionalIpV4Route_id", model.getId());
+    parameters.put("additionalIpV4Route_name", model.getName());
 
+    return "config";
+  }
+
+  @Action(
+    value = "back-to-additional-ip-v4-route-config",
+    results = { @Result(name = "config", location = "additional-ip-v4-route-config.jsp")}
+  )
+  @SkipValidation
+  public String back() throws Exception {
     return "config";
   }
 
@@ -127,6 +132,13 @@ implements ModelDriven<AdditionalIpV4Route>, FormMessage, AdditionalIpV4RouteMes
   @Override
   public void validate() {
     String contextName = ActionContext.getContext().getName();
+
+    if (contextName.equals("additional-ip-v4-route")) {
+      if (model.getId() == null) {
+        addActionError(getText("select.a.row"));
+        return;
+      }
+    }
 
     if (contextName.equals("additional-ip-v4-route-update")) {
       if (model.getId() == null) {

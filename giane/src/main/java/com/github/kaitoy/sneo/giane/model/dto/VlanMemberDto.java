@@ -19,10 +19,12 @@ public class VlanMemberDto implements Serializable {
 
   private Integer id;
   private String name;
+  private boolean trunk;
 
   public VlanMemberDto(VlanMember model) {
     this.id = model.getId();
     this.setName(model.getName());
+    this.trunk = model.isTrunk();
   }
 
   public Integer getId() {
@@ -39,6 +41,14 @@ public class VlanMemberDto implements Serializable {
 
   public void setName(String name) {
     this.name = name;
+  }
+
+  public boolean isTrunk() {
+    return trunk;
+  }
+
+  public void setTrunk(boolean trunk) {
+    this.trunk = trunk;
   }
 
   @Override

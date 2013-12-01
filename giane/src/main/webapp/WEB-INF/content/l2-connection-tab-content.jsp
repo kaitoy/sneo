@@ -112,7 +112,9 @@
   targets="main"
   replaceTarget="false"
   indicator="main_indicator"
-  listenTopics="l2Connection_rowDblClicked"
+  validate="true"
+  validateFunction="validation"
+  listenTopics="l2Connection_rowDblClicked,l2Connection_configButtonClicked"
   style="display: none;"
 />
 

@@ -88,6 +88,10 @@ public class PhysicalNetworkInterface extends VlanMember {
     PhysicalNetworkInterfaceDto dto = new PhysicalNetworkInterfaceDto();
     dto.setId(getId());
     dto.setName(getName());
+    dto.setTrunk(isTrunk());
+    if (getLag() != null) {
+      dto.setAggregatorName(lag.getName());
+    }
     dto.setIpAddresses(ipAddressRelation.getIpAddressDtos());
     return dto;
   }

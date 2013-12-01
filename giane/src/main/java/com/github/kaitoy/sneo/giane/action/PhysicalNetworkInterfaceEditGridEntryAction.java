@@ -1,10 +1,8 @@
 package com.github.kaitoy.sneo.giane.action;
 
 import java.util.Map;
-
 import org.apache.struts2.convention.annotation.InterceptorRef;
 import org.apache.struts2.convention.annotation.ParentPackage;
-
 import com.github.kaitoy.sneo.giane.model.PhysicalNetworkInterface;
 import com.github.kaitoy.sneo.giane.model.PhysicalNetworkInterfaceIpAddressRelation;
 import com.github.kaitoy.sneo.giane.model.dao.NodeDao;
@@ -27,6 +25,7 @@ public class PhysicalNetworkInterfaceEditGridEntryAction extends ActionSupport {
   private String oper;
   private Integer id;
   private String name;
+  private boolean trunk;
 
   // for DI
   public void setPhysicalNetworkInterfaceDao(
@@ -40,10 +39,12 @@ public class PhysicalNetworkInterfaceEditGridEntryAction extends ActionSupport {
     this.nodeDao = nodeDao;
   }
 
+  @Override
   public String execute() throws Exception {
     if (oper.equalsIgnoreCase("add")) {
       PhysicalNetworkInterface model = new PhysicalNetworkInterface();
       model.setName(name);
+      model.setTrunk(trunk);
 
       Map<String, Object> params = ActionContext.getContext().getParameters();
       Integer node_id
@@ -60,6 +61,7 @@ public class PhysicalNetworkInterfaceEditGridEntryAction extends ActionSupport {
       PhysicalNetworkInterface model
         = physicalNetworkInterfaceDao.findByKey(id);
       model.setName(name);
+      model.setTrunk(trunk);
       physicalNetworkInterfaceDao.update(model);
     }
     else if (oper.equalsIgnoreCase("del")) {

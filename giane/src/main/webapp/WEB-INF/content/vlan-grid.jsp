@@ -25,6 +25,13 @@
   navigatorDeleteOptions="{modal:true, drag:true, reloadAfterSubmit:true, width:300, left:0}"
   navigatorSearch="true"
   navigatorSearchOptions="{modal:true, drag:true, closeAfterSearch:true, closeAfterReset:true}"
+  navigatorExtraButtons="{
+    config: { 
+      title: 'Configure selected item',
+      icon: 'ui-icon-gear',
+      topic: 'vlan_configButtonClicked'
+    }
+  }"
   editurl="%{vlan_edit_grid_entry_url}"
   editinline="false"
   multiselect="false"

@@ -104,21 +104,27 @@ implements ModelDriven<RealNetworkInterfaceConfiguration>, FormMessage,
   }
 
   @Override
-  @SkipValidation
   public String execute() throws Exception {
     @SuppressWarnings("unchecked")
     Map<String, Object> parameters
       = (Map<String, Object>)ActionContext.getContext().get("parameters");
-    if (parameters.get("realNetworkInterfaceConfiguration_name") == null) {
-      setModel(realNetworkInterfaceConfigurationDao.findByKey(model.getId()));
-      parameters.put(
-        "realNetworkInterfaceConfiguration_name", model.getName()
-      );
-      parameters.put(
-        "ipAddressRelation_id", model.getIpAddressRelation().getId()
-      );
-    }
+    setModel(realNetworkInterfaceConfigurationDao.findByKey(model.getId()));
+    parameters.put(
+      "realNetworkInterfaceConfiguration_name", model.getName()
+    );
+    parameters.put(
+      "ipAddressRelation_id", model.getIpAddressRelation().getId()
+    );
 
+    return "config";
+  }
+
+  @Action(
+    value = "back-to-real-network-interface-configuration-config",
+    results = { @Result(name = "config", location = "real-network-interface-configuration-config.jsp")}
+  )
+  @SkipValidation
+  public String back() throws Exception {
     return "config";
   }
 
@@ -180,6 +186,13 @@ implements ModelDriven<RealNetworkInterfaceConfiguration>, FormMessage,
   @Override
   public void validate() {
     String contextName = ActionContext.getContext().getName();
+
+    if (contextName.equals("real-network-interface-configuration")) {
+      if (model.getId() == null) {
+        addActionError(getText("select.a.row"));
+        return;
+      }
+    }
 
     if (contextName.equals("real-network-interface-configuration-update")) {
       if (model.getId() == null) {

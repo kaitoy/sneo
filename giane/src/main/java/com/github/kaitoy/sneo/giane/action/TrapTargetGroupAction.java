@@ -55,16 +55,22 @@ implements ModelDriven<TrapTargetGroup>, FormMessage,
   }
 
   @Override
-  @SkipValidation
   public String execute() throws Exception {
     @SuppressWarnings("unchecked")
     Map<String, Object> parameters
       = (Map<String, Object>)ActionContext.getContext().get("parameters");
-    if (parameters.get("trapTargetGroup_id") == null) {
-      parameters.put("trapTargetGroup_id", model.getId());
-      parameters.put("trapTargetGroup_name", model.getName());
-    }
+    parameters.put("trapTargetGroup_id", model.getId());
+    parameters.put("trapTargetGroup_name", model.getName());
 
+    return "config";
+  }
+
+  @Action(
+    value = "back-to-trap-target-group-config",
+    results = { @Result(name = "config", location = "trap-target-group-config.jsp")}
+  )
+  @SkipValidation
+  public String back() throws Exception {
     return "config";
   }
 
@@ -144,6 +150,13 @@ implements ModelDriven<TrapTargetGroup>, FormMessage,
   @Override
   public void validate() {
     String contextName = ActionContext.getContext().getName();
+
+    if (contextName.equals("trap-target-group")) {
+      if (model.getId() == null) {
+        addActionError(getText("select.a.row"));
+        return;
+      }
+    }
 
     if (contextName.equals("trap-target-group-update")) {
       if (model.getId() == null) {

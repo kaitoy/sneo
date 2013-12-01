@@ -117,6 +117,8 @@
   targets="main"
   replaceTarget="false"
   indicator="main_indicator"
-  listenTopics="lag_rowDblClicked"
+  validate="true"
+  validateFunction="validation"
+  listenTopics="lag_rowDblClicked,lag_configButtonClicked"
   style="display: none;"
 />

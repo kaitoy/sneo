@@ -75,24 +75,30 @@ implements ModelDriven<Lag>, FormMessage, LagMessage, BreadCrumbsMessage,
   }
 
   @Override
-  @SkipValidation
   public String execute() throws Exception {
     @SuppressWarnings("unchecked")
     Map<String, Object> parameters
       = (Map<String, Object>)ActionContext.getContext().get("parameters");
-    if (parameters.get("network_id") == null) {
-      setModel(lagDao.findByKey(model.getId()));
-      parameters.put("network_id", model.getNode().getNetwork().getId());
-      parameters.put("network_name", model.getNode().getNetwork().getName());
-      parameters.put("node_id", model.getNode().getId());
-      parameters.put("node_name", model.getNode().getName());
-      parameters.put("lag_id", model.getId());
-      parameters.put("lag_name", model.getName());
-      parameters.put(
-        "ipAddressRelation_id", model.getIpAddressRelation().getId()
-      );
-    }
+    setModel(lagDao.findByKey(model.getId()));
+    parameters.put("network_id", model.getNode().getNetwork().getId());
+    parameters.put("network_name", model.getNode().getNetwork().getName());
+    parameters.put("node_id", model.getNode().getId());
+    parameters.put("node_name", model.getNode().getName());
+    parameters.put("lag_id", model.getId());
+    parameters.put("lag_name", model.getName());
+    parameters.put(
+      "ipAddressRelation_id", model.getIpAddressRelation().getId()
+    );
 
+    return "config";
+  }
+
+  @Action(
+    value = "back-to-lag-config",
+    results = { @Result(name = "config", location = "lag-config.jsp")}
+  )
+  @SkipValidation
+  public String back() throws Exception {
     return "config";
   }
 
@@ -155,6 +161,13 @@ implements ModelDriven<Lag>, FormMessage, LagMessage, BreadCrumbsMessage,
   @Override
   public void validate() {
     String contextName = ActionContext.getContext().getName();
+
+    if (contextName.equals("lag")) {
+      if (model.getId() == null) {
+        addActionError(getText("select.a.row"));
+        return;
+      }
+    }
 
     if (contextName.equals("lag-update")) {
       if (model.getId() == null) {

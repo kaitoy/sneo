@@ -126,7 +126,9 @@
   targets="main"
   replaceTarget="false"
   indicator="main_indicator"
-  listenTopics="node_rowDblClicked"
+  validate="true"
+  validateFunction="validation"
+  listenTopics="node_rowDblClicked,node_configButtonClicked"
   style="display: none;"
 />
 

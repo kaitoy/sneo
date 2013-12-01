@@ -54,20 +54,26 @@ implements ModelDriven<FixedIpV4Route>, FormMessage, FixedIpV4RouteMessage {
   }
 
   @Override
-  @SkipValidation
   public String execute() throws Exception {
     @SuppressWarnings("unchecked")
     Map<String, Object> parameters
       = (Map<String, Object>)ActionContext.getContext().get("parameters");
-    if (parameters.get("network_id") == null) {
-      setModel(fixedIpV4RouteDao.findByKey(model.getId()));
-      parameters.put("network_id", model.getNode().getNetwork().getId());
-      parameters.put("network_name", model.getNode().getNetwork().getName());
-      parameters.put("node_id", model.getNode().getId());
-      parameters.put("node_name", model.getNode().getName());
-      parameters.put("fixedIpV4Route_id", model.getId());
-    }
+    setModel(fixedIpV4RouteDao.findByKey(model.getId()));
+    parameters.put("network_id", model.getNode().getNetwork().getId());
+    parameters.put("network_name", model.getNode().getNetwork().getName());
+    parameters.put("node_id", model.getNode().getId());
+    parameters.put("node_name", model.getNode().getName());
+    parameters.put("fixedIpV4Route_id", model.getId());
 
+    return "config";
+  }
+
+  @Action(
+    value = "back-to-fixed-ip-v4-route-config",
+    results = { @Result(name = "config", location = "fixed-ip-v4-route-config.jsp")}
+  )
+  @SkipValidation
+  public String back() throws Exception {
     return "config";
   }
 
@@ -114,7 +120,16 @@ implements ModelDriven<FixedIpV4Route>, FormMessage, FixedIpV4RouteMessage {
 
   @Override
   public void validate() {
-    if (ActionContext.getContext().getName().equals("fixed-ip-v4-route-update")) {
+    String contextName = ActionContext.getContext().getName();
+
+    if (contextName.equals("lag")) {
+      if (model.getId() == null) {
+        addActionError(getText("select.a.row"));
+        return;
+      }
+    }
+
+    if (contextName.equals("fixed-ip-v4-route-update")) {
       if (model.getId() == null) {
         addActionError(getText("select.a.row"));
       }

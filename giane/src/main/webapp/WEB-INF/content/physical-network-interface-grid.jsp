@@ -25,6 +25,13 @@
   navigatorDeleteOptions="{modal:true, drag:true, reloadAfterSubmit:true, width:300, left:0}"
   navigatorSearch="true"
   navigatorSearchOptions="{modal:true, drag:true, closeAfterSearch:true, closeAfterReset:true}"
+  navigatorExtraButtons="{
+    config: { 
+      title: 'Configure selected item',
+      icon: 'ui-icon-gear',
+      topic: 'physicalNetworkInterface_configButtonClicked'
+    }
+  }"
   editurl="%{physicalNetworkInterface_edit_grid_entry_url}"
   editinline="false"
   multiselect="false"
@@ -62,6 +69,16 @@
     edittype="text"
     search="true"
     searchoptions="{sopt:['eq','ne','bw','en','cn']}"
+    width="150"
+  />
+  <sjg:gridColumn
+    name="trunk"
+    index="trunk"
+    title="%{getText('physicalNetworkInterface.trunk.label')}"
+    sortable="true"
+    editable="true"
+    edittype="checkbox"
+    search="false"
     width="150"
   />
 </sjg:grid>

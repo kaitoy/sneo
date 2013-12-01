@@ -131,6 +131,8 @@
   targets="main"
   replaceTarget="false"
   indicator="main_indicator"
-  listenTopics="additionalIpV4RouteGroup_rowDblClicked"
+  validate="true"
+  validateFunction="validation"
+  listenTopics="additionalIpV4RouteGroup_rowDblClicked,additionalIpV4RouteGroup_configButtonClicked"
   style="display: none;"
 />

@@ -89,21 +89,27 @@ implements ModelDriven<RealNetworkInterface>, FormMessage, RealNetworkInterfaceM
   }
 
   @Override
-  @SkipValidation
   public String execute() throws Exception {
     @SuppressWarnings("unchecked")
     Map<String, Object> parameters
       = (Map<String, Object>)ActionContext.getContext().get("parameters");
-    if (parameters.get("network_id") == null) {
-      setModel(realNetworkInterfaceDao.findByKey(model.getId()));
-      parameters.put("network_id", model.getNode().getNetwork().getId());
-      parameters.put("network_name", model.getNode().getNetwork().getName());
-      parameters.put("node_id", model.getNode().getId());
-      parameters.put("node_name", model.getNode().getName());
-      parameters.put("realNetworkInterface_id", model.getId());
-      parameters.put("realNetworkInterface_name", model.getName());
-    }
+    setModel(realNetworkInterfaceDao.findByKey(model.getId()));
+    parameters.put("network_id", model.getNode().getNetwork().getId());
+    parameters.put("network_name", model.getNode().getNetwork().getName());
+    parameters.put("node_id", model.getNode().getId());
+    parameters.put("node_name", model.getNode().getName());
+    parameters.put("realNetworkInterface_id", model.getId());
+    parameters.put("realNetworkInterface_name", model.getName());
 
+    return "config";
+  }
+
+  @Action(
+    value = "back-to-real-network-interface-config",
+    results = { @Result(name = "config", location = "real-network-interface-config.jsp")}
+  )
+  @SkipValidation
+  public String back() throws Exception {
     return "config";
   }
 
@@ -165,6 +171,13 @@ implements ModelDriven<RealNetworkInterface>, FormMessage, RealNetworkInterfaceM
   @Override
   public void validate() {
     String contextName = ActionContext.getContext().getName();
+
+    if (contextName.equals("real-network-interface")) {
+      if (model.getId() == null) {
+        addActionError(getText("select.a.row"));
+        return;
+      }
+    }
 
     if (contextName.equals("real-network-interface-update")) {
       if (model.getId() == null) {

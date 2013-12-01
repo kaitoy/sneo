@@ -121,6 +121,8 @@
   targets="main"
   replaceTarget="false"
   indicator="main_indicator"
-  listenTopics="trapTargetGroup_rowDblClicked"
+  validate="true"
+  validateFunction="validation"
+  listenTopics="trapTargetGroup_rowDblClicked,trapTargetGroup_configButtonClicked"
   style="display: none;"
 />

@@ -111,6 +111,8 @@
   targets="main"
   replaceTarget="false"
   indicator="main_indicator"
-  listenTopics="network_rowDblClicked"
+  validate="true"
+  validateFunction="validation"
+  listenTopics="network_rowDblClicked,network_configButtonClicked"
   style="display: none;"
 />

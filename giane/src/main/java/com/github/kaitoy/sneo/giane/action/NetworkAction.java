@@ -53,16 +53,22 @@ implements ModelDriven<Network>, FormMessage, NetworkMessage, BreadCrumbsMessage
   }
 
   @Override
-  @SkipValidation
   public String execute() throws Exception {
     @SuppressWarnings("unchecked")
     Map<String, Object> parameters
       = (Map<String, Object>)ActionContext.getContext().get("parameters");
-    if (parameters.get("network_id") == null) {
-      parameters.put("network_id", model.getId());
-      parameters.put("network_name", model.getName());
-    }
+    parameters.put("network_id", model.getId());
+    parameters.put("network_name", model.getName());
 
+    return "config";
+  }
+
+  @Action(
+    value = "back-to-network-config",
+    results = { @Result(name = "config", location = "network-config.jsp")}
+  )
+  @SkipValidation
+  public String back() throws Exception {
     return "config";
   }
 
@@ -101,6 +107,13 @@ implements ModelDriven<Network>, FormMessage, NetworkMessage, BreadCrumbsMessage
   @Override
   public void validate() {
     String contextName = ActionContext.getContext().getName();
+
+    if (contextName.equals("network")) {
+      if (model.getId() == null) {
+        addActionError(getText("select.a.row"));
+        return;
+      }
+    }
 
     if (contextName.equals("network-update")) {
       if (model.getId() == null) {

@@ -36,6 +36,7 @@ public abstract class VlanMember implements Serializable {
 
   private Integer id;
   private String name;
+  private boolean trunk;
   private List<Vlan> vlans;
 
   @Id
@@ -64,6 +65,15 @@ public abstract class VlanMember implements Serializable {
   )
   public void setName(String name) {
     this.name = name;
+  }
+
+  @Column(name = "TRUNK", nullable = false)
+  public boolean isTrunk() {
+    return trunk;
+  }
+
+  public void setTrunk(boolean trunk) {
+    this.trunk = trunk;
   }
 
   @ManyToMany(

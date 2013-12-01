@@ -10,13 +10,30 @@ $(document).ready( function() {
         var tagName = obj.get(0).tagName.toLowerCase();
         switch (tagName) {
           case "input":
-            obj.attr("value", value).addClass("filled");
+            if (obj.attr("type").toLowerCase() === "checkbox") {
+              if (value === "true") {
+                obj.val([obj.attr("value")]);
+              }
+              else {
+                obj.val([]);
+              }
+              obj.addClass("checked");
+            }
+            else {
+              obj.val(value).addClass("filled");
+            }
             break;
           case "select":
-            obj.find("option:contains('" + value + "')").attr("selected", "true").addClass("selectedOption");
+            if (!value) {
+              obj.children("option").removeAttr("selected");
+            }
+            else {
+              obj.find("option:contains('" + value + "')")
+                .attr("selected", "true").addClass("selectedOption");
+            }
             break;
           case "textarea":
-            obj.attr("value", value).addClass("filled");
+            obj.val(value).addClass("filled");
             break;
           default:
             break;
@@ -26,7 +43,8 @@ $(document).ready( function() {
   });
 
   $.subscribe("gridCompleted", function(event, data) {
-    $(".filled").html("").removeAttr("value").removeClass("filled");
+    $(".filled").val("").removeClass("filled");
+    $(".checked").val([]).removeClass("checked");
     $(".selectedOption").removeAttr("selected").removeClass("selectedOption");
   });
 });

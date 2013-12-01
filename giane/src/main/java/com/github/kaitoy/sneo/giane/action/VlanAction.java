@@ -75,24 +75,30 @@ implements ModelDriven<Vlan>, FormMessage, VlanMessage, BreadCrumbsMessage,
   }
 
   @Override
-  @SkipValidation
   public String execute() throws Exception {
     @SuppressWarnings("unchecked")
     Map<String, Object> parameters
       = (Map<String, Object>)ActionContext.getContext().get("parameters");
-    if (parameters.get("network_id") == null) {
-      setModel(vlanDao.findByKey(model.getId()));
-      parameters.put("network_id", model.getNode().getNetwork().getId());
-      parameters.put("network_name", model.getNode().getNetwork().getName());
-      parameters.put("node_id", model.getNode().getId());
-      parameters.put("node_name", model.getNode().getName());
-      parameters.put("vlan_id", model.getId());
-      parameters.put("vlan_name", model.getName());
-      parameters.put(
-        "ipAddressRelation_id", model.getIpAddressRelation().getId()
-      );
-    }
+    setModel(vlanDao.findByKey(model.getId()));
+    parameters.put("network_id", model.getNode().getNetwork().getId());
+    parameters.put("network_name", model.getNode().getNetwork().getName());
+    parameters.put("node_id", model.getNode().getId());
+    parameters.put("node_name", model.getNode().getName());
+    parameters.put("vlan_id", model.getId());
+    parameters.put("vlan_name", model.getName());
+    parameters.put(
+      "ipAddressRelation_id", model.getIpAddressRelation().getId()
+    );
 
+    return "config";
+  }
+
+  @Action(
+    value = "back-to-vlan-config",
+    results = { @Result(name = "config", location = "vlan-config.jsp")}
+  )
+  @SkipValidation
+  public String back() throws Exception {
     return "config";
   }
 
@@ -155,6 +161,13 @@ implements ModelDriven<Vlan>, FormMessage, VlanMessage, BreadCrumbsMessage,
   @Override
   public void validate() {
     String contextName = ActionContext.getContext().getName();
+
+    if (contextName.equals("vlan")) {
+      if (model.getId() == null) {
+        addActionError(getText("select.a.row"));
+        return;
+      }
+    }
 
     if (contextName.equals("vlan-update")) {
       if (model.getId() == null) {

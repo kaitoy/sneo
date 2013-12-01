@@ -75,17 +75,23 @@ implements ModelDriven<Simulation>, FormMessage, SimulationMessage, BreadCrumbsM
   }
 
   @Override
-  @SkipValidation
   public String execute() throws Exception {
     @SuppressWarnings("unchecked")
     Map<String, Object> parameters
       = (Map<String, Object>)ActionContext.getContext().get("parameters");
-    if (parameters.get("simulation_id") == null) {
-      parameters.put("simulation_id", model.getId());
-      parameters.put("simulation_name", model.getName());
-      parameters.put("network_id", model.getNetwork().getId());
-    }
+    parameters.put("simulation_id", model.getId());
+    parameters.put("simulation_name", model.getName());
+    parameters.put("network_id", model.getNetwork().getId());
 
+    return "config";
+  }
+
+  @Action(
+    value = "back-to-simulation-config",
+    results = { @Result(name = "config", location = "simulation-config.jsp")}
+  )
+  @SkipValidation
+  public String back() throws Exception {
     return "config";
   }
 
@@ -126,9 +132,10 @@ implements ModelDriven<Simulation>, FormMessage, SimulationMessage, BreadCrumbsM
   public void validate() {
     String contextName = ActionContext.getContext().getName();
 
-    if (contextName.equals("simulation-update")) {
+    if (contextName.equals("simulation")) {
       if (model.getId() == null) {
         addActionError(getText("select.a.row"));
+        return;
       }
     }
 

@@ -23,6 +23,18 @@
           <span id="physicalNetworkInterface_form_nameError"></span>
         </div>
         <div>
+          <s:checkbox
+            id="physicalNetworkInterface_trunk"
+            name="model.trunk"
+            label="%{getText('physicalNetworkInterface.trunk.label')}"
+            value="physicalNetworkInterface_trunk"
+            required="false"
+            requiredposition="left"
+            theme="xhtml"
+          />
+          <span id="physicalNetworkInterface_form_trunkError"></span>
+        </div>
+        <div>
           <table class="submit-button-table">
             <tbody>
               <tr>
@@ -112,6 +124,8 @@
   targets="main"
   replaceTarget="false"
   indicator="main_indicator"
-  listenTopics="physicalNetworkInterface_rowDblClicked"
+  validate="true"
+  validateFunction="validation"
+  listenTopics="physicalNetworkInterface_rowDblClicked,physicalNetworkInterface_configButtonClicked"
   style="display: none;"
 />

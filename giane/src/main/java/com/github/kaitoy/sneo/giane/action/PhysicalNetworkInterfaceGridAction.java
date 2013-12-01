@@ -49,6 +49,12 @@ public class PhysicalNetworkInterfaceGridAction extends ActionSupport {
           return o2.getName().compareTo(o1.getName());
         }
       };
+  private static final Comparator<PhysicalNetworkInterfaceDto> trunkComparator
+    = new Comparator<PhysicalNetworkInterfaceDto>() {
+        public int compare(PhysicalNetworkInterfaceDto o1, PhysicalNetworkInterfaceDto o2) {
+          return o1.isTrunk() == o2.isTrunk() ? 0 : o1.isTrunk() ? 1 : 0;
+        }
+      };
 
   // result List
   private List<PhysicalNetworkInterfaceDto> gridModel;
@@ -160,6 +166,9 @@ public class PhysicalNetworkInterfaceGridAction extends ActionSupport {
       }
       else if (sidx.equalsIgnoreCase("name")) {
         Collections.sort(gridModel, nameComparator);
+      }
+      else if (sidx.equalsIgnoreCase("trunk")) {
+        Collections.sort(gridModel, trunkComparator);
       }
 
       if (sord.equalsIgnoreCase("desc")) {

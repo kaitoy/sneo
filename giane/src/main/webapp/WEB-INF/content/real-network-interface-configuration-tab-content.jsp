@@ -177,6 +177,8 @@
   targets="main"
   replaceTarget="false"
   indicator="main_indicator"
-  listenTopics="realNetworkInterfaceConfiguration_rowDblClicked"
+  validate="true"
+  validateFunction="validation"
+  listenTopics="realNetworkInterfaceConfiguration_rowDblClicked,realNetworkInterfaceConfiguration_configButtonClicked"
   style="display: none;"
 />
