@@ -101,7 +101,7 @@ public class Network {
     StringBuilder sb = new StringBuilder(200);
     sb.append(ObjectName.quote(name))
       .append(":")
-      .append("type=,")
+      .append("type=")
       .append(ObjectName.quote(node.getClass().getSimpleName()))
       .append(",name=")
       .append(ObjectName.quote(node.getName()))

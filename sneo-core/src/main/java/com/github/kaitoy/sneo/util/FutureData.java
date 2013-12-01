@@ -42,23 +42,28 @@ public class FutureData<V> {
 
   public V get() throws InterruptedException {
     synchronized (thisLock) {
-      if (!isReady()) {
+      while (!isReady()) {
         thisLock.wait();
       }
       return data.get();
     }
   }
 
-  public V get(long timeout, TimeUnit unit)
-  throws InterruptedException, TimeoutException {
+  public V get(long timeout, TimeUnit unit) throws InterruptedException, TimeoutException {
+    long endTime = System.currentTimeMillis() + unit.toMillis(timeout);
     synchronized (thisLock) {
-      if (!isReady()) {
-        unit.timedWait(thisLock, timeout);
+      while (!isReady()) {
+        long sleepTime = endTime - System.currentTimeMillis();
+        if (sleepTime <= 0) {
+          break;
+        }
+        unit.timedWait(thisLock, unit.convert(sleepTime, TimeUnit.MILLISECONDS));
       }
 
-      try {
+      if (data != null) {
         return data.get();
-      } catch (NullPointerException e) {
+      }
+      else {
         throw new TimeoutException();
       }
     }
