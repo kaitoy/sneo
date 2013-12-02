@@ -3,19 +3,11 @@
 <%@ taglib prefix="sj" uri="/struts-jquery-tags" %>
 <%@ taglib prefix="sjg" uri="/struts-jquery-grid-tags" %>
 
-<div id="breadcrumbs">
-  <s:url var="config_top_url" action="config-top" />
-
-  <sj:a
-    href="%{config_top_url}"
-    targets="main"
-    replaceTarget="false"
-    button="false"
-    indicator="main_indicator"
-  >
-    [<s:text name="breadcrumbs.config.top" />]
-  </sj:a>
-  &nbsp;&gt;&nbsp;[<s:text name="breadcrumbs.realNetworkInterfaceConfiguration.configuration" />: <s:property value="#parameters.realNetworkInterfaceConfiguration_name" />]
+<div class="breadcrumb-label" style="display: none;">
+  <s:label
+    title="%{getText('breadcrumbs.realNetworkInterfaceConfiguration.configuration.title')}"
+    value="%{getText('breadcrumbs.realNetworkInterfaceConfiguration.configuration.label')}"
+  />
 </div>
 
 <sj:tabbedpanel id="realNetworkInterfaceConfiguration_config_tabs" animate="true" cssClass="tabs">

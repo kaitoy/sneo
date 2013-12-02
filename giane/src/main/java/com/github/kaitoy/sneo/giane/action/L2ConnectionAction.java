@@ -73,7 +73,6 @@ implements ModelDriven<L2Connection>, FormMessage, L2ConnectionMessage,
       = (Map<String, Object>)ActionContext.getContext().get("parameters");
     setModel(l2ConnectionDao.findByKey(model.getId()));
     parameters.put("network_id", model.getNetwork().getId());
-    parameters.put("network_name", model.getNetwork().getName());
     parameters.put("l2Connection_id", model.getId());
     parameters.put("l2Connection_name", model.getName());
 

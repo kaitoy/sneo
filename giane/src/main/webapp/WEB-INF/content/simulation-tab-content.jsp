@@ -137,5 +137,7 @@
   validate="true"
   validateFunction="validation"
   listenTopics="simulation_rowDblClicked,simulation_configButtonClicked"
+  onBeforeTopics="mainPaneGoingForward"
+  onCompleteTopics="mainPaneCompleted"
   style="display: none;"
 />

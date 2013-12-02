@@ -3,19 +3,32 @@
 <%@ taglib prefix="sj" uri="/struts-jquery-tags" %>
 <%@ taglib prefix="sjg" uri="/struts-jquery-grid-tags" %>
 
-<div id="breadcrumbs">
-  <s:url var="config_top_url" action="config-top" />
+<div class="breadcrumb-label" style="display: none;">
+  <s:label
+    title="%{getText('breadcrumbs.network.configuration.title')}"
+    value="%{getText('breadcrumbs.network.configuration.label')}"
+  />
+</div>
 
+<div class="breadcrumb-link" style="display: none;">
+  <s:url var="back_to_network_config_url" action="back-to-network-config" escapeAmp="false">
+    <s:param name="network_id" value="%{#parameters.network_id}" />
+    <s:param name="network_name" value="%{#parameters.network_name}" />
+  </s:url>
   <sj:a
-    href="%{config_top_url}"
+    id="back_to_network_config_button"
+    name="back_to_network_config_button"
+    href="%{back_to_network_config_url}"
+    title="%{getText('breadcrumbs.network.configuration.title')}"
     targets="main"
     replaceTarget="false"
-    button="false"
+    button="true"
     indicator="main_indicator"
+    onBeforeTopics="mainPaneGoingBack"
+    onCompleteTopics="mainPaneCompleted"
   >
-    [<s:text name="breadcrumbs.config.top" />]
+    <s:text name="breadcrumbs.network.configuration.label" />
   </sj:a>
-  &nbsp;&gt;&nbsp;[<s:text name="breadcrumbs.network.configuration" />: <s:property value="#parameters.network_name" />]
 </div>
 
 <sj:tabbedpanel id="network_config_tabs" animate="true" cssClass="tabs">

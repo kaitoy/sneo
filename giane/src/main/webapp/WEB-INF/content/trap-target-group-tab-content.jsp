@@ -124,5 +124,7 @@
   validate="true"
   validateFunction="validation"
   listenTopics="trapTargetGroup_rowDblClicked,trapTargetGroup_configButtonClicked"
+  onBeforeTopics="mainPaneGoingForward"
+  onCompleteTopics="mainPaneCompleted"
   style="display: none;"
 />

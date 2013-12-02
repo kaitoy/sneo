@@ -134,5 +134,7 @@
   validate="true"
   validateFunction="validation"
   listenTopics="additionalIpV4RouteGroup_rowDblClicked,additionalIpV4RouteGroup_configButtonClicked"
+  onBeforeTopics="mainPaneGoingForward"
+  onCompleteTopics="mainPaneCompleted"
   style="display: none;"
 />

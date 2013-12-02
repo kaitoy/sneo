@@ -114,5 +114,7 @@
   validate="true"
   validateFunction="validation"
   listenTopics="network_rowDblClicked,network_configButtonClicked"
+  onBeforeTopics="mainPaneGoingForward"
+  onCompleteTopics="mainPaneCompleted"
   style="display: none;"
 />

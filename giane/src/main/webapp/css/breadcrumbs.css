@@ -1,0 +1,25 @@
+#breadcrumbs li {
+  display: inline-block;
+}
+
+#breadcrumbs li.last-breadcrumb {
+  font-weight: bold;
+}
+
+#breadcrumbs {
+  line-height: 22px;
+  height: 22px;
+  font-size: 12px;
+  padding: 1px 0px;
+  margin: 0;
+}
+
+#breadcrumbs .ui-button-text {
+  font-size: 12px;
+  padding:  0px 5px;
+}
+
+#breadcrumbs .ui-button {
+  border-top-right-radius: 20px;
+}
+

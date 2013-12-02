@@ -80,10 +80,7 @@ implements ModelDriven<Vlan>, FormMessage, VlanMessage, BreadCrumbsMessage,
     Map<String, Object> parameters
       = (Map<String, Object>)ActionContext.getContext().get("parameters");
     setModel(vlanDao.findByKey(model.getId()));
-    parameters.put("network_id", model.getNode().getNetwork().getId());
-    parameters.put("network_name", model.getNode().getNetwork().getName());
     parameters.put("node_id", model.getNode().getId());
-    parameters.put("node_name", model.getNode().getName());
     parameters.put("vlan_id", model.getId());
     parameters.put("vlan_name", model.getName());
     parameters.put(

@@ -3,19 +3,11 @@
 <%@ taglib prefix="sj" uri="/struts-jquery-tags" %>
 <%@ taglib prefix="sjg" uri="/struts-jquery-grid-tags" %>
 
-<div id="breadcrumbs">
-  <s:url var="config_top_url" action="config-top" />
-
-  <sj:a
-    href="%{config_top_url}"
-    targets="main"
-    replaceTarget="false"
-    button="false"
-    indicator="main_indicator"
-  >
-    [<s:text name="breadcrumbs.config.top" />]
-  </sj:a>
-  &nbsp;&gt;&nbsp;[<s:text name="breadcrumbs.trapTargetGroup.configuration" />: <s:property value="#parameters.trapTargetGroup_name" />]
+<div class="breadcrumb-label" style="display: none;">
+  <s:label
+    title="%{getText('breadcrumbs.trapTargetGroup.configuration.title')}"
+    value="%{getText('breadcrumbs.trapTargetGroup.configuration.label')}"
+  />
 </div>
 
 <sj:tabbedpanel id="trapTargetGroup_config_tabs" animate="true" cssClass="tabs">

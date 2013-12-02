@@ -3,33 +3,31 @@
 <%@ taglib prefix="sj" uri="/struts-jquery-tags" %>
 <%@ taglib prefix="sjg" uri="/struts-jquery-grid-tags" %>
 
-<div id="breadcrumbs">
-  <s:url var="config_top_url" action="config-top" />
-  <s:url var="network_url" action="back-to-network-config" escapeAmp="false">
-    <s:param name="network_id" value="%{#parameters.network_id}" />
-    <s:param name="network_name" value="%{#parameters.network_name}" />
-  </s:url>
+<div class="breadcrumb-label" style="display: none;">
+  <s:label
+    title="%{getText('breadcrumbs.node.configuration.title')}"
+    value="%{getText('breadcrumbs.node.configuration.label')}"
+  />
+</div>
 
+<div class="breadcrumb-link" style="display: none;">
+  <s:url var="back_to_node_config_url" action="back-to-node-config" escapeAmp="false">
+    <s:param name="node_id" value="%{#parameters.node_id}" />
+    <s:param name="node_name" value="%{#parameters.node_name}" />
+  </s:url>
   <sj:a
-    href="%{config_top_url}"
+    id="back_to_node_config_button"
+    href="%{back_to_node_config_url}"
+    title="%{getText('breadcrumbs.node.configuration.title')}"
     targets="main"
     replaceTarget="false"
-    button="false"
+    button="true"
     indicator="main_indicator"
+    onBeforeTopics="mainPaneGoingBack"
+    onCompleteTopics="mainPaneCompleted"
   >
-    [<s:text name="breadcrumbs.config.top" />]
+    <s:text name="breadcrumbs.node.configuration.label" />
   </sj:a>
-  &nbsp;&gt;&nbsp;
-  <sj:a
-    href="%{network_url}"
-    targets="main"
-    replaceTarget="false"
-    button="false"
-    indicator="main_indicator"
-  >
-    [<s:text name="breadcrumbs.network.configuration" />: <s:property value="#parameters.network_name" />]
-  </sj:a>
-  &nbsp;&gt;&nbsp;[<s:text name="breadcrumbs.node.configuration" />: <s:property value="#parameters.node_name" />]
 </div>
 
 <sj:tabbedpanel id="node_config_tabs" animate="true" cssClass="tabs">

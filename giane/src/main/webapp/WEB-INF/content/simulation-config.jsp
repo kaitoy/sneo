@@ -3,19 +3,11 @@
 <%@ taglib prefix="sj" uri="/struts-jquery-tags" %>
 <%@ taglib prefix="sjg" uri="/struts-jquery-grid-tags" %>
 
-<div id="breadcrumbs">
-  <s:url var="config_top_url" action="config-top" />
-
-  <sj:a
-    href="%{config_top_url}"
-    targets="main"
-    replaceTarget="false"
-    button="false"
-    indicator="main_indicator"
-  >
-    [<s:text name="breadcrumbs.config.top" />]
-  </sj:a>
-  &nbsp;&gt;&nbsp;[<s:text name="breadcrumbs.simulation.configuration" />: <s:property value="#parameters.simulation_name" />]
+<div class="breadcrumb-label" style="display: none;">
+  <s:label
+    title="%{getText('breadcrumbs.simulation.configuration.title')}"
+    value="%{getText('breadcrumbs.simulation.configuration.label')}"
+  />
 </div>
 
 <sj:tabbedpanel id="simulation_tabs" animate="true" cssClass="tabs">
@@ -34,7 +26,6 @@
   <sj:tab id="set_additionalIpV4RouteGroup_to_node_tab" target="set_additionalIpV4RouteGroup_to_node_tab_content" label="%{getText('simulation.set.additionalIpV4RouteGroup.to.node.tab.label')}" />
   <s:url var="set_additionalIpV4RouteGroup_to_node_tab_content_url" action="set-additional-ip-v4-route-group-to-node-tab-content" escapeAmp="false">
     <s:param name="simulation_id" value="%{#parameters.simulation_id}" />
-    <s:param name="network_id" value="%{#parameters.network_id}" />
   </s:url>
   <sj:div id="set_additionalIpV4RouteGroup_to_node_tab_content" href="%{set_additionalIpV4RouteGroup_to_node_tab_content_url}" indicator="set_additionalIpV4RouteGroup_to_node_tab_indicator" cssClass="tab-content" />
 

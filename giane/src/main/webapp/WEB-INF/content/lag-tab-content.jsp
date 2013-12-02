@@ -120,5 +120,7 @@
   validate="true"
   validateFunction="validation"
   listenTopics="lag_rowDblClicked,lag_configButtonClicked"
+  onBeforeTopics="mainPaneGoingForward"
+  onCompleteTopics="mainPaneCompleted"
   style="display: none;"
 />

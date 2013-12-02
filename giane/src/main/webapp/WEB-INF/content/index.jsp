@@ -10,8 +10,10 @@
     <!--link rel="stylesheet" type="text/css" href="css/cssreset-min.css" /-->
     <link rel="stylesheet" type="text/css" href="css/index.css" />
     <link rel="stylesheet" type="text/css" href="css/main.css" />
+    <link rel="stylesheet" type="text/css" href="css/form.css" />
     <link rel="stylesheet" type="text/css" href="css/association.css" />
     <link rel="stylesheet" type="text/css" href="css/odd_even_table.css" />
+    <link rel="stylesheet" type="text/css" href="css/breadcrumbs.css" />
     <link rel="shortcut icon" type="image/png" href="images/favicon.png" />
     <script type="text/javascript" src="js/form.js"></script>
     <script type="text/javascript" src="js/validation.js"></script>
@@ -20,14 +22,22 @@
     <script type="text/javascript" src="js/association.js"></script>
     <script type="text/javascript" src="js/association_group.js"></script>
     <script type="text/javascript" src="js/start_simulator.js"></script>
+    <script type="text/javascript" src="js/breadcrumbs.js"></script>
     <title>Giane</title>
   </head>
   <body>
     <div id="header">Giane</div>
 
+      <ol id="breadcrumbs"></ol>
+
       <div id="main">
         <s:url var="signIn_url" action="sign-in" />
-        <sj:div id="signIn" href="%{signIn_url}" indicator="main_indicator" />
+        <sj:div
+          id="signIn"
+          href="%{signIn_url}"
+          onBeforeTopics="startingMainPane"
+          indicator="main_indicator"
+         />
       </div>
 
       <img id="main_indicator" src="images/loading_big.gif" alt="Loading..." style="display: none;" />

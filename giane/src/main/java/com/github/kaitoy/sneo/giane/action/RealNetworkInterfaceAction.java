@@ -93,11 +93,6 @@ implements ModelDriven<RealNetworkInterface>, FormMessage, RealNetworkInterfaceM
     @SuppressWarnings("unchecked")
     Map<String, Object> parameters
       = (Map<String, Object>)ActionContext.getContext().get("parameters");
-    setModel(realNetworkInterfaceDao.findByKey(model.getId()));
-    parameters.put("network_id", model.getNode().getNetwork().getId());
-    parameters.put("network_name", model.getNode().getNetwork().getName());
-    parameters.put("node_id", model.getNode().getId());
-    parameters.put("node_name", model.getNode().getName());
     parameters.put("realNetworkInterface_id", model.getId());
     parameters.put("realNetworkInterface_name", model.getName());
 

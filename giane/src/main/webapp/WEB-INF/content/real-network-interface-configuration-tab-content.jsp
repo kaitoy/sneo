@@ -180,5 +180,7 @@
   validate="true"
   validateFunction="validation"
   listenTopics="realNetworkInterfaceConfiguration_rowDblClicked,realNetworkInterfaceConfiguration_configButtonClicked"
+  onBeforeTopics="mainPaneGoingForward"
+  onCompleteTopics="mainPaneCompleted"
   style="display: none;"
 />

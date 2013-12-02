@@ -129,6 +129,8 @@
   validate="true"
   validateFunction="validation"
   listenTopics="node_rowDblClicked,node_configButtonClicked"
+  onBeforeTopics="mainPaneGoingForward"
+  onCompleteTopics="mainPaneCompleted"
   style="display: none;"
 />
 

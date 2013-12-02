@@ -81,7 +81,6 @@ implements ModelDriven<Simulation>, FormMessage, SimulationMessage, BreadCrumbsM
       = (Map<String, Object>)ActionContext.getContext().get("parameters");
     parameters.put("simulation_id", model.getId());
     parameters.put("simulation_name", model.getName());
-    parameters.put("network_id", model.getNetwork().getId());
 
     return "config";
   }

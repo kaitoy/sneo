@@ -6,7 +6,6 @@
 <div class="association-container">
   <div id="associate_l2Connection_with_physicalNetworkInterfaces_wapper_column" class="association-wrapper-column">
     <s:url var="l2Connection_associated_physicalNetworkInterface_grid_box_url" action="l2-connection-associated-physical-network-interface-grid-box"  escapeAmp="false">
-      <s:param name="network_id" value="%{#parameters.network_id}" />
       <s:param name="l2Connection_id" value="%{#parameters.l2Connection_id}" />
       <s:param name="l2Connection_name" value="%{#parameters.l2Connection_name}" />
     </s:url>

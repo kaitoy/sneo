@@ -82,11 +82,6 @@ extends ActionSupport implements ModelDriven<SnmpAgent>, FormMessage, SnmpAgentM
     @SuppressWarnings("unchecked")
     Map<String, Object> parameters
       = (Map<String, Object>)ActionContext.getContext().get("parameters");
-    setModel(snmpAgentDao.findByKey(model.getId()));
-    parameters.put("network_id", model.getNode().getNetwork().getId());
-    parameters.put("network_name", model.getNode().getNetwork().getName());
-    parameters.put("node_id", model.getNode().getId());
-    parameters.put("node_name", model.getNode().getName());
     parameters.put("snmpAgent_id", model.getId());
     parameters.put("snmpAgent_address", model.getAddress());
 

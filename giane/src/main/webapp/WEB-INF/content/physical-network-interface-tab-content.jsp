@@ -127,5 +127,7 @@
   validate="true"
   validateFunction="validation"
   listenTopics="physicalNetworkInterface_rowDblClicked,physicalNetworkInterface_configButtonClicked"
+  onBeforeTopics="mainPaneGoingForward"
+  onCompleteTopics="mainPaneCompleted"
   style="display: none;"
 />

@@ -120,5 +120,7 @@
   validate="true"
   validateFunction="validation"
   listenTopics="vlan_rowDblClicked,vlan_configButtonClicked"
+  onBeforeTopics="mainPaneGoingForward"
+  onCompleteTopics="mainPaneCompleted"
   style="display: none;"
 />

@@ -115,6 +115,8 @@
   validate="true"
   validateFunction="validation"
   listenTopics="l2Connection_rowDblClicked,l2Connection_configButtonClicked"
+  onBeforeTopics="mainPaneGoingForward"
+  onCompleteTopics="mainPaneCompleted"
   style="display: none;"
 />
 
