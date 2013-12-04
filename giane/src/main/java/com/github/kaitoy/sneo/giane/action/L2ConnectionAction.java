@@ -79,14 +79,6 @@ implements ModelDriven<L2Connection>, ParameterAware, FormMessage, L2ConnectionM
   @Override
   @GoingForward
   public String execute() throws Exception {
-    @SuppressWarnings("unchecked")
-    Map<String, Object> parameters
-      = (Map<String, Object>)ActionContext.getContext().get("parameters");
-
-    parameters.put("network_id", model.getNetwork().getId());
-    parameters.put("l2Connection_id", model.getId());
-    parameters.put("l2Connection_name", model.getName());
-
     ValueStack stack = ActionContext.getContext().getValueStack();
     Map<String, Object> valueMap = new HashMap<String, Object>();
     setModel(l2ConnectionDao.findByKey(model.getId()));
