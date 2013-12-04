@@ -114,7 +114,9 @@
   </div>
 </div>
 
-<s:url var="trapTargetGroup_url" action="trap-target-group" />
+<s:url var="trapTargetGroup_url" action="trap-target-group">
+  <s:param name="tabIndex" value="%{#parameters.tabIndex}" />
+</s:url>
 <sj:submit
   href="%{trapTargetGroup_url}"
   formIds="trapTargetGroup_form"

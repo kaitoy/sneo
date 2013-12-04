@@ -104,7 +104,9 @@
   </div>
 </div>
 
-<s:url var="network_url" action="network" />
+<s:url var="network_url" action="network" escapeAmp="false">
+  <s:param name="tabIndex" value="%{#parameters.tabIndex}" />
+</s:url>
 <sj:submit
   href="%{network_url}"
   formIds="network_form"

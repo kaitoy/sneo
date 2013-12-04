@@ -16,6 +16,8 @@ import org.apache.struts2.convention.annotation.Result;
 import org.apache.struts2.interceptor.validation.SkipValidation;
 import com.github.kaitoy.sneo.giane.action.message.FormMessage;
 import com.github.kaitoy.sneo.giane.action.message.SnmpAgentMessage;
+import com.github.kaitoy.sneo.giane.interceptor.GoingBackward;
+import com.github.kaitoy.sneo.giane.interceptor.GoingForward;
 import com.github.kaitoy.sneo.giane.model.FileMibFormat;
 import com.github.kaitoy.sneo.giane.model.SnmpAgent;
 import com.github.kaitoy.sneo.giane.model.TrapTargetGroup;
@@ -78,6 +80,7 @@ extends ActionSupport implements ModelDriven<SnmpAgent>, FormMessage, SnmpAgentM
   }
 
   @Override
+  @GoingForward
   public String execute() throws Exception {
     @SuppressWarnings("unchecked")
     Map<String, Object> parameters
@@ -93,6 +96,7 @@ extends ActionSupport implements ModelDriven<SnmpAgent>, FormMessage, SnmpAgentM
     results = { @Result(name = "config", location = "snmp-agent-config.jsp")}
   )
   @SkipValidation
+  @GoingBackward
   public String back() throws Exception {
     return "config";
   }

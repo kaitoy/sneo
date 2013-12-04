@@ -17,6 +17,8 @@ import com.github.kaitoy.sneo.giane.action.message.AdditionalIpV4RouteGroupMessa
 import com.github.kaitoy.sneo.giane.action.message.AssociateActionMessage;
 import com.github.kaitoy.sneo.giane.action.message.BreadCrumbsMessage;
 import com.github.kaitoy.sneo.giane.action.message.FormMessage;
+import com.github.kaitoy.sneo.giane.interceptor.GoingBackward;
+import com.github.kaitoy.sneo.giane.interceptor.GoingForward;
 import com.github.kaitoy.sneo.giane.model.AdditionalIpV4RouteGroup;
 import com.github.kaitoy.sneo.giane.model.dao.AdditionalIpV4RouteGroupDao;
 import com.opensymphony.xwork2.ActionContext;
@@ -56,6 +58,7 @@ implements ModelDriven<AdditionalIpV4RouteGroup>, FormMessage,
   }
 
   @Override
+  @GoingForward
   public String execute() throws Exception {
     @SuppressWarnings("unchecked")
     Map<String, Object> parameters
@@ -71,6 +74,7 @@ implements ModelDriven<AdditionalIpV4RouteGroup>, FormMessage,
     results = { @Result(name = "config", location = "additional-ip-v4-route-group-config.jsp")}
   )
   @SkipValidation
+  @GoingBackward
   public String back() throws Exception {
     return "config";
   }

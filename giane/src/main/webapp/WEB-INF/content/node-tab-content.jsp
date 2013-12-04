@@ -119,7 +119,9 @@
   </div>
 </div>
 
-<s:url var="node_url" action="node" />
+<s:url var="node_url" action="node" escapeAmp="false">
+  <s:param name="tabIndex" value="%{#parameters.tabIndex}" />
+</s:url>
 <sj:submit
   href="%{node_url}"
   formIds="node_form"

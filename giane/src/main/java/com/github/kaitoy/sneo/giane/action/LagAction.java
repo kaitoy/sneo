@@ -17,6 +17,8 @@ import com.github.kaitoy.sneo.giane.action.message.AssociateActionMessage;
 import com.github.kaitoy.sneo.giane.action.message.BreadCrumbsMessage;
 import com.github.kaitoy.sneo.giane.action.message.FormMessage;
 import com.github.kaitoy.sneo.giane.action.message.LagMessage;
+import com.github.kaitoy.sneo.giane.interceptor.GoingBackward;
+import com.github.kaitoy.sneo.giane.interceptor.GoingForward;
 import com.github.kaitoy.sneo.giane.model.Lag;
 import com.github.kaitoy.sneo.giane.model.LagIpAddressRelation;
 import com.github.kaitoy.sneo.giane.model.dao.IpAddressRelationDao;
@@ -75,6 +77,7 @@ implements ModelDriven<Lag>, FormMessage, LagMessage, BreadCrumbsMessage,
   }
 
   @Override
+  @GoingForward
   public String execute() throws Exception {
     @SuppressWarnings("unchecked")
     Map<String, Object> parameters
@@ -95,6 +98,7 @@ implements ModelDriven<Lag>, FormMessage, LagMessage, BreadCrumbsMessage,
     results = { @Result(name = "config", location = "lag-config.jsp")}
   )
   @SkipValidation
+  @GoingBackward
   public String back() throws Exception {
     return "config";
   }

@@ -105,7 +105,9 @@
   </div>
 </div>
 
-<s:url var="l2Connection_url" action="l2-connection" />
+<s:url var="l2Connection_url" action="l2-connection" escapeAmp="false">
+  <s:param name="tabIndex" value="%{#parameters.tabIndex}" />
+</s:url>
 <sj:submit
   href="%{l2Connection_url}"
   formIds="l2Connection_form"

@@ -10,7 +10,7 @@
   />
 </div>
 
-<sj:tabbedpanel id="lag_config_tabs" animate="true" cssClass="tabs">
+<sj:tabbedpanel id="lag_config_tabs" animate="true" cssClass="tabs" selectedTab="%{selectedTab}">
   <sj:tab
     id="associate_lag_with_physicalNetworkInterfaces_tab"
     target="associate_lag_with_physicalNetworkInterfaces_tab_content"
@@ -24,6 +24,7 @@
     <s:param name="node_id" value="%{#parameters.node_id}" />
     <s:param name="lag_id" value="%{#parameters.lag_id}" />
     <s:param name="lag_name" value="%{#parameters.lag_name}" />
+    <s:param name="tabIndex" value="0" />
   </s:url>
   <sj:div
     id="associate_lag_with_physicalNetworkInterfaces_tab_content"
@@ -35,6 +36,7 @@
   <sj:tab id="ipAddress_tab" target="ipAddress_tab_content" label="%{getText('lag.config.ipAddress.tab.label')}" />
   <s:url var="ipAddress_tab_content_url" action="ip-address-tab-content">
     <s:param name="ipAddressRelation_id" value="%{#parameters.ipAddressRelation_id}" />
+    <s:param name="tabIndex" value="1" />
   </s:url>
   <sj:div id="ipAddress_tab_content" href="%{ipAddress_tab_content_url}" indicator="ipAddress_tab_indicator" cssClass="tab-content" />
 </sj:tabbedpanel>

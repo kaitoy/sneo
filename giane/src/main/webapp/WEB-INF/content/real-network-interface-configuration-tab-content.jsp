@@ -170,7 +170,9 @@
   </div>
 </div>
 
-<s:url var="realNetworkInterfaceConfiguration_url" action="real-network-interface-configuration" />
+<s:url var="realNetworkInterfaceConfiguration_url" action="real-network-interface-configuration">
+  <s:param name="tabIndex" value="%{#parameters.tabIndex}" />
+</s:url>
 <sj:submit
   href="%{realNetworkInterfaceConfiguration_url}"
   formIds="realNetworkInterfaceConfiguration_form"

@@ -17,6 +17,8 @@ import org.apache.struts2.interceptor.validation.SkipValidation;
 import com.github.kaitoy.sneo.giane.action.message.BreadCrumbsMessage;
 import com.github.kaitoy.sneo.giane.action.message.FormMessage;
 import com.github.kaitoy.sneo.giane.action.message.NodeMessage;
+import com.github.kaitoy.sneo.giane.interceptor.GoingBackward;
+import com.github.kaitoy.sneo.giane.interceptor.GoingForward;
 import com.github.kaitoy.sneo.giane.model.AdditionalIpV4RouteGroup;
 import com.github.kaitoy.sneo.giane.model.Node;
 import com.github.kaitoy.sneo.giane.model.dao.AdditionalIpV4RouteGroupDao;
@@ -84,6 +86,7 @@ implements ModelDriven<Node>, FormMessage, NodeMessage, BreadCrumbsMessage {
   }
 
   @Override
+  @GoingForward
   public String execute() throws Exception {
     // The following code is different from ActionContext.getContext().getParameters()
     // and ActionContext.getContext().setParameters() seems not to work.
@@ -101,6 +104,7 @@ implements ModelDriven<Node>, FormMessage, NodeMessage, BreadCrumbsMessage {
     results = { @Result(name = "config", location = "node-config.jsp")}
   )
   @SkipValidation
+  @GoingBackward
   public String back() throws Exception {
     return "config";
   }

@@ -10,10 +10,11 @@
   />
 </div>
 
-<sj:tabbedpanel id="realNetworkInterfaceConfiguration_config_tabs" animate="true" cssClass="tabs">
+<sj:tabbedpanel id="realNetworkInterfaceConfiguration_config_tabs" animate="true" cssClass="tabs" selectedTab="%{selectedTab}">
   <sj:tab id="ipAddress_tab" target="ipAddress_tab_content" label="%{getText('realNetworkInterfaceConfiguration.config.ipAddress.tab.label')}" />
-  <s:url var="ipAddress_tab_content_url" action="ip-address-tab-content">
+  <s:url var="ipAddress_tab_content_url" action="ip-address-tab-content" escapeAmp="false">
     <s:param name="ipAddressRelation_id" value="%{#parameters.ipAddressRelation_id}" />
+    <s:param name="tabIndex" value="0" />
   </s:url>
   <sj:div id="ipAddress_tab_content" href="%{ipAddress_tab_content_url}" indicator="ipAddress_tab_indicator" cssClass="tab-content" />
 </sj:tabbedpanel>

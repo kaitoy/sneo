@@ -17,6 +17,8 @@ import com.github.kaitoy.sneo.giane.action.message.AssociateActionMessage;
 import com.github.kaitoy.sneo.giane.action.message.BreadCrumbsMessage;
 import com.github.kaitoy.sneo.giane.action.message.FormMessage;
 import com.github.kaitoy.sneo.giane.action.message.L2ConnectionMessage;
+import com.github.kaitoy.sneo.giane.interceptor.GoingBackward;
+import com.github.kaitoy.sneo.giane.interceptor.GoingForward;
 import com.github.kaitoy.sneo.giane.model.L2Connection;
 import com.github.kaitoy.sneo.giane.model.dao.L2ConnectionDao;
 import com.github.kaitoy.sneo.giane.model.dao.NetworkDao;
@@ -67,6 +69,7 @@ implements ModelDriven<L2Connection>, FormMessage, L2ConnectionMessage,
   }
 
   @Override
+  @GoingForward
   public String execute() throws Exception {
     @SuppressWarnings("unchecked")
     Map<String, Object> parameters
@@ -84,6 +87,7 @@ implements ModelDriven<L2Connection>, FormMessage, L2ConnectionMessage,
     results = { @Result(name = "config", location = "l2-connection-config.jsp")}
   )
   @SkipValidation
+  @GoingBackward
   public String back() throws Exception {
     return "config";
   }

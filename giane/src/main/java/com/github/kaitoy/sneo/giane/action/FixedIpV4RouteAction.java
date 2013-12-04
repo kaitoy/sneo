@@ -15,6 +15,8 @@ import org.apache.struts2.convention.annotation.Result;
 import org.apache.struts2.interceptor.validation.SkipValidation;
 import com.github.kaitoy.sneo.giane.action.message.FixedIpV4RouteMessage;
 import com.github.kaitoy.sneo.giane.action.message.FormMessage;
+import com.github.kaitoy.sneo.giane.interceptor.GoingBackward;
+import com.github.kaitoy.sneo.giane.interceptor.GoingForward;
 import com.github.kaitoy.sneo.giane.model.FixedIpV4Route;
 import com.github.kaitoy.sneo.giane.model.dao.FixedIpV4RouteDao;
 import com.github.kaitoy.sneo.giane.model.dao.NodeDao;
@@ -54,6 +56,7 @@ implements ModelDriven<FixedIpV4Route>, FormMessage, FixedIpV4RouteMessage {
   }
 
   @Override
+  @GoingForward
   public String execute() throws Exception {
     @SuppressWarnings("unchecked")
     Map<String, Object> parameters
@@ -68,6 +71,7 @@ implements ModelDriven<FixedIpV4Route>, FormMessage, FixedIpV4RouteMessage {
     results = { @Result(name = "config", location = "fixed-ip-v4-route-config.jsp")}
   )
   @SkipValidation
+  @GoingBackward
   public String back() throws Exception {
     return "config";
   }

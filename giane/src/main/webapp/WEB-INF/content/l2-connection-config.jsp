@@ -10,7 +10,7 @@
   />
 </div>
 
-<sj:tabbedpanel id="l2Connection_config_tabs" animate="true" cssClass="tabs">
+<sj:tabbedpanel id="l2Connection_config_tabs" animate="true" cssClass="tabs" selectedTab="%{selectedTab}">
   <sj:tab
     id="associate_l2Connection_with_physicalNetworkInterfaces_tab"
     target="associate_l2Connection_with_physicalNetworkInterfaces_tab_content"
@@ -24,6 +24,7 @@
     <s:param name="network_id" value="%{#parameters.network_id}" />
     <s:param name="l2Connection_id" value="%{#parameters.l2Connection_id}" />
     <s:param name="l2Connection_name" value="%{#parameters.l2Connection_name}" />
+    <s:param name="tabIndex" value="0" />
   </s:url>
   <sj:div
     id="associate_l2Connection_with_physicalNetworkInterfaces_tab_content"

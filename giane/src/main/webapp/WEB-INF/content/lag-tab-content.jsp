@@ -110,7 +110,9 @@
   </div>
 </div>
 
-<s:url var="lag_url" action="lag" />
+<s:url var="lag_url" action="lag">
+  <s:param name="tabIndex" value="%{#parameters.tabIndex}" />
+</s:url>
 <sj:submit
   href="%{lag_url}"
   formIds="lag_form"

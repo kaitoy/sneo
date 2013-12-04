@@ -16,6 +16,8 @@ import org.apache.struts2.interceptor.validation.SkipValidation;
 import com.github.kaitoy.sneo.giane.action.message.BreadCrumbsMessage;
 import com.github.kaitoy.sneo.giane.action.message.FormMessage;
 import com.github.kaitoy.sneo.giane.action.message.NetworkMessage;
+import com.github.kaitoy.sneo.giane.interceptor.GoingBackward;
+import com.github.kaitoy.sneo.giane.interceptor.GoingForward;
 import com.github.kaitoy.sneo.giane.model.Network;
 import com.github.kaitoy.sneo.giane.model.dao.NetworkDao;
 import com.opensymphony.xwork2.ActionContext;
@@ -53,6 +55,7 @@ implements ModelDriven<Network>, FormMessage, NetworkMessage, BreadCrumbsMessage
   }
 
   @Override
+  @GoingForward
   public String execute() throws Exception {
     @SuppressWarnings("unchecked")
     Map<String, Object> parameters
@@ -68,6 +71,7 @@ implements ModelDriven<Network>, FormMessage, NetworkMessage, BreadCrumbsMessage
     results = { @Result(name = "config", location = "network-config.jsp")}
   )
   @SkipValidation
+  @GoingBackward
   public String back() throws Exception {
     return "config";
   }

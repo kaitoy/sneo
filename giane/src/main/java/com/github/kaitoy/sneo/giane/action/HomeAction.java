@@ -14,6 +14,8 @@ import org.apache.struts2.convention.annotation.Result;
 import org.apache.struts2.interceptor.validation.SkipValidation;
 import com.github.kaitoy.sneo.giane.action.message.BreadCrumbsMessage;
 import com.github.kaitoy.sneo.giane.action.message.HomeMessage;
+import com.github.kaitoy.sneo.giane.interceptor.GoingBackward;
+import com.github.kaitoy.sneo.giane.interceptor.GoingForward;
 import com.opensymphony.xwork2.ActionSupport;
 
 @ParentPackage("giane-default")
@@ -33,7 +35,20 @@ implements HomeMessage, BreadCrumbsMessage {
     }
   )
   @SkipValidation
+  @GoingForward
   public String execute() throws Exception {
+    return "success";
+  }
+
+  @Action(
+    value = "back-to-home",
+    results = {
+      @Result(name = "success", location = "home.jsp")
+    }
+  )
+  @SkipValidation
+  @GoingBackward
+  public String back() throws Exception {
     return "success";
   }
 

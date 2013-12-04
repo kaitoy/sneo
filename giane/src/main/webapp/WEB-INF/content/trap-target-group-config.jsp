@@ -10,7 +10,7 @@
   />
 </div>
 
-<sj:tabbedpanel id="trapTargetGroup_config_tabs" animate="true" cssClass="tabs">
+<sj:tabbedpanel id="trapTargetGroup_config_tabs" animate="true" cssClass="tabs" selectedTab="%{selectedTab}">
   <sj:tab
     id="associate_trapTargetGroup_with_trapTargets_tab"
     target="associate_trapTargetGroup_with_trapTargets_tab_content"
@@ -23,6 +23,7 @@
   >
     <s:param name="trapTargetGroup_id" value="%{#parameters.trapTargetGroup_id}" />
     <s:param name="trapTargetGroup_name" value="%{#parameters.trapTargetGroup_name}" />
+    <s:param name="tabIndex" value="0" />
   </s:url>
   <sj:div
     id="associate_trapTargetGroup_with_trapTargets_tab_content"

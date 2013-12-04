@@ -110,7 +110,9 @@
   </div>
 </div>
 
-<s:url var="vlan_url" action="vlan" />
+<s:url var="vlan_url" action="vlan">
+  <s:param name="tabIndex" value="%{#parameters.tabIndex}" />
+</s:url>
 <sj:submit
   href="%{vlan_url}"
   formIds="vlan_form"

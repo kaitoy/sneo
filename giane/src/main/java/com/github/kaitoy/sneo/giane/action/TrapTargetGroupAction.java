@@ -17,6 +17,8 @@ import com.github.kaitoy.sneo.giane.action.message.AssociateActionMessage;
 import com.github.kaitoy.sneo.giane.action.message.BreadCrumbsMessage;
 import com.github.kaitoy.sneo.giane.action.message.FormMessage;
 import com.github.kaitoy.sneo.giane.action.message.TrapTargetGroupMessage;
+import com.github.kaitoy.sneo.giane.interceptor.GoingBackward;
+import com.github.kaitoy.sneo.giane.interceptor.GoingForward;
 import com.github.kaitoy.sneo.giane.model.TrapTargetGroup;
 import com.github.kaitoy.sneo.giane.model.dao.TrapTargetGroupDao;
 import com.opensymphony.xwork2.ActionContext;
@@ -55,6 +57,7 @@ implements ModelDriven<TrapTargetGroup>, FormMessage,
   }
 
   @Override
+  @GoingForward
   public String execute() throws Exception {
     @SuppressWarnings("unchecked")
     Map<String, Object> parameters
@@ -70,6 +73,7 @@ implements ModelDriven<TrapTargetGroup>, FormMessage,
     results = { @Result(name = "config", location = "trap-target-group-config.jsp")}
   )
   @SkipValidation
+  @GoingBackward
   public String back() throws Exception {
     return "config";
   }

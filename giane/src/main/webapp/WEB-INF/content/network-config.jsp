@@ -31,16 +31,18 @@
   </sj:a>
 </div>
 
-<sj:tabbedpanel id="network_config_tabs" animate="true" cssClass="tabs">
+<sj:tabbedpanel id="network_config_tabs" animate="true" cssClass="tabs" selectedTab="%{selectedTab}">
   <sj:tab id="node_tab" target="node_tab_content" label="%{getText('network.config.node.tab.label')}" />
-  <s:url var="node_tab_content_url" action="node-tab-content">
+  <s:url var="node_tab_content_url" action="node-tab-content" escapeAmp="false">
     <s:param name="network_id" value="%{#parameters.network_id}" />
+    <s:param name="tabIndex" value="0" />
   </s:url>
   <sj:div id="node_tab_content" href="%{node_tab_content_url}" indicator="node_tab_indicator" cssClass="tab-content" />
 
   <sj:tab id="l2Connection_tab" target="l2Connection_tab_content" label="%{getText('network.config.l2Connection.tab.label')}" />
-  <s:url var="l2Connection_tab_content_url" action="l2-connection-tab-content">
+  <s:url var="l2Connection_tab_content_url" action="l2-connection-tab-content" escapeAmp="false">
     <s:param name="network_id" value="%{#parameters.network_id}" />
+    <s:param name="tabIndex" value="1" />
   </s:url>
   <sj:div id="l2Connection_tab_content" href="%{l2Connection_tab_content_url}" indicator="l2Connection_tab_indicator" cssClass="tab-content" />
 </sj:tabbedpanel>

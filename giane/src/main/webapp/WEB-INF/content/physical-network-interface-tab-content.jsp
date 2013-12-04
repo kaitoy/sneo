@@ -117,7 +117,9 @@
   </div>
 </div>
 
-<s:url var="physicalNetworkInterface_url" action="physical-network-interface" />
+<s:url var="physicalNetworkInterface_url" action="physical-network-interface">
+  <s:param name="tabIndex" value="%{#parameters.tabIndex}" />
+</s:url>
 <sj:submit
   href="%{physicalNetworkInterface_url}"
   formIds="physicalNetworkInterface_form"

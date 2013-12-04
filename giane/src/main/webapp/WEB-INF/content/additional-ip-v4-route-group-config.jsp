@@ -10,7 +10,7 @@
   />
 </div>
 
-<sj:tabbedpanel id="additionalIpV4RouteGroup_config_tabs" animate="true" cssClass="tabs">
+<sj:tabbedpanel id="additionalIpV4RouteGroup_config_tabs" animate="true" cssClass="tabs" selectedTab="%{selectedTab}">
   <sj:tab
     id="associate_additionalIpV4RouteGroup_with_additionalIpV4Routes_tab"
     target="associate_additionalIpV4RouteGroup_with_additionalIpV4Routes_tab_content"
@@ -23,6 +23,7 @@
   >
     <s:param name="additionalIpV4RouteGroup_id" value="%{#parameters.additionalIpV4RouteGroup_id}" />
     <s:param name="additionalIpV4RouteGroup_name" value="%{#parameters.additionalIpV4RouteGroup_name}" />
+    <s:param name="tabIndex" value="0" />
   </s:url>
   <sj:div
     id="associate_additionalIpV4RouteGroup_with_additionalIpV4Routes_tab_content"

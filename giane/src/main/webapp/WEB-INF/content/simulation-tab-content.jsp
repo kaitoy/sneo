@@ -127,7 +127,9 @@
   </div>
 </div>
 
-<s:url var="simulation_url" action="simulation" />
+<s:url var="simulation_url" action="simulation">
+  <s:param name="tabIndex" value="%{#parameters.tabIndex}" />
+</s:url>
 <sj:submit
   href="%{simulation_url}"
   formIds="simulation_form"

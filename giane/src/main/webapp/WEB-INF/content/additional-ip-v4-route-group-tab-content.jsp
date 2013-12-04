@@ -124,7 +124,9 @@
   </div>
 </div>
 
-<s:url var="additionalIpV4RouteGroup_url" action="additional-ip-v4-route-group" />
+<s:url var="additionalIpV4RouteGroup_url" action="additional-ip-v4-route-group">
+  <s:param name="tabIndex" value="%{#parameters.tabIndex}" />
+</s:url>
 <sj:submit
   href="%{additionalIpV4RouteGroup_url}"
   formIds="additionalIpV4RouteGroup_form"
