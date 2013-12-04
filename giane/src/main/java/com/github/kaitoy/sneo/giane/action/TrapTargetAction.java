@@ -7,11 +7,13 @@
 
 package com.github.kaitoy.sneo.giane.action;
 
+import java.util.HashMap;
 import java.util.Map;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.InterceptorRef;
 import org.apache.struts2.convention.annotation.ParentPackage;
 import org.apache.struts2.convention.annotation.Result;
+import org.apache.struts2.interceptor.ParameterAware;
 import org.apache.struts2.interceptor.validation.SkipValidation;
 import com.github.kaitoy.sneo.giane.action.message.FormMessage;
 import com.github.kaitoy.sneo.giane.action.message.TrapTargetMessage;
@@ -22,13 +24,14 @@ import com.github.kaitoy.sneo.giane.model.dao.TrapTargetDao;
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 import com.opensymphony.xwork2.ModelDriven;
+import com.opensymphony.xwork2.util.ValueStack;
 import com.opensymphony.xwork2.validator.annotations.VisitorFieldValidator;
 
 @ParentPackage("giane-default")
 @InterceptorRef("gianeDefaultStack")
 public class TrapTargetAction
 extends ActionSupport
-implements ModelDriven<TrapTarget>, FormMessage, TrapTargetMessage {
+implements ModelDriven<TrapTarget>, ParameterAware, FormMessage, TrapTargetMessage {
 
   /**
    *
@@ -36,6 +39,7 @@ implements ModelDriven<TrapTarget>, FormMessage, TrapTargetMessage {
   private static final long serialVersionUID = 863806087262173522L;
 
   private TrapTarget model = new TrapTarget();
+  private Map<String, String[]> parameters;
   private TrapTargetDao trapTargetDao;
   private String uniqueColumn;
 
@@ -43,6 +47,10 @@ implements ModelDriven<TrapTarget>, FormMessage, TrapTargetMessage {
 
   @VisitorFieldValidator(appendPrefix = false)
   public void setModel(TrapTarget model) { this.model = model; }
+
+  public void setParameters(Map<String, String[]> parameters) {
+    this.parameters = parameters;
+  }
 
   // for DI
   public void setTrapTargetDao(TrapTargetDao trapTargetDao) {
@@ -56,11 +64,11 @@ implements ModelDriven<TrapTarget>, FormMessage, TrapTargetMessage {
   @Override
   @GoingForward
   public String execute() throws Exception {
-    @SuppressWarnings("unchecked")
-    Map<String, Object> parameters
-      = (Map<String, Object>)ActionContext.getContext().get("parameters");
-    parameters.put("trapTarget_id", model.getId());
-    parameters.put("trapTarget_name", model.getName());
+    ValueStack stack = ActionContext.getContext().getValueStack();
+    Map<String, Object> valueMap = new HashMap<String, Object>();
+    valueMap.put("trapTarget_id", model.getId());
+    valueMap.put("trapTarget_name", model.getName());
+    stack.push(valueMap);
 
     return "config";
   }
@@ -72,6 +80,12 @@ implements ModelDriven<TrapTarget>, FormMessage, TrapTargetMessage {
   @SkipValidation
   @GoingBackward
   public String back() throws Exception {
+    ValueStack stack = ActionContext.getContext().getValueStack();
+    Map<String, Object> valueMap = new HashMap<String, Object>();
+    valueMap.put("trapTarget_id", parameters.get("trapTarget_id")[0]);
+    valueMap.put("trapTarget_name", parameters.get("trapTarget_name")[0]);
+    stack.push(valueMap);
+
     return "config";
   }
 

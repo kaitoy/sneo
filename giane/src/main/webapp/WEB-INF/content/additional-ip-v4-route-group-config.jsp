@@ -21,8 +21,8 @@
     action="associate-additional-ip-v4-route-group-with-additional-ip-v4-routes-tab-content"
     escapeAmp="false"
   >
-    <s:param name="additionalIpV4RouteGroup_id" value="%{#parameters.additionalIpV4RouteGroup_id}" />
-    <s:param name="additionalIpV4RouteGroup_name" value="%{#parameters.additionalIpV4RouteGroup_name}" />
+    <s:param name="additionalIpV4RouteGroup_id" value="%{additionalIpV4RouteGroup_id}" />
+    <s:param name="additionalIpV4RouteGroup_name" value="%{additionalIpV4RouteGroup_name}" />
     <s:param name="tabIndex" value="0" />
   </s:url>
   <sj:div

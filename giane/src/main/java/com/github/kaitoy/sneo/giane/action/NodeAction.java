@@ -13,6 +13,7 @@ import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.InterceptorRef;
 import org.apache.struts2.convention.annotation.ParentPackage;
 import org.apache.struts2.convention.annotation.Result;
+import org.apache.struts2.interceptor.ParameterAware;
 import org.apache.struts2.interceptor.validation.SkipValidation;
 import com.github.kaitoy.sneo.giane.action.message.BreadCrumbsMessage;
 import com.github.kaitoy.sneo.giane.action.message.FormMessage;
@@ -27,12 +28,13 @@ import com.github.kaitoy.sneo.giane.model.dao.NodeDao;
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 import com.opensymphony.xwork2.ModelDriven;
+import com.opensymphony.xwork2.util.ValueStack;
 import com.opensymphony.xwork2.validator.annotations.VisitorFieldValidator;
 
 @ParentPackage("giane-default")
 @InterceptorRef("gianeDefaultStack")
 public class NodeAction extends ActionSupport
-implements ModelDriven<Node>, FormMessage, NodeMessage, BreadCrumbsMessage {
+implements ModelDriven<Node>,  ParameterAware, FormMessage, NodeMessage, BreadCrumbsMessage {
 
   /**
    *
@@ -40,6 +42,7 @@ implements ModelDriven<Node>, FormMessage, NodeMessage, BreadCrumbsMessage {
   private static final long serialVersionUID = -2836536393523178033L;
 
   private Node model = new Node();
+  private Map<String, String[]> parameters;
   private NodeDao nodeDao;
   private NetworkDao networkDao;
   private AdditionalIpV4RouteGroupDao additionalIpV4RouteGroupDao;
@@ -47,6 +50,10 @@ implements ModelDriven<Node>, FormMessage, NodeMessage, BreadCrumbsMessage {
   private String uniqueDomain;
 
   public Node getModel() { return model; }
+
+  public void setParameters(Map<String, String[]> parameters) {
+    this.parameters = parameters;
+  }
 
   @VisitorFieldValidator(appendPrefix = false)
   public void setModel(Node model) { this.model = model; }
@@ -88,13 +95,11 @@ implements ModelDriven<Node>, FormMessage, NodeMessage, BreadCrumbsMessage {
   @Override
   @GoingForward
   public String execute() throws Exception {
-    // The following code is different from ActionContext.getContext().getParameters()
-    // and ActionContext.getContext().setParameters() seems not to work.
-    @SuppressWarnings("unchecked")
-    Map<String, Object> parameters
-      = (Map<String, Object>)ActionContext.getContext().get("parameters");
-    parameters.put("node_id", model.getId());
-    parameters.put("node_name", model.getName());
+    ValueStack stack = ActionContext.getContext().getValueStack();
+    Map<String, Object> valueMap = new HashMap<String, Object>();
+    valueMap.put("node_id", model.getId());
+    valueMap.put("node_name", model.getName());
+    stack.push(valueMap);
 
     return "config";
   }
@@ -106,6 +111,12 @@ implements ModelDriven<Node>, FormMessage, NodeMessage, BreadCrumbsMessage {
   @SkipValidation
   @GoingBackward
   public String back() throws Exception {
+    ValueStack stack = ActionContext.getContext().getValueStack();
+    Map<String, Object> valueMap = new HashMap<String, Object>();
+    valueMap.put("node_id", parameters.get("node_id")[0]);
+    valueMap.put("node_name", parameters.get("node_name")[0]);
+    stack.push(valueMap);
+
     return "config";
   }
 

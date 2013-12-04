@@ -7,11 +7,13 @@
 
 package com.github.kaitoy.sneo.giane.action;
 
+import java.util.HashMap;
 import java.util.Map;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.InterceptorRef;
 import org.apache.struts2.convention.annotation.ParentPackage;
 import org.apache.struts2.convention.annotation.Result;
+import org.apache.struts2.interceptor.ParameterAware;
 import org.apache.struts2.interceptor.validation.SkipValidation;
 import com.github.kaitoy.sneo.giane.action.message.AdditionalIpV4RouteGroupMessage;
 import com.github.kaitoy.sneo.giane.action.message.AssociateActionMessage;
@@ -24,13 +26,14 @@ import com.github.kaitoy.sneo.giane.model.dao.AdditionalIpV4RouteGroupDao;
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 import com.opensymphony.xwork2.ModelDriven;
+import com.opensymphony.xwork2.util.ValueStack;
 import com.opensymphony.xwork2.validator.annotations.VisitorFieldValidator;
 
 @ParentPackage("giane-default")
 @InterceptorRef("gianeDefaultStack")
 public class AdditionalIpV4RouteGroupAction
 extends ActionSupport
-implements ModelDriven<AdditionalIpV4RouteGroup>, FormMessage,
+implements ModelDriven<AdditionalIpV4RouteGroup>, ParameterAware, FormMessage,
   AdditionalIpV4RouteGroupMessage, BreadCrumbsMessage, AssociateActionMessage {
 
   /**
@@ -39,7 +42,7 @@ implements ModelDriven<AdditionalIpV4RouteGroup>, FormMessage,
   private static final long serialVersionUID = -6073538245923614284L;
 
   private AdditionalIpV4RouteGroup model = new AdditionalIpV4RouteGroup();
-
+  private Map<String, String[]> parameters;
   private AdditionalIpV4RouteGroupDao additionalIpV4RouteGroupDao;
   private String uniqueColumn;
 
@@ -47,6 +50,10 @@ implements ModelDriven<AdditionalIpV4RouteGroup>, FormMessage,
 
   @VisitorFieldValidator(appendPrefix = false)
   public void setModel(AdditionalIpV4RouteGroup model) { this.model = model; }
+
+  public void setParameters(Map<String, String[]> parameters) {
+    this.parameters = parameters;
+  }
 
   // for DI
   public void setAdditionalIpV4RouteGroupDao(AdditionalIpV4RouteGroupDao additionalIpV4RouteGroupDao) {
@@ -60,11 +67,11 @@ implements ModelDriven<AdditionalIpV4RouteGroup>, FormMessage,
   @Override
   @GoingForward
   public String execute() throws Exception {
-    @SuppressWarnings("unchecked")
-    Map<String, Object> parameters
-      = (Map<String, Object>)ActionContext.getContext().get("parameters");
-    parameters.put("additionalIpV4RouteGroup_id", model.getId());
-    parameters.put("additionalIpV4RouteGroup_name", model.getName());
+    ValueStack stack = ActionContext.getContext().getValueStack();
+    Map<String, Object> valueMap = new HashMap<String, Object>();
+    valueMap.put("additionalIpV4RouteGroup_id", model.getId());
+    valueMap.put("additionalIpV4RouteGroup_name", model.getName());
+    stack.push(valueMap);
 
     return "config";
   }
@@ -76,6 +83,12 @@ implements ModelDriven<AdditionalIpV4RouteGroup>, FormMessage,
   @SkipValidation
   @GoingBackward
   public String back() throws Exception {
+    ValueStack stack = ActionContext.getContext().getValueStack();
+    Map<String, Object> valueMap = new HashMap<String, Object>();
+    valueMap.put("additionalIpV4RouteGroup_id", parameters.get("additionalIpV4RouteGroup_id")[0]);
+    valueMap.put("additionalIpV4RouteGroup_name", parameters.get("additionalIpV4RouteGroup_name")[0]);
+    stack.push(valueMap);
+
     return "config";
   }
 

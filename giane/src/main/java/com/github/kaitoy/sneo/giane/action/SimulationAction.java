@@ -13,6 +13,7 @@ import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.InterceptorRef;
 import org.apache.struts2.convention.annotation.ParentPackage;
 import org.apache.struts2.convention.annotation.Result;
+import org.apache.struts2.interceptor.ParameterAware;
 import org.apache.struts2.interceptor.validation.SkipValidation;
 import com.github.kaitoy.sneo.giane.action.message.BreadCrumbsMessage;
 import com.github.kaitoy.sneo.giane.action.message.FormMessage;
@@ -26,13 +27,14 @@ import com.github.kaitoy.sneo.giane.model.dao.SimulationDao;
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 import com.opensymphony.xwork2.ModelDriven;
+import com.opensymphony.xwork2.util.ValueStack;
 import com.opensymphony.xwork2.validator.annotations.VisitorFieldValidator;
 
 @ParentPackage("giane-default")
 @InterceptorRef("gianeDefaultStack")
 public class SimulationAction
 extends ActionSupport
-implements ModelDriven<Simulation>, FormMessage, SimulationMessage, BreadCrumbsMessage {
+implements ModelDriven<Simulation>, ParameterAware, FormMessage, SimulationMessage, BreadCrumbsMessage {
 
   /**
    *
@@ -40,6 +42,7 @@ implements ModelDriven<Simulation>, FormMessage, SimulationMessage, BreadCrumbsM
   private static final long serialVersionUID = -80416172987212604L;
 
   private Simulation model = new Simulation();
+  private Map<String, String[]> parameters;
   private SimulationDao simulationDao;
   private NetworkDao networkDao;
   private String uniqueColumn;
@@ -48,6 +51,10 @@ implements ModelDriven<Simulation>, FormMessage, SimulationMessage, BreadCrumbsM
 
   @VisitorFieldValidator(appendPrefix = false)
   public void setModel(Simulation model) { this.model = model; }
+
+  public void setParameters(Map<String, String[]> parameters) {
+    this.parameters = parameters;
+  }
 
   // for DI
   public void setSimulationDao(
@@ -79,11 +86,11 @@ implements ModelDriven<Simulation>, FormMessage, SimulationMessage, BreadCrumbsM
   @Override
   @GoingForward
   public String execute() throws Exception {
-    @SuppressWarnings("unchecked")
-    Map<String, Object> parameters
-      = (Map<String, Object>)ActionContext.getContext().get("parameters");
-    parameters.put("simulation_id", model.getId());
-    parameters.put("simulation_name", model.getName());
+    ValueStack stack = ActionContext.getContext().getValueStack();
+    Map<String, Object> valueMap = new HashMap<String, Object>();
+    valueMap.put("simulation_id", model.getId());
+    valueMap.put("simulation_name", model.getName());
+    stack.push(valueMap);
 
     return "config";
   }
@@ -95,6 +102,12 @@ implements ModelDriven<Simulation>, FormMessage, SimulationMessage, BreadCrumbsM
   @SkipValidation
   @GoingBackward
   public String back() throws Exception {
+    ValueStack stack = ActionContext.getContext().getValueStack();
+    Map<String, Object> valueMap = new HashMap<String, Object>();
+    valueMap.put("simulation_id", parameters.get("simulation_id")[0]);
+    valueMap.put("simulation_name", parameters.get("simulation_name")[0]);
+    stack.push(valueMap);
+
     return "config";
   }
 

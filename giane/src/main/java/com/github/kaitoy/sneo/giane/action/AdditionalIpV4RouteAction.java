@@ -7,11 +7,13 @@
 
 package com.github.kaitoy.sneo.giane.action;
 
+import java.util.HashMap;
 import java.util.Map;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.InterceptorRef;
 import org.apache.struts2.convention.annotation.ParentPackage;
 import org.apache.struts2.convention.annotation.Result;
+import org.apache.struts2.interceptor.ParameterAware;
 import org.apache.struts2.interceptor.validation.SkipValidation;
 import com.github.kaitoy.sneo.giane.action.message.AdditionalIpV4RouteMessage;
 import com.github.kaitoy.sneo.giane.action.message.FormMessage;
@@ -22,13 +24,14 @@ import com.github.kaitoy.sneo.giane.model.dao.AdditionalIpV4RouteDao;
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 import com.opensymphony.xwork2.ModelDriven;
+import com.opensymphony.xwork2.util.ValueStack;
 import com.opensymphony.xwork2.validator.annotations.VisitorFieldValidator;
 
 @ParentPackage("giane-default")
 @InterceptorRef("gianeDefaultStack")
 public class AdditionalIpV4RouteAction
 extends ActionSupport
-implements ModelDriven<AdditionalIpV4Route>, FormMessage, AdditionalIpV4RouteMessage {
+implements ModelDriven<AdditionalIpV4Route>, ParameterAware, FormMessage, AdditionalIpV4RouteMessage {
 
   /**
    *
@@ -36,10 +39,15 @@ implements ModelDriven<AdditionalIpV4Route>, FormMessage, AdditionalIpV4RouteMes
   private static final long serialVersionUID = -6637666624136765566L;
 
   private AdditionalIpV4Route model = new AdditionalIpV4Route();
+  private Map<String, String[]> parameters;
   private AdditionalIpV4RouteDao additionalIpV4RouteDao;
   private String uniqueColumn;
 
   public AdditionalIpV4Route getModel() { return model; }
+
+  public void setParameters(Map<String, String[]> parameters) {
+    this.parameters = parameters;
+  }
 
   @VisitorFieldValidator(appendPrefix = false)
   public void setModel(AdditionalIpV4Route model) { this.model = model; }
@@ -58,11 +66,11 @@ implements ModelDriven<AdditionalIpV4Route>, FormMessage, AdditionalIpV4RouteMes
   @Override
   @GoingForward
   public String execute() throws Exception {
-    @SuppressWarnings("unchecked")
-    Map<String, Object> parameters
-      = (Map<String, Object>)ActionContext.getContext().get("parameters");
-    parameters.put("additionalIpV4Route_id", model.getId());
-    parameters.put("additionalIpV4Route_name", model.getName());
+    ValueStack stack = ActionContext.getContext().getValueStack();
+    Map<String, Object> valueMap = new HashMap<String, Object>();
+    valueMap.put("additionalIpV4Route_id", model.getId());
+    valueMap.put("additionalIpV4Route_name", model.getName());
+    stack.push(valueMap);
 
     return "config";
   }
@@ -74,6 +82,12 @@ implements ModelDriven<AdditionalIpV4Route>, FormMessage, AdditionalIpV4RouteMes
   @SkipValidation
   @GoingBackward
   public String back() throws Exception {
+    ValueStack stack = ActionContext.getContext().getValueStack();
+    Map<String, Object> valueMap = new HashMap<String, Object>();
+    valueMap.put("additionalIpV4Route_id", parameters.get("additionalIpV4Route_id")[0]);
+    valueMap.put("additionalIpV4Route_name", parameters.get("additionalIpV4Route_name")[0]);
+    stack.push(valueMap);
+
     return "config";
   }
 

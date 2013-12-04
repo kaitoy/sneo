@@ -13,6 +13,7 @@ import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.InterceptorRef;
 import org.apache.struts2.convention.annotation.ParentPackage;
 import org.apache.struts2.convention.annotation.Result;
+import org.apache.struts2.interceptor.ParameterAware;
 import org.apache.struts2.interceptor.validation.SkipValidation;
 import com.github.kaitoy.sneo.giane.action.message.FormMessage;
 import com.github.kaitoy.sneo.giane.action.message.SnmpAgentMessage;
@@ -27,12 +28,13 @@ import com.github.kaitoy.sneo.giane.model.dao.TrapTargetGroupDao;
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 import com.opensymphony.xwork2.ModelDriven;
+import com.opensymphony.xwork2.util.ValueStack;
 import com.opensymphony.xwork2.validator.annotations.VisitorFieldValidator;
 
 @ParentPackage("giane-default")
 @InterceptorRef("gianeDefaultStack")
-public class SnmpAgentAction
-extends ActionSupport implements ModelDriven<SnmpAgent>, FormMessage, SnmpAgentMessage {
+public class SnmpAgentAction extends ActionSupport
+implements ModelDriven<SnmpAgent>, ParameterAware, FormMessage, SnmpAgentMessage {
 
   /**
    *
@@ -40,6 +42,7 @@ extends ActionSupport implements ModelDriven<SnmpAgent>, FormMessage, SnmpAgentM
   private static final long serialVersionUID = 3139857666582814492L;
 
   private SnmpAgent model = new SnmpAgent();
+  private Map<String, String[]> parameters;
   private SnmpAgentDao snmpAgentDao;
   private NodeDao nodeDao;
   private TrapTargetGroupDao trapTargetGroupDao;
@@ -48,6 +51,10 @@ extends ActionSupport implements ModelDriven<SnmpAgent>, FormMessage, SnmpAgentM
 
   @VisitorFieldValidator(appendPrefix = false)
   public void setModel(SnmpAgent model) { this.model = model; }
+
+  public void setParameters(Map<String, String[]> parameters) {
+    this.parameters = parameters;
+  }
 
   // for DI
   public void setSnmpAgentDao(SnmpAgentDao snmpAgentDao) {
@@ -82,11 +89,11 @@ extends ActionSupport implements ModelDriven<SnmpAgent>, FormMessage, SnmpAgentM
   @Override
   @GoingForward
   public String execute() throws Exception {
-    @SuppressWarnings("unchecked")
-    Map<String, Object> parameters
-      = (Map<String, Object>)ActionContext.getContext().get("parameters");
-    parameters.put("snmpAgent_id", model.getId());
-    parameters.put("snmpAgent_address", model.getAddress());
+    ValueStack stack = ActionContext.getContext().getValueStack();
+    Map<String, Object> valueMap = new HashMap<String, Object>();
+    valueMap.put("snmpAgent_id", model.getId());
+    valueMap.put("snmpAgent_address", model.getAddress());
+    stack.push(valueMap);
 
     return "config";
   }
@@ -98,6 +105,12 @@ extends ActionSupport implements ModelDriven<SnmpAgent>, FormMessage, SnmpAgentM
   @SkipValidation
   @GoingBackward
   public String back() throws Exception {
+    ValueStack stack = ActionContext.getContext().getValueStack();
+    Map<String, Object> valueMap = new HashMap<String, Object>();
+    valueMap.put("snmpAgent_id", parameters.get("snmpAgent_id")[0]);
+    valueMap.put("snmpAgent_address", parameters.get("snmpAgent_address")[0]);
+    stack.push(valueMap);
+
     return "config";
   }
 

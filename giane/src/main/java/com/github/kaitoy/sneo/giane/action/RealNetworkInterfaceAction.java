@@ -13,6 +13,7 @@ import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.InterceptorRef;
 import org.apache.struts2.convention.annotation.ParentPackage;
 import org.apache.struts2.convention.annotation.Result;
+import org.apache.struts2.interceptor.ParameterAware;
 import org.apache.struts2.interceptor.validation.SkipValidation;
 import com.github.kaitoy.sneo.giane.action.message.FormMessage;
 import com.github.kaitoy.sneo.giane.action.message.RealNetworkInterfaceMessage;
@@ -26,13 +27,14 @@ import com.github.kaitoy.sneo.giane.model.dao.RealNetworkInterfaceDao;
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 import com.opensymphony.xwork2.ModelDriven;
+import com.opensymphony.xwork2.util.ValueStack;
 import com.opensymphony.xwork2.validator.annotations.VisitorFieldValidator;
 
 @ParentPackage("giane-default")
 @InterceptorRef("gianeDefaultStack")
 public class RealNetworkInterfaceAction
 extends ActionSupport
-implements ModelDriven<RealNetworkInterface>, FormMessage, RealNetworkInterfaceMessage {
+implements ModelDriven<RealNetworkInterface>, ParameterAware, FormMessage, RealNetworkInterfaceMessage {
 
   /**
    *
@@ -40,6 +42,7 @@ implements ModelDriven<RealNetworkInterface>, FormMessage, RealNetworkInterfaceM
   private static final long serialVersionUID = 2055134948841708871L;
 
   private RealNetworkInterface model = new RealNetworkInterface();
+  private Map<String, String[]> parameters;
   private RealNetworkInterfaceDao realNetworkInterfaceDao;
   private NodeDao nodeDao;
   private RealNetworkInterfaceConfigurationDao realNetworkInterfaceConfigurationDao;
@@ -50,6 +53,10 @@ implements ModelDriven<RealNetworkInterface>, FormMessage, RealNetworkInterfaceM
 
   @VisitorFieldValidator(appendPrefix = false)
   public void setModel(RealNetworkInterface model) { this.model = model; }
+
+  public void setParameters(Map<String, String[]> parameters) {
+    this.parameters = parameters;
+  }
 
   // for DI
   public void setRealNetworkInterfaceDao(
@@ -93,11 +100,11 @@ implements ModelDriven<RealNetworkInterface>, FormMessage, RealNetworkInterfaceM
   @Override
   @GoingForward
   public String execute() throws Exception {
-    @SuppressWarnings("unchecked")
-    Map<String, Object> parameters
-      = (Map<String, Object>)ActionContext.getContext().get("parameters");
-    parameters.put("realNetworkInterface_id", model.getId());
-    parameters.put("realNetworkInterface_name", model.getName());
+    ValueStack stack = ActionContext.getContext().getValueStack();
+    Map<String, Object> valueMap = new HashMap<String, Object>();
+    valueMap.put("realNetworkInterface_id", model.getId());
+    valueMap.put("realNetworkInterface_name", model.getName());
+    stack.push(valueMap);
 
     return "config";
   }
@@ -109,6 +116,12 @@ implements ModelDriven<RealNetworkInterface>, FormMessage, RealNetworkInterfaceM
   @SkipValidation
   @GoingBackward
   public String back() throws Exception {
+    ValueStack stack = ActionContext.getContext().getValueStack();
+    Map<String, Object> valueMap = new HashMap<String, Object>();
+    valueMap.put("realNetworkInterface_id", parameters.get("realNetworkInterface_id")[0]);
+    valueMap.put("realNetworkInterface_name", parameters.get("realNetworkInterface_name")[0]);
+    stack.push(valueMap);
+
     return "config";
   }
 

@@ -7,11 +7,13 @@
 
 package com.github.kaitoy.sneo.giane.action;
 
+import java.util.HashMap;
 import java.util.Map;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.InterceptorRef;
 import org.apache.struts2.convention.annotation.ParentPackage;
 import org.apache.struts2.convention.annotation.Result;
+import org.apache.struts2.interceptor.ParameterAware;
 import org.apache.struts2.interceptor.validation.SkipValidation;
 import com.github.kaitoy.sneo.giane.action.message.BreadCrumbsMessage;
 import com.github.kaitoy.sneo.giane.action.message.FormMessage;
@@ -23,13 +25,14 @@ import com.github.kaitoy.sneo.giane.model.dao.NetworkDao;
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 import com.opensymphony.xwork2.ModelDriven;
+import com.opensymphony.xwork2.util.ValueStack;
 import com.opensymphony.xwork2.validator.annotations.VisitorFieldValidator;
 
 @ParentPackage("giane-default")
 @InterceptorRef("gianeDefaultStack")
 public class NetworkAction
 extends ActionSupport
-implements ModelDriven<Network>, FormMessage, NetworkMessage, BreadCrumbsMessage {
+implements ModelDriven<Network>, ParameterAware, FormMessage, NetworkMessage, BreadCrumbsMessage {
 
   /**
    *
@@ -37,6 +40,7 @@ implements ModelDriven<Network>, FormMessage, NetworkMessage, BreadCrumbsMessage
   private static final long serialVersionUID = -80416172987212604L;
 
   private Network model = new Network();
+  private Map<String, String[]> parameters;
   private NetworkDao networkDao;
   private String uniqueColumn;
 
@@ -44,6 +48,10 @@ implements ModelDriven<Network>, FormMessage, NetworkMessage, BreadCrumbsMessage
 
   @VisitorFieldValidator(appendPrefix = false)
   public void setModel(Network model) { this.model = model; }
+
+  public void setParameters(Map<String, String[]> parameters) {
+    this.parameters = parameters;
+  }
 
   // for DI
   public void setNetworkDao(NetworkDao networkDao) {
@@ -57,11 +65,11 @@ implements ModelDriven<Network>, FormMessage, NetworkMessage, BreadCrumbsMessage
   @Override
   @GoingForward
   public String execute() throws Exception {
-    @SuppressWarnings("unchecked")
-    Map<String, Object> parameters
-      = (Map<String, Object>)ActionContext.getContext().get("parameters");
-    parameters.put("network_id", model.getId());
-    parameters.put("network_name", model.getName());
+    ValueStack stack = ActionContext.getContext().getValueStack();
+    Map<String, Object> valueMap = new HashMap<String, Object>();
+    valueMap.put("network_id", model.getId());
+    valueMap.put("network_name", model.getName());
+    stack.push(valueMap);
 
     return "config";
   }
@@ -73,6 +81,12 @@ implements ModelDriven<Network>, FormMessage, NetworkMessage, BreadCrumbsMessage
   @SkipValidation
   @GoingBackward
   public String back() throws Exception {
+    ValueStack stack = ActionContext.getContext().getValueStack();
+    Map<String, Object> valueMap = new HashMap<String, Object>();
+    valueMap.put("network_id", parameters.get("network_id")[0]);
+    valueMap.put("network_name", parameters.get("network_name")[0]);
+    stack.push(valueMap);
+
     return "config";
   }
 

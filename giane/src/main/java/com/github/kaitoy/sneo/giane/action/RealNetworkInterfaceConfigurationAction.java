@@ -8,6 +8,7 @@
 package com.github.kaitoy.sneo.giane.action;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -15,6 +16,7 @@ import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.InterceptorRef;
 import org.apache.struts2.convention.annotation.ParentPackage;
 import org.apache.struts2.convention.annotation.Result;
+import org.apache.struts2.interceptor.ParameterAware;
 import org.apache.struts2.interceptor.validation.SkipValidation;
 import org.pcap4j.core.PcapNativeException;
 import org.pcap4j.core.PcapNetworkInterface;
@@ -31,13 +33,14 @@ import com.github.kaitoy.sneo.giane.model.dao.RealNetworkInterfaceConfigurationD
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 import com.opensymphony.xwork2.ModelDriven;
+import com.opensymphony.xwork2.util.ValueStack;
 import com.opensymphony.xwork2.validator.annotations.VisitorFieldValidator;
 
 @ParentPackage("giane-default")
 @InterceptorRef("gianeDefaultStack")
 public class RealNetworkInterfaceConfigurationAction
 extends ActionSupport
-implements ModelDriven<RealNetworkInterfaceConfiguration>, FormMessage,
+implements ModelDriven<RealNetworkInterfaceConfiguration>, ParameterAware, FormMessage,
   RealNetworkInterfaceConfigurationMessage, BreadCrumbsMessage {
 
   /**
@@ -49,6 +52,7 @@ implements ModelDriven<RealNetworkInterfaceConfiguration>, FormMessage,
 
   private RealNetworkInterfaceConfiguration model
     = new RealNetworkInterfaceConfiguration();
+  private Map<String, String[]> parameters;
   private RealNetworkInterfaceConfigurationDao realNetworkInterfaceConfigurationDao;
   private IpAddressRelationDao ipAddressRelationDao;
   private String uniqueColumn;
@@ -69,6 +73,10 @@ implements ModelDriven<RealNetworkInterfaceConfiguration>, FormMessage,
   @VisitorFieldValidator(appendPrefix = false)
   public void setModel(RealNetworkInterfaceConfiguration model) {
     this.model = model;
+  }
+
+  public void setParameters(Map<String, String[]> parameters) {
+    this.parameters = parameters;
   }
 
   // for DI
@@ -108,16 +116,16 @@ implements ModelDriven<RealNetworkInterfaceConfiguration>, FormMessage,
   @Override
   @GoingForward
   public String execute() throws Exception {
-    @SuppressWarnings("unchecked")
-    Map<String, Object> parameters
-      = (Map<String, Object>)ActionContext.getContext().get("parameters");
+    ValueStack stack = ActionContext.getContext().getValueStack();
+    Map<String, Object> valueMap = new HashMap<String, Object>();
     setModel(realNetworkInterfaceConfigurationDao.findByKey(model.getId()));
-    parameters.put(
+    valueMap.put(
       "realNetworkInterfaceConfiguration_name", model.getName()
     );
-    parameters.put(
+    valueMap.put(
       "ipAddressRelation_id", model.getIpAddressRelation().getId()
     );
+    stack.push(valueMap);
 
     return "config";
   }
@@ -129,6 +137,12 @@ implements ModelDriven<RealNetworkInterfaceConfiguration>, FormMessage,
   @SkipValidation
   @GoingBackward
   public String back() throws Exception {
+    ValueStack stack = ActionContext.getContext().getValueStack();
+    Map<String, Object> valueMap = new HashMap<String, Object>();
+    valueMap.put("realNetworkInterfaceConfiguration_name", parameters.get("realNetworkInterfaceConfiguration_name")[0]);
+    valueMap.put("ipAddressRelation_id", parameters.get("ipAddressRelation_id")[0]);
+    stack.push(valueMap);
+
     return "config";
   }
 

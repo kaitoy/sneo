@@ -21,9 +21,9 @@
     action="associate-l2-connection-with-physical-network-interfaces-tab-content"
     escapeAmp="false"
   >
-    <s:param name="network_id" value="%{#parameters.network_id}" />
-    <s:param name="l2Connection_id" value="%{#parameters.l2Connection_id}" />
-    <s:param name="l2Connection_name" value="%{#parameters.l2Connection_name}" />
+    <s:param name="network_id" value="%{network_id}" />
+    <s:param name="l2Connection_id" value="%{l2Connection_id}" />
+    <s:param name="l2Connection_name" value="%{l2Connection_name}" />
     <s:param name="tabIndex" value="0" />
   </s:url>
   <sj:div

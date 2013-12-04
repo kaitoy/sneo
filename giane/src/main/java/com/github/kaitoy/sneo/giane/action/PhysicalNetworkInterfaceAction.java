@@ -7,11 +7,13 @@
 
 package com.github.kaitoy.sneo.giane.action;
 
+import java.util.HashMap;
 import java.util.Map;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.InterceptorRef;
 import org.apache.struts2.convention.annotation.ParentPackage;
 import org.apache.struts2.convention.annotation.Result;
+import org.apache.struts2.interceptor.ParameterAware;
 import org.apache.struts2.interceptor.validation.SkipValidation;
 import com.github.kaitoy.sneo.giane.action.message.BreadCrumbsMessage;
 import com.github.kaitoy.sneo.giane.action.message.FormMessage;
@@ -26,13 +28,14 @@ import com.github.kaitoy.sneo.giane.model.dao.PhysicalNetworkInterfaceDao;
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 import com.opensymphony.xwork2.ModelDriven;
+import com.opensymphony.xwork2.util.ValueStack;
 import com.opensymphony.xwork2.validator.annotations.VisitorFieldValidator;
 
 @ParentPackage("giane-default")
 @InterceptorRef("gianeDefaultStack")
 public class PhysicalNetworkInterfaceAction
 extends ActionSupport
-implements ModelDriven<PhysicalNetworkInterface>, FormMessage,
+implements ModelDriven<PhysicalNetworkInterface>, ParameterAware, FormMessage,
   PhysicalNetworkInterfaceMessage, BreadCrumbsMessage {
 
   /**
@@ -41,6 +44,7 @@ implements ModelDriven<PhysicalNetworkInterface>, FormMessage,
   private static final long serialVersionUID = 695790906346600143L;
 
   private PhysicalNetworkInterface model = new PhysicalNetworkInterface();
+  private Map<String, String[]> parameters;
   private PhysicalNetworkInterfaceDao physicalNetworkInterfaceDao;
   private IpAddressRelationDao ipAddressRelationDao;
   private NodeDao nodeDao;
@@ -51,6 +55,10 @@ implements ModelDriven<PhysicalNetworkInterface>, FormMessage,
 
   @VisitorFieldValidator(appendPrefix = false)
   public void setModel(PhysicalNetworkInterface model) { this.model = model; }
+
+  public void setParameters(Map<String, String[]> parameters) {
+    this.parameters = parameters;
+  }
 
   // for DI
   public void setPhysicalNetworkInterfaceDao(
@@ -80,14 +88,14 @@ implements ModelDriven<PhysicalNetworkInterface>, FormMessage,
   @Override
   @GoingForward
   public String execute() throws Exception {
-    @SuppressWarnings("unchecked")
-    Map<String, Object> parameters
-      = (Map<String, Object>)ActionContext.getContext().get("parameters");
+    ValueStack stack = ActionContext.getContext().getValueStack();
+    Map<String, Object> valueMap = new HashMap<String, Object>();
     setModel(physicalNetworkInterfaceDao.findByKey(model.getId()));
-    parameters.put("physicalNetworkInterface_name", model.getName());
-    parameters.put(
+    valueMap.put("physicalNetworkInterface_name", model.getName());
+    valueMap.put(
       "ipAddressRelation_id", model.getIpAddressRelation().getId()
     );
+    stack.push(valueMap);
 
     return "config";
   }
@@ -99,6 +107,12 @@ implements ModelDriven<PhysicalNetworkInterface>, FormMessage,
   @SkipValidation
   @GoingBackward
   public String back() throws Exception {
+    ValueStack stack = ActionContext.getContext().getValueStack();
+    Map<String, Object> valueMap = new HashMap<String, Object>();
+    valueMap.put("physicalNetworkInterface_name", parameters.get("physicalNetworkInterface_name")[0]);
+    valueMap.put("ipAddressRelation_id", parameters.get("ipAddressRelation_id")[0]);
+    stack.push(valueMap);
+
     return "config";
   }
 

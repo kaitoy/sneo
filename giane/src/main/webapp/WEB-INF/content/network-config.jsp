@@ -12,8 +12,8 @@
 
 <div class="breadcrumb-link" style="display: none;">
   <s:url var="back_to_network_config_url" action="back-to-network-config" escapeAmp="false">
-    <s:param name="network_id" value="%{#parameters.network_id}" />
-    <s:param name="network_name" value="%{#parameters.network_name}" />
+    <s:param name="network_id" value="%{network_id}" />
+    <s:param name="network_name" value="%{network_name}" />
   </s:url>
   <sj:a
     id="back_to_network_config_button"
@@ -34,14 +34,14 @@
 <sj:tabbedpanel id="network_config_tabs" animate="true" cssClass="tabs" selectedTab="%{selectedTab}">
   <sj:tab id="node_tab" target="node_tab_content" label="%{getText('network.config.node.tab.label')}" />
   <s:url var="node_tab_content_url" action="node-tab-content" escapeAmp="false">
-    <s:param name="network_id" value="%{#parameters.network_id}" />
+    <s:param name="network_id" value="%{network_id}" />
     <s:param name="tabIndex" value="0" />
   </s:url>
   <sj:div id="node_tab_content" href="%{node_tab_content_url}" indicator="node_tab_indicator" cssClass="tab-content" />
 
   <sj:tab id="l2Connection_tab" target="l2Connection_tab_content" label="%{getText('network.config.l2Connection.tab.label')}" />
   <s:url var="l2Connection_tab_content_url" action="l2-connection-tab-content" escapeAmp="false">
-    <s:param name="network_id" value="%{#parameters.network_id}" />
+    <s:param name="network_id" value="%{network_id}" />
     <s:param name="tabIndex" value="1" />
   </s:url>
   <sj:div id="l2Connection_tab_content" href="%{l2Connection_tab_content_url}" indicator="l2Connection_tab_indicator" cssClass="tab-content" />

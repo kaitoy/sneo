@@ -7,11 +7,13 @@
 
 package com.github.kaitoy.sneo.giane.action;
 
+import java.util.HashMap;
 import java.util.Map;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.InterceptorRef;
 import org.apache.struts2.convention.annotation.ParentPackage;
 import org.apache.struts2.convention.annotation.Result;
+import org.apache.struts2.interceptor.ParameterAware;
 import org.apache.struts2.interceptor.validation.SkipValidation;
 import com.github.kaitoy.sneo.giane.action.message.FixedIpV4RouteMessage;
 import com.github.kaitoy.sneo.giane.action.message.FormMessage;
@@ -23,13 +25,14 @@ import com.github.kaitoy.sneo.giane.model.dao.NodeDao;
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 import com.opensymphony.xwork2.ModelDriven;
+import com.opensymphony.xwork2.util.ValueStack;
 import com.opensymphony.xwork2.validator.annotations.VisitorFieldValidator;
 
 @ParentPackage("giane-default")
 @InterceptorRef("gianeDefaultStack")
 public class FixedIpV4RouteAction
 extends ActionSupport
-implements ModelDriven<FixedIpV4Route>, FormMessage, FixedIpV4RouteMessage {
+implements ModelDriven<FixedIpV4Route>, ParameterAware, FormMessage, FixedIpV4RouteMessage {
 
   /**
    *
@@ -37,6 +40,7 @@ implements ModelDriven<FixedIpV4Route>, FormMessage, FixedIpV4RouteMessage {
   private static final long serialVersionUID = -6637666624136765566L;
 
   private FixedIpV4Route model = new FixedIpV4Route();
+  private Map<String, String[]> parameters;
   private FixedIpV4RouteDao fixedIpV4RouteDao;
   private NodeDao nodeDao;
 
@@ -44,6 +48,10 @@ implements ModelDriven<FixedIpV4Route>, FormMessage, FixedIpV4RouteMessage {
 
   @VisitorFieldValidator(appendPrefix = false)
   public void setModel(FixedIpV4Route model) { this.model = model; }
+
+  public void setParameters(Map<String, String[]> parameters) {
+    this.parameters = parameters;
+  }
 
   // for DI
   public void setFixedIpV4RouteDao(FixedIpV4RouteDao fixedIpV4RouteDao) {
@@ -58,10 +66,10 @@ implements ModelDriven<FixedIpV4Route>, FormMessage, FixedIpV4RouteMessage {
   @Override
   @GoingForward
   public String execute() throws Exception {
-    @SuppressWarnings("unchecked")
-    Map<String, Object> parameters
-      = (Map<String, Object>)ActionContext.getContext().get("parameters");
-    parameters.put("fixedIpV4Route_id", model.getId());
+    ValueStack stack = ActionContext.getContext().getValueStack();
+    Map<String, Object> valueMap = new HashMap<String, Object>();
+    valueMap.put("fixedIpV4Route_id", model.getId());
+    stack.push(valueMap);
 
     return "config";
   }
@@ -73,6 +81,11 @@ implements ModelDriven<FixedIpV4Route>, FormMessage, FixedIpV4RouteMessage {
   @SkipValidation
   @GoingBackward
   public String back() throws Exception {
+    ValueStack stack = ActionContext.getContext().getValueStack();
+    Map<String, Object> valueMap = new HashMap<String, Object>();
+    valueMap.put("fixedIpV4Route_id", parameters.get("fixedIpV4Route_id")[0]);
+    stack.push(valueMap);
+
     return "config";
   }
 

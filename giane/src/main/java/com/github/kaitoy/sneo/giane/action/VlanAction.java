@@ -7,11 +7,13 @@
 
 package com.github.kaitoy.sneo.giane.action;
 
+import java.util.HashMap;
 import java.util.Map;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.InterceptorRef;
 import org.apache.struts2.convention.annotation.ParentPackage;
 import org.apache.struts2.convention.annotation.Result;
+import org.apache.struts2.interceptor.ParameterAware;
 import org.apache.struts2.interceptor.validation.SkipValidation;
 import com.github.kaitoy.sneo.giane.action.message.AssociateActionMessage;
 import com.github.kaitoy.sneo.giane.action.message.BreadCrumbsMessage;
@@ -27,13 +29,14 @@ import com.github.kaitoy.sneo.giane.model.dao.VlanDao;
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 import com.opensymphony.xwork2.ModelDriven;
+import com.opensymphony.xwork2.util.ValueStack;
 import com.opensymphony.xwork2.validator.annotations.VisitorFieldValidator;
 
 @ParentPackage("giane-default")
 @InterceptorRef("gianeDefaultStack")
 public class VlanAction
 extends ActionSupport
-implements ModelDriven<Vlan>, FormMessage, VlanMessage, BreadCrumbsMessage,
+implements ModelDriven<Vlan>, ParameterAware, FormMessage, VlanMessage, BreadCrumbsMessage,
   AssociateActionMessage {
 
   /**
@@ -42,6 +45,7 @@ implements ModelDriven<Vlan>, FormMessage, VlanMessage, BreadCrumbsMessage,
   private static final long serialVersionUID = -5289730548784449639L;
 
   private Vlan model = new Vlan();
+  private Map<String, String[]> parameters;
   private VlanDao vlanDao;
   private IpAddressRelationDao ipAddressRelationDao;
   private NodeDao nodeDao;
@@ -52,6 +56,10 @@ implements ModelDriven<Vlan>, FormMessage, VlanMessage, BreadCrumbsMessage,
 
   @VisitorFieldValidator(appendPrefix = false)
   public void setModel(Vlan model) { this.model = model; }
+
+  public void setParameters(Map<String, String[]> parameters) {
+    this.parameters = parameters;
+  }
 
   // for DI
   public void setVlanDao(VlanDao vlanDao) {
@@ -79,16 +87,16 @@ implements ModelDriven<Vlan>, FormMessage, VlanMessage, BreadCrumbsMessage,
   @Override
   @GoingForward
   public String execute() throws Exception {
-    @SuppressWarnings("unchecked")
-    Map<String, Object> parameters
-      = (Map<String, Object>)ActionContext.getContext().get("parameters");
+    ValueStack stack = ActionContext.getContext().getValueStack();
+    Map<String, Object> valueMap = new HashMap<String, Object>();
     setModel(vlanDao.findByKey(model.getId()));
-    parameters.put("node_id", model.getNode().getId());
-    parameters.put("vlan_id", model.getId());
-    parameters.put("vlan_name", model.getName());
-    parameters.put(
+    valueMap.put("node_id", model.getNode().getId());
+    valueMap.put("vlan_id", model.getId());
+    valueMap.put("vlan_name", model.getName());
+    valueMap.put(
       "ipAddressRelation_id", model.getIpAddressRelation().getId()
     );
+    stack.push(valueMap);
 
     return "config";
   }
@@ -100,6 +108,14 @@ implements ModelDriven<Vlan>, FormMessage, VlanMessage, BreadCrumbsMessage,
   @SkipValidation
   @GoingBackward
   public String back() throws Exception {
+    ValueStack stack = ActionContext.getContext().getValueStack();
+    Map<String, Object> valueMap = new HashMap<String, Object>();
+    valueMap.put("node_id", parameters.get("node_id")[0]);
+    valueMap.put("vlan_id", parameters.get("vlan_id")[0]);
+    valueMap.put("vlan_name", parameters.get("vlan_name")[0]);
+    valueMap.put("ipAddressRelation_id", parameters.get("ipAddressRelation_id")[0]);
+    stack.push(valueMap);
+
     return "config";
   }
 

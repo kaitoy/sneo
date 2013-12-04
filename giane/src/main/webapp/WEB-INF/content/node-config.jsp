@@ -12,8 +12,8 @@
 
 <div class="breadcrumb-link" style="display: none;">
   <s:url var="back_to_node_config_url" action="back-to-node-config" escapeAmp="false">
-    <s:param name="node_id" value="%{#parameters.node_id}" />
-    <s:param name="node_name" value="%{#parameters.node_name}" />
+    <s:param name="node_id" value="%{node_id}" />
+    <s:param name="node_name" value="%{node_name}" />
   </s:url>
   <sj:a
     id="back_to_node_config_button"
@@ -33,43 +33,43 @@
 <sj:tabbedpanel id="node_config_tabs" animate="true" cssClass="tabs" selectedTab="%{selectedTab}">
   <sj:tab id="snmpAgent_tab" target="snmpAgent_tab_content" label="%{getText('node.config.snmpAgent.tab.label')}" />
   <s:url var="snmpAgent_tab_content_url" action="snmp-agent-tab-content" escapeAmp="false">
-    <s:param name="node_id" value="%{#parameters.node_id}" />
+    <s:param name="node_id" value="%{node_id}" />
     <s:param name="tabIndex" value="0" />
   </s:url>
   <sj:div id="snmpAgent_tab_content" href="%{snmpAgent_tab_content_url}" indicator="snmpAgent_tab_indicator" cssClass="tab-content" />
 
   <sj:tab id="physicalNetworkInterface_tab" target="physicalNetworkInterface_tab_content" label="%{getText('node.config.physicalNetworkInterface.tab.label')}" />
   <s:url var="physicalNetworkInterface_tab_content_url" action="physical-network-interface-tab-content" escapeAmp="false">
-    <s:param name="node_id" value="%{#parameters.node_id}" />
+    <s:param name="node_id" value="%{node_id}" />
     <s:param name="tabIndex" value="1" />
   </s:url>
   <sj:div id="physicalNetworkInterface_tab_content" href="%{physicalNetworkInterface_tab_content_url}" indicator="physicalNetworkInterface_tab_indicator" cssClass="tab-content" />
 
   <sj:tab id="realNetworkInterface_tab" target="realNetworkInterface_tab_content" label="%{getText('node.config.realNetworkInterface.tab.label')}" />
   <s:url var="realNetworkInterface_tab_content_url" action="real-network-interface-tab-content" escapeAmp="false">
-    <s:param name="node_id" value="%{#parameters.node_id}" />
-    <s:param name="node_name" value="%{#parameters.node_name}" />
+    <s:param name="node_id" value="%{node_id}" />
+    <s:param name="node_name" value="%{node_name}" />
     <s:param name="tabIndex" value="2" />
   </s:url>
   <sj:div id="realNetworkInterface_tab_content" href="%{realNetworkInterface_tab_content_url}" indicator="realNetworkInterface_tab_indicator" cssClass="tab-content" />
 
   <sj:tab id="vlan_tab" target="vlan_tab_content" label="%{getText('node.config.vlan.tab.label')}" />
   <s:url var="vlan_tab_content_url" action="vlan-tab-content" escapeAmp="false">
-    <s:param name="node_id" value="%{#parameters.node_id}" />
+    <s:param name="node_id" value="%{node_id}" />
     <s:param name="tabIndex" value="3" />
   </s:url>
   <sj:div id="vlan_tab_content" href="%{vlan_tab_content_url}" indicator="vlan_tab_indicator" cssClass="tab-content" />
 
   <sj:tab id="lag_tab" target="lag_tab_content" label="%{getText('node.config.lag.tab.label')}" />
   <s:url var="lag_tab_content_url" action="lag-tab-content" escapeAmp="false">
-    <s:param name="node_id" value="%{#parameters.node_id}" />
+    <s:param name="node_id" value="%{node_id}" />
     <s:param name="tabIndex" value="4" />
   </s:url>
   <sj:div id="lag_tab_content" href="%{lag_tab_content_url}" indicator="lag_tab_indicator" cssClass="tab-content" />
 
   <sj:tab id="fixedIpV4Route_tab" target="fixedIpV4Route_tab_content" label="%{getText('node.config.fixedIpV4Route.tab.label')}" />
   <s:url var="fixedIpV4Route_tab_content_url" action="fixed-ip-v4-route-tab-content" escapeAmp="false">
-    <s:param name="node_id" value="%{#parameters.node_id}" />
+    <s:param name="node_id" value="%{node_id}" />
     <s:param name="tabIndex" value="5" />
   </s:url>
   <sj:div id="fixedIpV4Route_tab_content" href="%{fixedIpV4Route_tab_content_url}" indicator="fixedIpV4Route_tab_indicator" cssClass="tab-content" />

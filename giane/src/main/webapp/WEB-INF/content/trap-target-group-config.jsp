@@ -21,8 +21,8 @@
     action="associate-trap-target-group-with-trap-targets-tab-content"
     escapeAmp="false"
   >
-    <s:param name="trapTargetGroup_id" value="%{#parameters.trapTargetGroup_id}" />
-    <s:param name="trapTargetGroup_name" value="%{#parameters.trapTargetGroup_name}" />
+    <s:param name="trapTargetGroup_id" value="%{trapTargetGroup_id}" />
+    <s:param name="trapTargetGroup_name" value="%{trapTargetGroup_name}" />
     <s:param name="tabIndex" value="0" />
   </s:url>
   <sj:div
