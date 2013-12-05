@@ -93,6 +93,9 @@
     autoOpen="false"
     modal="true"
     title="%{getText('associateAction.error.dialog.title')}"
+    buttons="{
+      'OK': function() {$('#save_l2Connection_associated_physicalNetworkInterface_grid_error_dialog').dialog('close'); }
+    }"
     dialogClass="dialog"
   >
     <s:text name="associateAction.error.dialog.text" />

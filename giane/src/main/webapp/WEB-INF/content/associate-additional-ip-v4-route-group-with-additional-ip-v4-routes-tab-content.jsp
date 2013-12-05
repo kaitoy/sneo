@@ -93,6 +93,9 @@
     autoOpen="false"
     modal="true"
     title="%{getText('associateAction.error.dialog.title')}"
+    buttons="{
+      'OK': function() {$('#save_additionalIpV4RouteGroup_associated_additionalIpV4Route_grid_error_dialog').dialog('close'); }
+    }"
     dialogClass="dialog"
   >
     <s:text name="associateAction.error.dialog.text" />

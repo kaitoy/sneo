@@ -3,11 +3,15 @@
 <%@ taglib prefix="sj" uri="/struts-jquery-tags" %>
 
 <sj:dialog
+  id="common_dialog"
   showEffect="scale"
   hideEffect="puff"
   autoOpen="true"
   modal="true"
   title="%{getText(dialogTitleKey)}"
+  buttons="{
+    'OK': function() {$('#common_dialog').dialog('close'); }
+  }"
   dialogClass="dialog"
 >
   <s:text name="%{dialogTextKey}" />
