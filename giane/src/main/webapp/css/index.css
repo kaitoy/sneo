@@ -1,44 +1,24 @@
 div#header {
   height: 30px;
   line-height: 30px;
-  width: 1000px;
+  width: 100%;
   text-align: center;
   background-color: #696969;
   color: white;
 }
 
-div#main {
-  height: 450px;
-  width: 1000px;
-  padding: 0px;
-  background-color: #FFFAFA;
-  font-size: 10px;
-}
-
-div#signIn {
-  display: table-cell;
-  vertical-align: middle;
-  text-align: center;
-  height: 450px;
-  width: 1000px;
-  padding: 0px;
-  margin: 0px;
-  font-size: 17px;
-}
-
-img#main_indicator {
-  width: 100px;
-  height: 100px;
+img#contents_container_indicator {
+  width: 10%;
   position: absolute;
-  top: 300px;
-  left: 455px;
+  top: 50%;
+  left: 45%;
 }
 
 div#footer {
   height: 30px;
   line-height: 30px;
   text-align: center;
-  width: 1000px;
+  width: 100%;
   background-color: #696969;
   color: white;
 }

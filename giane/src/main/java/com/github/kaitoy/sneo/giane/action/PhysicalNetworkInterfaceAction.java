@@ -176,8 +176,7 @@ implements ModelDriven<PhysicalNetworkInterface>, ParameterAware, FormMessage,
     results = { @Result(name = "success", location = "empty.jsp") }
   )
   public String create() throws Exception {
-    Map<String, Object> params = ActionContext.getContext().getParameters();
-    Integer nodeId = Integer.valueOf(((String[])params.get("node_id"))[0]);
+    Integer nodeId = Integer.valueOf(parameters.get("node_id")[0]);
     model.setNode(nodeDao.findByKey(nodeId));
 
     PhysicalNetworkInterfaceIpAddressRelation relation

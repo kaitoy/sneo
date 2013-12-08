@@ -13,6 +13,7 @@ import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.InterceptorRef;
 import org.apache.struts2.convention.annotation.ParentPackage;
 import org.apache.struts2.convention.annotation.Result;
+import org.apache.struts2.interceptor.ParameterAware;
 import org.apache.struts2.interceptor.validation.SkipValidation;
 import com.github.kaitoy.sneo.giane.action.message.StartSimulatorMessage;
 import com.github.kaitoy.sneo.giane.model.AdditionalIpV4Route;
@@ -34,7 +35,7 @@ import com.opensymphony.xwork2.ActionSupport;
 @ParentPackage("giane-default")
 @InterceptorRef("gianeDefaultStack")
 public class StartSimulatorAction extends ActionSupport
-implements StartSimulatorMessage {
+implements ParameterAware, StartSimulatorMessage {
 
   /**
    *
@@ -44,9 +45,14 @@ implements StartSimulatorMessage {
   private static final Map<Integer, Network> runningNetworks
     = new HashMap<Integer, Network>(); // no need to be ConcurrentHashMap
 
+  private Map<String, String[]> parameters;
   private SimulationDao simulationDao;
   private String dialogTitleKey;
   private String dialogTextKey;
+
+  public void setParameters(Map<String, String[]> parameters) {
+    this.parameters = parameters;
+  }
 
   // for DI
   public void setSimulationDao(
@@ -73,13 +79,8 @@ implements StartSimulatorMessage {
   @SkipValidation
   public String execute() throws Exception {
     synchronized (runningNetworks) {
-      @SuppressWarnings("unchecked")
-      Map<String, Object> params
-        = (Map<String, Object>)ActionContext.getContext().get("parameters");
       Integer simulationId
-        = Integer.valueOf(
-            ((String[])params.get("simulation_id"))[0]
-          );
+        = Integer.valueOf(parameters.get("simulation_id")[0]);
       if (runningNetworks.containsKey(simulationId)) {
         dialogTitleKey = "startSimulator.start.noNeed.dialog.title";
         dialogTextKey = "startSimulator.start.noNeed.dialog.text";
@@ -148,13 +149,8 @@ implements StartSimulatorMessage {
   @SkipValidation
   public String stop() throws Exception {
     synchronized (runningNetworks) {
-      @SuppressWarnings("unchecked")
-      Map<String, Object> params
-        = (Map<String, Object>)ActionContext.getContext().get("parameters");
       Integer simulationId
-        = Integer.valueOf(
-            ((String[])params.get("simulation_id"))[0]
-          );
+        = Integer.valueOf(parameters.get("simulation_id")[0]);
       if (!runningNetworks.containsKey(simulationId)) {
         dialogTitleKey = "startSimulator.stop.noNeed.dialog.title";
         dialogTextKey = "startSimulator.stop.noNeed.dialog.text";
@@ -184,19 +180,6 @@ implements StartSimulatorMessage {
   )
   @SkipValidation
   public String startTab() throws Exception {
-    @SuppressWarnings("unchecked")
-    Map<String, Object> params
-      = (Map<String, Object>)ActionContext.getContext().get("parameters");
-    Integer simulationId
-      = Integer.valueOf(
-          ((String[])params.get("simulation_id"))[0]
-        );
-
-    params.put(
-      "running",
-      runningNetworks.containsKey(simulationId)
-    );
-
     return "tab";
   }
 

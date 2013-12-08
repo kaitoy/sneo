@@ -44,13 +44,13 @@
   text-align: left;
 }
 
-.giane-form .submit-button-table .set-button-cell {
-  width: 50%;
+.giane-form .submit-button-table .single-button-cell {
+  width: 60%;
   text-align: right;
 }
 
-.giane-form .submit-button-table .set-button-indicator-cell {
-  width: 50%;
+.giane-form .submit-button-table .single-button-indicator-cell {
+  width: 40%;
   text-align: left;
 }
 

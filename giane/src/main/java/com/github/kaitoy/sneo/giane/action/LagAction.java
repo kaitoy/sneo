@@ -147,8 +147,7 @@ implements ModelDriven<Lag>, ParameterAware, FormMessage, LagMessage, BreadCrumb
     results = { @Result(name = "success", location = "empty.jsp") }
   )
   public String create() throws Exception {
-    Map<String, Object> params = ActionContext.getContext().getParameters();
-    Integer node_id = Integer.valueOf(((String[])params.get("node_id"))[0]);
+    Integer node_id = Integer.valueOf(parameters.get("node_id")[0]);
     model.setNode(nodeDao.findByKey(node_id));
 
     LagIpAddressRelation relation
@@ -192,11 +191,7 @@ implements ModelDriven<Lag>, ParameterAware, FormMessage, LagMessage, BreadCrumb
       }
 
       if (model.getName() != null) {
-        @SuppressWarnings("unchecked")
-        Map<String, Object> params
-          = (Map<String, Object>)ActionContext.getContext().get("parameters");
-        Integer nodeId = Integer.valueOf(((String[])params.get("node_id"))[0]);
-
+        Integer nodeId = Integer.valueOf(parameters.get("node_id")[0]);
         Lag someone= lagDao.findByNameAndNodeId(model.getName(), nodeId);
         if (someone != null && !someone.getId().equals(model.getId())) {
           uniqueDomain = getText("lag.node.label");

@@ -19,12 +19,12 @@
     id="back_to_node_config_button"
     href="%{back_to_node_config_url}"
     title="%{getText('breadcrumbs.node.configuration.title')}"
-    targets="main"
+    targets="config_main"
     replaceTarget="false"
     button="true"
-    indicator="main_indicator"
-    onBeforeTopics="mainPaneGoingBack"
-    onCompleteTopics="mainPaneCompleted"
+    indicator="config_main_indicator"
+    onBeforeTopics="configMainPaneGoingBack"
+    onCompleteTopics="configMainPaneCompleted"
   >
     <s:text name="breadcrumbs.node.configuration.label" />
   </sj:a>

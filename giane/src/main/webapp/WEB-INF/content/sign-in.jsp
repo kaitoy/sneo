@@ -2,15 +2,14 @@
 <%@ taglib prefix="s" uri="/struts-tags" %>
 <%@ taglib prefix="sj" uri="/struts-jquery-tags" %>
 
-<s:url var="home_url" action="home" />
+<s:url var="accordion_url" action="accordion" />
 <sj:a
   id="signIn_button"
-  href="%{home_url}"
-  targets="main"
+  href="%{accordion_url}"
+  targets="contents_container"
   replaceTarget="false"
   button="true"
-  indicator="main_indicator"
-  onCompleteTopics="mainPaneCompleted"
+  indicator="contents_container_indicator"
 >
   <s:text name="signIn.button.label" />
 </sj:a>

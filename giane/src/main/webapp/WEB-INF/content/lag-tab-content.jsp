@@ -116,13 +116,13 @@
 <sj:submit
   href="%{lag_url}"
   formIds="lag_form"
-  targets="main"
+  targets="config_main"
   replaceTarget="false"
-  indicator="main_indicator"
+  indicator="config_main_indicator"
   validate="true"
   validateFunction="validation"
   listenTopics="lag_rowDblClicked,lag_configButtonClicked"
-  onBeforeTopics="mainPaneGoingForward"
-  onCompleteTopics="mainPaneCompleted"
+  onBeforeTopics="configMainPaneGoingForward"
+  onCompleteTopics="configMainPaneCompleted"
   style="display: none;"
 />

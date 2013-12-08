@@ -9,6 +9,7 @@
     <sj:head jqueryui="true" jquerytheme="black-tie"/>
     <!--link rel="stylesheet" type="text/css" href="css/cssreset-min.css" /-->
     <link rel="stylesheet" type="text/css" href="css/index.css" />
+    <link rel="stylesheet" type="text/css" href="css/contents_container.css" />
     <link rel="stylesheet" type="text/css" href="css/main.css" />
     <link rel="stylesheet" type="text/css" href="css/form.css" />
     <link rel="stylesheet" type="text/css" href="css/association.css" />
@@ -21,29 +22,24 @@
     <script type="text/javascript" src="js/error.js"></script>
     <script type="text/javascript" src="js/association.js"></script>
     <script type="text/javascript" src="js/association_group.js"></script>
-    <script type="text/javascript" src="js/start_simulator.js"></script>
     <script type="text/javascript" src="js/breadcrumbs.js"></script>
     <title>Giane</title>
   </head>
   <body>
     <div id="header">Giane</div>
 
-      <ol id="breadcrumbs"></ol>
+    <div id="contents_container">
+      <s:url var="signIn_url" action="sign-in" />
+      <sj:div
+        id="signIn"
+        href="%{signIn_url}"
+        indicator="contents_indicator"
+      />
+    </div>
 
-      <div id="main">
-        <s:url var="signIn_url" action="sign-in" />
-        <sj:div
-          id="signIn"
-          href="%{signIn_url}"
-          onBeforeTopics="startingMainPane"
-          indicator="main_indicator"
-         />
-      </div>
-
-      <img id="main_indicator" src="images/loading_big.gif" alt="Loading..." style="display: none;" />
-
-      <div id="trash_box" style="display: none;"></div>
-      <div id="shared_dialog_box" style="display: none;"></div>
+    <img id="contents_container_indicator" src="images/loading_big.gif" alt="Loading..." style="display: none;" />
+    <div id="trash_box" style="display: none;"></div>
+    <div id="shared_dialog_box" style="display: none;"></div>
 
     <div id="footer">Footer</div>
   </body>

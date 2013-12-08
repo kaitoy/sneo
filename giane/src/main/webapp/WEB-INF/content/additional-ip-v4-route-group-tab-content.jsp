@@ -130,13 +130,13 @@
 <sj:submit
   href="%{additionalIpV4RouteGroup_url}"
   formIds="additionalIpV4RouteGroup_form"
-  targets="main"
+  targets="config_main"
   replaceTarget="false"
-  indicator="main_indicator"
+  indicator="config_main_indicator"
   validate="true"
   validateFunction="validation"
   listenTopics="additionalIpV4RouteGroup_rowDblClicked,additionalIpV4RouteGroup_configButtonClicked"
-  onBeforeTopics="mainPaneGoingForward"
-  onCompleteTopics="mainPaneCompleted"
+  onBeforeTopics="configMainPaneGoingForward"
+  onCompleteTopics="configMainPaneCompleted"
   style="display: none;"
 />

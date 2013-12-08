@@ -20,12 +20,12 @@
     name="back_to_network_config_button"
     href="%{back_to_network_config_url}"
     title="%{getText('breadcrumbs.network.configuration.title')}"
-    targets="main"
+    targets="config_main"
     replaceTarget="false"
     button="true"
-    indicator="main_indicator"
-    onBeforeTopics="mainPaneGoingBack"
-    onCompleteTopics="mainPaneCompleted"
+    indicator="config_main_indicator"
+    onBeforeTopics="configMainPaneGoingBack"
+    onCompleteTopics="configMainPaneCompleted"
   >
     <s:text name="breadcrumbs.network.configuration.label" />
   </sj:a>

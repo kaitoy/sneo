@@ -28,6 +28,7 @@ implements ApplicationAware, SignInMessage {
   private static final long serialVersionUID = -7647074077177570168L;
 
   private Map<String, Object> application;
+  private static Object lock = new Object();
 
   public void setApplication(Map<String, Object> application) {
     this.application = application;
@@ -38,15 +39,30 @@ implements ApplicationAware, SignInMessage {
     results = { @Result(name = "success", location = "sign-in.jsp") }
   )
   public String execute() throws Exception {
-    synchronized (application) {
+    synchronized (lock) {
       if (application.get("jmxAgent") == null) {
-        HttpJmxAgent jmxAgent = new HttpJmxAgent(8090, 10099);
+        int httpPort = getPortFromSystemProperty("com.github.kaitoy.sneo.giane.jmx.httpPort", 8090);
+        int rmiPort = getPortFromSystemProperty("com.github.kaitoy.sneo.giane.jmx.rmiPort", 10099);
+        HttpJmxAgent jmxAgent = new HttpJmxAgent(httpPort, rmiPort);
         application.put("jmxAgent", jmxAgent);
         jmxAgent.start();
       }
     }
 
     return "success";
+  }
+
+  private int getPortFromSystemProperty(String key, int dflt) {
+    int port;
+    try {
+      port = Integer.parseInt(System.getProperty(key));
+      if (port < 1 || port > 65535) {
+        port = dflt;
+      }
+    } catch (Exception e) {
+      port = dflt;
+    }
+    return port;
   }
 
 }

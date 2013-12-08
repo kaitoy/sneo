@@ -135,8 +135,7 @@ implements ModelDriven<L2Connection>, ParameterAware, FormMessage, L2ConnectionM
     results = { @Result(name = "success", location = "empty.jsp") }
   )
   public String create() throws Exception {
-    Map<String, Object> params = ActionContext.getContext().getParameters();
-    Integer network_id = Integer.valueOf(((String[])params.get("network_id"))[0]);
+    Integer network_id = Integer.valueOf(parameters.get("network_id")[0]);
     model.setNetwork(networkDao.findByKey(network_id));
     l2ConnectionDao.create(model);
 

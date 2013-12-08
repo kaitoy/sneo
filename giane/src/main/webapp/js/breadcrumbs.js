@@ -1,11 +1,5 @@
 $(document).ready( function() {
-  $.subscribe("startingMainPane", function(event, data) {
-    $("#breadcrumbs")
-      .html("")
-      .append('<li class="next-breadcrumb" />');
-  });
-  
-  $.subscribe("mainPaneCompleted", function(event, data) {
+  $.subscribe("configMainPaneCompleted", function(event, data) {
     $(".next-breadcrumb")
       .html("")
       .removeClass("next-breadcrumb")
@@ -14,14 +8,14 @@ $(document).ready( function() {
     $("#breadcrumbs").append('<li class="next-breadcrumb" />');
   });
   
-  $.subscribe("mainPaneGoingForward", function(event, data) {
+  $.subscribe("configMainPaneGoingForward", function(event, data) {
     $(".last-breadcrumb")
       .removeClass("last-breadcrumb")
       .html("")
       .append($(".breadcrumb-link").children());
   });
   
-  $.subscribe("mainPaneGoingBack", function(event, data) {
+  $.subscribe("configMainPaneGoingBack", function(event, data) {
     $("#" + event.originalEvent.id)
       .removeAttr("id")
       .parent()

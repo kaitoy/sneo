@@ -43,7 +43,7 @@
           <table class="submit-button-table">
             <tbody>
               <tr>
-                <td class="set-button-cell">
+                <td class="single-button-cell">
                   <sj:submit
                     value="%{getText('form.saveButton.label')}"
                     button="true"
@@ -68,7 +68,7 @@
                     cssStyle="display: none;"
                   />
                 </td>
-                <td class="set-button-indicator-cell">
+                <td class="single-button-indicator-cell">
                   <img
                     id="set_realNetworkInterfaceConfiguration_to_realNetworkInterface_indicator"
                     src="images/loading_small.gif"

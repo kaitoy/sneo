@@ -159,8 +159,7 @@ implements ModelDriven<RealNetworkInterface>, ParameterAware, FormMessage, RealN
     results = { @Result(name = "success", location = "empty.jsp") }
   )
   public String create() throws Exception {
-    Map<String, Object> params = ActionContext.getContext().getParameters();
-    Integer node_id = Integer.valueOf(((String[])params.get("node_id"))[0]);
+    Integer node_id = Integer.valueOf(parameters.get("node_id")[0]);
     model.setNode(nodeDao.findByKey(node_id));
     realNetworkInterfaceDao.create(model);
 
@@ -198,10 +197,7 @@ implements ModelDriven<RealNetworkInterface>, ParameterAware, FormMessage, RealN
       }
 
       if (model.getName() != null) {
-        @SuppressWarnings("unchecked")
-        Map<String, Object> params
-          = (Map<String, Object>)ActionContext.getContext().get("parameters");
-        Integer nodeId = Integer.valueOf(((String[])params.get("node_id"))[0]);
+        Integer nodeId = Integer.valueOf(parameters.get("node_id")[0]);
 
         RealNetworkInterface someone
           = realNetworkInterfaceDao

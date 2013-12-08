@@ -123,13 +123,13 @@
 <sj:submit
   href="%{physicalNetworkInterface_url}"
   formIds="physicalNetworkInterface_form"
-  targets="main"
+  targets="config_main"
   replaceTarget="false"
-  indicator="main_indicator"
+  indicator="config_main_indicator"
   validate="true"
   validateFunction="validation"
   listenTopics="physicalNetworkInterface_rowDblClicked,physicalNetworkInterface_configButtonClicked"
-  onBeforeTopics="mainPaneGoingForward"
-  onCompleteTopics="mainPaneCompleted"
+  onBeforeTopics="configMainPaneGoingForward"
+  onCompleteTopics="configMainPaneCompleted"
   style="display: none;"
 />

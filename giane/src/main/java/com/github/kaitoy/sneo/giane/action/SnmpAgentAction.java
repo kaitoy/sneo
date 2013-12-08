@@ -137,8 +137,7 @@ implements ModelDriven<SnmpAgent>, ParameterAware, FormMessage, SnmpAgentMessage
     results = { @Result(name = "success", location = "empty.jsp") }
   )
   public String create() throws Exception {
-    Map<String, Object> params = ActionContext.getContext().getParameters();
-    Integer node_id = Integer.valueOf(((String[])params.get("node_id"))[0]);
+    Integer node_id = Integer.valueOf(parameters.get("node_id")[0]);
     model.setNode(nodeDao.findByKey(node_id));
     snmpAgentDao.create(model);
 
@@ -151,11 +150,6 @@ implements ModelDriven<SnmpAgent>, ParameterAware, FormMessage, SnmpAgentMessage
   )
   public String update() throws Exception {
     SnmpAgent update = snmpAgentDao.findByKey(model.getId());
-
-    @SuppressWarnings("unchecked")
-    Map<String, Object> parameters
-      = (Map<String, Object>)ActionContext.getContext().get("parameters");
-    parameters.put("node_id", update.getNode().getId());
 
     update.setAddress(model.getAddress());
     update.setPort(model.getPort());

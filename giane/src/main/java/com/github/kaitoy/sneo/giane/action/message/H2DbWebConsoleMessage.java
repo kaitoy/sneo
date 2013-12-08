@@ -7,6 +7,6 @@
 
 package com.github.kaitoy.sneo.giane.action.message;
 
-public interface HomeMessage {
+public interface H2DbWebConsoleMessage {
 
 }

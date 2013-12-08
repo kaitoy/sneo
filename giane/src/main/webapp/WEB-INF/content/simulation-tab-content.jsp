@@ -133,13 +133,13 @@
 <sj:submit
   href="%{simulation_url}"
   formIds="simulation_form"
-  targets="main"
+  targets="config_main"
   replaceTarget="false"
-  indicator="main_indicator"
+  indicator="config_main_indicator"
   validate="true"
   validateFunction="validation"
   listenTopics="simulation_rowDblClicked,simulation_configButtonClicked"
-  onBeforeTopics="mainPaneGoingForward"
-  onCompleteTopics="mainPaneCompleted"
+  onBeforeTopics="configMainPaneGoingForward"
+  onCompleteTopics="configMainPaneCompleted"
   style="display: none;"
 />

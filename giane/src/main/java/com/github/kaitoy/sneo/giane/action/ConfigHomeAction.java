@@ -13,15 +13,15 @@ import org.apache.struts2.convention.annotation.ParentPackage;
 import org.apache.struts2.convention.annotation.Result;
 import org.apache.struts2.interceptor.validation.SkipValidation;
 import com.github.kaitoy.sneo.giane.action.message.BreadCrumbsMessage;
-import com.github.kaitoy.sneo.giane.action.message.HomeMessage;
+import com.github.kaitoy.sneo.giane.action.message.ConfigHomeMessage;
 import com.github.kaitoy.sneo.giane.interceptor.GoingBackward;
 import com.github.kaitoy.sneo.giane.interceptor.GoingForward;
 import com.opensymphony.xwork2.ActionSupport;
 
 @ParentPackage("giane-default")
 @InterceptorRef("gianeDefaultStack")
-public class HomeAction extends ActionSupport
-implements HomeMessage, BreadCrumbsMessage {
+public class ConfigHomeAction extends ActionSupport
+implements ConfigHomeMessage, BreadCrumbsMessage {
 
   /**
    *
@@ -31,7 +31,7 @@ implements HomeMessage, BreadCrumbsMessage {
   @Override
   @Action(
     results = {
-      @Result(name = "success", location = "home.jsp")
+      @Result(name = "success", location = "config-home.jsp")
     }
   )
   @SkipValidation
@@ -41,9 +41,9 @@ implements HomeMessage, BreadCrumbsMessage {
   }
 
   @Action(
-    value = "back-to-home",
+    value = "back-to-config-home",
     results = {
-      @Result(name = "success", location = "home.jsp")
+      @Result(name = "success", location = "config-home.jsp")
     }
   )
   @SkipValidation

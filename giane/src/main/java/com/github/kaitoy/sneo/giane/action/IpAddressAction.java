@@ -12,6 +12,7 @@ import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.InterceptorRef;
 import org.apache.struts2.convention.annotation.ParentPackage;
 import org.apache.struts2.convention.annotation.Result;
+import org.apache.struts2.interceptor.ParameterAware;
 import org.apache.struts2.interceptor.validation.SkipValidation;
 import com.github.kaitoy.sneo.giane.action.message.FormMessage;
 import com.github.kaitoy.sneo.giane.action.message.IpAddressMessage;
@@ -27,7 +28,7 @@ import com.opensymphony.xwork2.validator.annotations.VisitorFieldValidator;
 @InterceptorRef("gianeDefaultStack")
 public class IpAddressAction
 extends ActionSupport
-implements ModelDriven<IpAddress>, FormMessage, IpAddressMessage {
+implements ModelDriven<IpAddress>, ParameterAware, FormMessage, IpAddressMessage {
 
   /**
    *
@@ -35,6 +36,7 @@ implements ModelDriven<IpAddress>, FormMessage, IpAddressMessage {
   private static final long serialVersionUID = 8060643236835866920L;
 
   private IpAddress model = new IpAddress();
+  private Map<String, String[]> parameters;
   private IpAddressDao ipAddressDao;
   private IpAddressRelationDao ipAddressRelationDao;
 
@@ -42,6 +44,10 @@ implements ModelDriven<IpAddress>, FormMessage, IpAddressMessage {
 
   @VisitorFieldValidator(appendPrefix = false)
   public void setModel(IpAddress model) { this.model = model; }
+
+  public void setParameters(Map<String, String[]> parameters) {
+    this.parameters = parameters;
+  }
 
   // for DI
   public void setIpAddressDao(IpAddressDao ipAddressDao) {
@@ -71,10 +77,8 @@ implements ModelDriven<IpAddress>, FormMessage, IpAddressMessage {
     }
   )
   public String create() throws Exception {
-    Map<String, Object> params = ActionContext.getContext().getParameters();
     Integer ipAddressRelationId
-      = Integer.valueOf(((String[])params.get("ipAddressRelation_id"))[0]);
-
+      = Integer.valueOf(parameters.get("ipAddressRelation_id")[0]);
     model.setIpAddressRelation(
       ipAddressRelationDao.findByKey(ipAddressRelationId)
     );
