@@ -93,9 +93,11 @@ implements ParameterAware, StartSimulatorMessage {
 
       for (NodeDto nodeDto: networkDto.getNodes()) {
         SnmpAgentDto agentDto = nodeDto.getAgent();
-        TrapTargetGroup ttg = conf.getTrapTargetGroup(agentDto.getId());
-        if (ttg != null) {
-          agentDto.setTrapTargetGroup(ttg.toDto());
+        if (agentDto != null) {
+          TrapTargetGroup ttg = conf.getTrapTargetGroup(agentDto.getId());
+          if (ttg != null) {
+            agentDto.setTrapTargetGroup(ttg.toDto());
+          }
         }
 
         AdditionalIpV4RouteGroup routeg = conf.getAdditionalIpV4RouteGroup(nodeDto.getId());

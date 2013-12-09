@@ -212,24 +212,45 @@ public class NodeDynamicMBean extends AbstractDynamicMBean {
   Object getAttribute(String arg0)
   throws AttributeNotFoundException, MBeanException, ReflectionException {
     if (arg0.equals("Address")) {
+      if (mo.getAgent() == null) {
+        return null;
+      }
       return mo.getAgent().getAddress();
     }
     else if (arg0.equals("CommunityName")) {
+      if (mo.getAgent() == null) {
+        return null;
+      }
       return mo.getAgent().getCommunityName();
     }
     else if (arg0.equals("FormatName")) {
+      if (mo.getAgent() == null) {
+        return null;
+      }
       return mo.getAgent().getFormatName();
     }
     else if (arg0.equals("FileMibPath")) {
+      if (mo.getAgent() == null) {
+        return null;
+      }
       return mo.getAgent().getFileMibPath();
     }
     else if (arg0.equals("GatheringSnmpAccessStatistics")) {
+      if (mo.getAgent() == null) {
+        return null;
+      }
       return mo.getAgent().isGatheringSnmpAccessStatistics();
     }
     else if (arg0.equals("SecurityName")) {
+      if (mo.getAgent() == null) {
+        return null;
+      }
       return mo.getAgent().getSecurityName();
     }
     else if (arg0.equals("TrapTarget")) {
+      if (mo.getAgent() == null) {
+        return null;
+      }
       return mo.getAgent().getTrapTarget();
     }
     else {

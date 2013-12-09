@@ -23,6 +23,7 @@ import javax.persistence.Table;
 import com.github.kaitoy.sneo.network.dto.L2ConnectionDto;
 import com.github.kaitoy.sneo.network.dto.NetworkDto;
 import com.github.kaitoy.sneo.network.dto.NodeDto;
+import com.opensymphony.xwork2.validator.annotations.RegexFieldValidator;
 import com.opensymphony.xwork2.validator.annotations.RequiredStringValidator;
 import com.opensymphony.xwork2.validator.annotations.StringLengthFieldValidator;
 
@@ -64,6 +65,12 @@ public class Network implements Serializable {
     key = "StringLengthFieldValidator.error.max",
     trim = true,
     maxLength = "200",
+    shortCircuit = true
+  )
+  @RegexFieldValidator(
+    key = "RegexFieldValidator.error",
+   // this field's value is used for an MBean object name, and may be used in a command line.
+    expression = "[a-zA-Z0-9#%\\-+/_@\\[\\]{}]+",
     shortCircuit = true
   )
   public void setName(String name) {

@@ -52,42 +52,138 @@ public class JmxRemoteOperator {
     }
   }
 
-  public void close() throws IOException {
-    if (connector != null) {
-      connector.close();
-    }
-  }
+  public static void main(String[] args) throws IOException, MalformedObjectNameException, NullPointerException {
+    mx4j.log.Log.redirectTo(new Log4JLogger());
+    Log4jPropertiesLoader.getInstance().loadPropertyOf(JmxRemoteOperator.class);
 
-  public void listNodes() throws IOException {
+    Map<?, ?> paramMap = parseArgs(args);
+
+    int rmiPort = ((Integer)ArgumentParser.getValue(paramMap, "rmiPort", 0)).intValue();
+    JMXServiceURL url
+      = new JMXServiceURL(
+          "service:jmx:rmi:///jndi/rmi://localhost:" + rmiPort + "/JMXConnectorServer"
+        );
+    JmxRemoteOperator jro = new JmxRemoteOperator(url);
+
     try {
-      @SuppressWarnings("unchecked")
-      Set<ObjectName> nodeNames = connection.queryNames(new ObjectName("Nodes:*"), null);
-      for (ObjectName nodeName: nodeNames) {
-        System.out.println(ObjectName.unquote(nodeName.getKeyProperty("address")));
+      String command = (String)ArgumentParser.getValue(paramMap, "command", 0);
+      if (command.equals("list")) {
+        jro.list();
+        return;
       }
-    } catch (MalformedObjectNameException e) {
-      throw new AssertionError("Never get here.");
+
+      if (command.equals("query")) {
+        String query = (String)ArgumentParser.getValue(paramMap, "object_name_or_query", 0);
+        jro.query(query);
+        return;
+      }
+
+      String objNameStr = (String)ArgumentParser.getValue(paramMap, "object_name_or_query", 0);
+      ObjectName objName = new ObjectName(objNameStr);
+
+      if (command.equals("info")) {
+        jro.printObjectInfo(objName);
+        return;
+      }
+      else if (command.equals("get")) {
+        String attrName = (String)ArgumentParser.getValue(paramMap, "command_args", 0);
+        System.out.println(jro.getAttr(objName, attrName));
+        return;
+      }
+      else if (command.equals("set")) {
+        String attrName = (String)ArgumentParser.getValue(paramMap, "command_args", 0);
+        String value = (String)ArgumentParser.getValue(paramMap, "command_args", 1);
+        Attribute result = jro.setAttr(objName, attrName, value);
+        if (result != null) {
+          System.out.println("Success!");
+        }
+        return;
+      }
+      else { // invoke
+        @SuppressWarnings("unchecked")
+        List<String> commandArgs = (List<String>)paramMap.get("command_args");
+        String operName = commandArgs.remove(0);
+        jro.invoke(objName, operName, commandArgs);
+      }
+    } finally {
+      jro.close();
     }
   }
 
-  public ObjectName getNodeName(String address) throws IOException {
+  private static Map<?, ?> parseArgs(String[] args) {
+    Map<?, ?> params = null;
+    List<String> optList = new ArrayList<String>();
+    List<String> paramList = new ArrayList<String>();
+
     try {
-      Set<?> nodeNames
-        = connection.queryNames(
-            new ObjectName("Nodes:address=" + ObjectName.quote(address) + ",*"),
-            null
-          );
-      if (nodeNames.size() != 1) {
-        System.out.println(nodeNames.size());
-        throw new IllegalArgumentException("Invalid address: " + address);
+      optList.add("-rmiPort[i{=" + Registry.REGISTRY_PORT + "}] ");
+
+      paramList.add("-command[s<list|query|info|get|set|invoke>] ");
+      paramList.add("+object_name_or_query[s] ");
+      paramList.add("+command_args[s] ..");
+
+      for (String arg: args) {
+        if (
+             arg.equals("-h")
+          || arg.equals("-help")
+          || arg.equals("--help")
+          || arg.equals("-?")
+        ) {
+          prHelp(optList, paramList);
+          System.exit(0);
+        }
       }
-      return (ObjectName)nodeNames.iterator().next();
-    } catch (MalformedObjectNameException e) {
-      throw new IllegalArgumentException("Invalid address: " + address, e);
+
+      StringBuilder optsBuilder = new StringBuilder();
+      for (String opt: optList) {
+        optsBuilder.append(opt);
+      }
+      StringBuilder paramsBuilder = new StringBuilder();
+      for (String param: paramList) {
+        paramsBuilder.append(param);
+      }
+
+      ArgumentParser parser
+        = new ArgumentParser(optsBuilder.toString(), paramsBuilder.toString());
+      params = parser.parse(args);
+    }
+    catch (ParseException e) {
+      prHelp(optList, paramList);
+      System.exit(1);
+    }
+
+    return params;
+  }
+
+  private static void prHelp(List<String> optList, List<String> paramList) {
+    System.out.println("Usage: " + JmxRemoteOperator.class.getName() + " <Options> <Params>");
+    System.out.println("Options: ");
+    for (String opt: optList) {
+      System.out.println("  " + opt);
+    }
+    System.out.println("Params: ");
+    for (String param: paramList) {
+      System.out.println("  " + param);
     }
   }
 
-  public MBeanInfo getMBeanInfo(ObjectName name) throws IOException {
+  private void list() throws MalformedObjectNameException, NullPointerException, IOException {
+    @SuppressWarnings("unchecked")
+    Set<ObjectName> objNames = connection.queryNames(new ObjectName("*:*"), null);
+    for (ObjectName objName: objNames) {
+      System.out.println(objName);
+    }
+  }
+
+  private void query(String query) throws MalformedObjectNameException, NullPointerException, IOException {
+    @SuppressWarnings("unchecked")
+    Set<ObjectName> objNames = connection.queryNames(new ObjectName(query), null);
+    for (ObjectName objName: objNames) {
+      System.out.println(objName);
+    }
+  }
+
+  private MBeanInfo getMBeanInfo(ObjectName name) throws IOException {
     try {
       return connection.getMBeanInfo(name);
     } catch (InstanceNotFoundException e) {
@@ -99,7 +195,7 @@ public class JmxRemoteOperator {
     }
   }
 
-  public void printObjectInfo(ObjectName objName) throws IOException {
+  private void printObjectInfo(ObjectName objName) throws IOException {
     MBeanInfo info = getMBeanInfo(objName);
 
     System.out.println("Attributes:");
@@ -160,7 +256,7 @@ public class JmxRemoteOperator {
     }
   }
 
-  public Object getAttr(ObjectName objName, String attrName) throws IOException {
+  private Object getAttr(ObjectName objName, String attrName) throws IOException {
     try {
       return connection.getAttribute(objName, attrName);
     } catch (AttributeNotFoundException e) {
@@ -176,7 +272,7 @@ public class JmxRemoteOperator {
     return null;
   }
 
-  public Attribute setAttr(
+  private Attribute setAttr(
     ObjectName objName, String attrName, Object value
   ) throws IOException {
     Attribute attr = new Attribute(attrName, value);
@@ -198,7 +294,7 @@ public class JmxRemoteOperator {
     return null;
   }
 
-  public void invoke(
+  private void invoke(
     ObjectName objName, String operName, List<String> operArgs
   ) throws IOException {
     List<Object> paramList = new ArrayList<Object>();
@@ -260,112 +356,9 @@ public class JmxRemoteOperator {
     }
   }
 
-  public static void main(String[] args) throws IOException {
-    mx4j.log.Log.redirectTo(new Log4JLogger());
-    Log4jPropertiesLoader.getInstance().loadPropertyOf(JmxRemoteOperator.class);
-
-    Map<?, ?> paramMap = parseArgs(args);
-
-    int rmiPort = ((Integer)ArgumentParser.getValue(paramMap, "rmiPort", 0)).intValue();
-    JMXServiceURL url
-      = new JMXServiceURL(
-          "service:jmx:rmi:///jndi/rmi://localhost:" + rmiPort + "/JMXConnectorServer"
-        );
-    JmxRemoteOperator jro = new JmxRemoteOperator(url);
-
-    try {
-      String command = (String)ArgumentParser.getValue(paramMap, "command", 0);
-      if (command.equals("listNodes")) {
-        jro.listNodes();
-        return;
-      }
-
-      String node = (String)ArgumentParser.getValue(paramMap, "node", 0);
-      ObjectName nodeName = jro.getNodeName(node);
-
-      if (command.equals("info")) {
-        jro.printObjectInfo(nodeName);
-        return;
-      }
-      else if (command.equals("get")) {
-        String attrName = (String)ArgumentParser.getValue(paramMap, "command_args", 0);
-        System.out.println(jro.getAttr(nodeName, attrName));
-        return;
-      }
-      else if (command.equals("set")) {
-        String attrName = (String)ArgumentParser.getValue(paramMap, "command_args", 0);
-        String value = (String)ArgumentParser.getValue(paramMap, "command_args", 1);
-        Attribute result = jro.setAttr(nodeName, attrName, value);
-        if (result != null) {
-          System.out.println("Success!");
-        }
-        return;
-      }
-      else { // invoke
-        @SuppressWarnings("unchecked")
-        List<String> commandArgs = (List<String>)paramMap.get("command_args");
-        String operName = commandArgs.remove(0);
-        jro.invoke(nodeName, operName, commandArgs);
-      }
-    } finally {
-      jro.close();
-    }
-  }
-
-  private static Map<?, ?> parseArgs(String[] args) {
-    Map<?, ?> params = null;
-    List<String> optList = new ArrayList<String>();
-    List<String> paramList = new ArrayList<String>();
-
-    try {
-      optList.add("-rmiPort[i{=" + Registry.REGISTRY_PORT + "}] ");
-
-      paramList.add("-command[s<listNodes|info|get|set|invoke>] ");
-      paramList.add("+node[s] ");
-      paramList.add("+command_args[s] ..");
-
-      for (String arg: args) {
-        if (
-             arg.equals("-h")
-          || arg.equals("-help")
-          || arg.equals("--help")
-          || arg.equals("-?")
-        ) {
-          prHelp(optList, paramList);
-          System.exit(0);
-        }
-      }
-
-      StringBuilder optsBuilder = new StringBuilder();
-      for (String opt: optList) {
-        optsBuilder.append(opt);
-      }
-      StringBuilder paramsBuilder = new StringBuilder();
-      for (String param: paramList) {
-        paramsBuilder.append(param);
-      }
-
-      ArgumentParser parser
-        = new ArgumentParser(optsBuilder.toString(), paramsBuilder.toString());
-      params = parser.parse(args);
-    }
-    catch (ParseException e) {
-      prHelp(optList, paramList);
-      System.exit(1);
-    }
-
-    return params;
-  }
-
-  private static void prHelp(List<String> optList, List<String> paramList) {
-    System.out.println("Usage: " + JmxRemoteOperator.class.getName() + " <Options> <Params>");
-    System.out.println("Options: ");
-    for (String opt: optList) {
-      System.out.println("  " + opt);
-    }
-    System.out.println("Params: ");
-    for (String param: paramList) {
-      System.out.println("  " + param);
+  private void close() throws IOException {
+    if (connector != null) {
+      connector.close();
     }
   }
 

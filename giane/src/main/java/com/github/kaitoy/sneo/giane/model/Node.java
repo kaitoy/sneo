@@ -30,6 +30,7 @@ import com.github.kaitoy.sneo.network.dto.PhysicalNetworkInterfaceDto;
 import com.github.kaitoy.sneo.network.dto.RealNetworkInterfaceDto;
 import com.github.kaitoy.sneo.network.dto.VlanDto;
 import com.opensymphony.xwork2.validator.annotations.IntRangeFieldValidator;
+import com.opensymphony.xwork2.validator.annotations.RegexFieldValidator;
 import com.opensymphony.xwork2.validator.annotations.RequiredFieldValidator;
 import com.opensymphony.xwork2.validator.annotations.RequiredStringValidator;
 import com.opensymphony.xwork2.validator.annotations.StringLengthFieldValidator;
@@ -81,6 +82,12 @@ public class Node implements Serializable {
     key = "StringLengthFieldValidator.error.max",
     trim = true,
     maxLength = "200",
+    shortCircuit = true
+  )
+  @RegexFieldValidator(
+    key = "RegexFieldValidator.error",
+    // this field's value is used for an MBean object name, and may be used in a command line.
+    expression = "[a-zA-Z0-9#%\\-+/_@\\[\\]{}]+",
     shortCircuit = true
   )
   public void setName(String name) {
@@ -269,7 +276,9 @@ public class Node implements Serializable {
     dto.setId(id);
     dto.setName(name);
     dto.setTtl(ttl);
-    dto.setAgent(agent.toDto());
+    if (agent != null) {
+      dto.setAgent(agent.toDto());
+    }
     dto.setPhysicalNetworkInterfaces(physicalNetworkInterfaceDtos);
     dto.setLags(lagDtos);
     dto.setRealNetworkInterfaces(realNetworkInterfaceDtos);

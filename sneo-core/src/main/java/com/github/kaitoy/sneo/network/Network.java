@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import javax.management.ObjectName;
 import mx4j.log.Log4JLogger;
 import org.pcap4j.util.MacAddress;
 import org.snmp4j.SNMP4JSettings;
@@ -98,15 +97,15 @@ public class Network {
   }
 
   private String formObjectName(Node node) {
+    // Don't quote both domain and properties
+    // so users can easily twiddle mbeans by command line tools.
     StringBuilder sb = new StringBuilder(200);
-    sb.append(ObjectName.quote(name))
+    sb.append(name)
       .append(":")
       .append("type=")
-      .append(ObjectName.quote(node.getClass().getSimpleName()))
+      .append(node.getClass().getSimpleName())
       .append(",name=")
-      .append(ObjectName.quote(node.getName()))
-      .append(",address=")
-      .append(ObjectName.quote(node.getAgent().getAddress()));
+      .append(node.getName());
     return sb.toString();
   }
 
@@ -153,8 +152,12 @@ public class Network {
   }
 
   private Node newNode(NodeDto nodeDto) {
-    FileMibAgent agent = newSnmpAgent(nodeDto.getAgent());
-    agents.add(agent);
+    SnmpAgentDto agentDto = nodeDto.getAgent();
+    FileMibAgent agent = null;
+    if (agentDto != null) {
+      agent = newSnmpAgent(agentDto);
+      agents.add(agent);
+    }
 
     Node node = new Node(nodeDto.getName(), agent, nodeDto.getTtl());
 
