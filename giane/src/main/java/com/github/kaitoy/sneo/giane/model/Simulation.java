@@ -23,6 +23,7 @@ import javax.persistence.MapKeyJoinColumn;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+import com.github.kaitoy.sneo.giane.action.message.FormMessage;
 import com.opensymphony.xwork2.conversion.annotations.TypeConversion;
 import com.opensymphony.xwork2.validator.annotations.ConversionErrorFieldValidator;
 import com.opensymphony.xwork2.validator.annotations.RequiredFieldValidator;
@@ -31,7 +32,7 @@ import com.opensymphony.xwork2.validator.annotations.StringLengthFieldValidator;
 
 @Entity
 @Table(name = "SIMULATION")
-public class Simulation implements Serializable {
+public class Simulation implements Serializable, FormMessage {
 
   /**
    *

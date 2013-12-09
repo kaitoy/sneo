@@ -23,6 +23,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import com.github.kaitoy.sneo.giane.action.message.FormMessage;
 import com.github.kaitoy.sneo.network.dto.LagDto;
 import com.github.kaitoy.sneo.network.dto.PhysicalNetworkInterfaceDto;
 import com.opensymphony.xwork2.validator.annotations.IntRangeFieldValidator;
@@ -32,7 +33,7 @@ import com.opensymphony.xwork2.validator.annotations.StringLengthFieldValidator;
 
 @Entity
 @Table(name = "LAG")
-public class Lag implements Serializable {
+public class Lag implements Serializable, FormMessage {
 
   /**
    *

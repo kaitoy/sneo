@@ -24,6 +24,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import com.github.kaitoy.sneo.giane.action.message.FormMessage;
 import com.github.kaitoy.sneo.network.dto.VlanDto;
 import com.github.kaitoy.sneo.network.dto.VlanMemberDto;
 import com.opensymphony.xwork2.validator.annotations.IntRangeFieldValidator;
@@ -33,7 +34,7 @@ import com.opensymphony.xwork2.validator.annotations.StringLengthFieldValidator;
 
 @Entity
 @Table(name = "VLAN")
-public class Vlan implements Serializable {
+public class Vlan implements Serializable, FormMessage {
 
   /**
    *

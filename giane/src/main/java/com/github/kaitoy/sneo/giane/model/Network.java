@@ -20,6 +20,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import com.github.kaitoy.sneo.giane.action.message.FormMessage;
 import com.github.kaitoy.sneo.network.dto.L2ConnectionDto;
 import com.github.kaitoy.sneo.network.dto.NetworkDto;
 import com.github.kaitoy.sneo.network.dto.NodeDto;
@@ -29,7 +30,7 @@ import com.opensymphony.xwork2.validator.annotations.StringLengthFieldValidator;
 
 @Entity
 @Table(name = "NETWORK")
-public class Network implements Serializable {
+public class Network implements Serializable, FormMessage {
 
   private static final long serialVersionUID = -7283853777773516267L;
 

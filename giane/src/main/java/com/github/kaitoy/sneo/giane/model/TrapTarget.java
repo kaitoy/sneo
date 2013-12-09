@@ -18,6 +18,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import com.github.kaitoy.sneo.giane.action.message.FormMessage;
 import com.github.kaitoy.sneo.network.dto.TrapTargetDto;
 import com.opensymphony.xwork2.validator.annotations.IntRangeFieldValidator;
 import com.opensymphony.xwork2.validator.annotations.RegexFieldValidator;
@@ -27,7 +28,7 @@ import com.opensymphony.xwork2.validator.annotations.StringLengthFieldValidator;
 
 @Entity
 @Table(name = "TRAP_TARGET")
-public class TrapTarget implements Serializable {
+public class TrapTarget implements Serializable, FormMessage {
 
   /**
    *

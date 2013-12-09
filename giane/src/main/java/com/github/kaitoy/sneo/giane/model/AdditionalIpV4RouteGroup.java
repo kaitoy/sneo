@@ -20,12 +20,13 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import com.github.kaitoy.sneo.giane.action.message.FormMessage;
 import com.opensymphony.xwork2.validator.annotations.RequiredStringValidator;
 import com.opensymphony.xwork2.validator.annotations.StringLengthFieldValidator;
 
 @Entity
 @Table(name = "ADDITIONAL_IP_V4_ROUTE_GROUP")
-public class AdditionalIpV4RouteGroup implements Serializable {
+public class AdditionalIpV4RouteGroup implements Serializable, FormMessage {
 
   /**
    *

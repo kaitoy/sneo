@@ -17,6 +17,7 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import com.github.kaitoy.sneo.giane.action.message.FormMessage;
 import com.github.kaitoy.sneo.network.dto.IpV4RouteDto;
 import com.opensymphony.xwork2.validator.annotations.IntRangeFieldValidator;
 import com.opensymphony.xwork2.validator.annotations.RegexFieldValidator;
@@ -26,7 +27,7 @@ import com.opensymphony.xwork2.validator.annotations.RequiredStringValidator;
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
 @Table(name = "IP_V4_ROUTE")
-public abstract class IpV4Route implements Serializable {
+public abstract class IpV4Route implements Serializable, FormMessage {
 
   /**
    *

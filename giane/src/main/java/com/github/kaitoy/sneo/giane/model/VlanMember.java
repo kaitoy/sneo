@@ -20,6 +20,7 @@ import javax.persistence.InheritanceType;
 import javax.persistence.ManyToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import com.github.kaitoy.sneo.giane.action.message.FormMessage;
 import com.github.kaitoy.sneo.network.dto.VlanMemberDto;
 import com.opensymphony.xwork2.validator.annotations.RequiredStringValidator;
 import com.opensymphony.xwork2.validator.annotations.StringLengthFieldValidator;
@@ -27,7 +28,7 @@ import com.opensymphony.xwork2.validator.annotations.StringLengthFieldValidator;
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
 @Table(name = "VLAN_MEMBER")
-public abstract class VlanMember implements Serializable {
+public abstract class VlanMember implements Serializable, FormMessage {
 
   /**
    *

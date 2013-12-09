@@ -25,6 +25,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+import com.github.kaitoy.sneo.giane.action.message.FormMessage;
 import com.github.kaitoy.sneo.network.dto.IpAddressDto;
 
 @Entity
@@ -35,7 +36,7 @@ import com.github.kaitoy.sneo.network.dto.IpAddressDto;
   length = 50
 )
 @Table(name = "IP_ADDRESS_RELATION")
-public abstract class IpAddressRelation implements Serializable {
+public abstract class IpAddressRelation implements Serializable, FormMessage {
 
   /**
    *

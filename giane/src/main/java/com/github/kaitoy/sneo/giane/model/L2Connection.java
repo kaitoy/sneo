@@ -21,6 +21,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import com.github.kaitoy.sneo.giane.action.message.FormMessage;
 import com.github.kaitoy.sneo.network.dto.L2ConnectionDto;
 import com.github.kaitoy.sneo.network.dto.PhysicalNetworkInterfaceDto;
 import com.opensymphony.xwork2.validator.annotations.RequiredStringValidator;
@@ -28,7 +29,7 @@ import com.opensymphony.xwork2.validator.annotations.StringLengthFieldValidator;
 
 @Entity
 @Table(name = "L2_CONNECTION")
-public class L2Connection implements Serializable {
+public class L2Connection implements Serializable, FormMessage {
 
   /**
    *

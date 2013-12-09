@@ -22,6 +22,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import com.github.kaitoy.sneo.giane.action.message.FormMessage;
 import com.github.kaitoy.sneo.network.dto.SnmpAgentDto;
 import com.opensymphony.xwork2.validator.annotations.IntRangeFieldValidator;
 import com.opensymphony.xwork2.validator.annotations.RegexFieldValidator;
@@ -30,7 +31,7 @@ import com.opensymphony.xwork2.validator.annotations.RequiredStringValidator;
 
 @Entity
 @Table(name = "SNMP_AGENT")
-public class SnmpAgent implements Serializable {
+public class SnmpAgent implements Serializable, FormMessage {
 
   private static final long serialVersionUID = 5566464840276683510L;
 

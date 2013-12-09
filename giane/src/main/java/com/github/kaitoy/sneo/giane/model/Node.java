@@ -23,6 +23,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import com.github.kaitoy.sneo.giane.action.message.FormMessage;
 import com.github.kaitoy.sneo.network.dto.IpV4RouteDto;
 import com.github.kaitoy.sneo.network.dto.LagDto;
 import com.github.kaitoy.sneo.network.dto.NodeDto;
@@ -37,7 +38,7 @@ import com.opensymphony.xwork2.validator.annotations.StringLengthFieldValidator;
 
 @Entity
 @Table(name = "NODE")
-public class Node implements Serializable {
+public class Node implements Serializable, FormMessage {
 
   /**
    *

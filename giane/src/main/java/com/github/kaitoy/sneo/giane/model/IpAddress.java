@@ -18,6 +18,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import com.github.kaitoy.sneo.giane.action.message.FormMessage;
 import com.github.kaitoy.sneo.network.dto.IpAddressDto;
 import com.opensymphony.xwork2.validator.annotations.IntRangeFieldValidator;
 import com.opensymphony.xwork2.validator.annotations.RegexFieldValidator;
@@ -26,7 +27,7 @@ import com.opensymphony.xwork2.validator.annotations.RequiredStringValidator;
 
 @Entity
 @Table(name = "IP_ADDRESS")
-public class IpAddress implements Serializable {
+public class IpAddress implements Serializable, FormMessage {
 
   /**
    *

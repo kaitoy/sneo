@@ -19,6 +19,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import com.github.kaitoy.sneo.giane.action.message.FormMessage;
 import com.opensymphony.xwork2.conversion.annotations.TypeConversion;
 import com.opensymphony.xwork2.validator.annotations.ConversionErrorFieldValidator;
 import com.opensymphony.xwork2.validator.annotations.RegexFieldValidator;
@@ -27,7 +28,7 @@ import com.opensymphony.xwork2.validator.annotations.StringLengthFieldValidator;
 
 @Entity
 @Table(name = "REAL_NETWORK_INTERFACE_CONFIGURATION")
-public class RealNetworkInterfaceConfiguration implements Serializable {
+public class RealNetworkInterfaceConfiguration implements Serializable, FormMessage {
 
   /**
    *
