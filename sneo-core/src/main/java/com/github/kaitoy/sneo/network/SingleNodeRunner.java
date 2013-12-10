@@ -18,7 +18,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import javax.management.ObjectName;
 import mx4j.log.Log4JLogger;
 import org.pcap4j.util.ByteArrays;
 import org.pcap4j.util.MacAddress;
@@ -203,9 +202,7 @@ public class SingleNodeRunner {
           );
       jmxAgent.registerPojo(
         vNode,
-        "Nodes:name="
-          + ObjectName.quote(vNode.getClass().getSimpleName())
-          + ",address=" + ObjectName.quote(mainAddr)
+        "Nodes:address=" + mainAddr.replace(':', '-')
       );
 
       gw.start();

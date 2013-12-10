@@ -16,7 +16,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import javax.management.ObjectName;
 import mx4j.log.Log4JLogger;
 import org.snmp4j.SNMP4JSettings;
 import org.snmp4j.log.Log4jLogFactory;
@@ -89,7 +88,7 @@ public class SingleAgentRunner {
         .address(
            (String)ArgumentParser.getValue(params, "proto", 0) + ":"
              + address + "/"
-             + (Integer)ArgumentParser.getValue(params, "p", 0)
+             + ArgumentParser.getValue(params, "p", 0)
          )
         .bcConfigFilePath((String)ArgumentParser.getValue(params, "bcfg", 0))
         .configFilePath((String)ArgumentParser.getValue(params, "cfg", 0))
@@ -118,9 +117,7 @@ public class SingleAgentRunner {
           );
       jmxAgent.registerPojo(
         agent,
-        "Nodes:name="
-          + ObjectName.quote(agent.getClass().getSimpleName())
-          + ",address=" + ObjectName.quote(address)
+        "Nodes:address=" + address.replace(':', '-')
       );
 
       agent.init();
