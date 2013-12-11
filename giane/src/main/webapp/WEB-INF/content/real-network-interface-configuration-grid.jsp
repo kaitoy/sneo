@@ -54,6 +54,7 @@
     search="true"
     searchoptions="{sopt:['eq','ne','lt','gt']}"
     width="70"
+    hidden="true"
   />
   <sjg:gridColumn
     name="name"
