@@ -31,16 +31,8 @@
     <s:param name="tabIndex" value="2" />
   </s:url>
   <sj:div id="set_additionalIpV4RouteGroup_to_node_tab_content" href="%{set_additionalIpV4RouteGroup_to_node_tab_content_url}" indicator="set_additionalIpV4RouteGroup_to_node_tab_indicator" cssClass="tab-content" />
-
-  <sj:tab id="startSimulator_tab" target="startSimulator_tab_content" label="%{getText('simulation.startSimulator.tab.label')}" />
-  <s:url var="startSimulator_tab_content_url" action="start-simulator-tab-content" escapeAmp="false">
-    <s:param name="simulation_id" value="%{simulation_id}" />
-    <s:param name="tabIndex" value="3" />
-  </s:url>
-  <sj:div id="startSimulator_tab_content" href="%{startSimulator_tab_content_url}" indicator="startSimulator_tab_indicator" cssClass="tab-content" />
 </sj:tabbedpanel>
 
 <img id="set_trapTargetGroup_to_snmpAgent_tab_indicator" src="images/loading_big.gif" alt="Loading..." style="display: none;" class="tab-indicator" />
 <img id="set_realNetworkInterfaceConfiguration_to_realNetworkInterface_tab_indicator" src="images/loading_big.gif" alt="Loading..." style="display: none;" class="tab-indicator" />
 <img id="set_additionalIpV4RouteGroup_to_node_tab_indicator" src="images/loading_big.gif" alt="Loading..." style="display: none;" class="tab-indicator" />
-<img id="startSimulator_tab_indicator" src="images/loading_big.gif" alt="Loading..." style="display: none;" class="tab-indicator" />

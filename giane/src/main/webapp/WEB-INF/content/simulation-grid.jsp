@@ -2,15 +2,11 @@
 <%@ taglib prefix="s" uri="/struts-tags" %>
 <%@ taglib prefix="sjg" uri="/struts-jquery-grid-tags" %>
 
-<s:url var="simulation_grid_url" action="simulation-grid">
-  <s:param name="network_id" value="%{#parameters.network_id}" />
-</s:url>
-<s:url var="simulation_edit_grid_entry_url" action="simulation-edit-grid-entry">
-  <s:param name="network_id" value="%{#parameters.network_id}" />
-</s:url>
+<s:url var="simulation_grid_url" action="simulation-grid" />
+<s:url var="simulation_edit_grid_entry_url" action="simulation-edit-grid-entry" />
 
 <sjg:grid
-  id="simulation_grid"
+  id="%{#parameters.grid_id}"
   caption="%{getText('simulation.grid.caption')}"
   dataType="json"
   href="%{simulation_grid_url}"
@@ -21,17 +17,11 @@
   navigatorEdit="false"
   navigatorView="true"
   navigatorViewOptions="{modal:true}"
-  navigatorDelete="true"
+  navigatorDelete="%{#parameters.navigatorDelete}"
   navigatorDeleteOptions="{modal:true, drag:true, reloadAfterSubmit:true, width:300, left:0}"
   navigatorSearch="true"
   navigatorSearchOptions="{modal:true, drag:true, closeAfterSearch:true, closeAfterReset:true}"
-  navigatorExtraButtons="{
-    config: { 
-      title: 'Configure selected item',
-      icon: 'ui-icon-gear',
-      topic: 'simulation_configButtonClicked'
-    }
-  }"
+  navigatorExtraButtons="%{#parameters.navigatorExtraButtons}"
   editurl="%{simulation_edit_grid_entry_url}"
   editinline="false"
   multiselect="false"
@@ -46,8 +36,8 @@
   gridview="true"
   onSelectRowTopics="rowSelected"
   onCompleteTopics="gridCompleted"
-  onDblClickRowTopics="simulation_rowDblClicked"
-  reloadTopics="simulationTableUpdated"
+  onDblClickRowTopics="%{#parameters.onDblClickRowTopics}"
+  reloadTopics="%{#parameters.reloadTopics}"
 >
   <sjg:gridColumn
     name="id"
@@ -93,5 +83,16 @@
     searchoptions="{sopt:['eq','ne','bw','en','cn']}"
     width="200"
     formatter="oneLine"
+  />
+  <sjg:gridColumn
+    name="running"
+    index="running"
+    title="%{getText('simulation.running.label')}"
+    sortable="true"
+    editable="false"
+    search="true"
+    searchoptions="{sopt:['eq','ne','bw','en','cn']}"
+    width="80"
+    hidden="%{#parameters.hide_running}"
   />
 </sjg:grid>

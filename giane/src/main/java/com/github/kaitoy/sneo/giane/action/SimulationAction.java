@@ -112,6 +112,15 @@ implements ModelDriven<Simulation>, ParameterAware, FormMessage, SimulationMessa
   }
 
   @Action(
+    value = "simulation-grid-box",
+    results = { @Result(name = "success", location = "simulation-grid.jsp")}
+  )
+  @SkipValidation
+  public String gridBox() throws Exception {
+    return "success";
+  }
+
+  @Action(
     value = "simulation-tab-content",
     results = { @Result(name = "tab", location = "simulation-tab-content.jsp")}
   )

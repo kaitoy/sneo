@@ -3,40 +3,110 @@
 <%@ taglib prefix="sj" uri="/struts-jquery-tags" %>
 <%@ taglib prefix="sjg" uri="/struts-jquery-grid-tags" %>
 
-<table id="startSimulator_container">
-  <tbody>
-    <tr>
-      <td class="start-button-cell">
-          <s:url var="startSimulator_start_url" action="start-simulator" >
-            <s:param name="simulation_id" value="%{#parameters.simulation_id}" />
-          </s:url>
-          <sj:a
-            id="startSimulator_start_button"
-            href="%{startSimulator_start_url}"
-            targets="shared_dialog_box"
-            replaceTarget="false"
-            button="true"
-            indicator="config_main_indicator"
-          >
-            <s:text name="startSimulator.start.button.label" />
-          </sj:a>
-      </td>
-      <td class="stop-button-cell">
-          <s:url var="startSimulator_stop_url" action="stop-simulator" >
-            <s:param name="simulation_id" value="%{#parameters.simulation_id}" />
-          </s:url>
-          <sj:a
-            id="startSimulator_stop_button"
-            href="%{startSimulator_stop_url}"
-            targets="shared_dialog_box"
-            replaceTarget="false"
-            button="true"
-            indicator="config_main_indicator"
-          >
-            <s:text name="startSimulator.stop.button.label" />
-          </sj:a>
-      </td>
-    </tr>
-  </tbody>
-</table>
+<div class="left-column">
+  <div>
+    <s:form id="startSimulator_form" theme="simple" cssClass="giane-form">
+      <fieldset>
+        <legend><s:text name="simulation.start.form" /></legend>
+        <div>
+          <s:hidden id="startSimulator_id" name="simulationId" />
+        </div>
+        <div>
+          <s:textfield
+            id="startSimulator_name"
+            name="name"
+            label="%{getText('simulation.name.label')}"
+            theme="xhtml"
+            disabled="true"
+            cssClass="giane-disabled-field"
+          />
+        </div>
+        <div>
+          <s:textfield
+            id="startSimulator_network"
+            name="name"
+            label="%{getText('simulation.network.label')}"
+            theme="xhtml"
+            disabled="true"
+            cssClass="giane-disabled-field"
+          />
+        </div>
+        <div>
+          <s:textarea
+            id="startSimulator_descr"
+            name="descr"
+            label="%{getText('simulation.descr.label')}"
+            cols="30"
+            resizable="false"
+            theme="xhtml"
+            disabled="true"
+            cssClass="giane-disabled-field"
+          />
+        </div>
+        <div>
+          <table class="submit-button-table">
+            <tbody>
+              <tr>
+                <td class="two-buttons-left-cell">
+                  <sj:submit
+                    value="%{getText('form.startButton.label')}"
+                    button="true"
+                    cssClass="giane-form-button"
+                    onClickTopics="startButtonClicked"
+                  />
+                  <s:url var="startSimulator_url" action="start-simulator" />
+                  <sj:submit
+                    listenTopics="doStart_startSimulator"
+                    href="%{startSimulator_url}"
+                    targets="shared_dialog_box"
+                    replaceTarget="false"
+                    indicator="startSimulator_indicator"
+                    onSuccessTopics="runningSimulatorUpdated"
+                    onErrorTopics="startError"
+                    clearForm="true"
+                    cssStyle="display: none;"
+                  />
+                </td>
+                <td class="two-buttons-left-indicator-cell">
+                  <img id="startSimulator_indicator" src="images/loading_small.gif" alt="Loading..." style="display: none;" />
+                </td>
+                <td class="two-buttons-right-cell">
+                  <sj:submit
+                    value="%{getText('form.stopButton.label')}"
+                    button="true"
+                    cssClass="giane-form-button"
+                    onClickTopics="stopButtonClicked"
+                  />
+                  <s:url var="stopSimulator_url" action="stop-simulator" />
+                  <sj:submit
+                    listenTopics="doStop_startSimulator"
+                    href="%{stopSimulator_url}"
+                    targets="shared_dialog_box"
+                    replaceTarget="false"
+                    indicator="stopimulator_indicator"
+                    onSuccessTopics="runningSimulatorUpdated"
+                    onErrorTopics="stopError"
+                    clearForm="true"
+                    cssStyle="display: none;"
+                  />
+                  <img id="stopSimulator_indicator" src="images/loading_small.gif" alt="Loading..." style="display: none;" />
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </fieldset>
+    </s:form>
+  </div>
+</div>
 
+<s:url var="startSimulator_grid_box_url" action="simulation-grid-box" escapeAmp="false">
+  <s:param name="grid_id" value="'startSimulator_grid'" />
+  <s:param name="navigatorDelete" value="false" />
+  <s:param name="reloadTopics" value="'runningSimulatorUpdated'" />
+  <s:param name="hide_running" value="false" />
+</s:url>
+<div class="right-column">
+  <sj:div href="%{startSimulator_grid_box_url}" indicator="startSimulator_grid_box_indicator" cssClass="grid-box" />
+  <img id="startSimulator_grid_box_indicator" src="images/loading_small.gif" alt="Loading..." style="display: none;" />
+</div>

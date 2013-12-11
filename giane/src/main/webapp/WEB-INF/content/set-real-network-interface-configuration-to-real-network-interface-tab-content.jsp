@@ -87,7 +87,7 @@
 
 <div class="right-column">
   <div class="grid-box">
-    <jsp:include page="real-network-interface-with-real-network-interface-configuration-grid.jsp" />
+    <jsp:include page="real-network-interface-with-real-network-interface-configuration-grid.jsp" flush="true" />
   </div>
 </div>
 

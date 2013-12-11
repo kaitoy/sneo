@@ -52,7 +52,7 @@
           <table class="submit-button-table">
             <tbody>
               <tr>
-                <td class="create-button-cell">
+                <td class="two-buttons-left-cell">
                   <sj:submit
                     value="%{getText('form.createButton.label')}"
                     button="true"
@@ -75,7 +75,7 @@
                     cssStyle="display: none;"
                   />
                 </td>
-                <td class="create-button-indicator-cell">
+                <td class="two-buttons-left-indicator-cell">
                   <img
                     id="simulation_create_indicator"
                     src="images/loading_small.gif"
@@ -83,7 +83,7 @@
                     style="display: none;"
                   />
                 </td>
-                <td class="update-button-cell">
+                <td class="two-buttons-right-cell">
                   <sj:submit
                     value="%{getText('form.updateButton.label')}"
                     button="true"
@@ -121,10 +121,25 @@
   </div>
 </div>
 
+<s:url var="simulation_grid_box_url" action="simulation-grid-box" escapeAmp="false">
+  <s:param name="hide_running" value="true" />
+  <s:param name="grid_id" value="'simulation_grid'" />
+  <s:param name="navigatorDelete" value="true" />
+  <s:param name="navigatorExtraButtons">
+  {
+    config: { 
+      title: 'Configure selected item',
+      icon: 'ui-icon-gear',
+      topic: 'simulation_configButtonClicked'
+    }
+  }
+  </s:param>
+  <s:param name="onDblClickRowTopics" value="'simulation_rowDblClicked'" />
+  <s:param name="reloadTopics" value="'simulationTableUpdated'" />
+</s:url>
 <div class="right-column">
-  <div class="grid-box">
-    <jsp:include page="simulation-grid.jsp" />
-  </div>
+  <sj:div href="%{simulation_grid_box_url}" indicator="simulation_grid_box_indicator" cssClass="grid-box" />
+  <img id="simulation_grid_box_indicator" src="images/loading_small.gif" alt="Loading..." style="display: none;" />
 </div>
 
 <s:url var="simulation_url" action="simulation">
@@ -137,9 +152,10 @@
   replaceTarget="false"
   indicator="config_main_indicator"
   validate="true"
-  validateFunction="validation"
+  validateFunction="checkRowSelection"
   listenTopics="simulation_rowDblClicked,simulation_configButtonClicked"
-  onBeforeTopics="configMainPaneGoingForward"
+  onBeforeTopics="configMainPaneGoingForward_before"
+  onAfterValidationTopics="configMainPaneGoingForward_after"
   onCompleteTopics="configMainPaneCompleted"
   style="display: none;"
 />

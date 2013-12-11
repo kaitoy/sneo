@@ -22,4 +22,18 @@ $(document).ready( function() {
     
     $.publish(topic);
   });
+  
+  $.subscribe("startButtonClicked", function(event, data) {
+    var formId = event.originalEvent.currentTarget.form.id;
+    var topic = "doStart_" + formId.substring(0, formId.lastIndexOf("_form"));
+    
+    $.publish(topic);
+  });
+  
+  $.subscribe("stopButtonClicked", function(event, data) {
+    var formId = event.originalEvent.currentTarget.form.id;
+    var topic = "doStop_" + formId.substring(0, formId.lastIndexOf("_form"));
+    
+    $.publish(topic);
+  });
 });

@@ -30,6 +30,7 @@ implements ApplicationAware, SignInMessage {
   private Map<String, Object> application;
   private static Object lock = new Object();
 
+
   public void setApplication(Map<String, Object> application) {
     this.application = application;
   }

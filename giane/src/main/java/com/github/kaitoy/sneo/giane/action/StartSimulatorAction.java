@@ -13,9 +13,9 @@ import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.InterceptorRef;
 import org.apache.struts2.convention.annotation.ParentPackage;
 import org.apache.struts2.convention.annotation.Result;
-import org.apache.struts2.interceptor.ParameterAware;
 import org.apache.struts2.interceptor.validation.SkipValidation;
-import com.github.kaitoy.sneo.giane.action.message.StartSimulatorMessage;
+import com.github.kaitoy.sneo.giane.action.message.FormMessage;
+import com.github.kaitoy.sneo.giane.action.message.SimulationMessage;
 import com.github.kaitoy.sneo.giane.model.AdditionalIpV4Route;
 import com.github.kaitoy.sneo.giane.model.AdditionalIpV4RouteGroup;
 import com.github.kaitoy.sneo.giane.model.RealNetworkInterfaceConfiguration;
@@ -35,7 +35,7 @@ import com.opensymphony.xwork2.ActionSupport;
 @ParentPackage("giane-default")
 @InterceptorRef("gianeDefaultStack")
 public class StartSimulatorAction extends ActionSupport
-implements ParameterAware, StartSimulatorMessage {
+implements SimulationMessage, FormMessage {
 
   /**
    *
@@ -45,13 +45,17 @@ implements ParameterAware, StartSimulatorMessage {
   private static final Map<Integer, Network> runningNetworks
     = new HashMap<Integer, Network>(); // no need to be ConcurrentHashMap
 
-  private Map<String, String[]> parameters;
+  private Integer simulationId;
   private SimulationDao simulationDao;
   private String dialogTitleKey;
   private String dialogTextKey;
 
-  public void setParameters(Map<String, String[]> parameters) {
-    this.parameters = parameters;
+  static Map<Integer, Network> getRunningNetworks() {
+    return runningNetworks;
+  }
+
+  public void setSimulationId(Integer simulationId) {
+    this.simulationId = simulationId;
   }
 
   // for DI
@@ -73,17 +77,22 @@ implements ParameterAware, StartSimulatorMessage {
   @Action(
     results = {
       @Result(name = "success", location = "dialog.jsp"),
-      @Result(name = "noNeed", location = "dialog.jsp")
+      @Result(name = "noNeed", location = "dialog.jsp"),
+      @Result(name = "selectARow", location = "dialog.jsp")
     }
   )
   @SkipValidation
   public String execute() throws Exception {
+    if (simulationId == null) {
+      dialogTitleKey = "simulation.selectARow.dialog.title";
+      dialogTextKey = "simulation.selectARow.dialog.text";
+      return "selectARow";
+    }
+
     synchronized (runningNetworks) {
-      Integer simulationId
-        = Integer.valueOf(parameters.get("simulation_id")[0]);
       if (runningNetworks.containsKey(simulationId)) {
-        dialogTitleKey = "startSimulator.start.noNeed.dialog.title";
-        dialogTextKey = "startSimulator.start.noNeed.dialog.text";
+        dialogTitleKey = "simulation.start.noNeed.dialog.title";
+        dialogTextKey = "simulation.start.noNeed.dialog.text";
         return "noNeed";
       }
 
@@ -135,8 +144,8 @@ implements ParameterAware, StartSimulatorMessage {
 
       runningNetworks.put(simulationId, network);
 
-      dialogTitleKey = "startSimulator.start.success.dialog.title";
-      dialogTextKey = "startSimulator.start.success.dialog.text";
+      dialogTitleKey = "simulation.start.success.dialog.title";
+      dialogTextKey = "simulation.start.success.dialog.text";
       return "success";
     }
   }
@@ -145,17 +154,22 @@ implements ParameterAware, StartSimulatorMessage {
     value = "stop-simulator",
     results = {
       @Result(name = "success", location = "dialog.jsp"),
-      @Result(name = "noNeed", location = "dialog.jsp")
+      @Result(name = "noNeed", location = "dialog.jsp"),
+      @Result(name = "selectARow", location = "dialog.jsp")
     }
   )
   @SkipValidation
   public String stop() throws Exception {
+    if (simulationId == null) {
+      dialogTitleKey = "simulation.selectARow.dialog.title";
+      dialogTextKey = "simulation.selectARow.dialog.text";
+      return "selectARow";
+    }
+
     synchronized (runningNetworks) {
-      Integer simulationId
-        = Integer.valueOf(parameters.get("simulation_id")[0]);
       if (!runningNetworks.containsKey(simulationId)) {
-        dialogTitleKey = "startSimulator.stop.noNeed.dialog.title";
-        dialogTextKey = "startSimulator.stop.noNeed.dialog.text";
+        dialogTitleKey = "simulation.stop.noNeed.dialog.title";
+        dialogTextKey = "simulation.stop.noNeed.dialog.text";
         return "noNeed";
       }
 
@@ -168,8 +182,8 @@ implements ParameterAware, StartSimulatorMessage {
 
       runningNetworks.remove(simulationId);
 
-      dialogTitleKey = "startSimulator.stop.success.dialog.title";
-      dialogTextKey = "startSimulator.stop.success.dialog.text";
+      dialogTitleKey = "simulation.stop.success.dialog.title";
+      dialogTextKey = "simulation.stop.success.dialog.text";
       return "success";
     }
   }

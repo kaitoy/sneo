@@ -3,6 +3,11 @@
 <%@ taglib prefix="sj" uri="/struts-jquery-tags" %>
 
 <sj:accordion autoHeight="false">
+  <s:url var="simulator_workspace_url" action="simulator-workspace"/>
+  <sj:accordionItem title="%{getText('accordion.item.label.simulator')}" >
+    <sj:div href="%{simulator_workspace_url}" />
+  </sj:accordionItem>
+  
   <s:url var="config_workspace_url" action="config-workspace"/>
   <sj:accordionItem title="%{getText('accordion.item.label.config')}" >
     <sj:div href="%{config_workspace_url}" />

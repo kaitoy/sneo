@@ -8,11 +8,16 @@ $(document).ready( function() {
     $("#breadcrumbs").append('<li class="next-breadcrumb" />');
   });
   
-  $.subscribe("configMainPaneGoingForward", function(event, data) {
-    $(".last-breadcrumb")
-      .removeClass("last-breadcrumb")
-      .html("")
-      .append($(".breadcrumb-link").children());
+  $.subscribe("configMainPaneGoingForward_before", function(event, data) {
+    $(".last-breadcrumb").addClass("update-needed");
+  });
+  
+  $.subscribe("configMainPaneGoingForward_after", function(event, data) {
+    var last = $(".last-breadcrumb.update-needed");
+    if (last) {
+      last.removeClass("last-breadcrumb update-needed").html("")
+        .append($(".breadcrumb-link").children());
+    }
   });
   
   $.subscribe("configMainPaneGoingBack", function(event, data) {

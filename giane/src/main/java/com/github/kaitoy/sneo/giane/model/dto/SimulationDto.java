@@ -21,12 +21,14 @@ public class SimulationDto implements Serializable {
   private String name;
   private String network;
   private String descr;
+  private boolean running;
 
-  public SimulationDto(Simulation model) {
+  public SimulationDto(Simulation model, boolean running) {
     this.id = model.getId();
     this.name = model.getName();
     this.network = model.getNetwork().getName();
     this.descr = model.getDescr();
+    this.setRunning(running);
   }
 
   public Integer getId() {
@@ -59,6 +61,14 @@ public class SimulationDto implements Serializable {
 
   public void setDescr(String descr) {
     this.descr = descr;
+  }
+
+  public boolean isRunning() {
+    return running;
+  }
+
+  public void setRunning(boolean running) {
+    this.running = running;
   }
 
   @Override

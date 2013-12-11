@@ -96,7 +96,7 @@
           <table class="submit-button-table">
             <tbody>
               <tr>
-                <td class="create-button-cell">
+                <td class="two-buttons-left-cell">
                   <sj:submit
                     value="%{getText('form.createButton.label')}"
                     button="true"
@@ -121,7 +121,7 @@
                     cssStyle="display: none;"
                   />
                 </td>
-                <td class="create-button-indicator-cell">
+                <td class="two-buttons-left-indicator-cell">
                   <img
                     id="snmpAgent_create_indicator"
                     src="images/loading_small.gif"
@@ -129,7 +129,7 @@
                     style="display: none;"
                   />
                 </td>
-                <td class="update-button-cell">
+                <td class="two-buttons-right-cell">
                   <sj:submit
                     value="%{getText('form.updateButton.label')}"
                     button="true"
@@ -169,7 +169,7 @@
 
 <div class="right-column">
   <div class="grid-box">
-    <jsp:include page="snmp-agent-grid.jsp" />
+    <jsp:include page="snmp-agent-grid.jsp" flush="true" />
   </div>
 </div>
 

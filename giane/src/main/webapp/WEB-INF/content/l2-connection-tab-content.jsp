@@ -26,7 +26,7 @@
           <table class="submit-button-table">
             <tbody>
               <tr>
-                <td class="create-button-cell">
+                <td class="two-buttons-left-cell">
                   <sj:submit
                     value="%{getText('form.createButton.label')}"
                     button="true"
@@ -51,7 +51,7 @@
                     cssStyle="display: none;"
                   />
                 </td>
-                <td class="create-button-indicator-cell">
+                <td class="two-buttons-left-indicator-cell">
                   <img
                     id="l2Connection_create_indicator"
                     src="images/loading_small.gif"
@@ -59,7 +59,7 @@
                     style="display: none;"
                   />
                 </td>
-                <td class="update-button-cell">
+                <td class="two-buttons-right-cell">
                   <sj:submit
                     value="%{getText('form.updateButton.label')}"
                     button="true"
@@ -101,7 +101,7 @@
 
 <div class="right-column">
   <div class="grid-box">
-    <jsp:include page="l2-connection-grid.jsp" />
+    <jsp:include page="l2-connection-grid.jsp" flush="true" />
   </div>
 </div>
 
@@ -115,9 +115,10 @@
   replaceTarget="false"
   indicator="config_main_indicator"
   validate="true"
-  validateFunction="validation"
+  validateFunction="checkRowSelection"
   listenTopics="l2Connection_rowDblClicked,l2Connection_configButtonClicked"
-  onBeforeTopics="configMainPaneGoingForward"
+  onBeforeTopics="configMainPaneGoingForward_before"
+  onAfterValidationTopics="configMainPaneGoingForward_after"
   onCompleteTopics="configMainPaneCompleted"
   style="display: none;"
 />

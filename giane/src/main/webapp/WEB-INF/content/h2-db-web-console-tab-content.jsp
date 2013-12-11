@@ -4,10 +4,10 @@
 
 <div id="h2DbWebConsole_box">
   <s:if test="#h2DbWebServerRunning == true ">
-    <jsp:include page="h2-db-web-console-stop.jsp"></jsp:include>
+    <jsp:include page="h2-db-web-console-stop.jsp" flush="true" />
   </s:if>
   <s:else>
-    <jsp:include page="h2-db-web-console-start.jsp"></jsp:include>
+    <jsp:include page="h2-db-web-console-start.jsp" flush="true" />
   </s:else>
 </div>
 

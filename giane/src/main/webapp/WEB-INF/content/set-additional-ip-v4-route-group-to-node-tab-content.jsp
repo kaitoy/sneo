@@ -87,7 +87,7 @@
 
 <div class="right-column">
   <div class="grid-box">
-    <jsp:include page="node-with-additional-ip-v4-route-group-grid.jsp" />
+    <jsp:include page="node-with-additional-ip-v4-route-group-grid.jsp" flush="true" />
   </div>
 </div>
 

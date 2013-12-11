@@ -23,3 +23,15 @@ function validation(form, errors) {
   }
 }
 
+function checkRowSelection(form, errors) {
+  if (errors.errors) {
+    $.each(errors.errors, function(index, value) {
+      alert(value);
+    });
+    
+    $(".last-breadcrumb")
+      .removeClass("update-needed");
+    return;
+  }
+}
+

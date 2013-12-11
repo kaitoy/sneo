@@ -59,7 +59,7 @@
           <table class="submit-button-table">
             <tbody>
               <tr>
-                <td class="create-button-cell">
+                <td class="two-buttons-left-cell">
                   <sj:submit
                     value="%{getText('form.createButton.label')}"
                     button="true"
@@ -85,7 +85,7 @@
                   />
                   
                 </td>
-                <td class="create-button-indicator-cell">
+                <td class="two-buttons-left-indicator-cell">
                   <img
                     id="fixedIpV4Route_create_indicator"
                     src="images/loading_small.gif"
@@ -93,7 +93,7 @@
                     style="display: none;"
                   />
                 </td>
-                <td class="update-button-cell">
+                <td class="two-buttons-right-cell">
                   <sj:submit
                     value="%{getText('form.updateButton.label')}"
                     button="true"
@@ -135,6 +135,6 @@
 
 <div class="right-column">
   <div class="grid-box">
-    <jsp:include page="fixed-ip-v4-route-grid.jsp" />
+    <jsp:include page="fixed-ip-v4-route-grid.jsp" flush="true" />
   </div>
 </div>

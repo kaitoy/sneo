@@ -29,17 +29,17 @@
   width: 100%;
 }
 
-.giane-form .submit-button-table .create-button-cell {
+.giane-form .submit-button-table .two-buttons-left-cell {
   width: 40%;
   text-align: right;
 }
 
-.giane-form .submit-button-table .create-button-indicator-cell {
+.giane-form .submit-button-table .two-buttons-left-indicator-cell {
   width: 10%;
   text-align: left;
 }
 
-.giane-form .submit-button-table .update-button-cell {
+.giane-form .submit-button-table .two-buttons-right-cell {
   width: 50%;
   text-align: left;
 }

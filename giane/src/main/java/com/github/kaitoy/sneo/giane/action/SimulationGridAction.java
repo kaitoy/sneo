@@ -10,7 +10,9 @@ package com.github.kaitoy.sneo.giane.action;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
@@ -32,32 +34,52 @@ public class SimulationGridAction extends ActionSupport {
    */
   private static final long serialVersionUID = 6883386285889610844L;
 
+  private static final Map<String, Comparator<SimulationDto>> comparators
+    = new HashMap<String, Comparator<SimulationDto>>();
   private SimulationDao simulationDao;
 
-  private static final Comparator<SimulationDto> idComparator
-    = new Comparator<SimulationDto>() {
+  static  {
+    comparators.put(
+      "id",
+      new Comparator<SimulationDto>() {
         public int compare(SimulationDto o1, SimulationDto o2) {
           return o2.getId().compareTo(o1.getId());
         }
-      };
-  private static final Comparator<SimulationDto> nameComparator
-    = new Comparator<SimulationDto>() {
+      }
+    );
+    comparators.put(
+      "name",
+      new Comparator<SimulationDto>() {
         public int compare(SimulationDto o1, SimulationDto o2) {
           return o2.getName().compareTo(o1.getName());
         }
-      };
-  private static final Comparator<SimulationDto> networkComparator
-    = new Comparator<SimulationDto>() {
+      }
+    );
+    comparators.put(
+      "network",
+      new Comparator<SimulationDto>() {
         public int compare(SimulationDto o1, SimulationDto o2) {
           return o2.getNetwork().compareTo(o1.getNetwork());
         }
-      };
-  private static final Comparator<SimulationDto> descrComparator
-    = new Comparator<SimulationDto>() {
+      }
+    );
+    comparators.put(
+      "descr",
+      new Comparator<SimulationDto>() {
         public int compare(SimulationDto o1, SimulationDto o2) {
           return o2.getDescr().compareTo(o1.getDescr());
         }
-      };
+      }
+    );
+    comparators.put(
+      "running",
+      new Comparator<SimulationDto>() {
+        public int compare(SimulationDto o1, SimulationDto o2) {
+          return o1.isRunning() == o2.isRunning() ? 0 : o1.isRunning() ? 1 : 0;
+        }
+      }
+    );
+  }
 
   // result List
   private List<SimulationDto> gridModel;
@@ -148,26 +170,20 @@ public class SimulationGridAction extends ActionSupport {
     }
 
     gridModel = new ArrayList<SimulationDto>();
-    for (Simulation conf: simulationDao.findByCriteria(cq)) {
-      gridModel.add(new SimulationDto(conf));
+    for (Simulation sim: simulationDao.findByCriteria(cq)) {
+
+      gridModel.add(
+        new SimulationDto(
+          sim,
+          StartSimulatorAction.getRunningNetworks().containsKey(sim.getId())
+        )
+      );
     }
 
     records = gridModel.size();
 
     if (sord != null && sord.length() != 0 && sidx != null && sidx.length() != 0) {
-      if (sidx.equalsIgnoreCase("id")) {
-        Collections.sort(gridModel, idComparator);
-      }
-      else if (sidx.equalsIgnoreCase("name")) {
-        Collections.sort(gridModel, nameComparator);
-      }
-      else if (sidx.equalsIgnoreCase("network")) {
-        Collections.sort(gridModel, networkComparator);
-      }
-      else if (sidx.equalsIgnoreCase("descr")) {
-        Collections.sort(gridModel, descrComparator);
-      }
-
+      Collections.sort(gridModel, comparators.get(sidx));
       if (sord.equalsIgnoreCase("desc")) {
         Collections.reverse(gridModel);
       }
