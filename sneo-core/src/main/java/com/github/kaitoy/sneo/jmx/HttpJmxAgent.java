@@ -240,7 +240,7 @@ public class HttpJmxAgent implements JmxAgent {
     }
   }
 
-  public static void main (String[] args) {
+  public static void main(String[] args) {
     LogFactory.setLogFactory(new Log4jLogFactory());
     mx4j.log.Log.redirectTo(new Log4JLogger());
     Log4jPropertiesLoader.getInstance().loadPropertyOf(HttpJmxAgent.class);
@@ -349,6 +349,11 @@ public class HttpJmxAgent implements JmxAgent {
       if (configFilePath != null) {
         server.invoke(LOADER_NAME, "shutdown", null, null);
       }
+
+      server.unregisterMBean(CONNECTOR_NAME);
+      server.unregisterMBean(PROCESSOR_NAME);
+      server.unregisterMBean(ADAPTOR_NAME);
+      server.unregisterMBean(LOG_CONTROLLER_NAME);
     } catch (InstanceNotFoundException e) {
       throw new IllegalStateException(e);
     } catch (ReflectionException e) {
