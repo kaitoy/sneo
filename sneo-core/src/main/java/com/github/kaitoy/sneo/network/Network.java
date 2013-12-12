@@ -75,11 +75,11 @@ public class Network {
       node.start();
       jmxAgent.registerPojo(node, formObjectName(node));
     }
-    for (FileMibAgent agent: agents) {
-      agent.start();
-    }
     for (L2Connection l2conn: l2conns) {
       l2conn.start();
+    }
+    for (FileMibAgent agent: agents) {
+      agent.start();
     }
   }
 
