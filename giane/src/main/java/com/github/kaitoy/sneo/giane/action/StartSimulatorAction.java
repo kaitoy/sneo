@@ -14,6 +14,8 @@ import org.apache.struts2.convention.annotation.InterceptorRef;
 import org.apache.struts2.convention.annotation.ParentPackage;
 import org.apache.struts2.convention.annotation.Result;
 import org.apache.struts2.interceptor.validation.SkipValidation;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import com.github.kaitoy.sneo.giane.action.message.FormMessage;
 import com.github.kaitoy.sneo.giane.action.message.SimulationMessage;
 import com.github.kaitoy.sneo.giane.model.AdditionalIpV4Route;
@@ -41,6 +43,8 @@ implements SimulationMessage, FormMessage {
    */
   private static final long serialVersionUID = -6369033199702364281L;
 
+  private static final Logger logger
+    = LoggerFactory.getLogger(StartSimulatorAction.class);
   private static final Map<Integer, Network> runningNetworks
     = new HashMap<Integer, Network>(); // no need to be ConcurrentHashMap
 
@@ -77,7 +81,8 @@ implements SimulationMessage, FormMessage {
     results = {
       @Result(name = "success", location = "dialog.jsp"),
       @Result(name = "noNeed", location = "dialog.jsp"),
-      @Result(name = "selectARow", location = "dialog.jsp")
+      @Result(name = "selectARow", location = "dialog.jsp"),
+      @Result(name = "error", location = "dialog.jsp")
     }
   )
   @SkipValidation
@@ -95,48 +100,55 @@ implements SimulationMessage, FormMessage {
         return "noNeed";
       }
 
-      Simulation conf
-        = simulationDao.findByKey(simulationId);
-      NetworkDto networkDto = conf.getNetwork().toDto();
+      try {
+        Simulation conf
+          = simulationDao.findByKey(simulationId);
+        NetworkDto networkDto = conf.getNetwork().toDto();
 
-      for (NodeDto nodeDto: networkDto.getNodes()) {
-        SnmpAgentDto agentDto = nodeDto.getAgent();
-        if (agentDto != null) {
-          TrapTargetGroup ttg = conf.getTrapTargetGroup(agentDto.getId());
-          if (ttg != null) {
-            agentDto.setTrapTargetGroup(ttg.toDto());
+        for (NodeDto nodeDto: networkDto.getNodes()) {
+          SnmpAgentDto agentDto = nodeDto.getAgent();
+          if (agentDto != null) {
+            TrapTargetGroup ttg = conf.getTrapTargetGroup(agentDto.getId());
+            if (ttg != null) {
+              agentDto.setTrapTargetGroup(ttg.toDto());
+            }
+          }
+
+          AdditionalIpV4RouteGroup routeg = conf.getAdditionalIpV4RouteGroup(nodeDto.getId());
+          if (routeg != null) {
+            for (AdditionalIpV4Route route: routeg.getAdditionalIpV4Routes()) {
+              nodeDto.getIpV4Routes().add(route.toDto());
+            }
+          }
+
+          for (RealNetworkInterfaceDto rnifDto: nodeDto.getRealNetworkInterfaces()) {
+            RealNetworkInterfaceConfiguration rnifConf
+              = conf.getRealNetworkInterfaceConfiguration(rnifDto.getId());
+            if (rnifConf != null) {
+              rnifDto.setDeviceName(rnifConf.getDeviceName());
+              rnifDto.setMacAddress(rnifConf.getMacAddress());
+              rnifDto.setIpAddresses(
+                rnifConf.getIpAddressRelation().getIpAddressDtos()
+              );
+            }
           }
         }
 
-        AdditionalIpV4RouteGroup routeg = conf.getAdditionalIpV4RouteGroup(nodeDto.getId());
-        if (routeg != null) {
-          for (AdditionalIpV4Route route: routeg.getAdditionalIpV4Routes()) {
-            nodeDto.getIpV4Routes().add(route.toDto());
-          }
-        }
+        Network network = new Network(networkDto);
+        JmxAgent jmxAgent = JmxAgentStarter.getJmxAgent();
+        network.start(jmxAgent);
 
-        for (RealNetworkInterfaceDto rnifDto: nodeDto.getRealNetworkInterfaces()) {
-          RealNetworkInterfaceConfiguration rnifConf
-            = conf.getRealNetworkInterfaceConfiguration(rnifDto.getId());
-          if (rnifConf != null) {
-            rnifDto.setDeviceName(rnifConf.getDeviceName());
-            rnifDto.setMacAddress(rnifConf.getMacAddress());
-            rnifDto.setIpAddresses(
-              rnifConf.getIpAddressRelation().getIpAddressDtos()
-            );
-          }
-        }
+        runningNetworks.put(simulationId, network);
+
+        dialogTitleKey = "simulation.start.success.dialog.title";
+        dialogTextKey = "simulation.start.success.dialog.text";
+        return "success";
+      } catch (Exception e) {
+        logger.error("An error occurred during starting simulator: ", e);
+        dialogTitleKey = "simulation.start.error.dialog.title";
+        dialogTextKey = "simulation.start.error.dialog.text";
+        return "error";
       }
-
-      Network network = new Network(networkDto);
-      JmxAgent jmxAgent = JmxAgentStarter.getJmxAgent();
-      network.start(jmxAgent);
-
-      runningNetworks.put(simulationId, network);
-
-      dialogTitleKey = "simulation.start.success.dialog.title";
-      dialogTextKey = "simulation.start.success.dialog.text";
-      return "success";
     }
   }
 
@@ -145,7 +157,8 @@ implements SimulationMessage, FormMessage {
     results = {
       @Result(name = "success", location = "dialog.jsp"),
       @Result(name = "noNeed", location = "dialog.jsp"),
-      @Result(name = "selectARow", location = "dialog.jsp")
+      @Result(name = "selectARow", location = "dialog.jsp"),
+      @Result(name = "error", location = "dialog.jsp")
     }
   )
   @SkipValidation
@@ -163,15 +176,22 @@ implements SimulationMessage, FormMessage {
         return "noNeed";
       }
 
-      Network network = runningNetworks.get(simulationId);
-      JmxAgent jmxAgent = JmxAgentStarter.getJmxAgent();
-      network.stop(jmxAgent);
+      try {
+        Network network = runningNetworks.get(simulationId);
+        JmxAgent jmxAgent = JmxAgentStarter.getJmxAgent();
+        network.stop(jmxAgent);
 
-      runningNetworks.remove(simulationId);
+        runningNetworks.remove(simulationId);
 
-      dialogTitleKey = "simulation.stop.success.dialog.title";
-      dialogTextKey = "simulation.stop.success.dialog.text";
-      return "success";
+        dialogTitleKey = "simulation.stop.success.dialog.title";
+        dialogTextKey = "simulation.stop.success.dialog.text";
+        return "success";
+      } catch (Exception e) {
+        logger.error("An error occurred during stopping simulator: ", e);
+        dialogTitleKey = "simulation.stop.error.dialog.title";
+        dialogTextKey = "simulation.stop.error.dialog.text";
+        return "error";
+      }
     }
   }
 
