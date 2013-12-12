@@ -96,7 +96,7 @@
     buttons="{
       'OK': function() {$('#save_trapTargetGroup_associated_trapTarget_grid_error_dialog').dialog('close'); }
     }"
-    dialogClass="dialog"
+    dialogClass="giane-dialog"
   >
     <s:text name="associateAction.error.dialog.text" />
   </sj:dialog>

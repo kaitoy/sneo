@@ -31,22 +31,22 @@
   </sj:a>
 </div>
 
-<sj:tabbedpanel id="network_config_tabs" animate="true" cssClass="tabs" selectedTab="%{selectedTab}">
+<sj:tabbedpanel id="network_config_tabs" animate="true" cssClass="giane-tab-container" selectedTab="%{selectedTab}">
   <sj:tab id="node_tab" target="node_tab_content" label="%{getText('network.config.node.tab.label')}" />
   <s:url var="node_tab_content_url" action="node-tab-content" escapeAmp="false">
     <s:param name="network_id" value="%{network_id}" />
     <s:param name="tabIndex" value="0" />
   </s:url>
-  <sj:div id="node_tab_content" href="%{node_tab_content_url}" indicator="node_tab_indicator" cssClass="tab-content" />
+  <sj:div id="node_tab_content" href="%{node_tab_content_url}" indicator="node_tab_indicator" cssClass="giane-tab-content" />
 
   <sj:tab id="l2Connection_tab" target="l2Connection_tab_content" label="%{getText('network.config.l2Connection.tab.label')}" />
   <s:url var="l2Connection_tab_content_url" action="l2-connection-tab-content" escapeAmp="false">
     <s:param name="network_id" value="%{network_id}" />
     <s:param name="tabIndex" value="1" />
   </s:url>
-  <sj:div id="l2Connection_tab_content" href="%{l2Connection_tab_content_url}" indicator="l2Connection_tab_indicator" cssClass="tab-content" />
+  <sj:div id="l2Connection_tab_content" href="%{l2Connection_tab_content_url}" indicator="l2Connection_tab_indicator" cssClass="giane-tab-content" />
 </sj:tabbedpanel>
 
-<img id="node_tab_indicator" src="images/loading_big.gif" alt="Loading..." style="display: none;" class="tab-indicator" />
-<img id="l2Connection_tab_indicator" src="images/loading_big.gif" alt="Loading..." style="display: none;" class="tab-indicator" />
+<img id="node_tab_indicator" src="images/loading_big.gif" alt="Loading..." style="display: none;" class="giane-tab-indicator" />
+<img id="l2Connection_tab_indicator" src="images/loading_big.gif" alt="Loading..." style="display: none;" class="giane-tab-indicator" />
 

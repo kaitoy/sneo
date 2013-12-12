@@ -3,7 +3,7 @@
 <%@ taglib prefix="sj" uri="/struts-jquery-tags" %>
 <%@ taglib prefix="sjg" uri="/struts-jquery-grid-tags" %>
 
-<div class="left-column">
+<div class="giane-tab-content-form-column">
   <div>
     <s:form id="simulation_form" theme="simple" cssClass="giane-form">
       <fieldset>
@@ -52,7 +52,7 @@
           <table class="submit-button-table">
             <tbody>
               <tr>
-                <td class="two-buttons-left-cell">
+                <td class="two-buttons-first-cell">
                   <sj:submit
                     value="%{getText('form.createButton.label')}"
                     button="true"
@@ -83,7 +83,7 @@
                     style="display: none;"
                   />
                 </td>
-                <td class="two-buttons-right-cell">
+                <td class="two-buttons-second-cell">
                   <sj:submit
                     value="%{getText('form.updateButton.label')}"
                     button="true"
@@ -137,8 +137,8 @@
   <s:param name="onDblClickRowTopics" value="'simulation_rowDblClicked'" />
   <s:param name="reloadTopics" value="'simulationTableUpdated'" />
 </s:url>
-<div class="right-column">
-  <sj:div href="%{simulation_grid_box_url}" indicator="simulation_grid_box_indicator" cssClass="grid-box" />
+<div class="giane-tab-content-grid-column">
+  <sj:div href="%{simulation_grid_box_url}" indicator="simulation_grid_box_indicator" cssClass="giane-grid-box" />
   <img id="simulation_grid_box_indicator" src="images/loading_small.gif" alt="Loading..." style="display: none;" />
 </div>
 

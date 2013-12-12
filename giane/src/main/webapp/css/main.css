@@ -6,66 +6,53 @@
   font-size: 10px;
 }
 
-.tabs {
+.giane-tab-container {
   height: 98%;
+  min-width: 975px;
 }
 
-.left-column {
+.giane-tab-content-form-column {
   width: 40%;
+  min-width: 360px;
   float: left;
 }
 
-.right-column {
+.giane-tab-content-grid-column {
   width: 60%;
+  min-width: 560px;
   float: right;
 }
 
-.tab-content:after {
+.giane-tab-content {
+  min-width: 950px;
+}
+
+.giane-tab-content:after {
   content: "";
   clear: both;
   display: block;
 }
 
-.grid-box{
-  padding-left: 15px;
+.giane-grid-box .ui-jqgrid {
+  margin: 0 auto;
 }
 
-.tab-indicator {
+.giane-tab-indicator {
   width: 100px;
-  height: 100px;
   position: absolute;
   top: 300px;
-  left: 455px;
+  left: 50%;
+  margin: 0 -50px;
 }
 
-.dialog {
+.giane-dialog {
   font-size: 10px;
-}
-
-#startSimulator_tab_content {
-  height: 50%;
-}
-
-#startSimulator_container {
-  height:100%;
-  width: 100%;
-  font-size: 17px;
-}
-
-#startSimulator_container .start-button-cell {
-  vertical-align: bottom;
-  text-align: right;
-}
-
-#startSimulator_container .stop-button-cell {
-  vertical-align: bottom;
-  text-align: left;
 }
 
 img.main-indicator {
   width: 100px;
-  height: 100px;
   position: absolute;
   top: 300px;
-  left: 455px;
+  left: 50%;
+  margin: 0 -50px;
 }

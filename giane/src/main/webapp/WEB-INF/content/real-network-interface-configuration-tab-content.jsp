@@ -3,7 +3,7 @@
 <%@ taglib prefix="sj" uri="/struts-jquery-tags" %>
 <%@ taglib prefix="sjg" uri="/struts-jquery-grid-tags" %>
 
-<div class="left-column">
+<div class="giane-tab-content-form-column">
   <div>
     <s:form
       id="realNetworkInterfaceConfiguration_form"
@@ -67,7 +67,7 @@
           <table class="submit-button-table">
             <tbody>
               <tr>
-                <td class="two-buttons-left-cell">
+                <td class="two-buttons-first-cell">
                   <sj:submit
                     value="%{getText('form.createButton.label')}"
                     button="true"
@@ -101,7 +101,7 @@
                     style="display: none;"
                   />
                 </td>
-                <td class="two-buttons-right-cell">
+                <td class="two-buttons-second-cell">
                   <sj:submit
                     value="%{getText('form.updateButton.label')}"
                     button="true"
@@ -149,7 +149,7 @@
     autoOpen="false"
     modal="false"
     title="%{getText('showDeviceList.dialog.title')}"
-    dialogClass="dialog"
+    dialogClass="giane-dialog"
     draggable="true"
     height="300"
     width="600"
@@ -164,8 +164,8 @@
   </sj:a>
 </div>
 
-<div class="right-column">
-  <div class="grid-box">
+<div class="giane-tab-content-grid-column">
+  <div class="giane-grid-box">
     <jsp:include page="real-network-interface-configuration-grid.jsp" flush="true" />
   </div>
 </div>

@@ -8,10 +8,11 @@ div#header {
 }
 
 img#contents_container_indicator {
-  width: 10%;
+  width: 100px;
   position: absolute;
-  top: 50%;
-  left: 45%;
+  top: 300px;
+  left: 50%;
+  margin: 0 -50px;
 }
 
 div#footer {

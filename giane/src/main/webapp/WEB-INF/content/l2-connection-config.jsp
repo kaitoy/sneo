@@ -10,7 +10,7 @@
   />
 </div>
 
-<sj:tabbedpanel id="l2Connection_config_tabs" animate="true" cssClass="tabs" selectedTab="%{selectedTab}">
+<sj:tabbedpanel id="l2Connection_config_tabs" animate="true" cssClass="giane-tab-container" selectedTab="%{selectedTab}">
   <sj:tab
     id="associate_l2Connection_with_physicalNetworkInterfaces_tab"
     target="associate_l2Connection_with_physicalNetworkInterfaces_tab_content"
@@ -30,7 +30,7 @@
     id="associate_l2Connection_with_physicalNetworkInterfaces_tab_content"
     href="%{associate_l2Connection_with_physicalNetworkInterfaces_tab_content_url}"
     indicator="associate_l2Connection_with_physicalNetworkInterfaces_tab_indicator"
-    cssClass="tab-content"
+    cssClass="giane-tab-content"
   />
 </sj:tabbedpanel>
 
@@ -39,6 +39,6 @@
   src="images/loading_big.gif"
   alt="Loading..."
   style="display: none;"
-  class="tab-indicator"
+  class="giane-tab-indicator"
 />
 

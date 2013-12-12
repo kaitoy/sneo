@@ -12,7 +12,7 @@
   buttons="{
     'OK': function() {$('#common_dialog').dialog('close'); }
   }"
-  dialogClass="dialog"
+  dialogClass="giane-dialog"
 >
   <s:text name="%{dialogTextKey}" />
 </sj:dialog>

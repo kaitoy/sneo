@@ -96,7 +96,7 @@
     buttons="{
       'OK': function() {$('#save_additionalIpV4RouteGroup_associated_additionalIpV4Route_grid_error_dialog').dialog('close'); }
     }"
-    dialogClass="dialog"
+    dialogClass="giane-dialog"
   >
     <s:text name="associateAction.error.dialog.text" />
   </sj:dialog>

@@ -3,7 +3,7 @@
 <%@ taglib prefix="sj" uri="/struts-jquery-tags" %>
 <%@ taglib prefix="sjg" uri="/struts-jquery-grid-tags" %>
 
-<sj:tabbedpanel id="simulatorHome_tabs" animate="true" cssClass="tabs">
+<sj:tabbedpanel id="simulatorHome_tabs" animate="true" cssClass="giane-tab-container">
   <sj:tab
     id="startSimiulator_tab"
     target="startSimiulator_tab_content"
@@ -14,7 +14,7 @@
     id="startSimiulator_tab_content"
     href="%{startSimiulator_tab_content_url}"
     indicator="startSimiulator_tab_indicator"
-    cssClass="tab-content"
+    cssClass="giane-tab-content"
   />
   
   <sj:tab
@@ -30,7 +30,7 @@
     id="jmxConsole_tab_content"
     href="%{jmxConsole_tab_content_url}"
     indicator="jmxConsole_tab_indicator"
-    cssClass="tab-content"
+    cssClass="giane-tab-content"
   />
 </sj:tabbedpanel>
 
@@ -39,12 +39,12 @@
   src="images/loading_big.gif"
   alt="Loading..."
   style="display: none;"
-  class="tab-indicator"
+  class="giane-tab-indicator"
 />
 <img
   id="jmxConsole_tab_indicator"
   src="images/loading_big.gif"
   alt="Loading..."
   style="display: none;"
-  class="tab-indicator"
+  class="giane-tab-indicator"
 />

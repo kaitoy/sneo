@@ -2,7 +2,7 @@
 <%@ taglib prefix="s" uri="/struts-tags" %>
 <%@ taglib prefix="sj" uri="/struts-jquery-tags" %>
 
-<div class="left-column">
+<div class="giane-tab-content-form-column">
   <div>
     <s:form
       id="set_additionalIpV4RouteGroup_to_node_form"
@@ -85,8 +85,8 @@
   </div>
 </div>
 
-<div class="right-column">
-  <div class="grid-box">
+<div class="giane-tab-content-grid-column">
+  <div class="giane-grid-box">
     <jsp:include page="node-with-additional-ip-v4-route-group-grid.jsp" flush="true" />
   </div>
 </div>

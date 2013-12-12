@@ -33,7 +33,7 @@
       <sj:div
         id="signIn"
         href="%{signIn_url}"
-        indicator="contents_indicator"
+        indicator="contents_container_indicator"
       />
     </div>
 

@@ -10,7 +10,7 @@
   />
 </div>
 
-<sj:tabbedpanel id="additionalIpV4RouteGroup_config_tabs" animate="true" cssClass="tabs" selectedTab="%{selectedTab}">
+<sj:tabbedpanel id="additionalIpV4RouteGroup_config_tabs" animate="true" cssClass="giane-tab-container" selectedTab="%{selectedTab}">
   <sj:tab
     id="associate_additionalIpV4RouteGroup_with_additionalIpV4Routes_tab"
     target="associate_additionalIpV4RouteGroup_with_additionalIpV4Routes_tab_content"
@@ -29,7 +29,7 @@
     id="associate_additionalIpV4RouteGroup_with_additionalIpV4Routes_tab_content"
     href="%{associate_additionalIpV4RouteGroup_with_additionalIpV4Routes_tab_content_url}"
     indicator="associate_additionalIpV4RouteGroup_with_additionalIpV4Routes_tab_indicator"
-    cssClass="tab-content"
+    cssClass="giane-tab-content"
   />
 </sj:tabbedpanel>
 
@@ -38,5 +38,5 @@
   src="images/loading_big.gif"
   alt="Loading..."
   style="display: none;"
-  class="tab-indicator"
+  class="giane-tab-indicator"
 />

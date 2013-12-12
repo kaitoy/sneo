@@ -3,7 +3,7 @@
 <%@ taglib prefix="sj" uri="/struts-jquery-tags" %>
 <%@ taglib prefix="sjg" uri="/struts-jquery-grid-tags" %>
 
-<div class="left-column">
+<div class="giane-tab-content-form-column">
   <div>
     <s:form id="startSimulator_form" theme="simple" cssClass="giane-form">
       <fieldset>
@@ -47,7 +47,7 @@
           <table class="submit-button-table">
             <tbody>
               <tr>
-                <td class="two-buttons-left-cell">
+                <td class="two-buttons-first-cell">
                   <sj:submit
                     value="%{getText('form.startButton.label')}"
                     button="true"
@@ -70,7 +70,7 @@
                 <td class="two-buttons-left-indicator-cell">
                   <img id="startSimulator_indicator" src="images/loading_small.gif" alt="Loading..." style="display: none;" />
                 </td>
-                <td class="two-buttons-right-cell">
+                <td class="two-buttons-second-cell">
                   <sj:submit
                     value="%{getText('form.stopButton.label')}"
                     button="true"
@@ -106,7 +106,7 @@
   <s:param name="reloadTopics" value="'runningSimulatorUpdated'" />
   <s:param name="hide_running" value="false" />
 </s:url>
-<div class="right-column">
-  <sj:div href="%{startSimulator_grid_box_url}" indicator="startSimulator_grid_box_indicator" cssClass="grid-box" />
+<div class="giane-tab-content-grid-column">
+  <sj:div href="%{startSimulator_grid_box_url}" indicator="startSimulator_grid_box_indicator" cssClass="giane-grid-box" />
   <img id="startSimulator_grid_box_indicator" src="images/loading_small.gif" alt="Loading..." style="display: none;" />
 </div>

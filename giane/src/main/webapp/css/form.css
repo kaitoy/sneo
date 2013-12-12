@@ -29,7 +29,7 @@
   width: 100%;
 }
 
-.giane-form .submit-button-table .two-buttons-left-cell {
+.giane-form .submit-button-table .two-buttons-first-cell {
   width: 40%;
   text-align: right;
 }
@@ -39,7 +39,7 @@
   text-align: left;
 }
 
-.giane-form .submit-button-table .two-buttons-right-cell {
+.giane-form .submit-button-table .two-buttons-second-cell {
   width: 50%;
   text-align: left;
 }
@@ -63,7 +63,7 @@
   color: black;
 }
 
-.required {
+.giane-form .required {
   color: red;
 }
 

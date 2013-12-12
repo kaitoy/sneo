@@ -2,7 +2,7 @@
 <%@ taglib prefix="s" uri="/struts-tags" %>
 <%@ taglib prefix="sj" uri="/struts-jquery-tags" %>
 
-<div class="left-column">
+<div class="giane-tab-content-form-column">
   <s:form id="h2DbWebConsole_form" theme="simple" cssClass="giane-form">
     <fieldset>
       <legend><s:text name="h2DbWebConsole.form" /></legend>

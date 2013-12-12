@@ -2,7 +2,7 @@
 <%@ taglib prefix="s" uri="/struts-tags" %>
 <%@ taglib prefix="sj" uri="/struts-jquery-tags" %>
 
-<div class="left-column">
+<div class="giane-tab-content-form-column">
   <div>
     <a href="<s:property value="url" />" target="_blank">
       <s:text name="h2DbWebConsole.openButton.label"/>

@@ -115,7 +115,7 @@
     buttons="{
       'OK': function() {$('#save_lag_associated_physicalNetworkInterface_grid_error_dialog').dialog('close'); }
     }"
-    dialogClass="dialog"
+    dialogClass="giane-dialog"
   >
     <s:text name="associateAction.error.dialog.text" />
   </sj:dialog>

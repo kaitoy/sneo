@@ -2,7 +2,7 @@
 <%@ taglib prefix="s" uri="/struts-tags" %>
 <%@ taglib prefix="sj" uri="/struts-jquery-tags" %>
 
-<div class="left-column">
+<div class="giane-tab-content-form-column">
   <div>
     <s:form
       id="set_trapTargetGroup_to_snmpAgent_form"
@@ -96,8 +96,8 @@
 
 </div>
 
-<div class="right-column">
-  <div class="grid-box">
+<div class="giane-tab-content-grid-column">
+  <div class="giane-grid-box">
     <jsp:include page="snmp-agent-with-trap-target-group-grid.jsp" flush="true" />
   </div>
 </div>
