@@ -22,14 +22,13 @@ import com.github.kaitoy.sneo.giane.model.RealNetworkInterfaceConfiguration;
 import com.github.kaitoy.sneo.giane.model.Simulation;
 import com.github.kaitoy.sneo.giane.model.TrapTargetGroup;
 import com.github.kaitoy.sneo.giane.model.dao.SimulationDao;
-import com.github.kaitoy.sneo.jmx.HttpJmxAgent;
+import com.github.kaitoy.sneo.giane.servletlistener.JmxAgentStarter;
 import com.github.kaitoy.sneo.jmx.JmxAgent;
 import com.github.kaitoy.sneo.network.Network;
 import com.github.kaitoy.sneo.network.dto.NetworkDto;
 import com.github.kaitoy.sneo.network.dto.NodeDto;
 import com.github.kaitoy.sneo.network.dto.RealNetworkInterfaceDto;
 import com.github.kaitoy.sneo.network.dto.SnmpAgentDto;
-import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 
 @ParentPackage("giane-default")
@@ -130,16 +129,7 @@ implements SimulationMessage, FormMessage {
       }
 
       Network network = new Network(networkDto);
-
-      @SuppressWarnings("unchecked")
-      Map<String, Object> application
-        = (Map<String, Object>)ActionContext.getContext().get("application");
-      JmxAgent jmxAgent = (JmxAgent)application.get("jmxAgent");
-      if (jmxAgent == null) {
-        jmxAgent = new HttpJmxAgent(8090, 10099);
-        application.put("jmxAgent", jmxAgent);
-        jmxAgent.start();
-      }
+      JmxAgent jmxAgent = JmxAgentStarter.getJmxAgent();
       network.start(jmxAgent);
 
       runningNetworks.put(simulationId, network);
@@ -174,10 +164,7 @@ implements SimulationMessage, FormMessage {
       }
 
       Network network = runningNetworks.get(simulationId);
-      @SuppressWarnings("unchecked")
-      Map<String, Object> application
-        = (Map<String, Object>)ActionContext.getContext().get("application");
-      JmxAgent jmxAgent = (JmxAgent)application.get("jmxAgent");
+      JmxAgent jmxAgent = JmxAgentStarter.getJmxAgent();
       network.stop(jmxAgent);
 
       runningNetworks.remove(simulationId);

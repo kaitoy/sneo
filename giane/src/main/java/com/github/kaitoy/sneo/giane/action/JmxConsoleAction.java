@@ -8,22 +8,19 @@
 package com.github.kaitoy.sneo.giane.action;
 
 import java.net.URL;
-import java.util.Map;
 import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.InterceptorRef;
 import org.apache.struts2.convention.annotation.ParentPackage;
 import org.apache.struts2.convention.annotation.Result;
-import org.apache.struts2.interceptor.ApplicationAware;
 import org.apache.struts2.interceptor.validation.SkipValidation;
 import com.github.kaitoy.sneo.giane.action.message.JmxConsoleMessage;
-import com.github.kaitoy.sneo.jmx.HttpJmxAgent;
+import com.github.kaitoy.sneo.giane.servletlistener.JmxAgentStarter;
 import com.opensymphony.xwork2.ActionSupport;
 
 @ParentPackage("giane-default")
 @InterceptorRef("gianeDefaultStack")
-public class JmxConsoleAction extends ActionSupport
-implements ApplicationAware, JmxConsoleMessage {
+public class JmxConsoleAction extends ActionSupport implements JmxConsoleMessage {
 
   /**
    *
@@ -31,14 +28,9 @@ implements ApplicationAware, JmxConsoleMessage {
   private static final long serialVersionUID = 154325051805252490L;
 
   private String url;
-  private Map<String, Object> application;
 
   public String getUrl() {
     return url;
-  }
-
-  public void setApplication(Map<String, Object> application) {
-    this.application = application;
   }
 
   @Action(
@@ -53,7 +45,7 @@ implements ApplicationAware, JmxConsoleMessage {
       .append("://")
       .append(urlObj.getHost())
       .append(":")
-      .append(((HttpJmxAgent)application.get("jmxAgent")).getJmxPort())
+      .append(JmxAgentStarter.getJmxAgent().getJmxPort())
       .append("/");
     url = sb.toString();
     return "tab";

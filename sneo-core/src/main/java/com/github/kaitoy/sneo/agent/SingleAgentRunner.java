@@ -124,7 +124,7 @@ public class SingleAgentRunner {
       agent.start();
       jmxAgent.start();
 
-      ConsoleBlocker.block();
+      ConsoleBlocker.block("** Hit Enter key to stop simulation **");
 
       jmxAgent.stop();
       agent.stop();

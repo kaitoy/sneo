@@ -86,6 +86,11 @@
       <artifactId>org.apache.jasper.glassfish</artifactId>
       <scope>provided</scope>
     </dependency>
+    <dependency>
+      <groupId>com.github.kaitoy.sneo</groupId>
+      <artifactId>sneo-common</artifactId>
+      <scope>compile</scope>
+    </dependency>
   </dependencies>
 
   <build>

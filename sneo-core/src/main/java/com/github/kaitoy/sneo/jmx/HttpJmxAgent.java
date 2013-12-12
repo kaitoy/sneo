@@ -266,7 +266,7 @@ public class HttpJmxAgent implements JmxAgent {
     agent.setConfigFilePath((String)ArgumentParser.getValue(params, "f", 0));
     agent.start();
 
-    ConsoleBlocker.block();
+    ConsoleBlocker.block("** Hit Enter key to stop simulation **");
 
     agent.stop();
 

@@ -203,6 +203,11 @@
         <version>${project.version}</version>
       </dependency>
       <dependency>
+        <groupId>com.github.kaitoy.sneo</groupId>
+        <artifactId>sneo-common</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
         <groupId>javax.servlet</groupId>
         <artifactId>javax.servlet-api</artifactId>
         <version>3.1.0</version>
@@ -322,6 +327,7 @@
   </properties>
 
   <modules>
+    <module>sneo-common</module>
     <module>sneo-core</module>
     <module>giane</module>
     <module>giane-jetty</module>

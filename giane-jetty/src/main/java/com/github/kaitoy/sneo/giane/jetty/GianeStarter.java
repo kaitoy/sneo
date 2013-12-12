@@ -11,6 +11,8 @@ import java.net.URL;
 import java.security.ProtectionDomain;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.webapp.WebAppContext;
+import com.github.kaitoy.sneo.util.ConsoleBlocker;
+import com.github.kaitoy.sneo.util.Constants;
 
 public class GianeStarter {
 
@@ -22,7 +24,16 @@ public class GianeStarter {
       try {
         if ("--httpPort".equals(arg)) {
           httpPort = Integer.parseInt(args[++i]);
-        } else {
+        }
+        else if ("--jmx.httpPort".equals(arg)) {
+          Integer jmxHttpPort = Integer.parseInt(args[++i]);
+          System.setProperty(Constants.JMX_HTTP_PORT_KEY, jmxHttpPort.toString());
+        }
+        else if ("--jmx.rmiPort".equals(arg)) {
+          Integer jmxRmiPort = Integer.parseInt(args[++i]);
+          System.setProperty(Constants.JMX_RMI_PORT_KEY, jmxRmiPort.toString());
+        }
+        else {
           System.err.println("Invalid option: " + arg);
           System.exit(1);
         }
@@ -44,7 +55,9 @@ public class GianeStarter {
 
     server.setHandler(context);
     server.start();
-    server.join();
+    ConsoleBlocker.block("** Hit Enter key to stop Giane **");
+    server.stop();
+    server.destroy();
   }
 
 }

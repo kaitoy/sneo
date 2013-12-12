@@ -5,7 +5,7 @@
   _##########################################################################
 */
 
-package com.github.kaitoy.sneo.giane.h2;
+package com.github.kaitoy.sneo.giane.servletlistener;
 
 import java.sql.SQLException;
 import javax.servlet.ServletContextEvent;

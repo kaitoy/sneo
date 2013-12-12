@@ -25,15 +25,18 @@
   <listener>
     <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
   </listener>
+  <listener>
+      <listener-class>com.github.kaitoy.sneo.giane.servletlistener.JmxAgentStarter</listener-class>
+  </listener>
   <!--  
   <listener>
-      <listener-class>com.github.kaitoy.sneo.giane.h2.TcpServerStarter</listener-class>
+      <listener-class>com.github.kaitoy.sneo.giane.servletlistener.TcpServerStarter</listener-class>
   </listener>
   <listener>
-      <listener-class>com.github.kaitoy.sneo.giane.h2.WebConsoleServerStarter</listener-class>
+      <listener-class>com.github.kaitoy.sneo.giane.servletlistener.WebConsoleServerStarter</listener-class>
   </listener>
   <listener>
-      <listener-class>com.github.kaitoy.sneo.giane.h2.PgServerStarter</listener-class>
+      <listener-class>com.github.kaitoy.sneo.giane.servletlistener.PgServerStarter</listener-class>
   </listener>
   -->
   

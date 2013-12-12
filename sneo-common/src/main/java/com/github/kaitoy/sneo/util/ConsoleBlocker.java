@@ -1,3 +1,10 @@
+/*_##########################################################################
+  _##
+  _##  Copyright (C) 2012-2013 Kaito Yamada
+  _##
+  _##########################################################################
+*/
+
 package com.github.kaitoy.sneo.util;
 
 import java.io.BufferedReader;
@@ -8,7 +15,7 @@ public class ConsoleBlocker {
 
   private ConsoleBlocker() { throw new AssertionError(); }
 
-  public static void block() {
+  public static void block(String message) {
     try {
       Thread.sleep(2000);
     } catch (InterruptedException e1) {}
@@ -17,7 +24,7 @@ public class ConsoleBlocker {
 
     try {
       r = new BufferedReader(new InputStreamReader(System.in));
-      System.out.println("** Hit Enter key to stop simulation **");
+      System.out.println(message);
       r.readLine();
     } catch (IOException e) {
       e.printStackTrace();

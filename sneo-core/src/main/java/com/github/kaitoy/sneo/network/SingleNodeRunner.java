@@ -210,7 +210,7 @@ public class SingleNodeRunner {
       vNode.start();
       jmxAgent.start();
 
-      ConsoleBlocker.block();
+      ConsoleBlocker.block("** Hit Enter key to stop simulation **");
 
       jmxAgent.stop();
       vNode.shutdown();
