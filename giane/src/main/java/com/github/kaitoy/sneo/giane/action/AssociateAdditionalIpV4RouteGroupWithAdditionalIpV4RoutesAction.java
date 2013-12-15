@@ -14,6 +14,10 @@ import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.InterceptorRef;
 import org.apache.struts2.convention.annotation.ParentPackage;
 import org.apache.struts2.convention.annotation.Result;
+import org.apache.struts2.interceptor.validation.SkipValidation;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import com.github.kaitoy.sneo.giane.action.message.AdditionalIpV4RouteMessage;
 import com.github.kaitoy.sneo.giane.action.message.AssociateActionMessage;
 import com.github.kaitoy.sneo.giane.model.AdditionalIpV4Route;
 import com.github.kaitoy.sneo.giane.model.AdditionalIpV4RouteGroup;
@@ -26,12 +30,15 @@ import com.opensymphony.xwork2.ActionSupport;
 @InterceptorRef("gianeDefaultStack")
 public class AssociateAdditionalIpV4RouteGroupWithAdditionalIpV4RoutesAction
 extends ActionSupport
-implements AssociateActionMessage {
+implements AssociateActionMessage, AdditionalIpV4RouteMessage {
 
   /**
    *
    */
   private static final long serialVersionUID = -1568203010254123584L;
+
+  private static final Logger logger
+    = LoggerFactory.getLogger(AssociateAdditionalIpV4RouteGroupWithAdditionalIpV4RoutesAction.class);
 
   private AdditionalIpV4RouteDao additionalIpV4RouteDao;
   private AdditionalIpV4RouteGroupDao additionalIpV4RouteGroupDao;
@@ -69,7 +76,8 @@ implements AssociateActionMessage {
   @Action(
     results = {
       @Result(name = "success", location = "dialog.jsp"),
-      @Result(name = "noChange", location = "dialog.jsp")
+      @Result(name = "noChange", location = "dialog.jsp"),
+      @Result(name = "error", location = "dialog.jsp")
     }
   )
   public String execute() throws Exception {
@@ -81,47 +89,63 @@ implements AssociateActionMessage {
       return "noChange";
     }
 
-    List<AdditionalIpV4Route> additionalIpV4Routes = new ArrayList<AdditionalIpV4Route>();
-    if (idList != null && idList.length() != 0) {
-      for (String strId: idList.split(",")) {
-        additionalIpV4Routes.add(additionalIpV4RouteDao.findByKey(Integer.valueOf(strId)));
-      }
-    }
-
-    Map<String, Object> params = ActionContext.getContext().getParameters();
-    Integer additionalIpV4RouteGroup_id = Integer.valueOf(((String[])params.get("additionalIpV4RouteGroup_id"))[0]);
-    AdditionalIpV4RouteGroup additionalIpV4RouteGroup = additionalIpV4RouteGroupDao.findByKey(additionalIpV4RouteGroup_id);
-
-    boolean foundAll = true;
-    for (AdditionalIpV4Route additionalIpV4Route: additionalIpV4Routes) {
-      boolean found = false;
-      for (AdditionalIpV4Route other: additionalIpV4RouteGroup.getAdditionalIpV4Routes()) {
-        if (additionalIpV4Route.getId().equals(other.getId())) {
-          found = true;
-          break;
+    try {
+      List<AdditionalIpV4Route> additionalIpV4Routes = new ArrayList<AdditionalIpV4Route>();
+      if (idList != null && idList.length() != 0) {
+        for (String strId: idList.split(",")) {
+          additionalIpV4Routes.add(additionalIpV4RouteDao.findByKey(Integer.valueOf(strId)));
         }
       }
-      if (!found) {
-        foundAll = false;
+
+      Map<String, Object> params = ActionContext.getContext().getParameters();
+      Integer additionalIpV4RouteGroup_id = Integer.valueOf(((String[])params.get("additionalIpV4RouteGroup_id"))[0]);
+      AdditionalIpV4RouteGroup additionalIpV4RouteGroup = additionalIpV4RouteGroupDao.findByKey(additionalIpV4RouteGroup_id);
+
+      boolean foundAll = true;
+      for (AdditionalIpV4Route additionalIpV4Route: additionalIpV4Routes) {
+        boolean found = false;
+        for (AdditionalIpV4Route other: additionalIpV4RouteGroup.getAdditionalIpV4Routes()) {
+          if (additionalIpV4Route.getId().equals(other.getId())) {
+            found = true;
+            break;
+          }
+        }
+        if (!found) {
+          foundAll = false;
+        }
       }
-    }
 
-    if (foundAll && additionalIpV4RouteGroup.getAdditionalIpV4Routes().size() == additionalIpV4Routes.size()) {
+      if (foundAll && additionalIpV4RouteGroup.getAdditionalIpV4Routes().size() == additionalIpV4Routes.size()) {
+        dialogTitleKey
+          = "associateAction.noChange.dialog.title";
+        dialogTextKey
+          = "associateAction.noChange.dialog.text";
+        return "noChange";
+      }
+
+      additionalIpV4RouteGroup.setAdditionalIpV4Routes(additionalIpV4Routes);
+      additionalIpV4RouteGroupDao.update(additionalIpV4RouteGroup);
+
       dialogTitleKey
-        = "associateAction.noChange.dialog.title";
+        = "associateAction.success.dialog.title";
       dialogTextKey
-        = "associateAction.noChange.dialog.text";
-      return "noChange";
+        = "associateAction.success.dialog.text";
+      return "success";
+    } catch (Exception e) {
+      logger.error("An error occurred: ", e);
+      dialogTitleKey = "associateAction.error.dialog.title";
+      dialogTextKey = "associateAction.error.dialog.text";
+      return "error";
     }
+  }
 
-    additionalIpV4RouteGroup.setAdditionalIpV4Routes(additionalIpV4Routes);
-    additionalIpV4RouteGroupDao.update(additionalIpV4RouteGroup);
-
-    dialogTitleKey
-      = "associateAction.success.dialog.title";
-    dialogTextKey
-      = "associateAction.success.dialog.text";
-    return "success";
+  @Action(
+    value = "associate-additional-ip-v4-route-group-with-additional-ip-v4-routes-grid-box",
+    results = { @Result(name = "grid", location = "associate-additional-ip-v4-route-group-with-additional-ip-v4-routes-grid.jsp")}
+  )
+  @SkipValidation
+  public String associationdGrid() throws Exception {
+    return "grid";
   }
 
 }

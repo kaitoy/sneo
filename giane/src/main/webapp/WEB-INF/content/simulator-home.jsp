@@ -14,7 +14,7 @@
     id="startSimiulator_tab_content"
     href="%{startSimiulator_tab_content_url}"
     indicator="startSimiulator_tab_indicator"
-    cssClass="giane-tab-content"
+    cssClass="giane-tab-content clearfix"
   />
   
   <sj:tab
@@ -30,7 +30,7 @@
     id="jmxConsole_tab_content"
     href="%{jmxConsole_tab_content_url}"
     indicator="jmxConsole_tab_indicator"
-    cssClass="giane-tab-content"
+    cssClass="giane-tab-content clearfix"
   />
 </sj:tabbedpanel>
 

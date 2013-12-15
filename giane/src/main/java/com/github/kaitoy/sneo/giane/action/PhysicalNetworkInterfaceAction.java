@@ -126,52 +126,6 @@ implements ModelDriven<PhysicalNetworkInterface>, ParameterAware, FormMessage,
   }
 
   @Action(
-    value = "l2-connection-associated-physical-network-interface-grid-box",
-    results = {
-      @Result(
-        name = "grid",
-        location = "l2-connection-associated-physical-network-interface-grid.jsp"
-      )
-    }
-  )
-  @SkipValidation
-  public String l2ConnectionAssociatedGrid() throws Exception {
-    return "grid";
-  }
-
-  @Action(
-    value = "l2-connection-unassociated-physical-network-interface-grid-box",
-    results = {
-      @Result(
-        name = "grid",
-        location = "l2-connection-unassociated-physical-network-interface-grid.jsp"
-      )
-    }
-  )
-  @SkipValidation
-  public String l2ConnectionUnassociatedGrid() throws Exception {
-    return "grid";
-  }
-
-  @Action(
-    value = "lag-associated-physical-network-interface-grid-box",
-    results = { @Result(name = "grid", location = "lag-associated-physical-network-interface-grid.jsp")}
-  )
-  @SkipValidation
-  public String lagAssociatedGrid() throws Exception {
-    return "grid";
-  }
-
-  @Action(
-    value = "lag-unassociated-physical-network-interface-grid-box",
-    results = { @Result(name = "grid", location = "lag-unassociated-physical-network-interface-grid.jsp")}
-  )
-  @SkipValidation
-  public String lagUnassociatedGrid() throws Exception {
-    return "grid";
-  }
-
-  @Action(
     value = "physical-network-interface-create",
     results = { @Result(name = "success", location = "empty.jsp") }
   )

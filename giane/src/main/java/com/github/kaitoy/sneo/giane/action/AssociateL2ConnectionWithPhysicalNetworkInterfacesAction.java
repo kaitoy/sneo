@@ -14,7 +14,11 @@ import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.InterceptorRef;
 import org.apache.struts2.convention.annotation.ParentPackage;
 import org.apache.struts2.convention.annotation.Result;
+import org.apache.struts2.interceptor.validation.SkipValidation;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import com.github.kaitoy.sneo.giane.action.message.AssociateActionMessage;
+import com.github.kaitoy.sneo.giane.action.message.PhysicalNetworkInterfaceMessage;
 import com.github.kaitoy.sneo.giane.model.L2Connection;
 import com.github.kaitoy.sneo.giane.model.PhysicalNetworkInterface;
 import com.github.kaitoy.sneo.giane.model.dao.L2ConnectionDao;
@@ -26,12 +30,15 @@ import com.opensymphony.xwork2.ActionSupport;
 @InterceptorRef("gianeDefaultStack")
 public class AssociateL2ConnectionWithPhysicalNetworkInterfacesAction
 extends ActionSupport
-implements AssociateActionMessage {
+implements AssociateActionMessage, PhysicalNetworkInterfaceMessage {
 
   /**
    *
    */
   private static final long serialVersionUID = -6021384373237360601L;
+
+  private static final Logger logger
+    = LoggerFactory.getLogger(AssociateL2ConnectionWithPhysicalNetworkInterfacesAction.class);
 
   private PhysicalNetworkInterfaceDao physicalNetworkInterfaceDao;
   private L2ConnectionDao l2ConnectionDao;
@@ -71,7 +78,8 @@ implements AssociateActionMessage {
   @Action(
     results = {
       @Result(name = "success", location = "dialog.jsp"),
-      @Result(name = "noChange", location = "dialog.jsp")
+      @Result(name = "noChange", location = "dialog.jsp"),
+      @Result(name = "error", location = "dialog.jsp")
     }
   )
   public String execute() throws Exception {
@@ -83,39 +91,60 @@ implements AssociateActionMessage {
       return "noChange";
     }
 
-    List<PhysicalNetworkInterface> pnifs = new ArrayList<PhysicalNetworkInterface>();
-    if (idList != null && idList.length() != 0) {
-      for (String strId: idList.split(",")) {
-        pnifs.add(physicalNetworkInterfaceDao.findByKey(Integer.valueOf(strId)));
+    try {
+      List<PhysicalNetworkInterface> pnifs = new ArrayList<PhysicalNetworkInterface>();
+      if (idList != null && idList.length() != 0) {
+        for (String strId: idList.split(",")) {
+          pnifs.add(physicalNetworkInterfaceDao.findByKey(Integer.valueOf(strId)));
+        }
       }
-    }
 
-    Map<String, Object> params = ActionContext.getContext().getParameters();
-    Integer l2Connection_id = Integer.valueOf(((String[])params.get("l2Connection_id"))[0]);
-    L2Connection l2Conn = l2ConnectionDao.findByKey(l2Connection_id);
+      Map<String, Object> params = ActionContext.getContext().getParameters();
+      Integer l2Connection_id = Integer.valueOf(((String[])params.get("l2Connection_id"))[0]);
+      L2Connection l2Conn = l2ConnectionDao.findByKey(l2Connection_id);
 
-    if (pnifs.equals(l2Conn.getPhysicalNetworkInterfaces())) {
-      dialogTitleKey = "associateAction.noChange.dialog.title";
-      dialogTextKey  = "associateAction.noChange.dialog.text";
-      return "noChange";
-    }
-
-    for (PhysicalNetworkInterface pnif: l2Conn.getPhysicalNetworkInterfaces()) {
-      if (!pnifs.contains(pnif)) {
-        pnif.setL2Connection(null);
-        physicalNetworkInterfaceDao.update(pnif);
+      if (pnifs.equals(l2Conn.getPhysicalNetworkInterfaces())) {
+        dialogTitleKey = "associateAction.noChange.dialog.title";
+        dialogTextKey  = "associateAction.noChange.dialog.text";
+        return "noChange";
       }
-    }
-    for (PhysicalNetworkInterface pnif: pnifs) {
-      if (!l2Conn.getPhysicalNetworkInterfaces().contains(pnif)) {
-        pnif.setL2Connection(l2Conn);
-        physicalNetworkInterfaceDao.update(pnif);
-      }
-    }
 
-    dialogTitleKey = "associateAction.success.dialog.title";
-    dialogTextKey = "associateAction.success.dialog.text";
-    return "success";
+      for (PhysicalNetworkInterface pnif: l2Conn.getPhysicalNetworkInterfaces()) {
+        if (!pnifs.contains(pnif)) {
+          pnif.setL2Connection(null);
+          physicalNetworkInterfaceDao.update(pnif);
+        }
+      }
+      for (PhysicalNetworkInterface pnif: pnifs) {
+        if (!l2Conn.getPhysicalNetworkInterfaces().contains(pnif)) {
+          pnif.setL2Connection(l2Conn);
+          physicalNetworkInterfaceDao.update(pnif);
+        }
+      }
+
+      dialogTitleKey = "associateAction.success.dialog.title";
+      dialogTextKey = "associateAction.success.dialog.text";
+      return "success";
+    } catch (Exception e) {
+      logger.error("An error occurred: ", e);
+      dialogTitleKey = "associateAction.error.dialog.title";
+      dialogTextKey = "associateAction.error.dialog.text";
+      return "error";
+    }
+  }
+
+  @Action(
+    value = "associate-l2-connection-with-physical-network-interfaces-grid-box",
+    results = {
+      @Result(
+        name = "grid",
+        location = "associate-l2-connection-with-physical-network-interfaces-grid.jsp"
+      )
+    }
+  )
+  @SkipValidation
+  public String associationdGridBox() throws Exception {
+    return "grid";
   }
 
 }

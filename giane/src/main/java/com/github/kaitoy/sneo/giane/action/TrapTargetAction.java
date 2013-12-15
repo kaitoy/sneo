@@ -99,24 +99,6 @@ implements ModelDriven<TrapTarget>, ParameterAware, FormMessage, TrapTargetMessa
   }
 
   @Action(
-    value = "trap-target-group-associated-trap-target-grid-box",
-    results = { @Result(name = "grid", location = "trap-target-group-associated-trap-target-grid.jsp")}
-  )
-  @SkipValidation
-  public String trapTargetGroupAssociatedGrid() throws Exception {
-    return "grid";
-  }
-
-  @Action(
-    value = "trap-target-group-unassociated-trap-target-grid-box",
-    results = { @Result(name = "grid", location = "trap-target-group-unassociated-trap-target-grid.jsp")}
-  )
-  @SkipValidation
-  public String trapTargetGroupUnassociatedGrid() throws Exception {
-    return "grid";
-  }
-
-  @Action(
     value = "trap-target-create",
     results = { @Result(name = "success", location = "empty.jsp") }
   )

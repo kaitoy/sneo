@@ -16,7 +16,7 @@
     <s:param name="ipAddressRelation_id" value="%{ipAddressRelation_id}" />
     <s:param name="tabIndex" value="0" />
   </s:url>
-  <sj:div id="ipAddress_tab_content" href="%{ipAddress_tab_content_url}" indicator="ipAddress_tab_indicator" cssClass="giane-tab-content" />
+  <sj:div id="ipAddress_tab_content" href="%{ipAddress_tab_content_url}" indicator="ipAddress_tab_indicator" cssClass="giane-tab-content clearfix" />
 </sj:tabbedpanel>
 
 <img id="ipAddress_tab_indicator" src="images/loading_big.gif" alt="Loading..." style="display: none;" class="giane-tab-indicator" />

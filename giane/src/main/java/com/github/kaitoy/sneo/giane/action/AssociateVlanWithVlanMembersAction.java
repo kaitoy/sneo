@@ -14,7 +14,11 @@ import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.InterceptorRef;
 import org.apache.struts2.convention.annotation.ParentPackage;
 import org.apache.struts2.convention.annotation.Result;
+import org.apache.struts2.interceptor.validation.SkipValidation;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import com.github.kaitoy.sneo.giane.action.message.AssociateActionMessage;
+import com.github.kaitoy.sneo.giane.action.message.VlanMemberMessage;
 import com.github.kaitoy.sneo.giane.model.Vlan;
 import com.github.kaitoy.sneo.giane.model.VlanMember;
 import com.github.kaitoy.sneo.giane.model.dao.VlanDao;
@@ -25,12 +29,15 @@ import com.opensymphony.xwork2.ActionSupport;
 @ParentPackage("giane-default")
 @InterceptorRef("gianeDefaultStack")
 public class AssociateVlanWithVlanMembersAction extends ActionSupport
-implements AssociateActionMessage {
+implements AssociateActionMessage, VlanMemberMessage {
 
   /**
    *
    */
   private static final long serialVersionUID = 433422932342221678L;
+
+  private static final Logger logger
+    = LoggerFactory.getLogger(AssociateVlanWithVlanMembersAction.class);
 
   private VlanMemberDao vlanMemberDao;
   private VlanDao vlanDao;
@@ -68,7 +75,8 @@ implements AssociateActionMessage {
   @Action(
     results = {
       @Result(name = "success", location = "dialog.jsp"),
-      @Result(name = "noChange", location = "dialog.jsp")
+      @Result(name = "noChange", location = "dialog.jsp"),
+      @Result(name = "error", location = "dialog.jsp")
     }
   )
   public String execute() throws Exception {
@@ -80,47 +88,63 @@ implements AssociateActionMessage {
       return "noChange";
     }
 
-    List<VlanMember> members = new ArrayList<VlanMember>();
-    if (idList != null && idList.length() != 0) {
-      for (String strId: idList.split(",")) {
-        members.add(vlanMemberDao.findByKey(Integer.valueOf(strId)));
-      }
-    }
-
-    Map<String, Object> params = ActionContext.getContext().getParameters();
-    Integer vlan_id = Integer.valueOf(((String[])params.get("vlan_id"))[0]);
-    Vlan vlan = vlanDao.findByKey(vlan_id);
-
-    boolean foundAll = true;
-    for (VlanMember member: members) {
-      boolean found = false;
-      for (VlanMember other: vlan.getVlanMembers()) {
-        if (member.getId().equals(other.getId())) {
-          found = true;
-          break;
+    try {
+      List<VlanMember> members = new ArrayList<VlanMember>();
+      if (idList != null && idList.length() != 0) {
+        for (String strId: idList.split(",")) {
+          members.add(vlanMemberDao.findByKey(Integer.valueOf(strId)));
         }
       }
-      if (!found) {
-        foundAll = false;
+
+      Map<String, Object> params = ActionContext.getContext().getParameters();
+      Integer vlan_id = Integer.valueOf(((String[])params.get("vlan_id"))[0]);
+      Vlan vlan = vlanDao.findByKey(vlan_id);
+
+      boolean foundAll = true;
+      for (VlanMember member: members) {
+        boolean found = false;
+        for (VlanMember other: vlan.getVlanMembers()) {
+          if (member.getId().equals(other.getId())) {
+            found = true;
+            break;
+          }
+        }
+        if (!found) {
+          foundAll = false;
+        }
       }
-    }
 
-    if (foundAll && vlan.getVlanMembers().size() == members.size()) {
+      if (foundAll && vlan.getVlanMembers().size() == members.size()) {
+        dialogTitleKey
+          = "associateAction.noChange.dialog.title";
+        dialogTextKey
+          = "associateAction.noChange.dialog.text";
+        return "noChange";
+      }
+
+      vlan.setVlanMembers(members);
+      vlanDao.update(vlan);
+
       dialogTitleKey
-        = "associateAction.noChange.dialog.title";
+        = "associateAction.success.dialog.title";
       dialogTextKey
-        = "associateAction.noChange.dialog.text";
-      return "noChange";
+        = "associateAction.success.dialog.text";
+      return "success";
+    } catch (Exception e) {
+      logger.error("An error occurred: ", e);
+      dialogTitleKey = "associateAction.error.dialog.title";
+      dialogTextKey = "associateAction.error.dialog.text";
+      return "error";
     }
+  }
 
-    vlan.setVlanMembers(members);
-    vlanDao.update(vlan);
-
-    dialogTitleKey
-      = "associateAction.success.dialog.title";
-    dialogTextKey
-      = "associateAction.success.dialog.text";
-    return "success";
+  @Action(
+    value = "associate-vlan-with-vlan-members-grid-box",
+    results = { @Result(name = "grid", location = "associate-vlan-with-vlan-members-grid.jsp")}
+  )
+  @SkipValidation
+  public String associationGrid() throws Exception {
+    return "grid";
   }
 
 }

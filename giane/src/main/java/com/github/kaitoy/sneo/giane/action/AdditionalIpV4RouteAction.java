@@ -103,25 +103,6 @@ implements ModelDriven<AdditionalIpV4Route>, ParameterAware, FormMessage, Additi
   }
 
   @Action(
-      value = "additional-ip-v4-route-group-associated-additional-ip-v4-route-grid-box",
-      results = { @Result(name = "grid", location = "additional-ip-v4-route-group-associated-additional-ip-v4-route-grid.jsp")}
-    )
-    @SkipValidation
-    public String additionalIpV4RouteGroupAssociatedGrid() throws Exception {
-      return "grid";
-    }
-
-    @Action(
-      value = "additional-ip-v4-route-group-unassociated-additional-ip-v4-route-grid-box",
-      results = { @Result(name = "grid", location = "additional-ip-v4-route-group-unassociated-additional-ip-v4-route-grid.jsp")}
-    )
-    @SkipValidation
-    public String additionalIpV4RouteGroupUnassociatedGrid() throws Exception {
-      return "grid";
-    }
-
-
-  @Action(
     value = "additional-ip-v4-route-create",
     results = {@Result(name = "success", location = "empty.jsp")}
   )

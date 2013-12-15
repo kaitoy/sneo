@@ -29,7 +29,7 @@
     id="associate_additionalIpV4RouteGroup_with_additionalIpV4Routes_tab_content"
     href="%{associate_additionalIpV4RouteGroup_with_additionalIpV4Routes_tab_content_url}"
     indicator="associate_additionalIpV4RouteGroup_with_additionalIpV4Routes_tab_indicator"
-    cssClass="giane-tab-content"
+    cssClass="giane-tab-content clearfix"
   />
 </sj:tabbedpanel>
 

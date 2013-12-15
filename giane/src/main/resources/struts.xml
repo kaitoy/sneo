@@ -34,30 +34,15 @@
 
       <interceptor-stack name="gianeDefaultStack">
         <interceptor-ref name="entityManagerInjectionInterceptor" />
-        <interceptor-ref name="basicStack" >
+        <interceptor-ref name="basicStack">
           <param name="exception.logEnabled">true</param>
           <param name="exception.logLevel">ERROR</param>
         </interceptor-ref>
-        <interceptor-ref name="validation">
-          <param name="excludeMethods">input,back,cancel</param>
-        </interceptor-ref>
-        <interceptor-ref name="jsonValidation"/>
-        <interceptor-ref name="workflow"/>
-        <interceptor-ref name="tabSelectorInterceptor"/>
+        <interceptor-ref name="validation" />
+        <interceptor-ref name="jsonValidation" />
+        <interceptor-ref name="workflow" />
+        <interceptor-ref name="tabSelectorInterceptor" />
       </interceptor-stack>
-
-      <!--
-      <interceptor-stack name="gianeHibernateValidationStack">
-        <interceptor-ref name="entityManagerInjectionInterceptor" />
-        <interceptor-ref name="basicStack"/>
-        <interceptor-ref name="validation">
-          <param name="excludeMethods">input,back,cancel</param>
-        </interceptor-ref>
-        <interceptor-ref name="hibernateValidatorInterceptor"/>
-        <interceptor-ref name="jsonValidation"/>
-        <interceptor-ref name="workflow"/>
-      </interceptor-stack>
-      -->
 
     </interceptors>
 

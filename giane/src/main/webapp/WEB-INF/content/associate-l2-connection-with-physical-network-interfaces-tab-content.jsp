@@ -3,28 +3,33 @@
 <%@ taglib prefix="sj" uri="/struts-jquery-tags" %>
 <%@ taglib prefix="sjg" uri="/struts-jquery-grid-tags" %>
 
-<div class="association-container">
-  <div id="associate_l2Connection_with_physicalNetworkInterfaces_wapper_column" class="association-wrapper-column">
-    <s:url var="l2Connection_associated_physicalNetworkInterface_grid_box_url" action="l2-connection-associated-physical-network-interface-grid-box"  escapeAmp="false">
-      <s:param name="l2Connection_id" value="%{#parameters.l2Connection_id}" />
-      <s:param name="l2Connection_name" value="%{#parameters.l2Connection_name}" />
-    </s:url>
-    <sj:div
-      id="associate_l2Connection_with_physicalNetworkInterfaces_left_column"
-      href="%{l2Connection_associated_physicalNetworkInterface_grid_box_url}"
-      indicator="associate_l2Connection_with_physicalNetworkInterfaces_left_column_indicator"
-      cssClass="association-left-column"
-    >
-      <img
-        id="associate_l2Connection_with_physicalNetworkInterfaces_left_column_indicator"
-        src="images/loading_middle.gif"
-        alt="Loading..."
-        style="display: none;"
-        class="association-grid-indicator"
-      />
-    </sj:div>
+<div class="association-container clearfix">
+  <s:url
+    var="l2Connection_associated_physicalNetworkInterface_grid_box_url"
+    action="associate-l2-connection-with-physical-network-interfaces-grid-box"
+    escapeAmp="false"
+  >
+    <s:param name="l2Connection_id" value="%{#parameters.l2Connection_id}" />
+    <s:param name="gridId" value="'l2Connection_associated_physicalNetworkInterface_grid'" />
+    <s:param name="gridAction" value="'l2-connection-associated-physical-network-interface-grid'" />
+    <s:param name="gridCaption" value="'l2Connection.associated.physicalNetworkInterface.grid.caption'" />
+    <s:param name="gridWidth" value="300" />
+  </s:url>
+  <sj:div
+    href="%{l2Connection_associated_physicalNetworkInterface_grid_box_url}"
+    indicator="l2Connection_associated_physicalNetworkInterface_grid_box_indicator"
+    cssClass="association-associated-grid-box"
+  />
+  <img
+    id="l2Connection_associated_physicalNetworkInterface_grid_box_indicator"
+    src="images/loading_middle.gif"
+    alt="Loading..."
+    style="display: none;"
+    class="association-grid-indicator"
+  />
 
-    <div id="associate_l2Connection_with_physicalNetworkInterfaces_middle_column" class="association-middle-column">
+  <div class="association-buttons-box">
+    <div>
       <sj:a
         id="remove_from_l2Connection_unassociated_physicalNetworkInterface_grid"
         onClickTopics="association_group"
@@ -32,7 +37,8 @@
       >
         <img src="images/arrow_left.png" alt="associate" class="association-arrow" />
       </sj:a>
-      <br /><br />
+    </div>
+    <div>
       <sj:a
         id="remove_from_l2Connection_associated_physicalNetworkInterface_grid"
         onClickTopics="association_group"
@@ -40,64 +46,55 @@
       >
         <img src="images/arrow_right.png" alt="unassociate" class="association-arrow" />
       </sj:a>
-      <br /><br />
+    </div>
+    <div>
       <s:form id="save_l2Connection_associated_physicalNetworkInterface_grid_form" theme="simple">
         <s:url var="associate_l2Connection_with_physicalNetworkInterfaces_url" action="associate-l2-connection-with-physical-network-interfaces">
           <s:param name="l2Connection_id" value="%{#parameters.l2Connection_id}" />
         </s:url>
-        <div class="type-hidden">
-          <s:hidden id="l2Connection_associated_physicalNetworkInterface_grid_id_list" name="idList" value="undefined" />
+        <s:hidden id="l2Connection_associated_physicalNetworkInterface_grid_id_list" name="idList" value="undefined" />
+        <div>
+          <sj:submit
+            id="save_l2Connection_associated_physicalNetworkInterface_grid"
+            href="%{associate_l2Connection_with_physicalNetworkInterfaces_url}"
+            targets="shared_dialog_box"
+            replaceTarget="false"
+            validate="false"
+            button="true"
+            indicator="associate_l2Connection_with_physicalNetworkInterfaces_indicator"
+            value="%{getText('associateAction.save.button.value')}"
+          />
         </div>
-        <sj:submit
-          id="save_l2Connection_associated_physicalNetworkInterface_grid"
-          href="%{associate_l2Connection_with_physicalNetworkInterfaces_url}"
-          targets="shared_dialog_box"
-          replaceTarget="false"
-          validate="false"
-          onErrorTopics="save_l2Connection_associated_physicalNetworkInterface_grid_error"
-          button="true"
-          indicator="associate_l2Connection_with_physicalNetworkInterfaces_indicator"
-          value="%{getText('associateAction.save.button.value')}"
-        />
-        <br />
         <img id="associate_l2Connection_with_physicalNetworkInterfaces_indicator" src="images/loading_small.gif" alt="Loading..." style="display: none;" />
       </s:form>
     </div>
   </div>
-
-  <s:url var="l2Connection_unassociated_physicalNetworkInterface_grid_box_url" action="l2-connection-unassociated-physical-network-interface-grid-box"  escapeAmp="false">
+  
+  <s:url
+    var="l2Connection_unassociated_physicalNetworkInterface_grid_box_url"
+    action="associate-l2-connection-with-physical-network-interfaces-grid-box"
+    escapeAmp="false"
+  >
     <s:param name="network_id" value="%{#parameters.network_id}" />
     <s:param name="l2Connection_id" value="%{#parameters.l2Connection_id}" />
-    <s:param name="l2Connection_name" value="%{#parameters.l2Connection_name}" />
+    <s:param name="gridId" value="'l2Connection_unassociated_physicalNetworkInterface_grid'" />
+    <s:param name="gridAction" value="'l2-connection-unassociated-physical-network-interface-grid'" />
+    <s:param name="gridCaption" value="'l2Connection.unassociated.physicalNetworkInterface.grid.caption'" />
+    <s:param name="groupField">
+      ["nodeName"]
+    </s:param>
+    <s:param name="gridWidth" value="450" />
   </s:url>
   <sj:div
-    id="associate_l2Connection_with_physicalNetworkInterfaces_right_column"
     href="%{l2Connection_unassociated_physicalNetworkInterface_grid_box_url}"
-    indicator="associate_l2Connection_with_physicalNetworkInterfaces_right_column_indicator"
-    cssClass="association-right-column"
-  >
-    <img
-      id="associate_l2Connection_with_physicalNetworkInterfaces_right_column_indicator"
-      src="images/loading_middle.gif"
-      alt="Loading..."
-      style="display: none;"
-      class="association-grid-indicator"
-    />
-  </sj:div>
-
-  <sj:dialog
-    id="save_l2Connection_associated_physicalNetworkInterface_grid_error_dialog"
-    openTopics="save_l2Connection_associated_physicalNetworkInterface_grid_error"
-    showEffect="scale"
-    hideEffect="puff"
-    autoOpen="false"
-    modal="true"
-    title="%{getText('associateAction.error.dialog.title')}"
-    buttons="{
-      'OK': function() {$('#save_l2Connection_associated_physicalNetworkInterface_grid_error_dialog').dialog('close'); }
-    }"
-    dialogClass="giane-dialog"
-  >
-    <s:text name="associateAction.error.dialog.text" />
-  </sj:dialog>
+    indicator="l2Connection_unassociated_physicalNetworkInterface_grid_box_indicator"
+    cssClass="association-unassociated-grid-box"
+  />
+  <img
+    id="l2Connection_unassociated_physicalNetworkInterface_grid_box_indicator"
+    src="images/loading_middle.gif"
+    alt="Loading..."
+    style="display: none;"
+    class="association-grid-indicator"
+  />
 </div>

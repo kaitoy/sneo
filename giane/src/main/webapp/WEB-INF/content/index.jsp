@@ -15,6 +15,7 @@
     <link rel="stylesheet" type="text/css" href="css/association.css" />
     <link rel="stylesheet" type="text/css" href="css/odd_even_table.css" />
     <link rel="stylesheet" type="text/css" href="css/breadcrumbs.css" />
+    <link rel="stylesheet" type="text/css" href="css/common.css" />
     <link rel="shortcut icon" type="image/png" href="images/favicon.png" />
     <script type="text/javascript" src="js/form.js"></script>
     <script type="text/javascript" src="js/validation.js"></script>
