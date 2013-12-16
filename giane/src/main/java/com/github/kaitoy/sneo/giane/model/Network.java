@@ -70,8 +70,8 @@ public class Network implements Serializable, FormMessage {
   )
   @RegexFieldValidator(
     key = "RegexFieldValidator.error",
-   // this field's value is used for an MBean object name, and may be used in a command line.
-    expression = "[a-zA-Z0-9#%\\-+/_@\\[\\]{}]+",
+    // this field's value is/will be used for an MBean object name, and may be used in a command line.
+    expression = "[^,=:\"*?]+",
     shortCircuit = true
   )
   public void setName(String name) {

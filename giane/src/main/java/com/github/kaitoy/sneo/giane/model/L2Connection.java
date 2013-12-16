@@ -24,6 +24,7 @@ import javax.persistence.Table;
 import com.github.kaitoy.sneo.giane.action.message.FormMessage;
 import com.github.kaitoy.sneo.network.dto.L2ConnectionDto;
 import com.github.kaitoy.sneo.network.dto.PhysicalNetworkInterfaceDto;
+import com.opensymphony.xwork2.validator.annotations.RegexFieldValidator;
 import com.opensymphony.xwork2.validator.annotations.RequiredStringValidator;
 import com.opensymphony.xwork2.validator.annotations.StringLengthFieldValidator;
 
@@ -67,6 +68,12 @@ public class L2Connection implements Serializable, FormMessage {
     key = "StringLengthFieldValidator.error.max",
     trim = true,
     maxLength = "1000",
+    shortCircuit = true
+  )
+  @RegexFieldValidator(
+    key = "RegexFieldValidator.error",
+    // this field's value is/will be used for an MBean object name, and may be used in a command line.
+    expression = "[^,=:\"*?]+",
     shortCircuit = true
   )
   public void setName(String name) {
