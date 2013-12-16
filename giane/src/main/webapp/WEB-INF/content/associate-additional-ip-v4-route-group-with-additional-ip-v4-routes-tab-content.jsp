@@ -3,7 +3,7 @@
 <%@ taglib prefix="sj" uri="/struts-jquery-tags" %>
 <%@ taglib prefix="sjg" uri="/struts-jquery-grid-tags" %>
 
-<div class="association-container clearfix">
+<div class="association-container">
   <s:url
     var="additionalIpV4RouteGroup_associated_additionalIpV4Route_grid_box_url"
     action="associate-additional-ip-v4-route-group-with-additional-ip-v4-routes-grid-box"

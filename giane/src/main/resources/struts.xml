@@ -34,6 +34,7 @@
 
       <interceptor-stack name="gianeDefaultStack">
         <interceptor-ref name="entityManagerInjectionInterceptor" />
+        <interceptor-ref name="i18n" />
         <interceptor-ref name="basicStack">
           <param name="exception.logEnabled">true</param>
           <param name="exception.logLevel">ERROR</param>

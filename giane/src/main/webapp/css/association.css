@@ -3,6 +3,12 @@
   margin: 0 auto;
 }
 
+.association-container:after {
+  content: "";
+  clear: both;
+  display: block;
+}
+
 .association-container .ui-jqgrid {
   margin: 0 auto;
 }

@@ -30,7 +30,7 @@
     id="associate_l2Connection_with_physicalNetworkInterfaces_tab_content"
     href="%{associate_l2Connection_with_physicalNetworkInterfaces_tab_content_url}"
     indicator="associate_l2Connection_with_physicalNetworkInterfaces_tab_indicator"
-    cssClass="giane-tab-content clearfix"
+    cssClass="giane-tab-content"
   />
 </sj:tabbedpanel>
 

@@ -3,7 +3,7 @@
 <%@ taglib prefix="sj" uri="/struts-jquery-tags" %>
 <%@ taglib prefix="sjg" uri="/struts-jquery-grid-tags" %>
 
-<div class="association-container clearfix">
+<div class="association-container">
   <s:url
     var="l2Connection_associated_physicalNetworkInterface_grid_box_url"
     action="associate-l2-connection-with-physical-network-interfaces-grid-box"

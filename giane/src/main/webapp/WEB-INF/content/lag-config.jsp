@@ -30,7 +30,7 @@
     id="associate_lag_with_physicalNetworkInterfaces_tab_content"
     href="%{associate_lag_with_physicalNetworkInterfaces_tab_content_url}"
     indicator="associate_lag_with_physicalNetworkInterfaces_tab_indicator"
-    cssClass="giane-tab-content clearfix"
+    cssClass="giane-tab-content"
   />
   
   <sj:tab id="ipAddress_tab" target="ipAddress_tab_content" label="%{getText('lag.config.ipAddress.tab.label')}" />
@@ -38,7 +38,7 @@
     <s:param name="ipAddressRelation_id" value="%{ipAddressRelation_id}" />
     <s:param name="tabIndex" value="1" />
   </s:url>
-  <sj:div id="ipAddress_tab_content" href="%{ipAddress_tab_content_url}" indicator="ipAddress_tab_indicator" cssClass="giane-tab-content clearfix" />
+  <sj:div id="ipAddress_tab_content" href="%{ipAddress_tab_content_url}" indicator="ipAddress_tab_indicator" cssClass="giane-tab-content" />
 </sj:tabbedpanel>
 
 <img

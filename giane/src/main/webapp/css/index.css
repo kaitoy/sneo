@@ -1,10 +1,34 @@
-div#header {
+#header {
   height: 30px;
   line-height: 30px;
   width: 100%;
-  text-align: center;
   background-color: #696969;
-  color: white;
+}
+
+#header:after {
+  content: "";
+  clear: both;
+  display: block;
+}
+
+#header_title {
+  color: #FFFFFF;
+  font-weight: bold;
+  margin-left: 10px;
+}
+
+#localeSelector {
+  float: right;
+  margin-right: 10px;
+}
+
+#localeSelector_indicator_wapper {
+  float: right;
+  margin-right: 10px;
+}
+
+#contents_container {
+  padding: 5px 0;
 }
 
 img#contents_container_indicator {
@@ -15,11 +39,17 @@ img#contents_container_indicator {
   margin: 0 -50px;
 }
 
-div#footer {
+#footer {
   height: 30px;
   line-height: 30px;
-  text-align: center;
+  text-align: right;
   width: 100%;
   background-color: #696969;
   color: white;
+}
+
+#footer_url {
+  color: #FFFFFF;
+  font-weight: bold;
+  margin-right: 10px;
 }

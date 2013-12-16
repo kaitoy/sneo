@@ -15,7 +15,6 @@
     <link rel="stylesheet" type="text/css" href="css/association.css" />
     <link rel="stylesheet" type="text/css" href="css/odd_even_table.css" />
     <link rel="stylesheet" type="text/css" href="css/breadcrumbs.css" />
-    <link rel="stylesheet" type="text/css" href="css/common.css" />
     <link rel="shortcut icon" type="image/png" href="images/favicon.png" />
     <script type="text/javascript" src="js/form.js"></script>
     <script type="text/javascript" src="js/validation.js"></script>
@@ -27,22 +26,42 @@
     <title>Giane</title>
   </head>
   <body>
-    <div id="header">Giane</div>
-
-    <div id="contents_container">
-      <s:url var="signIn_url" action="sign-in" />
+    
+    <div id="header">
+      <span id="header_title">Giane</span>
+      <s:url var="localeSelector_url" action="locale-selector" />
       <sj:div
-        id="signIn"
-        href="%{signIn_url}"
-        indicator="contents_container_indicator"
+        id="localeSelector"
+        href="%{localeSelector_url}"
+        indicator="localeSelector_indicator"
+        onCompleteTopics="localeSelectorCompleted"
       />
+      <span id="localeSelector_indicator_wapper">
+        <img
+          id="localeSelector_indicator"
+          src="images/loading_small_white.gif"
+          alt="Loading..."
+          style="display: none;"
+        />
+      </span>
     </div>
+
+    <s:url var="signIn_url" action="sign-in" />
+    <sj:div
+      id="contents_container"
+      href="%{signIn_url}"
+      indicator="contents_container_indicator"
+      listenTopics="localeSelectorCompleted,localeChangeCompleted"
+      deferredLoading="true"
+    />
 
     <img id="contents_container_indicator" src="images/loading_big.gif" alt="Loading..." style="display: none;" />
     <div id="trash_box" style="display: none;"></div>
     <div id="shared_dialog_box" style="display: none;"></div>
 
-    <div id="footer">Footer</div>
+    <div id="footer">
+      <a id="footer_url" href="https://github.com/kaitoy/sneo" target="_blank">https://github.com/kaitoy/sneo</a>
+    </div>
   </body>
 </html>
 

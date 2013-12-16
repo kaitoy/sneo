@@ -27,6 +27,12 @@
   min-width: 950px;
 }
 
+.giane-tab-content:after {
+  content: "";
+  clear: both;
+  display: block;
+}
+
 .giane-grid-box .ui-jqgrid {
   margin: 0 auto;
 }
