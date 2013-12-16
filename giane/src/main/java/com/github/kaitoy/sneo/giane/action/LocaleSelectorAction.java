@@ -41,7 +41,7 @@ implements ServletRequestAware, SessionAware {
 
   static {
     locales.put(Locale.ENGLISH, "English");
-    locales.put(Locale.JAPANESE, "Japanese");
+    locales.put(Locale.JAPANESE, "日本語");
   }
 
   public Locale getCurrentLocale() {
@@ -71,14 +71,22 @@ implements ServletRequestAware, SessionAware {
   )
   @SkipValidation
   public String execute() throws Exception {
-    Locale reqLocale = new Locale(request.getLocale().getLanguage());
-    if (locales.containsKey(reqLocale)) {
-      currentLocale = reqLocale;
+    synchronized (session) {
+      Locale sessionLocale = (Locale)session.get(I18nInterceptor.DEFAULT_SESSION_ATTRIBUTE);
+      if (sessionLocale == null) {
+        Locale reqLocale = new Locale(request.getLocale().getLanguage());
+        if (locales.containsKey(reqLocale)) {
+          currentLocale = reqLocale;
+        }
+        else {
+          currentLocale = DEFAULT_LOCALE;
+        }
+        session.put(I18nInterceptor.DEFAULT_SESSION_ATTRIBUTE, currentLocale);
+      }
+      else {
+        currentLocale = sessionLocale;
+      }
     }
-    else {
-      currentLocale = DEFAULT_LOCALE;
-    }
-    session.put(I18nInterceptor.DEFAULT_SESSION_ATTRIBUTE, currentLocale);
 
     return "success";
   }
