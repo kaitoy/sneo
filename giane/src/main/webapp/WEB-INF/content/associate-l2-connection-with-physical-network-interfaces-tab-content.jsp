@@ -12,7 +12,7 @@
     <s:param name="l2Connection_id" value="%{#parameters.l2Connection_id}" />
     <s:param name="gridId" value="'l2Connection_associated_physicalNetworkInterface_grid'" />
     <s:param name="gridAction" value="'l2-connection-associated-physical-network-interface-grid'" />
-    <s:param name="gridCaption" value="'l2Connection.associated.physicalNetworkInterface.grid.caption'" />
+    <s:param name="gridCaption" value="%{getText('l2Connection.associated.physicalNetworkInterface.grid.caption')}" />
     <s:param name="gridWidth" value="300" />
   </s:url>
   <sj:div
@@ -79,7 +79,7 @@
     <s:param name="l2Connection_id" value="%{#parameters.l2Connection_id}" />
     <s:param name="gridId" value="'l2Connection_unassociated_physicalNetworkInterface_grid'" />
     <s:param name="gridAction" value="'l2-connection-unassociated-physical-network-interface-grid'" />
-    <s:param name="gridCaption" value="'l2Connection.unassociated.physicalNetworkInterface.grid.caption'" />
+    <s:param name="gridCaption" value="%{getText('l2Connection.unassociated.physicalNetworkInterface.grid.caption')}" />
     <s:param name="groupField">
       ["nodeName"]
     </s:param>

@@ -12,7 +12,7 @@
     <s:param name="trapTargetGroup_id" value="%{#parameters.trapTargetGroup_id}" />
     <s:param name="gridId" value="'trapTargetGroup_associated_trapTarget_grid'" />
     <s:param name="gridAction" value="'trap-target-group-associated-trap-target-grid'" />
-    <s:param name="gridCaption" value="'trapTargetGroup.associated.trapTarget.grid.caption'" />
+    <s:param name="gridCaption" value="%{getText('trapTargetGroup.associated.trapTarget.grid.caption')}" />
   </s:url>
   <sj:div
     href="%{trapTargetGroup_associated_trapTarget_grid_box_url}"
@@ -77,7 +77,7 @@
     <s:param name="trapTargetGroup_id" value="%{#parameters.trapTargetGroup_id}" />
     <s:param name="gridId" value="'trapTargetGroup_unassociated_trapTarget_grid'" />
     <s:param name="gridAction" value="'trap-target-group-unassociated-trap-target-grid'" />
-    <s:param name="gridCaption" value="'trapTargetGroup.unassociated.trapTarget.grid.caption'" />
+    <s:param name="gridCaption" value="%{getText('trapTargetGroup.unassociated.trapTarget.grid.caption')}" />
   </s:url>
   <sj:div
     href="%{trapTargetGroup_unassociated_trapTarget_grid_box_url}"

@@ -13,7 +13,7 @@
     <s:param name="vlan_id" value="%{#parameters.vlan_id}" />
     <s:param name="gridId" value="'vlan_associated_vlanMember_grid'" />
     <s:param name="gridAction" value="'vlan-associated-vlan-member-grid'" />
-    <s:param name="gridCaption" value="'vlan.associated.vlanMember.grid.caption'" />
+    <s:param name="gridCaption" value="%{getText('vlan.associated.vlanMember.grid.caption')}" />
   </s:url>
   <sj:div
     href="%{vlan_associated_vlanMember_grid_box_url}"
@@ -79,7 +79,7 @@
     <s:param name="vlan_id" value="%{#parameters.vlan_id}" />
     <s:param name="gridId" value="'vlan_unassociated_vlanMember_grid'" />
     <s:param name="gridAction" value="'vlan-unassociated-vlan-member-grid'" />
-    <s:param name="gridCaption" value="'vlan.unassociated.vlanMember.grid.caption'" />
+    <s:param name="gridCaption" value="%{getText('vlan.unassociated.vlanMember.grid.caption')}" />
   </s:url>
   <sj:div
     href="%{vlan_unassociated_vlanMember_grid_box_url}"

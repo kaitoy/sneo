@@ -12,7 +12,7 @@
     <s:param name="additionalIpV4RouteGroup_id" value="%{#parameters.additionalIpV4RouteGroup_id}" />
     <s:param name="gridId" value="'additionalIpV4RouteGroup_associated_additionalIpV4Route_grid'" />
     <s:param name="gridAction" value="'additional-ip-v4-route-group-associated-additional-ip-v4-route-grid'" />
-    <s:param name="gridCaption" value="'additionalIpV4RouteGroup.associated.additionalIpV4Route.grid.caption'" />
+    <s:param name="gridCaption" value="%{getText('additionalIpV4RouteGroup.associated.additionalIpV4Route.grid.caption')}" />
   </s:url>
   <sj:div
     href="%{additionalIpV4RouteGroup_associated_additionalIpV4Route_grid_box_url}"
@@ -77,7 +77,7 @@
     <s:param name="additionalIpV4RouteGroup_id" value="%{#parameters.additionalIpV4RouteGroup_id}" />
     <s:param name="gridId" value="'additionalIpV4RouteGroup_unassociated_additionalIpV4Route_grid'" />
     <s:param name="gridAction" value="'additional-ip-v4-route-group-unassociated-additional-ip-v4-route-grid'" />
-    <s:param name="gridCaption" value="'additionalIpV4RouteGroup.unassociated.additionalIpV4Route.grid.caption'" />
+    <s:param name="gridCaption" value="%{getText('additionalIpV4RouteGroup.unassociated.additionalIpV4Route.grid.caption')}" />
   </s:url>
   <sj:div
     href="%{additionalIpV4RouteGroup_unassociated_additionalIpV4Route_grid_box_url}"

@@ -13,7 +13,7 @@
     <s:param name="lag_id" value="%{#parameters.lag_id}" />
     <s:param name="gridId" value="'lag_associated_physicalNetworkInterface_grid'" />
     <s:param name="gridAction" value="'lag-associated-physical-network-interface-grid'" />
-    <s:param name="gridCaption" value="'lag.associated.physicalNetworkInterface.grid.caption'" />
+    <s:param name="gridCaption" value="%{getText('lag.associated.physicalNetworkInterface.grid.caption')}" />
   </s:url>
   <sj:div
     href="%{lag_associated_physicalNetworkInterface_grid_box_url}"
@@ -88,7 +88,7 @@
     <s:param name="lag_id" value="%{#parameters.lag_id}" />
     <s:param name="gridId" value="'lag_unassociated_physicalNetworkInterface_grid'" />
     <s:param name="gridAction" value="'lag-unassociated-physical-network-interface-grid'" />
-    <s:param name="gridCaption" value="'lag.unassociated.physicalNetworkInterface.grid.caption'" />
+    <s:param name="gridCaption" value="%{getText('lag.unassociated.physicalNetworkInterface.grid.caption')}" />
   </s:url>
   <sj:div
     href="%{lag_unassociated_physicalNetworkInterface_grid_box_url}"
