@@ -1,14 +1,23 @@
 SNeO
 ====
 
-SNeO is an SNMP Network Simulator. The latest one is available at the link below. The documents will come someday.
-You can use SNeO in both personal and commercial for free. You can also copy and redistribute it with no restriction.
+SNeO is an SNMP Network Simulator.
+It is now available on the Maven Central Repository. 
 
-SNeO 1.1.0
-
-* [sneo.jar](http://www.pcap4j.org/artifacts/sneo.jar)
+* SNeO 1.2.1(http://search.maven.org/#search|ga|1|sneo)
 
 SNeO is powered by Pcap4J: https://github.com/kaitoy/pcap4j
+
+Giane
+-----
+
+Giane is the Web GUI for SNeO.
+Download giane-jetty.war from [here](http://search.maven.org/#search|ga|1|a%3A%22giane-jetty%22) and execute the following command with JDK 7:
+
+`java -jar giane-jetty.war --httpPort 8080 --jmx.httpPort 8082 --jmx.rmiPort 1099`
+
+After a while, you'll see a message `** Hit Enter key to stop Giane **`, which means Giane has been started.
+Then, open a Web browser, access to `http://localhost:8080/giane/` and play with Giane.
 
 License
 -------
