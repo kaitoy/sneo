@@ -26,6 +26,7 @@ import javax.persistence.Table;
 import com.github.kaitoy.sneo.giane.action.message.FormMessage;
 import com.github.kaitoy.sneo.network.dto.LagDto;
 import com.github.kaitoy.sneo.network.dto.PhysicalNetworkInterfaceDto;
+import com.opensymphony.xwork2.validator.annotations.ConversionErrorFieldValidator;
 import com.opensymphony.xwork2.validator.annotations.IntRangeFieldValidator;
 import com.opensymphony.xwork2.validator.annotations.RegexFieldValidator;
 import com.opensymphony.xwork2.validator.annotations.RequiredFieldValidator;
@@ -87,6 +88,10 @@ public class Lag implements Serializable, FormMessage {
     return channelGroupNumber;
   }
 
+  @ConversionErrorFieldValidator(
+    key = "ConversionErrorFieldValidator.error",
+    shortCircuit = true
+  )
   @RequiredFieldValidator(
     key = "RequiredFieldValidator.error",
     shortCircuit = true

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE validators PUBLIC "-//Apache Struts//XWork Validator Definition 1.0//EN" "http://struts.apache.org/dtds/xwork-validator-definition-1.0.dtd">
+ 
+<validators>
+  <validator name="inet4addressstring" class="com.github.kaitoy.sneo.giane.validator.Inet4AddressStringValidator" />
+  <validator name="inet6addressstring" class="com.github.kaitoy.sneo.giane.validator.Inet6AddressStringValidator" />
+  <validator name="inetaddressstring" class="com.github.kaitoy.sneo.giane.validator.InetAddressStringValidator" />
+  <validator name="ipaddressprefixlength" class="com.github.kaitoy.sneo.giane.validator.IpAddressPrefixLengthValidator" />
+</validators>

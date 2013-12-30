@@ -151,6 +151,15 @@ public class VlanInterface implements NetworkInterface {
     }
 
     public void gotPacket(Packet packet) {
+      if (logger.isDebugEnabled()) {
+        StringBuilder sb = new StringBuilder();
+        sb.append("Received a packet from ")
+          .append(ifName)
+          .append(": ")
+          .append(packet);
+        logger.debug(sb.toString());
+      }
+
       for (PacketListener user: users) {
         user.gotPacket(packet);
       }

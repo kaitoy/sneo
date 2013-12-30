@@ -7,7 +7,9 @@
 
 package com.github.kaitoy.sneo.giane.action;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.InterceptorRef;
@@ -45,10 +47,11 @@ implements ModelDriven<AdditionalIpV4RouteGroup>, ParameterAware, FormMessage,
   private Map<String, String[]> parameters;
   private AdditionalIpV4RouteGroupDao additionalIpV4RouteGroupDao;
   private String uniqueColumn;
+  private String deletingIdList;
 
   public AdditionalIpV4RouteGroup getModel() { return model; }
 
-  @VisitorFieldValidator(appendPrefix = false)
+  @VisitorFieldValidator(appendPrefix = true)
   public void setModel(AdditionalIpV4RouteGroup model) { this.model = model; }
 
   public void setParameters(Map<String, String[]> parameters) {
@@ -62,6 +65,10 @@ implements ModelDriven<AdditionalIpV4RouteGroup>, ParameterAware, FormMessage,
 
   public String getUniqueColumn() {
     return uniqueColumn;
+  }
+
+  public void setDeletingIdList(String deletingIdList) {
+    this.deletingIdList = deletingIdList;
   }
 
   @Override
@@ -162,6 +169,20 @@ implements ModelDriven<AdditionalIpV4RouteGroup>, ParameterAware, FormMessage,
     update.setDescr(model.getDescr());
     additionalIpV4RouteGroupDao.update(update);
 
+    return "success";
+  }
+
+  @Action(
+    value = "additional-ip-v4-route-group-delete",
+    results = { @Result(name = "success", location = "empty.jsp") }
+  )
+  @SkipValidation
+  public String delete() throws Exception {
+    List<AdditionalIpV4RouteGroup> deletingList = new ArrayList<AdditionalIpV4RouteGroup>();
+    for (String idStr: deletingIdList.split(",")) {
+      deletingList.add(additionalIpV4RouteGroupDao.findByKey(Integer.valueOf(idStr)));
+    }
+    additionalIpV4RouteGroupDao.delete(deletingList);
     return "success";
   }
 

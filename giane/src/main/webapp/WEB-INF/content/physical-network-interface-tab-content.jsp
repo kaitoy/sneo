@@ -8,10 +8,10 @@
     <s:form id="physicalNetworkInterface_form" theme="simple" cssClass="giane-form">
       <fieldset>
         <legend><s:text name="physicalNetworkInterface.form" /></legend>
-        <div>
+        <div class="giane-form-field-box">
           <s:hidden id="physicalNetworkInterface_id" name="model.id" />
         </div>
-        <div>
+        <div class="giane-form-field-box">
           <s:textfield
             id="physicalNetworkInterface_name"
             name="model.name"
@@ -20,9 +20,9 @@
             requiredposition="left"
             theme="xhtml"
           />
-          <span id="physicalNetworkInterface_form_nameError"></span>
+          <span class="giane-form-error-message" id="physicalNetworkInterface_form_nameError"></span>
         </div>
-        <div>
+        <div class="giane-form-field-box">
           <s:checkbox
             id="physicalNetworkInterface_trunk"
             name="model.trunk"
@@ -32,7 +32,7 @@
             requiredposition="left"
             theme="xhtml"
           />
-          <span id="physicalNetworkInterface_form_trunkError"></span>
+          <span class="giane-form-error-message" id="physicalNetworkInterface_form_trunkError"></span>
         </div>
         <div>
           <table class="submit-button-table">
@@ -128,7 +128,7 @@
   indicator="config_main_indicator"
   validate="true"
   validateFunction="checkRowSelection"
-  listenTopics="physicalNetworkInterface_rowDblClicked,physicalNetworkInterface_configButtonClicked"
+  listenTopics="physicalNetworkInterface_rowDblClicked"
   onBeforeTopics="configMainPaneGoingForward_before"
   onAfterValidationTopics="configMainPaneGoingForward_after"
   onCompleteTopics="configMainPaneCompleted"

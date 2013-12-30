@@ -52,21 +52,33 @@
   </s:url>
   <sj:div id="additionalIpV4RouteGroup_tab_content" href="%{additionalIpV4RouteGroup_tab_content_url}" indicator="additionalIpV4RouteGroup_tab_indicator" cssClass="giane-tab-content" />
 
+  <sj:tab id="additionalIpV6Route_tab" target="additionalIpV6Route_tab_content" label="%{getText('configHome.additionalIpV6Route.tab.label')}" />
+  <s:url var="additionalIpV6Route_tab_content_url" action="additional-ip-v6-route-tab-content" escapeAmp="false">
+    <s:param name="tabIndex" value="4" />
+  </s:url>
+  <sj:div id="additionalIpV6Route_tab_content" href="%{additionalIpV6Route_tab_content_url}" indicator="additionalIpV6Route_tab_indicator" cssClass="giane-tab-content" />
+
+  <sj:tab id="additionalIpV6RouteGroup_tab" target="additionalIpV6RouteGroup_tab_content" label="%{getText('configHome.additionalIpV6RouteGroup.tab.label')}" />
+  <s:url var="additionalIpV6RouteGroup_tab_content_url" action="additional-ip-v6-route-group-tab-content" escapeAmp="false">
+    <s:param name="tabIndex" value="5" />
+  </s:url>
+  <sj:div id="additionalIpV6RouteGroup_tab_content" href="%{additionalIpV6RouteGroup_tab_content_url}" indicator="additionalIpV6RouteGroup_tab_indicator" cssClass="giane-tab-content" />
+
   <sj:tab id="trapTarget_tab" target="trapTarget_tab_content" label="%{getText('configHome.trapTarget.tab.label')}" />
   <s:url var="trapTarget_tab_content_url" action="trap-target-tab-content" escapeAmp="false">
-    <s:param name="tabIndex" value="4" />
+    <s:param name="tabIndex" value="6" />
   </s:url>
   <sj:div id="trapTarget_tab_content" href="%{trapTarget_tab_content_url}" indicator="trapTarget_tab_indicator" cssClass="giane-tab-content" />
 
   <sj:tab id="trapTargetGroup_tab" target="trapTargetGroup_tab_content" label="%{getText('configHome.trapTargetGroup.tab.label')}" />
   <s:url var="trapTargetGroup_tab_content_url" action="trap-target-group-tab-content" escapeAmp="false">
-    <s:param name="tabIndex" value="5" />
+    <s:param name="tabIndex" value="7" />
   </s:url>
   <sj:div id="trapTargetGroup_tab_content" href="%{trapTargetGroup_tab_content_url}" indicator="trapTargetGroup_tab_indicator" cssClass="giane-tab-content" />
 
   <sj:tab id="simulation_tab" target="simulation_tab_content" label="%{getText('configHome.simulation.tab.label')}" />
   <s:url var="simulation_tab_content_url" action="simulation-tab-content" escapeAmp="false">
-    <s:param name="tabIndex" value="6" />
+    <s:param name="tabIndex" value="8" />
   </s:url>
   <sj:div id="simulation_tab_content" href="%{simulation_tab_content_url}" indicator="simulation_tab_indicator" cssClass="giane-tab-content" />
 </sj:tabbedpanel>
@@ -74,9 +86,11 @@
 <img id="network_tab_indicator" src="images/loading_big.gif" alt="Loading..." style="display: none;" class="giane-tab-indicator" />
 <img id="realNetworkInterfaceConfiguration_tab_indicator" src="images/loading_big.gif" alt="Loading..." style="display: none;" class="giane-tab-indicator" />
 <img id="additionalIpV4Route_tab_indicator" src="images/loading_big.gif" alt="Loading..." style="display: none;" class="giane-tab-indicator" />
+<img id="additionalIpV4RouteGroup_tab_indicator" src="images/loading_big.gif" alt="Loading..." style="display: none;" class="giane-tab-indicator" />
+<img id="additionalIpV6Route_tab_indicator" src="images/loading_big.gif" alt="Loading..." style="display: none;" class="giane-tab-indicator" />
+<img id="additionalIpV6RouteGroup_tab_indicator" src="images/loading_big.gif" alt="Loading..." style="display: none;" class="giane-tab-indicator" />
 <img id="trapTarget_tab_indicator" src="images/loading_big.gif" alt="Loading..." style="display: none;" class="giane-tab-indicator" />
 <img id="trapTargetGroup_tab_indicator" src="images/loading_big.gif" alt="Loading..." style="display: none;" class="giane-tab-indicator" />
-<img id="additionalIpV4RouteGroup_tab_indicator" src="images/loading_big.gif" alt="Loading..." style="display: none;" class="giane-tab-indicator" />
 <img id="simulation_tab_indicator" src="images/loading_big.gif" alt="Loading..." style="display: none;" class="giane-tab-indicator" />
 
 

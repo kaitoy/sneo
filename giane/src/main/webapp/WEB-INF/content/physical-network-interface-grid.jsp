@@ -1,11 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="s" uri="/struts-tags" %>
+<%@ taglib prefix="sj" uri="/struts-jquery-tags" %>
 <%@ taglib prefix="sjg" uri="/struts-jquery-grid-tags" %>
 
 <s:url var="physicalNetworkInterface_grid_url" action="physical-network-interface-grid">
-  <s:param name="node_id" value="%{#parameters.node_id}" />
-</s:url>
-<s:url var="physicalNetworkInterface_edit_grid_entry_url" action="physical-network-interface-edit-grid-entry">
   <s:param name="node_id" value="%{#parameters.node_id}" />
 </s:url>
 
@@ -21,18 +19,21 @@
   navigatorEdit="false"
   navigatorView="true"
   navigatorViewOptions="{modal:true}"
-  navigatorDelete="true"
-  navigatorDeleteOptions="{modal:true, drag:true, reloadAfterSubmit:true, width:300, left:0}"
+  navigatorDelete="false"
   navigatorSearch="true"
   navigatorSearchOptions="{modal:true, drag:true, closeAfterSearch:true, closeAfterReset:true}"
   navigatorExtraButtons="{
     config: { 
       title: 'Configure selected item',
       icon: 'ui-icon-gear',
-      topic: 'physicalNetworkInterface_configButtonClicked'
+      topic: 'gridConfigButtonClicked'
+    },
+    delete: { 
+      title: 'Delete selected item',
+      icon: 'ui-icon-trash',
+      topic: 'gridDeleteButtonClicked'
     }
   }"
-  editurl="%{physicalNetworkInterface_edit_grid_entry_url}"
   editinline="false"
   multiselect="false"
   viewrecords="true"
@@ -65,8 +66,6 @@
     index="name"
     title="%{getText('physicalNetworkInterface.name.label')}"
     sortable="true"
-    editable="true"
-    edittype="text"
     search="true"
     searchoptions="{sopt:['eq','ne','bw','en','cn']}"
     width="150"
@@ -76,9 +75,36 @@
     index="trunk"
     title="%{getText('physicalNetworkInterface.trunk.label')}"
     sortable="true"
-    editable="true"
-    edittype="checkbox"
     search="false"
     width="150"
   />
 </sjg:grid>
+
+<s:form id="physicalNetworkInterface_delete_form">
+  <s:hidden id="physicalNetworkInterface_deletingIdList" name="deletingIdList" />
+  <s:url var="delete_confirmation_url" action="confirmation-dialog" escapeAmp="false">
+    <s:param name="okTopic" value="'physicalNetworkInterface_delete'" />
+    <s:param name="textKey" value="'confirmationDialog.physicalNetworkInterface.delete.text'" />
+  </s:url>
+  <sj:submit
+    listenTopics="physicalNetworkInterface_deleteConfirmation"
+    href="%{delete_confirmation_url}"
+    targets="shared_dialog_box"
+    replaceTarget="false"
+    validate="true"
+    validateFunction="validation"
+    clearForm="false"
+    cssStyle="display: none;"
+  />
+  <s:url var="physicalNetworkInterface_delete_url" action="physical-network-interface-delete" />
+  <sj:submit
+    listenTopics="physicalNetworkInterface_delete"
+    href="%{physicalNetworkInterface_delete_url}"
+    targets="trash_box"
+    replaceTarget="false"
+    onSuccessTopics="physicalNetworkInterfaceTableUpdated"
+    onErrorTopics="deleteError"
+    clearForm="true"
+    cssStyle="display: none;"
+  />
+</s:form>

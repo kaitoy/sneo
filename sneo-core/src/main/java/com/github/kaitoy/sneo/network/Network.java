@@ -234,7 +234,7 @@ public class Network {
     }
 
     for (IpV4RouteDto routeDto: nodeDto.getIpV4Routes()) {
-      node.addRoute(
+      node.addIpV4Route(
         routeDto.getNetworkDestination(),
         routeDto.getNetmask(),
         routeDto.getGateway(),

@@ -7,7 +7,9 @@
 
 package com.github.kaitoy.sneo.giane.action;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.InterceptorRef;
@@ -48,10 +50,11 @@ implements ModelDriven<L2Connection>, ParameterAware, FormMessage, L2ConnectionM
   private NetworkDao networkDao;
   private String uniqueColumn;
   private String uniqueDomain;
+  private String deletingIdList;
 
   public L2Connection getModel() { return model; }
 
-  @VisitorFieldValidator(appendPrefix = false)
+  @VisitorFieldValidator(appendPrefix = true)
   public void setModel(L2Connection model) { this.model = model; }
 
   public void setParameters(Map<String, String[]> parameters) {
@@ -74,6 +77,10 @@ implements ModelDriven<L2Connection>, ParameterAware, FormMessage, L2ConnectionM
 
   public String getUniqueDomain() {
     return uniqueDomain;
+  }
+
+  public void setDeletingIdList(String deletingIdList) {
+    this.deletingIdList = deletingIdList;
   }
 
   @Override
@@ -151,6 +158,20 @@ implements ModelDriven<L2Connection>, ParameterAware, FormMessage, L2ConnectionM
     update.setName(model.getName());
     l2ConnectionDao.update(update);
 
+    return "success";
+  }
+
+  @Action(
+    value = "l2-connection-delete",
+    results = { @Result(name = "success", location = "empty.jsp") }
+  )
+  @SkipValidation
+  public String delete() throws Exception {
+    List<L2Connection> deletingList = new ArrayList<L2Connection>();
+    for (String idStr: deletingIdList.split(",")) {
+      deletingList.add(l2ConnectionDao.findByKey(Integer.valueOf(idStr)));
+    }
+    l2ConnectionDao.delete(deletingList);
     return "success";
   }
 

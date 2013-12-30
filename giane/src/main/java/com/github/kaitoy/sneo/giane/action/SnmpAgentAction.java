@@ -7,7 +7,9 @@
 
 package com.github.kaitoy.sneo.giane.action;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.InterceptorRef;
@@ -46,10 +48,11 @@ implements ModelDriven<SnmpAgent>, ParameterAware, FormMessage, SnmpAgentMessage
   private SnmpAgentDao snmpAgentDao;
   private NodeDao nodeDao;
   private TrapTargetGroupDao trapTargetGroupDao;
+  private String deletingIdList;
 
   public SnmpAgent getModel() { return model; }
 
-  @VisitorFieldValidator(appendPrefix = false)
+  @VisitorFieldValidator(appendPrefix = true)
   public void setModel(SnmpAgent model) { this.model = model; }
 
   public void setParameters(Map<String, String[]> parameters) {
@@ -69,6 +72,10 @@ implements ModelDriven<SnmpAgent>, ParameterAware, FormMessage, SnmpAgentMessage
   // for DI
   public void setTrapTargetGroupDao(TrapTargetGroupDao trapTargetGroupDao) {
     this.trapTargetGroupDao = trapTargetGroupDao;
+  }
+
+  public void setDeletingIdList(String deletingIdList) {
+    this.deletingIdList = deletingIdList;
   }
 
   public static FileMibFormat[] getFormats() {
@@ -160,6 +167,20 @@ implements ModelDriven<SnmpAgent>, ParameterAware, FormMessage, SnmpAgentMessage
     update.setCommunityStringIndexList(model.getCommunityStringIndexList());
     snmpAgentDao.update(update);
 
+    return "success";
+  }
+
+  @Action(
+    value = "snmp-agent-delete",
+    results = { @Result(name = "success", location = "empty.jsp") }
+  )
+  @SkipValidation
+  public String delete() throws Exception {
+    List<SnmpAgent> deletingList = new ArrayList<SnmpAgent>();
+    for (String idStr: deletingIdList.split(",")) {
+      deletingList.add(snmpAgentDao.findByKey(Integer.valueOf(idStr)));
+    }
+    snmpAgentDao.delete(deletingList);
     return "success";
   }
 

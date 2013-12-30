@@ -23,6 +23,8 @@ public interface BaseDao<T> {
 
   public void delete(T object) throws Exception;
 
+  public void delete(List<T> objects) throws Exception;
+
   public List<T> findByCriteria(CriteriaQuery<T> cq);
 
   public CriteriaBuilder getCriteriaBuilder();

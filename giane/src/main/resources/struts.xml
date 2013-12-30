@@ -33,12 +33,12 @@
       />
 
       <interceptor-stack name="gianeDefaultStack">
-        <interceptor-ref name="entityManagerInjectionInterceptor" />
         <interceptor-ref name="i18n" />
         <interceptor-ref name="basicStack">
           <param name="exception.logEnabled">true</param>
           <param name="exception.logLevel">ERROR</param>
         </interceptor-ref>
+        <interceptor-ref name="entityManagerInjectionInterceptor" />
         <interceptor-ref name="validation" />
         <interceptor-ref name="jsonValidation" />
         <interceptor-ref name="workflow" />
@@ -47,16 +47,15 @@
 
     </interceptors>
 
-
     <global-results>
-        <result name="Exception" type="redirect">/exception.action</result>
+      <result name="exception" type="chain">
+        <param name="actionName">exception</param>
+      </result>
     </global-results>
 
-    <!-- 
     <global-exception-mappings>
-        <exception-mapping exception="java.lang.Exception" result="Exception" />
+      <exception-mapping exception="java.lang.Exception" result="exception" />
     </global-exception-mappings>
-    -->
 
   </package>
 

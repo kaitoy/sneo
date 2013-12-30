@@ -7,6 +7,8 @@
 
 package com.github.kaitoy.sneo.giane.action;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.InterceptorRef;
@@ -39,10 +41,11 @@ implements ModelDriven<IpAddress>, ParameterAware, FormMessage, IpAddressMessage
   private Map<String, String[]> parameters;
   private IpAddressDao ipAddressDao;
   private IpAddressRelationDao ipAddressRelationDao;
+  private String deletingIdList;
 
   public IpAddress getModel() { return model; }
 
-  @VisitorFieldValidator(appendPrefix = false)
+  @VisitorFieldValidator(appendPrefix = true)
   public void setModel(IpAddress model) { this.model = model; }
 
   public void setParameters(Map<String, String[]> parameters) {
@@ -59,6 +62,10 @@ implements ModelDriven<IpAddress>, ParameterAware, FormMessage, IpAddressMessage
     IpAddressRelationDao ipAddressRelationDao
   ) {
     this.ipAddressRelationDao = ipAddressRelationDao;
+  }
+
+  public void setDeletingIdList(String deletingIdList) {
+    this.deletingIdList = deletingIdList;
   }
 
   @Action(
@@ -100,6 +107,20 @@ implements ModelDriven<IpAddress>, ParameterAware, FormMessage, IpAddressMessage
     update.setPrefixLength(model.getPrefixLength());
     ipAddressDao.update(update);
 
+    return "success";
+  }
+
+  @Action(
+    value = "ip-address-delete",
+    results = { @Result(name = "success", location = "empty.jsp") }
+  )
+  @SkipValidation
+  public String delete() throws Exception {
+    List<IpAddress> deletingList = new ArrayList<IpAddress>();
+    for (String idStr: deletingIdList.split(",")) {
+      deletingList.add(ipAddressDao.findByKey(Integer.valueOf(idStr)));
+    }
+    ipAddressDao.delete(deletingList);
     return "success";
   }
 

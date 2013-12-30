@@ -37,7 +37,7 @@ public class Simulation implements Serializable, FormMessage {
   /**
    *
    */
-  private static final long serialVersionUID = -5588681694163320753L;
+  private static final long serialVersionUID = -6963288550097472397L;
 
   private Integer id;
   private String name;
@@ -46,6 +46,7 @@ public class Simulation implements Serializable, FormMessage {
   private Map<SnmpAgent, TrapTargetGroup> trapTargetGroups;
   private Map<RealNetworkInterface, RealNetworkInterfaceConfiguration> realNetworkInterfaceConfigurations;
   private Map<Node, AdditionalIpV4RouteGroup> additionalIpV4RouteGroups;
+  private Map<Node, AdditionalIpV6RouteGroup> additionalIpV6RouteGroups;
 
   @Id
   @GeneratedValue(strategy=GenerationType.AUTO, generator="giane_seq_gen")
@@ -199,6 +200,32 @@ public class Simulation implements Serializable, FormMessage {
     Node key = new Node();
     key.setId(nodeId);
     return additionalIpV4RouteGroups.get(key);
+  }
+
+  @ManyToMany(fetch = FetchType.LAZY)
+  @MapKeyJoinColumn(name = "NODE_ID", nullable = false)
+  @JoinTable(
+    name = "SIMULATION__NODE__ADDITIONAL_IP_V6_ROUTE_GROUP",
+    joinColumns
+      = @JoinColumn(name = "SIMULATION_ID", nullable = false),
+    inverseJoinColumns
+      = @JoinColumn(name = "ADDITIONAL_IP_V6_ROUTE_GROUP_ID", nullable = false)
+  )
+  public Map<Node, AdditionalIpV6RouteGroup> getAdditionalIpV6RouteGroups() {
+    return additionalIpV6RouteGroups;
+  }
+
+  public void setAdditionalIpV6RouteGroups(
+    Map<Node, AdditionalIpV6RouteGroup> additionalIpV6RouteGroups
+  ) {
+    this.additionalIpV6RouteGroups = additionalIpV6RouteGroups;
+  }
+
+  @Transient
+  public AdditionalIpV6RouteGroup getAdditionalIpV6RouteGroup(Integer nodeId) {
+    Node key = new Node();
+    key.setId(nodeId);
+    return additionalIpV6RouteGroups.get(key);
   }
 
 }

@@ -19,8 +19,9 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import com.github.kaitoy.sneo.giane.action.message.FormMessage;
 import com.github.kaitoy.sneo.network.dto.IpV4RouteDto;
+import com.opensymphony.xwork2.validator.annotations.ConversionErrorFieldValidator;
+import com.opensymphony.xwork2.validator.annotations.CustomValidator;
 import com.opensymphony.xwork2.validator.annotations.IntRangeFieldValidator;
-import com.opensymphony.xwork2.validator.annotations.RegexFieldValidator;
 import com.opensymphony.xwork2.validator.annotations.RequiredFieldValidator;
 import com.opensymphony.xwork2.validator.annotations.RequiredStringValidator;
 
@@ -62,10 +63,9 @@ public abstract class IpV4Route implements Serializable, FormMessage {
     trim = true,
     shortCircuit = true // Stops checking if detects error
   )
-  @RegexFieldValidator(
-    key = "RegexFieldValidator.error",
-    expression = "[0-9]{1,3}(\\.[0-9]{1,3}){3}",
-    shortCircuit = true
+  @CustomValidator(
+    key = "Inet4AddressStringValidator.error",
+    type = "inet4addressstring"
   )
   public void setNetworkDestination(String networkDestination) {
     this.networkDestination = networkDestination;
@@ -81,10 +81,9 @@ public abstract class IpV4Route implements Serializable, FormMessage {
     trim = true,
     shortCircuit = true // Stops checking if detects error
   )
-  @RegexFieldValidator(
-    key = "RegexFieldValidator.error",
-    expression = "[0-9]{1,3}(\\.[0-9]{1,3}){3}",
-    shortCircuit = true
+  @CustomValidator(
+    key = "Inet4AddressStringValidator.error",
+    type = "inet4addressstring"
   )
   public void setNetmask(String netmask) {
     this.netmask = netmask;
@@ -100,10 +99,9 @@ public abstract class IpV4Route implements Serializable, FormMessage {
     trim = true,
     shortCircuit = true // Stops checking if detects error
   )
-  @RegexFieldValidator(
-    key = "RegexFieldValidator.error",
-    expression = "[0-9]{1,3}(\\.[0-9]{1,3}){3}",
-    shortCircuit = true
+  @CustomValidator(
+    key = "Inet4AddressStringValidator.error",
+    type = "inet4addressstring"
   )
   public void setGateway(String gateway) {
     this.gateway = gateway;
@@ -114,6 +112,10 @@ public abstract class IpV4Route implements Serializable, FormMessage {
     return metric;
   }
 
+  @ConversionErrorFieldValidator(
+    key = "ConversionErrorFieldValidator.error",
+    shortCircuit = true
+  )
   @RequiredFieldValidator(
     key = "RequiredFieldValidator.error",
     shortCircuit = true

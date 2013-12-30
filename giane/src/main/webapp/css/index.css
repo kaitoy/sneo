@@ -27,6 +27,10 @@
   margin-right: 10px;
 }
 
+#localeSelector_indicator_wapper img {
+  vertical-align: middle;
+}
+
 #contents_container {
   padding: 5px 0;
 }

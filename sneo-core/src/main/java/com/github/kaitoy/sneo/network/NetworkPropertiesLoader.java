@@ -43,9 +43,23 @@ public final class NetworkPropertiesLoader {
            );
   }
 
+  public static int getNdpCacheLife() {
+    return loader.getInteger(
+             KEY_PREFIX + ".ndpCacheLife",
+             30000
+           );
+  }
+
   public static int getArpResolveTimeout() {
     return loader.getInteger(
              KEY_PREFIX + ".arpResolveTimeout",
+             500
+           );
+  }
+
+  public static int getNdpResolveTimeout() {
+    return loader.getInteger(
+             KEY_PREFIX + ".ndpResolveTimeout",
              500
            );
   }

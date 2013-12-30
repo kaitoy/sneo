@@ -8,10 +8,10 @@
     <s:form id="startSimulator_form" theme="simple" cssClass="giane-form">
       <fieldset>
         <legend><s:text name="simulation.start.form" /></legend>
-        <div>
+        <div class="giane-form-field-box">
           <s:hidden id="startSimulator_id" name="simulationId" />
         </div>
-        <div>
+        <div class="giane-form-field-box">
           <s:textfield
             id="startSimulator_name"
             name="name"
@@ -21,7 +21,7 @@
             cssClass="giane-disabled-field"
           />
         </div>
-        <div>
+        <div class="giane-form-field-box">
           <s:textfield
             id="startSimulator_network"
             name="name"
@@ -31,13 +31,11 @@
             cssClass="giane-disabled-field"
           />
         </div>
-        <div>
+        <div class="giane-form-field-box">
           <s:textarea
             id="startSimulator_descr"
             name="descr"
             label="%{getText('simulation.descr.label')}"
-            cols="30"
-            resizable="false"
             theme="xhtml"
             disabled="true"
             cssClass="giane-disabled-field"
@@ -103,7 +101,7 @@
 <s:url var="startSimulator_grid_box_url" action="simulation-grid-box" escapeAmp="false">
   <s:param name="grid_id" value="'startSimulator_grid'" />
   <s:param name="navigatorDelete" value="false" />
-  <s:param name="reloadTopics" value="'runningSimulatorUpdated'" />
+  <s:param name="reloadTopics" value="'runningSimulatorUpdated,simulationTableUpdated'" />
   <s:param name="hide_running" value="false" />
 </s:url>
 <div class="giane-tab-content-grid-column">

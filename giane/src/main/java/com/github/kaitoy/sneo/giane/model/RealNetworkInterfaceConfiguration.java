@@ -89,16 +89,17 @@ public class RealNetworkInterfaceConfiguration implements Serializable, FormMess
     this.deviceName = deviceName;
   }
 
-  @RequiredStringValidator(
-    key = "RequiredStringValidator.error",
-    trim = true,
-    shortCircuit = true // Stops checking if detects error
-  )
+
   @Column(name = "MAC_ADDRESS", nullable = false)
   public String getMacAddress() {
     return macAddress;
   }
 
+  @RequiredStringValidator(
+    key = "RequiredStringValidator.error",
+    trim = true,
+    shortCircuit = true // Stops checking if detects error
+  )
   @RegexFieldValidator(
     key = "RegexFieldValidator.error",
     expression = "[0-9a-fA-F]{2}(:[0-9a-fA-F]{2}){5}",

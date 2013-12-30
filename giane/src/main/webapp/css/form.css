@@ -1,4 +1,8 @@
-.giane-form label {
+.giane-form fieldset {
+  border: solid 1px #696969;
+}
+
+.giane-form .giane-form-field-box label.label {
   display: block;
   float: left;
   width: 8.5em;
@@ -6,27 +10,35 @@
   padding-right: 0.5em;
 }
 
-.giane-form fieldset div:after {
+.giane-form .giane-form-field-box:after {
   content: "";
   clear: both;
   display: block;
 }
 
-.giane-form textarea {
+.giane-form .giane-form-field-box {
+  margin-top: 12px;
+}
+
+.giane-form .giane-form-field-box input {
+  float: left;
+}
+
+.giane-form .giane-form-field-box textarea {
+  float: left;
   height: 5em;
   resize: none;
+  width: 20em;
 }
 
-.giane-form .select-field {
-  width: 50%;
-}
-
-.giane-form fieldset div {
-  margin-top: 12px;
+.giane-form .giane-form-field-box .select-field {
+  float: left;
+  width: 18em;
 }
 
 .giane-form .submit-button-table {
   width: 100%;
+  padding-top: 5px;
 }
 
 .giane-form .submit-button-table .two-buttons-first-cell {
@@ -39,9 +51,17 @@
   text-align: left;
 }
 
+.giane-form .submit-button-table .two-buttons-left-indicator-cell img {
+  vertical-align: middle;
+}
+
 .giane-form .submit-button-table .two-buttons-second-cell {
   width: 50%;
   text-align: left;
+}
+
+.giane-form .submit-button-table .two-buttons-second-cell img {
+  vertical-align: middle;
 }
 
 .giane-form .submit-button-table .single-button-cell {
@@ -52,6 +72,10 @@
 .giane-form .submit-button-table .single-button-indicator-cell {
   width: 40%;
   text-align: left;
+}
+
+.giane-form .submit-button-table .single-button-indicator-cell img {
+  vertical-align: middle;
 }
 
 .giane-form-button {
@@ -67,3 +91,27 @@
   color: red;
 }
 
+.giane-form-error-message {
+  position: absolute;
+  max-width: 18em;
+  background: #FF8C00;
+  border: 4px solid #FF8C00;
+  border-radius: 5px;
+  box-shadow: rgba(0, 0, 0, 0.2) 3px 3px 1px;
+  margin-left: 12px;
+  margin-top: -2px;
+  z-index: 9999;
+  display: none;
+}
+
+.giane-form-error-message:after {
+  content: "";
+  position: absolute;
+  width: 0;
+  height: 0;
+  border-width: 6px;
+  border-style: solid;
+  border-color: transparent #FF8C00 transparent transparent;
+  top: 0px;
+  left: -15px;
+}

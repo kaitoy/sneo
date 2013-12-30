@@ -8,10 +8,14 @@
     <!-- mappings -->
     <class>com.github.kaitoy.sneo.giane.model.AdditionalIpV4Route</class>
     <class>com.github.kaitoy.sneo.giane.model.AdditionalIpV4RouteGroup</class>
+    <class>com.github.kaitoy.sneo.giane.model.AdditionalIpV6Route</class>
+    <class>com.github.kaitoy.sneo.giane.model.AdditionalIpV6RouteGroup</class>
     <class>com.github.kaitoy.sneo.giane.model.FixedIpV4Route</class>
+    <class>com.github.kaitoy.sneo.giane.model.FixedIpV6Route</class>
     <class>com.github.kaitoy.sneo.giane.model.IpAddress</class>
     <class>com.github.kaitoy.sneo.giane.model.IpAddressRelation</class>
     <class>com.github.kaitoy.sneo.giane.model.IpV4Route</class>
+    <class>com.github.kaitoy.sneo.giane.model.IpV6Route</class>
     <class>com.github.kaitoy.sneo.giane.model.L2Connection</class>
     <class>com.github.kaitoy.sneo.giane.model.Lag</class>
     <class>com.github.kaitoy.sneo.giane.model.LagIpAddressRelation</class>

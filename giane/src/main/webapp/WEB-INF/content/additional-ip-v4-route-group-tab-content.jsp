@@ -12,10 +12,10 @@
     >
       <fieldset>
         <legend><s:text name="additionalIpV4RouteGroup.form" /></legend>
-        <div>
+        <div class="giane-form-field-box">
           <s:hidden id="additionalIpV4RouteGroup_id" name="model.id" />
         </div>
-        <div>
+        <div class="giane-form-field-box">
           <s:textfield
             id="additionalIpV4RouteGroup_name"
             name="model.name"
@@ -24,20 +24,18 @@
             requiredposition="left"
             theme="xhtml"
           />
-          <span id="additionalIpV4RouteGroup_form_nameError"></span>
+          <span class="giane-form-error-message" id="additionalIpV4RouteGroup_form_nameError"></span>
         </div>
-        <div>
+        <div class="giane-form-field-box">
           <s:textarea
             id="additionalIpV4RouteGroup_descr"
             name="model.descr"
             label="%{getText('additionalIpV4RouteGroup.descr.label')}"
-            cols="30"
             required="false"
             requiredposition="left"
-            resizable="false"
             theme="xhtml"
           />
-          <span id="additionalIpV4RouteGroup_form_descrError"></span>
+          <span class="giane-form-error-message" id="additionalIpV4RouteGroup_form_descrError"></span>
         </div>
         <div>
           <table class="submit-button-table">
@@ -135,7 +133,7 @@
   indicator="config_main_indicator"
   validate="true"
   validateFunction="checkRowSelection"
-  listenTopics="additionalIpV4RouteGroup_rowDblClicked,additionalIpV4RouteGroup_configButtonClicked"
+  listenTopics="additionalIpV4RouteGroup_rowDblClicked"
   onBeforeTopics="configMainPaneGoingForward_before"
   onAfterValidationTopics="configMainPaneGoingForward_after"
   onCompleteTopics="configMainPaneCompleted"

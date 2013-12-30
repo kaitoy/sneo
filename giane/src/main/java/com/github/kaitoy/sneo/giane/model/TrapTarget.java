@@ -20,8 +20,9 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import com.github.kaitoy.sneo.giane.action.message.FormMessage;
 import com.github.kaitoy.sneo.network.dto.TrapTargetDto;
+import com.opensymphony.xwork2.validator.annotations.ConversionErrorFieldValidator;
+import com.opensymphony.xwork2.validator.annotations.CustomValidator;
 import com.opensymphony.xwork2.validator.annotations.IntRangeFieldValidator;
-import com.opensymphony.xwork2.validator.annotations.RegexFieldValidator;
 import com.opensymphony.xwork2.validator.annotations.RequiredFieldValidator;
 import com.opensymphony.xwork2.validator.annotations.RequiredStringValidator;
 import com.opensymphony.xwork2.validator.annotations.StringLengthFieldValidator;
@@ -84,10 +85,9 @@ public class TrapTarget implements Serializable, FormMessage {
     trim = true,
     shortCircuit = true // Stops checking if detects error
   )
-  @RegexFieldValidator(
-    key = "RegexFieldValidator.error",
-    expression = "[0-9]{1,3}(\\.[0-9]{1,3}){3}",
-    shortCircuit = true
+  @CustomValidator(
+    key = "InetAddressStringValidator.error",
+    type = "inetaddressstring"
   )
   public void setAddress(String address) {
     this.address = address;
@@ -98,6 +98,10 @@ public class TrapTarget implements Serializable, FormMessage {
     return port;
   }
 
+  @ConversionErrorFieldValidator(
+    key = "ConversionErrorFieldValidator.error",
+    shortCircuit = true
+  )
   @RequiredFieldValidator(
     key = "RequiredFieldValidator.error",
     shortCircuit = true

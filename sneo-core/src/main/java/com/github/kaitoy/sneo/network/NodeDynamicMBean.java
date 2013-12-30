@@ -181,8 +181,17 @@ public class NodeDynamicMBean extends AbstractDynamicMBean {
 
     moiList.add(
       new MBeanOperationInfo(
-        "getRoutingTableEntries",
-        "Get this node's routing table entries.",
+        "getIpV4RoutingTableEntries",
+        "Get this node's IPv4 routing table entries.",
+        new MBeanParameterInfo[0],
+        List.class.getName(),
+        MBeanOperationInfo.INFO
+      )
+    );
+    moiList.add(
+      new MBeanOperationInfo(
+        "getIpV6RoutingTableEntries",
+        "Get this node's IPv6 routing table entries.",
         new MBeanParameterInfo[0],
         List.class.getName(),
         MBeanOperationInfo.INFO

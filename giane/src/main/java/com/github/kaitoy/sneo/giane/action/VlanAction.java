@@ -7,7 +7,9 @@
 
 package com.github.kaitoy.sneo.giane.action;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.InterceptorRef;
@@ -51,10 +53,11 @@ implements ModelDriven<Vlan>, ParameterAware, FormMessage, VlanMessage, BreadCru
   private NodeDao nodeDao;
   private String uniqueColumn;
   private String uniqueDomain;
+  private String deletingIdList;
 
   public Vlan getModel() { return model; }
 
-  @VisitorFieldValidator(appendPrefix = false)
+  @VisitorFieldValidator(appendPrefix = true)
   public void setModel(Vlan model) { this.model = model; }
 
   public void setParameters(Map<String, String[]> parameters) {
@@ -82,6 +85,10 @@ implements ModelDriven<Vlan>, ParameterAware, FormMessage, VlanMessage, BreadCru
 
   public String getUniqueDomain() {
     return uniqueDomain;
+  }
+
+  public void setDeletingIdList(String deletingIdList) {
+    this.deletingIdList = deletingIdList;
   }
 
   @Override
@@ -173,6 +180,21 @@ implements ModelDriven<Vlan>, ParameterAware, FormMessage, VlanMessage, BreadCru
 
     return "success";
   }
+
+  @Action(
+    value = "vlan-delete",
+    results = { @Result(name = "success", location = "empty.jsp") }
+  )
+  @SkipValidation
+  public String delete() throws Exception {
+    List<Vlan> deletingList = new ArrayList<Vlan>();
+    for (String idStr: deletingIdList.split(",")) {
+      deletingList.add(vlanDao.findByKey(Integer.valueOf(idStr)));
+    }
+    vlanDao.delete(deletingList);
+    return "success";
+  }
+
 
   @Override
   public void validate() {

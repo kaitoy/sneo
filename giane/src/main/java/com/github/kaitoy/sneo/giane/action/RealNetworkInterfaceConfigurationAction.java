@@ -56,6 +56,7 @@ implements ModelDriven<RealNetworkInterfaceConfiguration>, ParameterAware, FormM
   private RealNetworkInterfaceConfigurationDao realNetworkInterfaceConfigurationDao;
   private IpAddressRelationDao ipAddressRelationDao;
   private String uniqueColumn;
+  private String deletingIdList;
 
   static {
     List<PcapNetworkInterface> devList;
@@ -70,7 +71,7 @@ implements ModelDriven<RealNetworkInterfaceConfiguration>, ParameterAware, FormM
 
   public RealNetworkInterfaceConfiguration getModel() { return model; }
 
-  @VisitorFieldValidator(appendPrefix = false)
+  @VisitorFieldValidator(appendPrefix = true)
   public void setModel(RealNetworkInterfaceConfiguration model) {
     this.model = model;
   }
@@ -94,6 +95,10 @@ implements ModelDriven<RealNetworkInterfaceConfiguration>, ParameterAware, FormM
 
   public String getUniqueColumn() {
     return uniqueColumn;
+  }
+
+  public void setDeletingIdList(String deletingIdList) {
+    this.deletingIdList = deletingIdList;
   }
 
   public static List<PcapNetworkInterface> getDeviceList() {
@@ -189,6 +194,23 @@ implements ModelDriven<RealNetworkInterfaceConfiguration>, ParameterAware, FormM
     update.setDescr(model.getDescr());
     realNetworkInterfaceConfigurationDao.update(update);
 
+    return "success";
+  }
+
+  @Action(
+    value = "real-network-interface-configuration-delete",
+    results = { @Result(name = "success", location = "empty.jsp") }
+  )
+  @SkipValidation
+  public String delete() throws Exception {
+    List<RealNetworkInterfaceConfiguration> deletingList
+      = new ArrayList<RealNetworkInterfaceConfiguration>();
+    for (String idStr: deletingIdList.split(",")) {
+      deletingList.add(
+        realNetworkInterfaceConfigurationDao.findByKey(Integer.valueOf(idStr))
+      );
+    }
+    realNetworkInterfaceConfigurationDao.delete(deletingList);
     return "success";
   }
 

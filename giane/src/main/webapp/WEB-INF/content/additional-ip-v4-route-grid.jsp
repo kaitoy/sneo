@@ -1,9 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="s" uri="/struts-tags" %>
+<%@ taglib prefix="sj" uri="/struts-jquery-tags" %>
 <%@ taglib prefix="sjg" uri="/struts-jquery-grid-tags" %>
 
 <s:url var="additionalIpV4Route_grid_url" action="additional-ip-v4-route-grid" />
-<s:url var="additionalIpV4Route_edit_grid_entry_url" action="additional-ip-v4-route-edit-grid-entry" />
 
 <sjg:grid
   id="additionalIpV4Route_grid"
@@ -17,11 +17,16 @@
   navigatorEdit="false"
   navigatorView="true"
   navigatorViewOptions="{modal:true}"
-  navigatorDelete="true"
-  navigatorDeleteOptions="{modal:true, drag:true, reloadAfterSubmit:true, width:300, left:0}"
+  navigatorDelete="false"
   navigatorSearch="true"
   navigatorSearchOptions="{modal:true, drag:true, closeAfterSearch:true, closeAfterReset:true}"
-  editurl="%{additionalIpV4Route_edit_grid_entry_url}"
+  navigatorExtraButtons="{
+    delete: { 
+      title: 'Delete selected item',
+      icon: 'ui-icon-trash',
+      topic: 'gridDeleteButtonClicked'
+    }
+  }"
   editinline="false"
   multiselect="false"
   viewrecords="true"
@@ -54,8 +59,6 @@
     index="name"
     title="%{getText('additionalIpV4Route.name.label')}"
     sortable="true"
-    editable="true"
-    edittype="text"
     search="true"
     searchoptions="{sopt:['eq','ne','bw','en','cn']}"
     width="200"
@@ -65,8 +68,6 @@
     index="networkDestination"
     title="%{getText('additionalIpV4Route.networkDestination.label')}"
     sortable="true"
-    editable="true"
-    edittype="text"
     search="true"
     searchoptions="{sopt:['eq','ne','bw','en','cn']}"
     width="100"
@@ -76,8 +77,6 @@
     index="netmask"
     title="%{getText('additionalIpV4Route.netmask.label')}"
     sortable="true"
-    editable="true"
-    edittype="text"
     search="true"
     searchoptions="{sopt:['eq','ne','bw','en','cn']}"
     width="100"
@@ -87,8 +86,6 @@
     index="gateway"
     title="%{getText('additionalIpV4Route.gateway.label')}"
     sortable="true"
-    editable="true"
-    edittype="text"
     search="true"
     searchoptions="{sopt:['eq','ne','bw','en','cn']}"
     width="100"
@@ -98,8 +95,6 @@
     index="metric"
     title="%{getText('additionalIpV4Route.metric.label')}"
     sortable="true"
-    editable="true"
-    edittype="text"
     search="true"
     searchoptions="{sopt:['eq','ne','lt','gt']}"
     width="50"
@@ -109,11 +104,39 @@
     index="descr"
     title="%{getText('additionalIpV4Route.descr.label')}"
     sortable="true"
-    editable="true"
-    edittype="text"
     search="true"
     searchoptions="{sopt:['eq','ne','bw','en','cn']}"
     width="200"
     formatter="oneLine"
   />
 </sjg:grid>
+
+<s:form id="additionalIpV4Route_delete_form">
+  <s:hidden id="additionalIpV4Route_deletingIdList" name="deletingIdList" />
+  <s:url var="delete_confirmation_url" action="confirmation-dialog" escapeAmp="false">
+    <s:param name="okTopic" value="'additionalIpV4Route_delete'" />
+    <s:param name="textKey" value="'confirmationDialog.additionalIpV4Route.delete.text'" />
+  </s:url>
+  <sj:submit
+    listenTopics="additionalIpV4Route_deleteConfirmation"
+    href="%{delete_confirmation_url}"
+    targets="shared_dialog_box"
+    replaceTarget="false"
+    validate="true"
+    validateFunction="validation"
+    clearForm="false"
+    cssStyle="display: none;"
+  />
+  <s:url var="additionalIpV4Route_delete_url" action="additional-ip-v4-route-delete" />
+  <sj:submit
+    listenTopics="additionalIpV4Route_delete"
+    href="%{additionalIpV4Route_delete_url}"
+    targets="trash_box"
+    replaceTarget="false"
+    onSuccessTopics="additionalIpV4RouteTableUpdated"
+    onErrorTopics="deleteError"
+    clearForm="true"
+    cssStyle="display: none;"
+  />
+</s:form>
+

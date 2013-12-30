@@ -1,9 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="s" uri="/struts-tags" %>
+<%@ taglib prefix="sj" uri="/struts-jquery-tags" %>
 <%@ taglib prefix="sjg" uri="/struts-jquery-grid-tags" %>
 
 <s:url var="simulation_grid_url" action="simulation-grid" />
-<s:url var="simulation_edit_grid_entry_url" action="simulation-edit-grid-entry" />
 
 <sjg:grid
   id="%{#parameters.grid_id}"
@@ -18,11 +18,9 @@
   navigatorView="true"
   navigatorViewOptions="{modal:true}"
   navigatorDelete="%{#parameters.navigatorDelete}"
-  navigatorDeleteOptions="{modal:true, drag:true, reloadAfterSubmit:true, width:300, left:0}"
   navigatorSearch="true"
   navigatorSearchOptions="{modal:true, drag:true, closeAfterSearch:true, closeAfterReset:true}"
   navigatorExtraButtons="%{#parameters.navigatorExtraButtons}"
-  editurl="%{simulation_edit_grid_entry_url}"
   editinline="false"
   multiselect="false"
   viewrecords="true"
@@ -55,8 +53,6 @@
     index="name"
     title="%{getText('simulation.name.label')}"
     sortable="true"
-    editable="true"
-    edittype="text"
     search="true"
     searchoptions="{sopt:['eq','ne','bw','en','cn']}"
     width="200"
@@ -66,8 +62,6 @@
     index="network"
     title="%{getText('simulation.network.label')}"
     sortable="true"
-    editable="true"
-    edittype="text"
     search="true"
     searchoptions="{sopt:['eq','ne','bw','en','cn']}"
     width="200"
@@ -77,8 +71,6 @@
     index="descr"
     title="%{getText('simulation.descr.label')}"
     sortable="true"
-    editable="true"
-    edittype="text"
     search="true"
     searchoptions="{sopt:['eq','ne','bw','en','cn']}"
     width="200"
@@ -89,10 +81,40 @@
     index="running"
     title="%{getText('simulation.running.label')}"
     sortable="true"
-    editable="false"
     search="true"
     searchoptions="{sopt:['eq','ne','bw','en','cn']}"
     width="80"
     hidden="%{#parameters.hide_running}"
   />
 </sjg:grid>
+
+<s:if test="#parameters.navigatorExtraButtons != null">
+  <s:form id="simulation_delete_form">
+    <s:hidden id="simulation_deletingIdList" name="deletingIdList" />
+    <s:url var="delete_confirmation_url" action="confirmation-dialog" escapeAmp="false">
+      <s:param name="okTopic" value="'simulation_delete'" />
+      <s:param name="textKey" value="'confirmationDialog.simulation.delete.text'" />
+    </s:url>
+    <sj:submit
+      listenTopics="simulation_deleteConfirmation"
+      href="%{delete_confirmation_url}"
+      targets="shared_dialog_box"
+      replaceTarget="false"
+      validate="true"
+      validateFunction="validation"
+      clearForm="false"
+      cssStyle="display: none;"
+    />
+    <s:url var="simulation_delete_url" action="simulation-delete" />
+    <sj:submit
+      listenTopics="simulation_delete"
+      href="%{simulation_delete_url}"
+      targets="trash_box"
+      replaceTarget="false"
+      onSuccessTopics="simulationTableUpdated"
+      onErrorTopics="deleteError"
+      clearForm="true"
+      cssStyle="display: none;"
+    />
+  </s:form>
+</s:if>

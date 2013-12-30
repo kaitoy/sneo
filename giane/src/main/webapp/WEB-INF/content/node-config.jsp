@@ -73,6 +73,13 @@
     <s:param name="tabIndex" value="5" />
   </s:url>
   <sj:div id="fixedIpV4Route_tab_content" href="%{fixedIpV4Route_tab_content_url}" indicator="fixedIpV4Route_tab_indicator" cssClass="giane-tab-content" />
+  
+  <sj:tab id="fixedIpV6Route_tab" target="fixedIpV6Route_tab_content" label="%{getText('node.config.fixedIpV6Route.tab.label')}" />
+  <s:url var="fixedIpV6Route_tab_content_url" action="fixed-ip-v6-route-tab-content" escapeAmp="false">
+    <s:param name="node_id" value="%{node_id}" />
+    <s:param name="tabIndex" value="6" />
+  </s:url>
+  <sj:div id="fixedIpV6Route_tab_content" href="%{fixedIpV6Route_tab_content_url}" indicator="fixedIpV6Route_tab_indicator" cssClass="giane-tab-content" />
 </sj:tabbedpanel>
 
 <img id="snmpAgent_tab_indicator" src="images/loading_big.gif" alt="Loading..." style="display: none;" class="giane-tab-indicator" />
@@ -81,3 +88,4 @@
 <img id="vlan_tab_indicator" src="images/loading_big.gif" alt="Loading..." style="display: none;" class="giane-tab-indicator" />
 <img id="lag_tab_indicator" src="images/loading_big.gif" alt="Loading..." style="display: none;" class="giane-tab-indicator" />
 <img id="fixedIpV4Route_tab_indicator" src="images/loading_big.gif" alt="Loading..." style="display: none;" class="giane-tab-indicator" />
+<img id="fixedIpV6Route_tab_indicator" src="images/loading_big.gif" alt="Loading..." style="display: none;" class="giane-tab-indicator" />

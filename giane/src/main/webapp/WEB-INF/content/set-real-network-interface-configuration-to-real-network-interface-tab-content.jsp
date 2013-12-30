@@ -11,10 +11,10 @@
     >
       <fieldset>
         <legend><s:text name="set_realNetworkInterfaceConfiguration_to_realNetworkInterface.form" /></legend>
-        <div>
+        <div class="giane-form-field-box">
           <s:hidden id="realNetworkInterface_with_realNetworkInterfaceConfiguration_id" name="realNetworkInterface" />
         </div>
-        <div>
+        <div class="giane-form-field-box">
           <s:textfield
             id="realNetworkInterface_with_realNetworkInterfaceConfiguration_name"
             name="name"
@@ -24,7 +24,7 @@
             cssClass="giane-disabled-field"
           />
         </div>
-        <div>
+        <div class="giane-form-field-box">
           <s:select
             id="realNetworkInterface_with_realNetworkInterfaceConfiguration_realNetworkInterfaceConfiguration"
             name="realNetworkInterfaceConfiguration"
@@ -37,7 +37,7 @@
             theme="xhtml"
             cssClass="select-field"
           />
-          <label for="realNetworkInterface_with_realNetworkInterfaceConfiguration_realNetworkInterfaceConfiguration"><span id="set_realNetworkInterfaceConfiguration_to_realNetworkInterface_form_realNetworkInterfaceConfigurationError"></span></label>
+          <span class="giane-form-error-message" id="set_realNetworkInterfaceConfiguration_to_realNetworkInterface_form_realNetworkInterfaceConfigurationError"></span>
         </div>
         <div>
           <table class="submit-button-table">

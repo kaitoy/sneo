@@ -7,10 +7,12 @@
 
   <bean id="additionalIpV4RouteDao" class="com.github.kaitoy.sneo.giane.model.dao.impl.AdditionalIpV4RouteDaoImpl" scope="prototype" />
   <bean id="additionalIpV4RouteGroupDao" class="com.github.kaitoy.sneo.giane.model.dao.impl.AdditionalIpV4RouteGroupDaoImpl" scope="prototype" />
+  <bean id="additionalIpV6RouteDao" class="com.github.kaitoy.sneo.giane.model.dao.impl.AdditionalIpV6RouteDaoImpl" scope="prototype" />
+  <bean id="additionalIpV6RouteGroupDao" class="com.github.kaitoy.sneo.giane.model.dao.impl.AdditionalIpV6RouteGroupDaoImpl" scope="prototype" />
   <bean id="fixedIpV4RouteDao" class="com.github.kaitoy.sneo.giane.model.dao.impl.FixedIpV4RouteDaoImpl" scope="prototype" />
+  <bean id="fixedIpV6RouteDao" class="com.github.kaitoy.sneo.giane.model.dao.impl.FixedIpV6RouteDaoImpl" scope="prototype" />
   <bean id="ipAddressDao" class="com.github.kaitoy.sneo.giane.model.dao.impl.IpAddressDaoImpl" scope="prototype" />
   <bean id="ipAddressRelationDao" class="com.github.kaitoy.sneo.giane.model.dao.impl.IpAddressRelationDaoImpl" scope="prototype" />
-  <bean id="ipV4RouteDao" class="com.github.kaitoy.sneo.giane.model.dao.impl.IpV4RouteDaoImpl" scope="prototype" />
   <bean id="l2ConnectionDao" class="com.github.kaitoy.sneo.giane.model.dao.impl.L2ConnectionDaoImpl" scope="prototype" />
   <bean id="lagDao" class="com.github.kaitoy.sneo.giane.model.dao.impl.LagDaoImpl" scope="prototype" />
   <bean id="networkDao" class="com.github.kaitoy.sneo.giane.model.dao.impl.NetworkDaoImpl" scope="prototype" />

@@ -7,7 +7,9 @@
 
 package com.github.kaitoy.sneo.giane.action;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.InterceptorRef;
@@ -48,10 +50,11 @@ implements ModelDriven<RealNetworkInterface>, ParameterAware, FormMessage, RealN
   private RealNetworkInterfaceConfigurationDao realNetworkInterfaceConfigurationDao;
   private String uniqueColumn;
   private String uniqueDomain;
+  private String deletingIdList;
 
   public RealNetworkInterface getModel() { return model; }
 
-  @VisitorFieldValidator(appendPrefix = false)
+  @VisitorFieldValidator(appendPrefix = true)
   public void setModel(RealNetworkInterface model) { this.model = model; }
 
   public void setParameters(Map<String, String[]> parameters) {
@@ -84,6 +87,10 @@ implements ModelDriven<RealNetworkInterface>, ParameterAware, FormMessage, RealN
 
   public String getUniqueDomain() {
     return uniqueDomain;
+  }
+
+  public void setDeletingIdList(String deletingIdList) {
+    this.deletingIdList = deletingIdList;
   }
 
   public Map<Integer, String> getRealNetworkInterfaceConfigurations() {
@@ -176,6 +183,20 @@ implements ModelDriven<RealNetworkInterface>, ParameterAware, FormMessage, RealN
     update.setName(model.getName());
     realNetworkInterfaceDao.update(update);
 
+    return "success";
+  }
+
+  @Action(
+    value = "real-network-interface-delete",
+    results = { @Result(name = "success", location = "empty.jsp") }
+  )
+  @SkipValidation
+  public String delete() throws Exception {
+    List<RealNetworkInterface> deletingList = new ArrayList<RealNetworkInterface>();
+    for (String idStr: deletingIdList.split(",")) {
+      deletingList.add(realNetworkInterfaceDao.findByKey(Integer.valueOf(idStr)));
+    }
+    realNetworkInterfaceDao.delete(deletingList);
     return "success";
   }
 

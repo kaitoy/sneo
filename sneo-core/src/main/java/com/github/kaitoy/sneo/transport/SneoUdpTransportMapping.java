@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.net.InetAddress;
 import java.nio.ByteBuffer;
 import org.pcap4j.packet.IpV4Packet;
+import org.pcap4j.packet.IpV6Packet;
 import org.pcap4j.packet.Packet;
 import org.pcap4j.packet.UdpPacket;
 import org.snmp4j.smi.Address;
@@ -64,8 +65,14 @@ public class SneoUdpTransportMapping extends UdpTransportMapping {
   public void processMessage(Packet packet) {
     UdpPacket udpPacket = packet.get(UdpPacket.class);
     byte[] snmpMessage = udpPacket.getPayload().getRawData();
-    InetAddress srcAddr
-      = packet.get(IpV4Packet.class).getHeader().getSrcAddr();
+    InetAddress srcAddr;
+    IpV4Packet ipV4Packet = packet.get(IpV4Packet.class);
+    if (ipV4Packet != null) {
+      srcAddr = ipV4Packet.getHeader().getSrcAddr();
+    }
+    else {
+      srcAddr = packet.get(IpV6Packet.class).getHeader().getSrcAddr();
+    }
     int srcPort = udpPacket.getHeader().getSrcPort().value() & 0xFFFF;
 
     ByteBuffer bis;

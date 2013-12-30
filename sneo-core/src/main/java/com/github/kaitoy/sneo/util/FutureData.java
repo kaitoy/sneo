@@ -14,7 +14,16 @@ public class FutureData<V> {
 
   private final Object thisLock = new Object();
 
+  private volatile boolean working = false;
   private volatile Data data;
+
+  public boolean isWorking() {
+    return working;
+  }
+
+  public void setWorking(boolean working) {
+    this.working = working;
+  }
 
   public FutureData() {
     data = null;
@@ -38,6 +47,7 @@ public class FutureData<V> {
         thisLock.notifyAll();
       }
     }
+    working = false;
   }
 
   public V get() throws InterruptedException {
@@ -61,7 +71,7 @@ public class FutureData<V> {
       }
 
       if (data != null) {
-        return data.get();
+        return data.get(); // may return null.
       }
       else {
         throw new TimeoutException();
@@ -73,6 +83,18 @@ public class FutureData<V> {
     private final V value;
     public Data(V value) { this.value = value; }
     public V get() { return value; }
+  }
+
+  @Override
+  public String toString() {
+    StringBuffer sb = new StringBuffer();
+    sb.append(this.getClass().getSimpleName())
+      .append("[working: ")
+      .append(working)
+      .append(", data: ")
+      .append(data)
+      .append("]");
+    return sb.toString();
   }
 
 }

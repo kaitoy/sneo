@@ -8,10 +8,10 @@
     <s:form id="trapTarget_form" theme="simple" cssClass="giane-form">
       <fieldset>
         <legend><s:text name="trapTarget.form" /></legend>
-        <div>
+        <div class="giane-form-field-box">
           <s:hidden id="trapTarget_id" name="model.id" />
         </div>
-        <div>
+        <div class="giane-form-field-box">
           <s:textfield
             id="trapTarget_name"
             name="model.name"
@@ -20,9 +20,9 @@
             requiredposition="left"
             theme="xhtml"
           />
-          <span id="trapTarget_form_nameError"></span>
+          <span class="giane-form-error-message" id="trapTarget_form_nameError"></span>
         </div>
-        <div>
+        <div class="giane-form-field-box">
           <s:textfield
             id="trapTarget_address"
             name="model.address"
@@ -31,9 +31,9 @@
             requiredposition="left"
             theme="xhtml"
           />
-          <span id="trapTarget_form_addressError"></span>
+          <span class="giane-form-error-message" id="trapTarget_form_addressError"></span>
         </div>
-        <div>
+        <div class="giane-form-field-box">
           <s:textfield
             id="trapTarget_port"
             name="model.port"
@@ -42,20 +42,18 @@
             requiredposition="left"
             theme="xhtml"
           />
-          <span id="trapTarget_form_portError"></span>
+          <span class="giane-form-error-message" id="trapTarget_form_portError"></span>
         </div>
-        <div>
+        <div class="giane-form-field-box">
           <s:textarea
             id="trapTarget_descr"
             name="model.descr"
             label="%{getText('trapTarget.descr.label')}"
-            cols="30"
             required="false"
             requiredposition="left"
-            resizable="false"
             theme="xhtml"
           />
-          <span id="trapTarget_form_descrError"></span>
+          <span class="giane-form-error-message" id="trapTarget_form_descrError"></span>
         </div>
         <div>
           <table class="submit-button-table">

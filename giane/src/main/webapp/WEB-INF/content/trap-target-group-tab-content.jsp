@@ -8,10 +8,10 @@
     <s:form id="trapTargetGroup_form" theme="simple" cssClass="giane-form">
       <fieldset>
         <legend><s:text name="trapTargetGroup.form" /></legend>
-        <div>
+        <div class="giane-form-field-box">
           <s:hidden id="trapTargetGroup_id" name="model.id" />
         </div>
-        <div>
+        <div class="giane-form-field-box">
           <s:textfield
             id="trapTargetGroup_name"
             name="model.name"
@@ -20,20 +20,18 @@
             requiredposition="left"
             theme="xhtml"
           />
-          <span id="trapTargetGroup_form_nameError"></span>
+          <span class="giane-form-error-message" id="trapTargetGroup_form_nameError"></span>
         </div>
-        <div>
+        <div class="giane-form-field-box">
           <s:textarea
             id="trapTargetGroup_descr"
             name="model.descr"
             label="%{getText('trapTargetGroup.descr.label')}"
-            cols="30"
             required="false"
             requiredposition="left"
-            resizable="false"
             theme="xhtml"
           />
-          <span id="trapTargetGroup_form_descrError"></span>
+          <span class="giane-form-error-message" id="trapTargetGroup_form_descrError"></span>
         </div>
         <div>
           <table class="submit-button-table">
@@ -125,7 +123,7 @@
   indicator="config_main_indicator"
   validate="true"
   validateFunction="checkRowSelection"
-  listenTopics="trapTargetGroup_rowDblClicked,trapTargetGroup_configButtonClicked"
+  listenTopics="trapTargetGroup_rowDblClicked"
   onBeforeTopics="configMainPaneGoingForward_before"
   onAfterValidationTopics="configMainPaneGoingForward_after"
   onCompleteTopics="configMainPaneCompleted"

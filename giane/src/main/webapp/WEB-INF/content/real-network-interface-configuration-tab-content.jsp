@@ -12,10 +12,10 @@
     >
       <fieldset>
         <legend><s:text name="realNetworkInterfaceConfiguration.form" /></legend>
-        <div>
+        <div class="giane-form-field-box">
           <s:hidden id="realNetworkInterfaceConfiguration_id" name="model.id" />
         </div>
-        <div>
+        <div class="giane-form-field-box">
           <s:textfield
             id="realNetworkInterfaceConfiguration_name"
             name="model.name"
@@ -23,9 +23,9 @@
             required="true" requiredposition="left"
             theme="xhtml"
           />
-          <span id="realNetworkInterfaceConfiguration_form_nameError"></span>
+          <span class="giane-form-error-message" id="realNetworkInterfaceConfiguration_form_nameError"></span>
         </div>
-        <div>
+        <div class="giane-form-field-box">
           <s:textfield
             id="realNetworkInterfaceConfiguration_macAddress"
             name="model.macAddress"
@@ -34,9 +34,9 @@
             requiredposition="left"
             theme="xhtml"
           />
-          <span id="realNetworkInterfaceConfiguration_form_macAddressError"></span>
+          <span class="giane-form-error-message" id="realNetworkInterfaceConfiguration_form_macAddressError"></span>
         </div>
-        <div>
+        <div class="giane-form-field-box">
           <s:select
             id="realNetworkInterfaceConfiguration_deviceName"
             name="model.deviceName"
@@ -48,20 +48,18 @@
             theme="xhtml"
             cssClass="select-field"
           />
-          <span id="realNetworkInterfaceConfiguration_form_deviceNameError"></span>
+          <span class="giane-form-error-message" id="realNetworkInterfaceConfiguration_form_deviceNameError"></span>
         </div>
-        <div>
+        <div class="giane-form-field-box">
           <s:textarea
             id="realNetworkInterfaceConfiguration_descr"
             name="model.descr"
             label="%{getText('realNetworkInterfaceConfiguration.descr.label')}"
-            cols="30"
             required="false"
             requiredposition="left"
-            resizable="false"
             theme="xhtml"
           />
-          <span id="realNetworkInterfaceConfiguration_form_descrError"></span>
+          <span class="giane-form-error-message" id="realNetworkInterfaceConfiguration_form_descrError"></span>
         </div>
         <div>
           <table class="submit-button-table">
@@ -181,7 +179,7 @@
   indicator="config_main_indicator"
   validate="true"
   validateFunction="checkRowSelection"
-  listenTopics="realNetworkInterfaceConfiguration_rowDblClicked,realNetworkInterfaceConfiguration_configButtonClicked"
+  listenTopics="realNetworkInterfaceConfiguration_rowDblClicked"
   onBeforeTopics="configMainPaneGoingForward_before"
   onAfterValidationTopics="configMainPaneGoingForward_after"
   onCompleteTopics="configMainPaneCompleted"

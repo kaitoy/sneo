@@ -47,6 +47,23 @@ $(document).ready( function() {
     $(".checked").val([]).removeClass("checked");
     $(".selectedOption").removeAttr("selected").removeClass("selectedOption");
   });
+  
+  $.subscribe("gridConfigButtonClicked", function(event, gridDom) {
+    var topic = $(gridDom).attr("id");
+    topic = topic.substring(0, topic.lastIndexOf("grid"));
+    topic += "rowDblClicked";
+    $.publish(topic);
+  });
+  
+  $.subscribe("gridDeleteButtonClicked", function(event, gridDom) {
+    var grid= $(gridDom);
+    var gridId = grid.attr("id");
+    var modelName = gridId.substring(0, gridId.lastIndexOf("_grid"));
+    $("#" + modelName + "_deletingIdList")
+      .val(grid.jqGrid("getGridParam", "selrow"));
+      
+    $.publish(modelName + "_deleteConfirmation");
+  });
 });
 
 // formatter

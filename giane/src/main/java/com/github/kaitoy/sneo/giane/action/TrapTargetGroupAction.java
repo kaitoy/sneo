@@ -7,7 +7,9 @@
 
 package com.github.kaitoy.sneo.giane.action;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.InterceptorRef;
@@ -44,10 +46,11 @@ implements ModelDriven<TrapTargetGroup>, ParameterAware, FormMessage,
   private Map<String, String[]> parameters;
   private TrapTargetGroupDao trapTargetGroupDao;
   private String uniqueColumn;
+  private String deletingIdList;
 
   public TrapTargetGroup getModel() { return model; }
 
-  @VisitorFieldValidator(appendPrefix = false)
+  @VisitorFieldValidator(appendPrefix = true)
   public void setModel(TrapTargetGroup model) { this.model = model; }
 
   public void setParameters(Map<String, String[]> parameters) {
@@ -61,6 +64,10 @@ implements ModelDriven<TrapTargetGroup>, ParameterAware, FormMessage,
 
   public String getUniqueColumn() {
     return uniqueColumn;
+  }
+
+  public void setDeletingIdList(String deletingIdList) {
+    this.deletingIdList = deletingIdList;
   }
 
   @Override
@@ -161,6 +168,20 @@ implements ModelDriven<TrapTargetGroup>, ParameterAware, FormMessage,
     update.setDescr(model.getDescr());
     trapTargetGroupDao.update(update);
 
+    return "success";
+  }
+
+  @Action(
+    value = "trap-target-group-delete",
+    results = { @Result(name = "success", location = "empty.jsp") }
+  )
+  @SkipValidation
+  public String delete() throws Exception {
+    List<TrapTargetGroup> deletingList = new ArrayList<TrapTargetGroup>();
+    for (String idStr: deletingIdList.split(",")) {
+      deletingList.add(trapTargetGroupDao.findByKey(Integer.valueOf(idStr)));
+    }
+    trapTargetGroupDao.delete(deletingList);
     return "success";
   }
 

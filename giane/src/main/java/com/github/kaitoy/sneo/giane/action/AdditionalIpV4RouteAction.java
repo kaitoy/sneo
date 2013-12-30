@@ -7,7 +7,9 @@
 
 package com.github.kaitoy.sneo.giane.action;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.InterceptorRef;
@@ -42,6 +44,7 @@ implements ModelDriven<AdditionalIpV4Route>, ParameterAware, FormMessage, Additi
   private Map<String, String[]> parameters;
   private AdditionalIpV4RouteDao additionalIpV4RouteDao;
   private String uniqueColumn;
+  private String deletingIdList;
 
   public AdditionalIpV4Route getModel() { return model; }
 
@@ -49,7 +52,7 @@ implements ModelDriven<AdditionalIpV4Route>, ParameterAware, FormMessage, Additi
     this.parameters = parameters;
   }
 
-  @VisitorFieldValidator(appendPrefix = false)
+  @VisitorFieldValidator(appendPrefix = true)
   public void setModel(AdditionalIpV4Route model) { this.model = model; }
 
   // for DI
@@ -61,6 +64,10 @@ implements ModelDriven<AdditionalIpV4Route>, ParameterAware, FormMessage, Additi
 
   public String getUniqueColumn() {
     return uniqueColumn;
+  }
+
+  public void setDeletingIdList(String deletingIdList) {
+    this.deletingIdList = deletingIdList;
   }
 
   @Override
@@ -124,6 +131,21 @@ implements ModelDriven<AdditionalIpV4Route>, ParameterAware, FormMessage, Additi
     update.setMetric(model.getMetric());
     update.setDescr(model.getDescr());
     additionalIpV4RouteDao.update(update);
+
+    return "success";
+  }
+
+  @Action(
+    value = "additional-ip-v4-route-delete",
+    results = { @Result(name = "success", location = "empty.jsp") }
+  )
+  @SkipValidation
+  public String delete() throws Exception {
+    List<AdditionalIpV4Route> deletingList = new ArrayList<AdditionalIpV4Route>();
+    for (String idStr: deletingIdList.split(",")) {
+      deletingList.add(additionalIpV4RouteDao.findByKey(Integer.valueOf(idStr)));
+    }
+    additionalIpV4RouteDao.delete(deletingList);
 
     return "success";
   }

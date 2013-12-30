@@ -7,7 +7,9 @@
 
 package com.github.kaitoy.sneo.giane.action;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.InterceptorRef;
@@ -46,10 +48,11 @@ implements ModelDriven<Simulation>, ParameterAware, FormMessage, SimulationMessa
   private SimulationDao simulationDao;
   private NetworkDao networkDao;
   private String uniqueColumn;
+  private String deletingIdList;
 
   public Simulation getModel() { return model; }
 
-  @VisitorFieldValidator(appendPrefix = false)
+  @VisitorFieldValidator(appendPrefix = true)
   public void setModel(Simulation model) { this.model = model; }
 
   public void setParameters(Map<String, String[]> parameters) {
@@ -70,6 +73,10 @@ implements ModelDriven<Simulation>, ParameterAware, FormMessage, SimulationMessa
 
   public String getUniqueColumn() {
     return uniqueColumn;
+  }
+
+  public void setDeletingIdList(String deletingIdList) {
+    this.deletingIdList = deletingIdList;
   }
 
   public Map<Integer, String> getNetworks() {
@@ -150,6 +157,20 @@ implements ModelDriven<Simulation>, ParameterAware, FormMessage, SimulationMessa
     update.setDescr(model.getDescr());
     simulationDao.update(update);
 
+    return "success";
+  }
+
+  @Action(
+    value = "simulation-delete",
+    results = { @Result(name = "success", location = "empty.jsp") }
+  )
+  @SkipValidation
+  public String delete() throws Exception {
+    List<Simulation> deletingList = new ArrayList<Simulation>();
+    for (String idStr: deletingIdList.split(",")) {
+      deletingList.add(simulationDao.findByKey(Integer.valueOf(idStr)));
+    }
+    simulationDao.delete(deletingList);
     return "success";
   }
 

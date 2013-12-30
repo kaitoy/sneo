@@ -8,10 +8,10 @@
     <s:form id="fixedIpV4Route_form" theme="simple" cssClass="giane-form">
       <fieldset>
         <legend><s:text name="fixedIpV4Route.form" /></legend>
-        <div>
+        <div class="giane-form-field-box">
           <s:hidden id="fixedIpV4Route_id" name="model.id" />
         </div>
-        <div>
+        <div class="giane-form-field-box">
           <s:textfield
             id="fixedIpV4Route_networkDestination"
             name="model.networkDestination"
@@ -20,9 +20,9 @@
             requiredposition="left"
             theme="xhtml"
           />
-          <span id="fixedIpV4Route_form_networkDestinationError"></span>
+          <span class="giane-form-error-message" id="fixedIpV4Route_form_networkDestinationError"></span>
         </div>
-        <div>
+        <div class="giane-form-field-box">
           <s:textfield
             id="fixedIpV4Route_netmask"
             name="model.netmask"
@@ -31,9 +31,9 @@
             requiredposition="left"
             theme="xhtml"
           />
-          <span id="fixedIpV4Route_form_netmaskError"></span>
+          <span class="giane-form-error-message" id="fixedIpV4Route_form_netmaskError"></span>
         </div>
-        <div>
+        <div class="giane-form-field-box">
           <s:textfield
             id="fixedIpV4Route_gateway"
             name="model.gateway"
@@ -42,9 +42,9 @@
             requiredposition="left"
             theme="xhtml"
           />
-          <span id="fixedIpV4Route_form_gatewayError"></span>
+          <span class="giane-form-error-message" id="fixedIpV4Route_form_gatewayError"></span>
         </div>
-        <div>
+        <div class="giane-form-field-box">
           <s:textfield
             id="fixedIpV4Route_metric"
             name="model.metric"
@@ -53,7 +53,7 @@
             requiredposition="left"
             theme="xhtml"
           />
-          <span id="fixedIpV4Route_form_metricError"></span>
+          <span class="giane-form-error-message" id="fixedIpV4Route_form_metricError"></span>
         </div>
         <div>
           <table class="submit-button-table">

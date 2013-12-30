@@ -18,6 +18,7 @@ import com.github.kaitoy.sneo.giane.model.dao.impl.EntityManagerInjectee;
 import com.opensymphony.xwork2.ActionInvocation;
 import com.opensymphony.xwork2.ActionSupport;
 import com.opensymphony.xwork2.interceptor.AbstractInterceptor;
+import com.opensymphony.xwork2.interceptor.PreResultListener;
 
 public class EntityManagerInjectionInterceptor extends AbstractInterceptor {
 
@@ -74,22 +75,44 @@ public class EntityManagerInjectionInterceptor extends AbstractInterceptor {
         tx = em.getTransaction();
         tx.begin();
       }
+      invocation.addPreResultListener(new Committer(tx));
       String result = invocation.invoke();
-      if (tx != null && tx.isActive()) {
-        tx.commit();
-      }
+
+//      If commit here and fail, there is no way to change the action result to an error.
+//      So, commits are done in Committer which is a PreResultListener.
+//
+//      if (tx != null && tx.isActive()) {
+//        tx.commit();
+//      }
 
       return result;
     } catch (Exception e) {
       if (tx != null && tx.isActive()) {
         tx.rollback();
       }
+
       throw e;
     } finally {
       if (em != null && em.isOpen()) {
         em.close();
       }
     }
+  }
+
+  private static class Committer implements PreResultListener {
+
+    private final EntityTransaction tx;
+
+    private Committer(EntityTransaction tx) {
+      this.tx = tx;
+    }
+
+    public void beforeResult(ActionInvocation invocation, String resultCode) {
+      if (tx != null && tx.isActive()) {
+        tx.commit();
+      }
+    }
+
   }
 
 }

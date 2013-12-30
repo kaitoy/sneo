@@ -1,6 +1,6 @@
 $(document).ready( function() {
   $.subscribe("removeErrors", function(event, data) {
-    $(".errorLabel").html("").removeClass("errorLabel");
+    $(".giane-form-error-message").unbind().hide();
   });
 });
 
@@ -16,8 +16,11 @@ function validation(form, errors) {
     $.each(errors.fieldErrors, function(index, value) {
       var elem = $("#" + form[0].id + "_" + index + "Error");
       if(elem) {
-        elem.html(value[0]);
-        elem.addClass("errorLabel");
+        elem.html(value.pop());
+        elem.click(function () {
+          $(this).unbind().hide();
+        });
+        elem.show();
       }
     });
   }

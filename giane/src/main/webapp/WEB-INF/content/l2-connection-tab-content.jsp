@@ -8,10 +8,10 @@
     <s:form id="l2Connection_form" theme="simple" cssClass="giane-form">
       <fieldset>
         <legend><s:text name="l2Connection.form" /></legend>
-        <div>
+        <div class="giane-form-field-box">
           <s:hidden id="l2Connection_id" name="model.id" />
         </div>
-        <div>
+        <div class="giane-form-field-box">
           <s:textfield
             id="l2Connection_name"
             name="model.name"
@@ -20,7 +20,7 @@
             requiredposition="left"
             theme="xhtml"
           />
-          <span id="l2Connection_form_nameError"></span>
+          <span class="giane-form-error-message" id="l2Connection_form_nameError"></span>
         </div>
         <div>
           <table class="submit-button-table">
@@ -116,7 +116,7 @@
   indicator="config_main_indicator"
   validate="true"
   validateFunction="checkRowSelection"
-  listenTopics="l2Connection_rowDblClicked,l2Connection_configButtonClicked"
+  listenTopics="l2Connection_rowDblClicked"
   onBeforeTopics="configMainPaneGoingForward_before"
   onAfterValidationTopics="configMainPaneGoingForward_after"
   onCompleteTopics="configMainPaneCompleted"

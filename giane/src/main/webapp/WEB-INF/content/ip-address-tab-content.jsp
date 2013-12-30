@@ -8,10 +8,10 @@
     <s:form id="ipAddress_form" theme="simple" cssClass="giane-form">
       <fieldset>
         <legend><s:text name="ipAddress.form" /></legend>
-        <div>
+        <div class="giane-form-field-box">
           <s:hidden id="ipAddress_id" name="model.id" />
         </div>
-        <div>
+        <div class="giane-form-field-box">
           <s:textfield
             id="ipAddress_address"
             name="model.address"
@@ -20,9 +20,9 @@
             requiredposition="left"
             theme="xhtml"
           />
-          <span id="ipAddress_form_addressError"></span>
+          <span class="giane-form-error-message" id="ipAddress_form_addressError"></span>
         </div>
-        <div>
+        <div class="giane-form-field-box">
           <s:textfield
             id="ipAddress_prefixLength"
             name="model.prefixLength"
@@ -31,7 +31,7 @@
             requiredposition="left"
             theme="xhtml"
           />
-          <span id="ipAddress_form_prefixLengthError"></span>
+          <span class="giane-form-error-message" id="ipAddress_form_prefixLengthError"></span>
         </div>
         <div>
           <table class="submit-button-table">

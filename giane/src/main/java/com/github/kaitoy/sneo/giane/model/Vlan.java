@@ -27,6 +27,7 @@ import javax.persistence.Table;
 import com.github.kaitoy.sneo.giane.action.message.FormMessage;
 import com.github.kaitoy.sneo.network.dto.VlanDto;
 import com.github.kaitoy.sneo.network.dto.VlanMemberDto;
+import com.opensymphony.xwork2.validator.annotations.ConversionErrorFieldValidator;
 import com.opensymphony.xwork2.validator.annotations.IntRangeFieldValidator;
 import com.opensymphony.xwork2.validator.annotations.RequiredFieldValidator;
 import com.opensymphony.xwork2.validator.annotations.RequiredStringValidator;
@@ -81,6 +82,10 @@ public class Vlan implements Serializable, FormMessage {
     return vid;
   }
 
+  @ConversionErrorFieldValidator(
+    key = "ConversionErrorFieldValidator.error",
+    shortCircuit = true
+  )
   @RequiredFieldValidator(
     key = "RequiredFieldValidator.error",
     shortCircuit = true

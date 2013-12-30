@@ -7,7 +7,9 @@
 
 package com.github.kaitoy.sneo.giane.action;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.InterceptorRef;
@@ -43,10 +45,11 @@ implements ModelDriven<Network>, ParameterAware, FormMessage, NetworkMessage, Br
   private Map<String, String[]> parameters;
   private NetworkDao networkDao;
   private String uniqueColumn;
+  private String deletingIdList;
 
   public Network getModel() { return model; }
 
-  @VisitorFieldValidator(appendPrefix = false)
+  @VisitorFieldValidator(appendPrefix = true)
   public void setModel(Network model) { this.model = model; }
 
   public void setParameters(Map<String, String[]> parameters) {
@@ -60,6 +63,10 @@ implements ModelDriven<Network>, ParameterAware, FormMessage, NetworkMessage, Br
 
   public String getUniqueColumn() {
     return uniqueColumn;
+  }
+
+  public void setDeletingIdList(String deletingIdList) {
+    this.deletingIdList = deletingIdList;
   }
 
   @Override
@@ -119,6 +126,20 @@ implements ModelDriven<Network>, ParameterAware, FormMessage, NetworkMessage, Br
     update.setDescr(model.getDescr());
     networkDao.update(update);
 
+    return "success";
+  }
+
+  @Action(
+    value = "network-delete",
+    results = { @Result(name = "success", location = "empty.jsp") }
+  )
+  @SkipValidation
+  public String delete() throws Exception {
+    List<Network> deletingList = new ArrayList<Network>();
+    for (String idStr: deletingIdList.split(",")) {
+      deletingList.add(networkDao.findByKey(Integer.valueOf(idStr)));
+    }
+    networkDao.delete(deletingList);
     return "success";
   }
 

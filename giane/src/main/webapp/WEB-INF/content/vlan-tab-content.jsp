@@ -8,10 +8,10 @@
     <s:form id="vlan_form" theme="simple" cssClass="giane-form">
       <fieldset>
         <legend><s:text name="vlan.form" /></legend>
-        <div>
+        <div class="giane-form-field-box">
           <s:hidden id="vlan_id" name="model.id" />
         </div>
-        <div>
+        <div class="giane-form-field-box">
           <s:textfield
             id="vlan_name"
             name="model.name"
@@ -20,9 +20,9 @@
             requiredposition="left"
             theme="xhtml"
           />
-          <span id="vlan_form_nameError"></span>
+          <span class="giane-form-error-message" id="vlan_form_nameError"></span>
         </div>
-        <div>
+        <div class="giane-form-field-box">
           <s:textfield
             id="vlan_vid"
             name="model.vid"
@@ -30,7 +30,7 @@
             required="true" requiredposition="left"
             theme="xhtml"
           />
-          <span id="vlan_form_vidError"></span>
+          <span class="giane-form-error-message" id="vlan_form_vidError"></span>
         </div>
         <div>
           <table class="submit-button-table">
@@ -121,7 +121,7 @@
   indicator="config_main_indicator"
   validate="true"
   validateFunction="checkRowSelection"
-  listenTopics="vlan_rowDblClicked,vlan_configButtonClicked"
+  listenTopics="vlan_rowDblClicked"
   onBeforeTopics="configMainPaneGoingForward_before"
   onAfterValidationTopics="configMainPaneGoingForward_after"
   onCompleteTopics="configMainPaneCompleted"

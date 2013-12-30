@@ -1,9 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="s" uri="/struts-tags" %>
+<%@ taglib prefix="sj" uri="/struts-jquery-tags" %>
 <%@ taglib prefix="sjg" uri="/struts-jquery-grid-tags" %>
 
 <s:url var="realNetworkInterfaceConfiguration_grid_url" action="real-network-interface-configuration-grid"/>
-<s:url var="realNetworkInterfaceConfiguration_edit_grid_entry_url" action="real-network-interface-configuration-edit-grid-entry"/>
 
 <sjg:grid
   id="realNetworkInterfaceConfiguration_grid"
@@ -17,18 +17,21 @@
   navigatorEdit="false"
   navigatorView="true"
   navigatorViewOptions="{modal:true}"
-  navigatorDelete="true"
-  navigatorDeleteOptions="{modal:true, drag:true, reloadAfterSubmit:true, width:300, left:0}"
+  navigatorDelete="false"
   navigatorSearch="true"
   navigatorSearchOptions="{modal:true, drag:true, closeAfterSearch:true, closeAfterReset:true}"
   navigatorExtraButtons="{
     config: { 
       title: 'Configure selected item',
       icon: 'ui-icon-gear',
-      topic: 'realNetworkInterfaceConfiguration_configButtonClicked'
+      topic: 'gridConfigButtonClicked'
+    },
+    delete: { 
+      title: 'Delete selected item',
+      icon: 'ui-icon-trash',
+      topic: 'gridDeleteButtonClicked'
     }
   }"
-  editurl="%{realNetworkInterfaceConfiguration_edit_grid_entry_url}"
   editinline="false"
   multiselect="false"
   viewrecords="true"
@@ -61,8 +64,6 @@
     index="name"
     title="%{getText('realNetworkInterfaceConfiguration.name.label')}"
     sortable="true"
-    editable="true"
-    edittype="text"
     search="true"
     searchoptions="{sopt:['eq','ne','bw','en','cn']}"
     width="140"
@@ -72,8 +73,6 @@
     index="macAddress"
     title="%{getText('realNetworkInterfaceConfiguration.macAddress.label')}"
     sortable="true"
-    editable="true"
-    edittype="text"
     search="true"
     searchoptions="{sopt:['eq','ne','bw','en','cn']}"
     width="140"
@@ -83,8 +82,6 @@
     index="deviceName"
     title="%{getText('realNetworkInterfaceConfiguration.deviceName.label')}"
     sortable="true"
-    editable="false"
-    edittype="text"
     search="true"
     searchoptions="{sopt:['eq','ne','bw','en','cn']}"
     width="300"
@@ -94,11 +91,38 @@
     index="descr"
     title="%{getText('realNetworkInterfaceConfiguration.descr.label')}"
     sortable="true"
-    editable="true"
-    edittype="text"
     search="true"
     searchoptions="{sopt:['eq','ne','bw','en','cn']}"
     width="200"
     formatter="oneLine"
   />
 </sjg:grid>
+
+<s:form id="realNetworkInterfaceConfiguration_delete_form">
+  <s:hidden id="realNetworkInterfaceConfiguration_deletingIdList" name="deletingIdList" />
+  <s:url var="delete_confirmation_url" action="confirmation-dialog" escapeAmp="false">
+    <s:param name="okTopic" value="'realNetworkInterfaceConfiguration_delete'" />
+    <s:param name="textKey" value="'confirmationDialog.realNetworkInterfaceConfiguration.delete.text'" />
+  </s:url>
+  <sj:submit
+    listenTopics="realNetworkInterfaceConfiguration_deleteConfirmation"
+    href="%{delete_confirmation_url}"
+    targets="shared_dialog_box"
+    replaceTarget="false"
+    validate="true"
+    validateFunction="validation"
+    clearForm="false"
+    cssStyle="display: none;"
+  />
+  <s:url var="realNetworkInterfaceConfiguration_delete_url" action="real-network-interface-configuration-delete" />
+  <sj:submit
+    listenTopics="realNetworkInterfaceConfiguration_delete"
+    href="%{realNetworkInterfaceConfiguration_delete_url}"
+    targets="trash_box"
+    replaceTarget="false"
+    onSuccessTopics="realNetworkInterfaceConfigurationTableUpdated"
+    onErrorTopics="deleteError"
+    clearForm="true"
+    cssStyle="display: none;"
+  />
+</s:form>

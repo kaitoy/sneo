@@ -7,7 +7,9 @@
 
 package com.github.kaitoy.sneo.giane.action;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.InterceptorRef;
@@ -43,10 +45,11 @@ implements ModelDriven<FixedIpV4Route>, ParameterAware, FormMessage, FixedIpV4Ro
   private Map<String, String[]> parameters;
   private FixedIpV4RouteDao fixedIpV4RouteDao;
   private NodeDao nodeDao;
+  private String deletingIdList;
 
   public FixedIpV4Route getModel() { return model; }
 
-  @VisitorFieldValidator(appendPrefix = false)
+  @VisitorFieldValidator(appendPrefix = true)
   public void setModel(FixedIpV4Route model) { this.model = model; }
 
   public void setParameters(Map<String, String[]> parameters) {
@@ -61,6 +64,10 @@ implements ModelDriven<FixedIpV4Route>, ParameterAware, FormMessage, FixedIpV4Ro
   // for DI
   public void setNodeDao(NodeDao nodeDao) {
     this.nodeDao = nodeDao;
+  }
+
+  public void setDeletingIdList(String deletingIdList) {
+    this.deletingIdList = deletingIdList;
   }
 
   @Override
@@ -126,6 +133,20 @@ implements ModelDriven<FixedIpV4Route>, ParameterAware, FormMessage, FixedIpV4Ro
     update.setMetric(model.getMetric());
     fixedIpV4RouteDao.update(update);
 
+    return "success";
+  }
+
+  @Action(
+    value = "fixed-ip-v4-route-delete",
+    results = { @Result(name = "success", location = "empty.jsp") }
+  )
+  @SkipValidation
+  public String delete() throws Exception {
+    List<FixedIpV4Route> deletingList = new ArrayList<FixedIpV4Route>();
+    for (String idStr: deletingIdList.split(",")) {
+      deletingList.add(fixedIpV4RouteDao.findByKey(Integer.valueOf(idStr)));
+    }
+    fixedIpV4RouteDao.delete(deletingList);
     return "success";
   }
 

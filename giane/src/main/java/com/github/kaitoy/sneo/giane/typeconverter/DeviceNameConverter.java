@@ -30,6 +30,10 @@ public class DeviceNameConverter extends StrutsTypeConverter {
   @SuppressWarnings("rawtypes")
   @Override
   public String convertToString(Map context, Object o) {
+    if (o == null) {
+      return "";
+    }
+
     try {
       String deviceName = ((String[])o)[0];
       return deviceName.substring(deviceName.indexOf(":") + 1);

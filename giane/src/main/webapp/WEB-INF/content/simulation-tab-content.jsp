@@ -8,10 +8,10 @@
     <s:form id="simulation_form" theme="simple" cssClass="giane-form">
       <fieldset>
         <legend><s:text name="simulation.form" /></legend>
-        <div>
+        <div class="giane-form-field-box">
           <s:hidden id="simulation_id" name="model.id" />
         </div>
-        <div>
+        <div class="giane-form-field-box">
           <s:textfield
             id="simulation_name"
             name="model.name"
@@ -20,9 +20,9 @@
             requiredposition="left"
             theme="xhtml"
           />
-          <span id="simulation_form_nameError"></span>
+          <span class="giane-form-error-message" id="simulation_form_nameError"></span>
         </div>
-        <div>
+        <div class="giane-form-field-box">
           <s:select
             id="simulation_network"
             name="model.network"
@@ -34,19 +34,17 @@
             theme="xhtml"
             cssClass="select-field"
           />
-          <span id="simulation_form_networkError"></span>
+          <span class="giane-form-error-message" id="simulation_form_networkError"></span>
         </div>
-        <div>
+        <div class="giane-form-field-box">
           <s:textarea
             id="simulation_descr"
             name="model.descr"
             label="%{getText('simulation.descr.label')}"
-            cols="30"
             required="false" requiredposition="left"
-            resizable="false"
             theme="xhtml"
           />
-          <span id="simulation_form_descrError"></span>
+          <span class="giane-form-error-message" id="simulation_form_descrError"></span>
         </div>
         <div>
           <table class="submit-button-table">
@@ -130,7 +128,12 @@
     config: { 
       title: 'Configure selected item',
       icon: 'ui-icon-gear',
-      topic: 'simulation_configButtonClicked'
+      topic: 'gridConfigButtonClicked'
+    },
+    delete: { 
+      title: 'Delete selected item',
+      icon: 'ui-icon-trash',
+      topic: 'gridDeleteButtonClicked'
     }
   }
   </s:param>
@@ -153,7 +156,7 @@
   indicator="config_main_indicator"
   validate="true"
   validateFunction="checkRowSelection"
-  listenTopics="simulation_rowDblClicked,simulation_configButtonClicked"
+  listenTopics="simulation_rowDblClicked"
   onBeforeTopics="configMainPaneGoingForward_before"
   onAfterValidationTopics="configMainPaneGoingForward_after"
   onCompleteTopics="configMainPaneCompleted"

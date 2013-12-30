@@ -11,10 +11,10 @@
     >
       <fieldset>
         <legend><s:text name="set_additionalIpV4RouteGroup_to_node.form" /></legend>
-        <div>
+        <div class="giane-form-field-box">
           <s:hidden id="node_with_additionalIpV4RouteGroup_id" name="node" />
         </div>
-        <div>
+        <div class="giane-form-field-box">
           <s:textfield
             id="node_with_additionalIpV4RouteGroup_name"
             name="name"
@@ -24,7 +24,7 @@
             cssClass="giane-disabled-field"
           />
         </div>
-        <div>
+        <div class="giane-form-field-box">
           <s:select
             id="node_with_additionalIpV4RouteGroup_additionalIpV4RouteGroup"
             name="additionalIpV4RouteGroup"
@@ -37,7 +37,7 @@
             theme="xhtml"
             cssClass="select-field"
           />
-          <label for="node_with_additionalIpV4RouteGroup_additionalIpV4RouteGroup"><span id="set_additionalIpV4RouteGroup_to_node_form_additionalIpV4RouteGroupError"></span></label>
+          <span class="giane-form-error-message" id="set_additionalIpV4RouteGroup_to_node_form_additionalIpV4RouteGroupError"></span>
         </div>
         <div>
           <table class="submit-button-table">

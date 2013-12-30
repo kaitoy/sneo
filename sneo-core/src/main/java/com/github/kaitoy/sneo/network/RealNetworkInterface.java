@@ -36,6 +36,7 @@ import org.pcap4j.util.NifSelector;
 import org.snmp4j.log.LogAdapter;
 import org.snmp4j.log.LogFactory;
 import com.github.kaitoy.sneo.network.protocol.EthernetHelper;
+import com.github.kaitoy.sneo.network.protocol.IpV6Helper;
 import com.github.kaitoy.sneo.util.NamedThreadFactory;
 
 public final class RealNetworkInterface implements NetworkInterface {
@@ -51,6 +52,8 @@ public final class RealNetworkInterface implements NetworkInterface {
 
   private final String name;
   private final MacAddress macAddress;
+  private final List<MacAddress> multicastMacAddresses
+    = Collections.synchronizedList(new ArrayList<MacAddress>());
   private final List<NifIpAddress> ipAddresses
     = Collections.synchronizedList(new ArrayList<NifIpAddress>());
   private final PacketListener host;
@@ -148,8 +151,14 @@ public final class RealNetworkInterface implements NetworkInterface {
       .append(")")
       .append(" or ")
       .append("(")
-      .append("arp and ether dst ")
+      .append("arp and ether dst ") // ARP request
       .append(Pcaps.toBpfString(MacAddress.ETHER_BROADCAST_ADDRESS))
+      .append(")")
+      .append(" or ")
+      .append("(")
+      // Destination Mac address starts with 0x3333FF,
+      // which indicates it is Neighbor Solicitation
+      .append("icmp6 and ether[0:4] & 0xFFFFFF00 = 0x3333FF00")
       .append(")");
 
     try {
@@ -159,7 +168,7 @@ public final class RealNetworkInterface implements NetworkInterface {
         BpfCompileMode.OPTIMIZE
       );
     } catch (PcapNativeException e) {
-      throw new AssertionError("Never get here.");
+      throw new AssertionError(e);
     } catch (NotOpenException e) {
       throw new AssertionError("Never get here.");
     }
@@ -180,6 +189,14 @@ public final class RealNetworkInterface implements NetworkInterface {
   }
 
   public void addIpAddress(NifIpAddress addr) {
+    if (addr instanceof NifIpV6Address) {
+      multicastMacAddresses.add(
+        IpV6Helper.generateNeighborSolicitationMacAddress(
+          IpV6Helper.generateSolicitedNodeMulticastAddress(
+            ((NifIpV6Address)addr).getIpAddr())
+          )
+        );
+    }
     ipAddresses.add(addr);
   }
 
@@ -326,17 +343,20 @@ public final class RealNetworkInterface implements NetworkInterface {
       }
 
       if (!EthernetHelper.matchesDestination(packet, macAddress)) {
-        if (logger.isDebugEnabled()) {
-          StringBuilder sb = new StringBuilder();
-          logger.debug(
-            sb.append("Dropped a packet not to me(")
-              .append(macAddress)
-              .append("): ")
-              .append(packet)
-              .toString()
-          );
+        MacAddress dstAddr = packet.get(EthernetPacket.class).getHeader().getDstAddr();
+        if (!multicastMacAddresses.contains(dstAddr)) {
+          if (logger.isDebugEnabled()) {
+            StringBuilder sb = new StringBuilder();
+            logger.debug(
+              sb.append("Dropped a packet not to me(")
+                .append(macAddress)
+                .append("): ")
+                .append(packet)
+                .toString()
+            );
+          }
+          return;
         }
-        return;
       }
 
       IpV4Packet ipv4 = packet.get(IpV4Packet.class);

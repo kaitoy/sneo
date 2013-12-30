@@ -11,10 +11,10 @@
     >
       <fieldset>
         <legend><s:text name="set_trapTargetGroup_to_snmpAgent.form" /></legend>
-        <div>
+        <div class="giane-form-field-box">
           <s:hidden id="snmpAgent_with_trapTargetGroup_id" name="snmpAgent" />
         </div>
-        <div>
+        <div class="giane-form-field-box">
           <s:textfield
             id="snmpAgent_with_trapTargetGroup_address"
             name="address"
@@ -24,7 +24,7 @@
             cssClass="giane-disabled-field"
           />
         </div>
-        <div>
+        <div class="giane-form-field-box">
           <s:textfield
             id="snmpAgent_with_trapTargetGroup_hostNode"
             name="hostNode"
@@ -34,7 +34,7 @@
             cssClass="giane-disabled-field"
           />
         </div>
-        <div>
+        <div class="giane-form-field-box">
           <s:select
             id="snmpAgent_with_trapTargetGroup_trapTargetGroup"
             name="trapTargetGroup"
@@ -47,7 +47,7 @@
             theme="xhtml"
             cssClass="select-field"
           />
-          <label for="snmpAgent_with_trapTargetGroup_trapTargetGroup"><span id="set_trapTargetGroup_to_snmpAgent_form_trapTargetGroupError"></span></label>
+          <span class="giane-form-error-message" id="set_trapTargetGroup_to_snmpAgent_form_trapTargetGroupError"></span>
         </div>
         <div>
           <table class="submit-button-table">

@@ -8,11 +8,12 @@
 package com.github.kaitoy.sneo.network.protocol;
 
 import org.pcap4j.packet.AbstractPacket.AbstractBuilder;
-import org.pcap4j.packet.Packet;
 import org.pcap4j.packet.ArpPacket;
 import org.pcap4j.packet.Dot1qVlanTagPacket;
 import org.pcap4j.packet.EthernetPacket;
 import org.pcap4j.packet.IpV4Packet;
+import org.pcap4j.packet.IpV6Packet;
+import org.pcap4j.packet.Packet;
 import org.pcap4j.packet.namednumber.EtherType;
 import org.pcap4j.util.MacAddress;
 
@@ -39,6 +40,9 @@ public final class EthernetHelper {
     if (payload instanceof IpV4Packet) {
       type = EtherType.IPV4;
     }
+    if (payload instanceof IpV6Packet) {
+      type = EtherType.IPV6;
+    }
     else if (payload instanceof ArpPacket) {
       type = EtherType.ARP;
     }
@@ -55,6 +59,7 @@ public final class EthernetHelper {
                        .type(type)
                        .payloadBuilder(
                           new AbstractBuilder() {
+                            @Override
                             public Packet build() {
                               return payload;
                             }

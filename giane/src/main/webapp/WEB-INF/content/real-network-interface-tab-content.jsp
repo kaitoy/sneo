@@ -8,10 +8,10 @@
     <s:form id="realNetworkInterface_form" theme="simple" cssClass="giane-form">
       <fieldset>
         <legend><s:text name="realNetworkInterface.form" /></legend>
-        <div>
+        <div class="giane-form-field-box">
           <s:hidden id="realNetworkInterface_id" name="model.id" />
         </div>
-        <div>
+        <div class="giane-form-field-box">
           <s:textfield
             id="realNetworkInterface_name"
             name="model.name"
@@ -20,7 +20,7 @@
             requiredposition="left"
             theme="xhtml"
           />
-          <span id="realNetworkInterface_form_nameError"></span>
+          <span class="giane-form-error-message" id="realNetworkInterface_form_nameError"></span>
         </div>
         <div>
           <table class="submit-button-table">

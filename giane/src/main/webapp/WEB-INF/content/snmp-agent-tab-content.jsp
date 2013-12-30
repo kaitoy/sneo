@@ -8,10 +8,10 @@
     <s:form id="snmpAgent_form" theme="simple" cssClass="giane-form">
       <fieldset>
         <legend><s:text name="snmpAgent.form" /></legend>
-        <div>
+        <div class="giane-form-field-box">
           <s:hidden id="snmpAgent_id" name="model.id" />
         </div>
-        <div>
+        <div class="giane-form-field-box">
           <s:textfield
             id="snmpAgent_address"
             name="model.address"
@@ -21,9 +21,9 @@
             theme="xhtml"
             title="Used as the trap source address"
           />
-          <span id="snmpAgent_form_addressError"></span>
+          <span class="giane-form-error-message" id="snmpAgent_form_addressError"></span>
         </div>
-        <div>
+        <div class="giane-form-field-box">
           <s:textfield
           id="snmpAgent_port"
           name="model.port"
@@ -32,9 +32,9 @@
           requiredposition="left"
           theme="xhtml"
         />
-          <span id="snmpAgent_form_portError"></span>
+          <span class="giane-form-error-message" id="snmpAgent_form_portError"></span>
         </div>
-        <div>
+        <div class="giane-form-field-box">
           <s:textfield
             id="snmpAgent_communityName"
             name="model.communityName"
@@ -43,9 +43,9 @@
             requiredposition="left"
             theme="xhtml"
           />
-          <span id="snmpAgent_form_communityNameError"></span>
+          <span class="giane-form-error-message" id="snmpAgent_form_communityNameError"></span>
         </div>
-        <div>
+        <div class="giane-form-field-box">
           <s:textfield
             id="snmpAgent_securityName"
             name="model.securityName"
@@ -54,9 +54,9 @@
             requiredposition="left"
             theme="xhtml"
           />
-          <span id="snmpAgent_form_securityNameError"></span>
+          <span class="giane-form-error-message" id="snmpAgent_form_securityNameError"></span>
         </div>
-        <div>
+        <div class="giane-form-field-box">
           <s:textfield
             id="snmpAgent_fileMibPath"
             name="model.fileMibPath"
@@ -65,9 +65,9 @@
             requiredposition="left"
             theme="xhtml"
           />
-          <span id="snmpAgent_form_fileMibPathError"></span>
+          <span class="giane-form-error-message" id="snmpAgent_form_fileMibPathError"></span>
         </div>
-        <div>
+        <div class="giane-form-field-box">
           <s:select
             id="snmpAgent_fileMibFormat"
             name="model.fileMibFormat"
@@ -78,9 +78,9 @@
             requiredposition="left"
             theme="xhtml"
           />
-          <span id="snmpAgent_form_fileMibFormatError"></span>
+          <span class="giane-form-error-message" id="snmpAgent_form_fileMibFormatError"></span>
         </div>
-        <div>
+        <div class="giane-form-field-box">
           <s:textfield
             id="snmpAgent_communityStringIndexList"
             name="model.communityStringIndexList"
@@ -90,7 +90,7 @@
             theme="xhtml"
             title="Comma separated values"
           />
-          <span id="snmpAgent_form_communityStringIndexListError"></span>
+          <span class="giane-form-error-message" id="snmpAgent_form_communityStringIndexListError"></span>
         </div>
         <div>
           <table class="submit-button-table">

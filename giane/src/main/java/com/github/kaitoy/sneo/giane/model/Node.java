@@ -30,6 +30,7 @@ import com.github.kaitoy.sneo.network.dto.NodeDto;
 import com.github.kaitoy.sneo.network.dto.PhysicalNetworkInterfaceDto;
 import com.github.kaitoy.sneo.network.dto.RealNetworkInterfaceDto;
 import com.github.kaitoy.sneo.network.dto.VlanDto;
+import com.opensymphony.xwork2.validator.annotations.ConversionErrorFieldValidator;
 import com.opensymphony.xwork2.validator.annotations.IntRangeFieldValidator;
 import com.opensymphony.xwork2.validator.annotations.RegexFieldValidator;
 import com.opensymphony.xwork2.validator.annotations.RequiredFieldValidator;
@@ -43,7 +44,7 @@ public class Node implements Serializable, FormMessage {
   /**
    *
    */
-  private static final long serialVersionUID = 2255374375541080638L;
+  private static final long serialVersionUID = -8143129957155159075L;
 
   private Integer id;
   private String name;
@@ -55,6 +56,7 @@ public class Node implements Serializable, FormMessage {
   private List<RealNetworkInterface> realNetworkInterfaces;
   private List<Vlan> vlans;
   private List<FixedIpV4Route> ipV4Routes;
+  private List<FixedIpV6Route> ipV6Routes;
   private Network network;
 
   @Id
@@ -100,6 +102,10 @@ public class Node implements Serializable, FormMessage {
     return ttl;
   }
 
+  @ConversionErrorFieldValidator(
+    key = "ConversionErrorFieldValidator.error",
+    shortCircuit = true
+  )
   @RequiredFieldValidator(
     key = "RequiredFieldValidator.error",
     shortCircuit = true
@@ -227,6 +233,22 @@ public class Node implements Serializable, FormMessage {
 
   public void setIpV4Routes(List<FixedIpV4Route> ipV4Routes) {
     this.ipV4Routes = ipV4Routes;
+  }
+
+  @OneToMany(
+    mappedBy = "node",
+    fetch = FetchType.LAZY,
+    orphanRemoval = true,
+    cascade = {
+      CascadeType.REMOVE
+    }
+  )
+  public List<FixedIpV6Route> getIpV6Routes() {
+    return ipV6Routes;
+  }
+
+  public void setIpV6Routes(List<FixedIpV6Route> ipV6Routes) {
+    this.ipV6Routes = ipV6Routes;
   }
 
   @ManyToOne(optional = false, fetch = FetchType.LAZY)

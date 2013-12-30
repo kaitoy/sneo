@@ -48,6 +48,12 @@ abstract class AbstractDao<T> implements EntityManagerInjectee {
     entityManager.remove(obj);
   }
 
+  public void delete(List<T> objs) throws Exception {
+    for (T obj: objs) {
+      entityManager.remove(obj);
+    }
+  }
+
   public List<T> findByCriteria(CriteriaQuery<T> cq) {
     return entityManager.createQuery(cq).getResultList();
   }

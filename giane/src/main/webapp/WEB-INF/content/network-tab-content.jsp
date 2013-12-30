@@ -8,10 +8,10 @@
     <s:form id="network_form" theme="simple" cssClass="giane-form">
       <fieldset>
         <legend><s:text name="network.form" /></legend>
-        <div>
+        <div class="giane-form-field-box">
           <s:hidden id="network_id" name="model.id" />
         </div>
-        <div>
+        <div class="giane-form-field-box">
           <s:textfield
             id="network_name"
             name="model.name"
@@ -20,20 +20,18 @@
             requiredposition="left"
             theme="xhtml"
           />
-          <span id="network_form_nameError"></span>
+          <span class="giane-form-error-message" id="network_form_nameError"></span>
         </div>
-        <div>
+        <div class="giane-form-field-box">
           <s:textarea
             id="network_descr"
             name="model.descr"
             label="%{getText('network.descr.label')}"
-            cols="30"
             required="false"
             requiredposition="left"
-            resizable="false"
             theme="xhtml"
           />
-          <span id="network_form_descrError"></span>
+          <span class="giane-form-error-message" id="network_form_descrError"></span>
         </div>
         <div>
           <table class="submit-button-table">
@@ -115,7 +113,7 @@
   indicator="config_main_indicator"
   validate="true"
   validateFunction="checkRowSelection"
-  listenTopics="network_rowDblClicked,network_configButtonClicked"
+  listenTopics="network_rowDblClicked"
   onBeforeTopics="configMainPaneGoingForward_before"
   onAfterValidationTopics="configMainPaneGoingForward_after"
   onCompleteTopics="configMainPaneCompleted"

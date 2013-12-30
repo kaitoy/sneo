@@ -7,8 +7,8 @@
 
 package com.github.kaitoy.sneo.giane.action;
 
-import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.InterceptorRef;
 import org.apache.struts2.convention.annotation.ParentPackage;
@@ -46,7 +46,7 @@ implements SimulationMessage, FormMessage {
   private static final Logger logger
     = LoggerFactory.getLogger(StartSimulatorAction.class);
   private static final Map<Integer, Network> runningNetworks
-    = new HashMap<Integer, Network>(); // no need to be ConcurrentHashMap
+    = new ConcurrentHashMap<Integer, Network>();
 
   private Integer simulationId;
   private SimulationDao simulationDao;

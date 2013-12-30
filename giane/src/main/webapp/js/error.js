@@ -10,4 +10,8 @@ $(document).ready( function() {
   $.subscribe("setError", function(event, data) {
     alert("Failed to set");
   });
+  
+  $.subscribe("deleteError", function(event, data) {
+    alert("Failed to delete");
+  });
 });

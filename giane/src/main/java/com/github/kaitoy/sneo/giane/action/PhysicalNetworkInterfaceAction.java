@@ -7,7 +7,9 @@
 
 package com.github.kaitoy.sneo.giane.action;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.InterceptorRef;
@@ -50,10 +52,11 @@ implements ModelDriven<PhysicalNetworkInterface>, ParameterAware, FormMessage,
   private NodeDao nodeDao;
   private String uniqueColumn;
   private String uniqueDomain;
+  private String deletingIdList;
 
   public PhysicalNetworkInterface getModel() { return model; }
 
-  @VisitorFieldValidator(appendPrefix = false)
+  @VisitorFieldValidator(appendPrefix = true)
   public void setModel(PhysicalNetworkInterface model) { this.model = model; }
 
   public void setParameters(Map<String, String[]> parameters) {
@@ -83,6 +86,10 @@ implements ModelDriven<PhysicalNetworkInterface>, ParameterAware, FormMessage,
 
   public String getUniqueDomain() {
     return uniqueDomain;
+  }
+
+  public void setDeletingIdList(String deletingIdList) {
+    this.deletingIdList = deletingIdList;
   }
 
   @Override
@@ -155,6 +162,20 @@ implements ModelDriven<PhysicalNetworkInterface>, ParameterAware, FormMessage,
     update.setTrunk(model.isTrunk());
     physicalNetworkInterfaceDao.update(update);
 
+    return "success";
+  }
+
+  @Action(
+    value = "physical-network-interface-delete",
+    results = { @Result(name = "success", location = "empty.jsp") }
+  )
+  @SkipValidation
+  public String delete() throws Exception {
+    List<PhysicalNetworkInterface> deletingList = new ArrayList<PhysicalNetworkInterface>();
+    for (String idStr: deletingIdList.split(",")) {
+      deletingList.add(physicalNetworkInterfaceDao.findByKey(Integer.valueOf(idStr)));
+    }
+    physicalNetworkInterfaceDao.delete(deletingList);
     return "success";
   }
 
