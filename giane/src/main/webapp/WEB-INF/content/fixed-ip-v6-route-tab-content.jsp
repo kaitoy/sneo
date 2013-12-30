@@ -137,6 +137,7 @@
   <s:param name="modelNameCamel" value="'fixedIpV6Route'" />
   <s:param name="modelNameHyphen" value="'fixed-ip-v6-route'" />
   <s:param name="gridCaption" value="%{getText('ipV6Route.fixedIpV6Route.grid.caption')}" />
+  <s:param name="usesNameColmn" value="false" />
   <s:param name="usesDescrColmn" value="false" />
   <s:param name="node_id" value="%{#parameters.node_id}" />
 </s:url>

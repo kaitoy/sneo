@@ -160,6 +160,7 @@
   <s:param name="modelNameCamel" value="'additionalIpV6Route'" />
   <s:param name="modelNameHyphen" value="'additional-ip-v6-route'" />
   <s:param name="gridCaption" value="%{getText('ipV6Route.additionalIpV6Route.grid.caption')}" />
+  <s:param name="usesNameColmn" value="true" />
   <s:param name="usesDescrColmn" value="true" />
 </s:url>
 <div class="giane-tab-content-grid-column">

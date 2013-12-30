@@ -7,6 +7,6 @@
 
 package com.github.kaitoy.sneo.giane.action.message;
 
-public interface FixedIpV4RouteMessage {
+public interface IpV4RouteMessage {
 
 }

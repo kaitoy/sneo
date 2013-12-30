@@ -56,15 +56,17 @@
     searchoptions="{sopt:['eq','ne','lt','gt']}"
     hidden="true"
   />
-  <sjg:gridColumn
-    name="name"
-    index="name"
-    title="%{getText('ipV6Route.name.label')}"
-    sortable="true"
-    search="true"
-    searchoptions="{sopt:['eq','ne','bw','en','cn']}"
-    width="200"
-  />
+  <s:if test="#parameters.usesNameColmn">
+    <sjg:gridColumn
+      name="name"
+      index="name"
+      title="%{getText('ipV6Route.name.label')}"
+      sortable="true"
+      search="true"
+      searchoptions="{sopt:['eq','ne','bw','en','cn']}"
+      width="200"
+    />
+  </s:if>
   <sjg:gridColumn
     name="networkDestination"
     index="networkDestination"

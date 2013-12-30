@@ -7,7 +7,7 @@
   <div>
     <s:form id="additionalIpV4Route_form" theme="simple" cssClass="giane-form">
       <fieldset>
-        <legend><s:text name="additionalIpV4Route.form" /></legend>
+        <legend><s:text name="ipV4Route.additionalIpV4Route.form" /></legend>
         <div class="giane-form-field-box">
           <s:hidden id="additionalIpV4Route_id" name="model.id" />
         </div>
@@ -15,7 +15,7 @@
           <s:textfield
             id="additionalIpV4Route_name"
             name="model.name"
-            label="%{getText('additionalIpV4Route.name.label')}"
+            label="%{getText('ipV4Route.name.label')}"
             required="true"
             requiredposition="left"
             theme="xhtml"
@@ -26,7 +26,7 @@
           <s:textfield
             id="additionalIpV4Route_networkDestination"
             name="model.networkDestination"
-            label="%{getText('additionalIpV4Route.networkDestination.label')}"
+            label="%{getText('ipV4Route.networkDestination.label')}"
             required="true"
             requiredposition="left"
             theme="xhtml"
@@ -37,7 +37,7 @@
           <s:textfield
             id="additionalIpV4Route_netmask"
             name="model.netmask"
-            label="%{getText('additionalIpV4Route.netmask.label')}"
+            label="%{getText('ipV4Route.netmask.label')}"
             required="true"
             requiredposition="left"
             theme="xhtml"
@@ -48,7 +48,7 @@
           <s:textfield
             id="additionalIpV4Route_gateway"
             name="model.gateway"
-            label="%{getText('additionalIpV4Route.gateway.label')}"
+            label="%{getText('ipV4Route.gateway.label')}"
             required="true"
             requiredposition="left"
             theme="xhtml"
@@ -59,7 +59,7 @@
           <s:textfield
             id="additionalIpV4Route_metric"
             name="model.metric"
-            label="%{getText('additionalIpV4Route.metric.label')}"
+            label="%{getText('ipV4Route.metric.label')}"
             required="true"
             requiredposition="left"
             theme="xhtml"
@@ -70,7 +70,7 @@
           <s:textarea
             id="additionalIpV4Route_descr"
             name="model.descr"
-            label="%{getText('additionalIpV4Route.descr.label')}"
+            label="%{getText('ipV4Route.descr.label')}"
             required="false"
             requiredposition="left"
             theme="xhtml"
@@ -156,8 +156,14 @@
   </div>
 </div>
 
+<s:url var="additionalIpV4Route_grid_box_url" action="additional-ip-v4-route-grid-box" escapeAmp="false">
+  <s:param name="modelNameCamel" value="'additionalIpV4Route'" />
+  <s:param name="modelNameHyphen" value="'additional-ip-v4-route'" />
+  <s:param name="gridCaption" value="%{getText('ipV4Route.additionalIpV4Route.grid.caption')}" />
+  <s:param name="usesNameColmn" value="true" />
+  <s:param name="usesDescrColmn" value="true" />
+</s:url>
 <div class="giane-tab-content-grid-column">
-  <div class="giane-grid-box">
-    <jsp:include page="additional-ip-v4-route-grid.jsp" flush="true" />
-  </div>
+  <sj:div href="%{additionalIpV4Route_grid_box_url}" indicator="additionalIpV4Route_grid_box_indicator" cssClass="giane-grid-box" />
+  <img id="additionalIpV4Route_grid_box_indicator" src="images/loading_small.gif" alt="Loading..." style="display: none;" />
 </div>

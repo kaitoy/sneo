@@ -17,8 +17,8 @@ import org.apache.struts2.convention.annotation.ParentPackage;
 import org.apache.struts2.convention.annotation.Result;
 import org.apache.struts2.interceptor.ParameterAware;
 import org.apache.struts2.interceptor.validation.SkipValidation;
-import com.github.kaitoy.sneo.giane.action.message.AdditionalIpV4RouteMessage;
 import com.github.kaitoy.sneo.giane.action.message.FormMessage;
+import com.github.kaitoy.sneo.giane.action.message.IpV4RouteMessage;
 import com.github.kaitoy.sneo.giane.interceptor.GoingBackward;
 import com.github.kaitoy.sneo.giane.interceptor.GoingForward;
 import com.github.kaitoy.sneo.giane.model.AdditionalIpV4Route;
@@ -33,7 +33,7 @@ import com.opensymphony.xwork2.validator.annotations.VisitorFieldValidator;
 @InterceptorRef("gianeDefaultStack")
 public class AdditionalIpV4RouteAction
 extends ActionSupport
-implements ModelDriven<AdditionalIpV4Route>, ParameterAware, FormMessage, AdditionalIpV4RouteMessage {
+implements ModelDriven<AdditionalIpV4Route>, ParameterAware, FormMessage, IpV4RouteMessage {
 
   /**
    *
@@ -96,6 +96,15 @@ implements ModelDriven<AdditionalIpV4Route>, ParameterAware, FormMessage, Additi
     stack.push(valueMap);
 
     return "config";
+  }
+
+  @Action(
+    value = "additional-ip-v4-route-grid-box",
+    results = { @Result(name = "success", location = "ip-v4-route-grid.jsp")}
+  )
+  @SkipValidation
+  public String gridBox() throws Exception {
+    return "success";
   }
 
   @Action(
@@ -171,7 +180,7 @@ implements ModelDriven<AdditionalIpV4Route>, ParameterAware, FormMessage, Additi
         AdditionalIpV4Route someone
           = additionalIpV4RouteDao.findByName(model.getName());
         if (someone != null && !someone.getId().equals(model.getId())) {
-          uniqueColumn = getText("additionalIpV4Route.name.label");
+          uniqueColumn = getText("ipV4Route.name.label");
           addActionError(getText("need.to.be.unique"));
           return;
         }
@@ -183,7 +192,7 @@ implements ModelDriven<AdditionalIpV4Route>, ParameterAware, FormMessage, Additi
            model.getName() != null
         && additionalIpV4RouteDao.findByName(model.getName()) != null
       ) {
-        uniqueColumn = getText("additionalIpV4Route.name.label");
+        uniqueColumn = getText("ipV4Route.name.label");
         addActionError(getText("need.to.be.unique"));
         return;
       }

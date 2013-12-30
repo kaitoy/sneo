@@ -7,7 +7,7 @@
   <div>
     <s:form id="fixedIpV4Route_form" theme="simple" cssClass="giane-form">
       <fieldset>
-        <legend><s:text name="fixedIpV4Route.form" /></legend>
+        <legend><s:text name="ipV4Route.fixedIpV4Route.form" /></legend>
         <div class="giane-form-field-box">
           <s:hidden id="fixedIpV4Route_id" name="model.id" />
         </div>
@@ -15,7 +15,7 @@
           <s:textfield
             id="fixedIpV4Route_networkDestination"
             name="model.networkDestination"
-            label="%{getText('fixedIpV4Route.networkDestination.label')}"
+            label="%{getText('ipV4Route.networkDestination.label')}"
             required="true"
             requiredposition="left"
             theme="xhtml"
@@ -26,7 +26,7 @@
           <s:textfield
             id="fixedIpV4Route_netmask"
             name="model.netmask"
-            label="%{getText('fixedIpV4Route.netmask.label')}"
+            label="%{getText('ipV4Route.netmask.label')}"
             required="true"
             requiredposition="left"
             theme="xhtml"
@@ -37,7 +37,7 @@
           <s:textfield
             id="fixedIpV4Route_gateway"
             name="model.gateway"
-            label="%{getText('fixedIpV4Route.gateway.label')}"
+            label="%{getText('ipV4Route.gateway.label')}"
             required="true"
             requiredposition="left"
             theme="xhtml"
@@ -48,7 +48,7 @@
           <s:textfield
             id="fixedIpV4Route_metric"
             name="model.metric"
-            label="%{getText('fixedIpV4Route.metric.label')}"
+            label="%{getText('ipV4Route.metric.label')}"
             required="true"
             requiredposition="left"
             theme="xhtml"
@@ -133,8 +133,15 @@
   </div>
 </div>
 
+<s:url var="fixedIpV4Route_grid_box_url" action="fixed-ip-v4-route-grid-box" escapeAmp="false">
+  <s:param name="modelNameCamel" value="'fixedIpV4Route'" />
+  <s:param name="modelNameHyphen" value="'fixed-ip-v4-route'" />
+  <s:param name="gridCaption" value="%{getText('ipV4Route.fixedIpV4Route.grid.caption')}" />
+  <s:param name="usesNameColmn" value="false" />
+  <s:param name="usesDescrColmn" value="false" />
+  <s:param name="node_id" value="%{#parameters.node_id}" />
+</s:url>
 <div class="giane-tab-content-grid-column">
-  <div class="giane-grid-box">
-    <jsp:include page="fixed-ip-v4-route-grid.jsp" flush="true" />
-  </div>
+  <sj:div href="%{fixedIpV4Route_grid_box_url}" indicator="fixedIpV4Route_grid_box_indicator" cssClass="giane-grid-box" />
+  <img id="fixedIpV4Route_grid_box_indicator" src="images/loading_small.gif" alt="Loading..." style="display: none;" />
 </div>

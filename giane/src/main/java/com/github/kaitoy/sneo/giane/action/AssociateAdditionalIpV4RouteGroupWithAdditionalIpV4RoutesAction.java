@@ -17,8 +17,8 @@ import org.apache.struts2.convention.annotation.Result;
 import org.apache.struts2.interceptor.validation.SkipValidation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import com.github.kaitoy.sneo.giane.action.message.AdditionalIpV4RouteMessage;
 import com.github.kaitoy.sneo.giane.action.message.AssociateActionMessage;
+import com.github.kaitoy.sneo.giane.action.message.IpV4RouteMessage;
 import com.github.kaitoy.sneo.giane.model.AdditionalIpV4Route;
 import com.github.kaitoy.sneo.giane.model.AdditionalIpV4RouteGroup;
 import com.github.kaitoy.sneo.giane.model.dao.AdditionalIpV4RouteDao;
@@ -30,7 +30,7 @@ import com.opensymphony.xwork2.ActionSupport;
 @InterceptorRef("gianeDefaultStack")
 public class AssociateAdditionalIpV4RouteGroupWithAdditionalIpV4RoutesAction
 extends ActionSupport
-implements AssociateActionMessage, AdditionalIpV4RouteMessage {
+implements AssociateActionMessage, IpV4RouteMessage {
 
   /**
    *

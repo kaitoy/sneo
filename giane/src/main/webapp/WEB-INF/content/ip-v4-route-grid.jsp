@@ -3,13 +3,15 @@
 <%@ taglib prefix="sj" uri="/struts-jquery-tags" %>
 <%@ taglib prefix="sjg" uri="/struts-jquery-grid-tags" %>
 
-<s:url var="additionalIpV4Route_grid_url" action="additional-ip-v4-route-grid" />
+<s:url var="ipV4Route_grid_url" action="%{#parameters.modelNameHyphen}-grid">
+  <s:param name="node_id" value="%{#parameters.node_id}" />
+</s:url>
 
 <sjg:grid
-  id="additionalIpV4Route_grid"
-  caption="%{getText('additionalIpV4Route.grid.caption')}"
+  id="%{#parameters.modelNameCamel}_grid"
+  caption="%{#parameters.gridCaption}"
   dataType="json"
-  href="%{additionalIpV4Route_grid_url}"
+  href="%{ipV4Route_grid_url}"
   pager="true"
   toppager="false"
   navigator="true"
@@ -40,13 +42,13 @@
   gridview="true"
   onSelectRowTopics="rowSelected"
   onCompleteTopics="gridCompleted"
-  onDblClickRowTopics="additionalIpV4Route_rowDblClicked"
-  reloadTopics="additionalIpV4RouteTableUpdated"
+  onDblClickRowTopics="%{#parameters.modelNameCamel}_rowDblClicked"
+  reloadTopics="%{#parameters.modelNameCamel}TableUpdated"
 >
   <sjg:gridColumn
     name="id"
     index="id"
-    title="%{getText('additionalIpV4Route.id.label')}"
+    title="%{getText('ipV4Route.id.label')}"
     formatter="integer"
     key="true"
     sortable="true"
@@ -54,19 +56,21 @@
     searchoptions="{sopt:['eq','ne','lt','gt']}"
     hidden="true"
   />
-  <sjg:gridColumn
-    name="name"
-    index="name"
-    title="%{getText('additionalIpV4Route.name.label')}"
-    sortable="true"
-    search="true"
-    searchoptions="{sopt:['eq','ne','bw','en','cn']}"
-    width="200"
-  />
+  <s:if test="#parameters.usesNameColmn">
+    <sjg:gridColumn
+      name="name"
+      index="name"
+      title="%{getText('ipV4Route.name.label')}"
+      sortable="true"
+      search="true"
+      searchoptions="{sopt:['eq','ne','bw','en','cn']}"
+      width="200"
+    />
+  </s:if>
   <sjg:gridColumn
     name="networkDestination"
     index="networkDestination"
-    title="%{getText('additionalIpV4Route.networkDestination.label')}"
+    title="%{getText('ipV4Route.networkDestination.label')}"
     sortable="true"
     search="true"
     searchoptions="{sopt:['eq','ne','bw','en','cn']}"
@@ -75,7 +79,7 @@
   <sjg:gridColumn
     name="netmask"
     index="netmask"
-    title="%{getText('additionalIpV4Route.netmask.label')}"
+    title="%{getText('ipV4Route.netmask.label')}"
     sortable="true"
     search="true"
     searchoptions="{sopt:['eq','ne','bw','en','cn']}"
@@ -84,7 +88,7 @@
   <sjg:gridColumn
     name="gateway"
     index="gateway"
-    title="%{getText('additionalIpV4Route.gateway.label')}"
+    title="%{getText('ipV4Route.gateway.label')}"
     sortable="true"
     search="true"
     searchoptions="{sopt:['eq','ne','bw','en','cn']}"
@@ -93,32 +97,34 @@
   <sjg:gridColumn
     name="metric"
     index="metric"
-    title="%{getText('additionalIpV4Route.metric.label')}"
+    title="%{getText('ipV4Route.metric.label')}"
     sortable="true"
     search="true"
     searchoptions="{sopt:['eq','ne','lt','gt']}"
-    width="50"
+    width="30"
   />
-  <sjg:gridColumn
-    name="descr"
-    index="descr"
-    title="%{getText('additionalIpV4Route.descr.label')}"
-    sortable="true"
-    search="true"
-    searchoptions="{sopt:['eq','ne','bw','en','cn']}"
-    width="200"
-    formatter="oneLine"
-  />
+  <s:if test="#parameters.usesDescrColmn">
+    <sjg:gridColumn
+      name="descr"
+      index="descr"
+      title="%{getText('ipV4Route.descr.label')}"
+      sortable="true"
+      search="true"
+      searchoptions="{sopt:['eq','ne','bw','en','cn']}"
+      width="200"
+      formatter="oneLine"
+    />
+  </s:if>
 </sjg:grid>
 
-<s:form id="additionalIpV4Route_delete_form">
-  <s:hidden id="additionalIpV4Route_deletingIdList" name="deletingIdList" />
+<s:form id="%{#parameters.modelNameCamel}_delete_form">
+  <s:hidden id="%{#parameters.modelNameCamel}_deletingIdList" name="deletingIdList" />
   <s:url var="delete_confirmation_url" action="confirmation-dialog" escapeAmp="false">
-    <s:param name="okTopic" value="'additionalIpV4Route_delete'" />
-    <s:param name="textKey" value="'confirmationDialog.additionalIpV4Route.delete.text'" />
+    <s:param name="okTopic" value="#parameters.modelNameCamel[0] + '_delete'" />
+    <s:param name="textKey" value="'confirmationDialog.' + #parameters.modelNameCamel[0] + '.delete.text'" />
   </s:url>
   <sj:submit
-    listenTopics="additionalIpV4Route_deleteConfirmation"
+    listenTopics="%{#parameters.modelNameCamel}_deleteConfirmation"
     href="%{delete_confirmation_url}"
     targets="shared_dialog_box"
     replaceTarget="false"
@@ -127,13 +133,13 @@
     clearForm="false"
     cssStyle="display: none;"
   />
-  <s:url var="additionalIpV4Route_delete_url" action="additional-ip-v4-route-delete" />
+  <s:url var="ipV4Route_delete_url" action="%{#parameters.modelNameHyphen}-delete" />
   <sj:submit
-    listenTopics="additionalIpV4Route_delete"
-    href="%{additionalIpV4Route_delete_url}"
+    listenTopics="%{#parameters.modelNameCamel}_delete"
+    href="%{ipV4Route_delete_url}"
     targets="trash_box"
     replaceTarget="false"
-    onSuccessTopics="additionalIpV4RouteTableUpdated"
+    onSuccessTopics="%{#parameters.modelNameCamel}TableUpdated"
     onErrorTopics="deleteError"
     clearForm="true"
     cssStyle="display: none;"
