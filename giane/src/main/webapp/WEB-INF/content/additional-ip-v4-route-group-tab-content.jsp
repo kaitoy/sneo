@@ -19,7 +19,7 @@
           <s:textfield
             id="additionalIpV4RouteGroup_name"
             name="model.name"
-            label="%{getText('additionalIpV4RouteGroup.name.label')}"
+            label="%{getText('entityGroup.name.label')}"
             required="true"
             requiredposition="left"
             theme="xhtml"
@@ -30,7 +30,7 @@
           <s:textarea
             id="additionalIpV4RouteGroup_descr"
             name="model.descr"
-            label="%{getText('additionalIpV4RouteGroup.descr.label')}"
+            label="%{getText('entityGroup.descr.label')}"
             required="false"
             requiredposition="left"
             theme="xhtml"
@@ -116,10 +116,14 @@
   </div>
 </div>
 
+<s:url var="additionalIpV4RouteGroup_grid_box_url" action="additional-ip-v4-route-group-grid-box" escapeAmp="false">
+  <s:param name="modelNameCamel" value="'additionalIpV4RouteGroup'" />
+  <s:param name="modelNameHyphen" value="'additional-ip-v4-route-group'" />
+  <s:param name="gridCaption" value="%{getText('additionalIpV4RouteGroup.grid.caption')}" />
+</s:url>
 <div class="giane-tab-content-grid-column">
-  <div class="giane-grid-box">
-    <jsp:include page="additional-ip-v4-route-group-grid.jsp" flush="true" />
-  </div>
+  <sj:div href="%{additionalIpV4RouteGroup_grid_box_url}" indicator="additionalIpV4RouteGroup_grid_box_indicator" cssClass="giane-grid-box" />
+  <img id="additionalIpV4RouteGroup_grid_box_indicator" src="images/loading_small.gif" alt="Loading..." style="display: none;" />
 </div>
 
 <s:url var="additionalIpV4RouteGroup_url" action="additional-ip-v4-route-group">

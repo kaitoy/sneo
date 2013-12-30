@@ -37,7 +37,7 @@
   <sjg:gridColumn
     name="id"
     index="id"
-    title="%{getText('additionalIpV4Route.id.label')}"
+    title="%{getText('ipV4Route.id.label')}"
     formatter="integer"
     key="true"
     hidden="true"
@@ -45,7 +45,7 @@
   <sjg:gridColumn
     name="name"
     index="name"
-    title="%{getText('additionalIpV4Route.name.label')}"
+    title="%{getText('ipV4Route.name.label')}"
     sortable="true"
     width="150"
   />

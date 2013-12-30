@@ -20,6 +20,7 @@ import org.apache.struts2.interceptor.validation.SkipValidation;
 import com.github.kaitoy.sneo.giane.action.message.AdditionalIpV4RouteGroupMessage;
 import com.github.kaitoy.sneo.giane.action.message.AssociateActionMessage;
 import com.github.kaitoy.sneo.giane.action.message.BreadCrumbsMessage;
+import com.github.kaitoy.sneo.giane.action.message.EntityGroupMessage;
 import com.github.kaitoy.sneo.giane.action.message.FormMessage;
 import com.github.kaitoy.sneo.giane.interceptor.GoingBackward;
 import com.github.kaitoy.sneo.giane.interceptor.GoingForward;
@@ -36,7 +37,7 @@ import com.opensymphony.xwork2.validator.annotations.VisitorFieldValidator;
 public class AdditionalIpV4RouteGroupAction
 extends ActionSupport
 implements ModelDriven<AdditionalIpV4RouteGroup>, ParameterAware, FormMessage,
-  AdditionalIpV4RouteGroupMessage, BreadCrumbsMessage, AssociateActionMessage {
+  AdditionalIpV4RouteGroupMessage, BreadCrumbsMessage, AssociateActionMessage, EntityGroupMessage {
 
   /**
    *
@@ -120,6 +121,20 @@ implements ModelDriven<AdditionalIpV4RouteGroup>, ParameterAware, FormMessage,
   @SkipValidation
   public String associateAdditionalIpV4RoutesTab() throws Exception {
     return "tab";
+  }
+
+  @Action(
+    value = "additional-ip-v4-route-group-grid-box",
+    results = {
+      @Result(
+        name = "grid",
+        location = "entity-group-grid.jsp"
+      )
+    }
+  )
+  @SkipValidation
+  public String gridBox() throws Exception {
+    return "grid";
   }
 
   @Action(
@@ -207,7 +222,7 @@ implements ModelDriven<AdditionalIpV4RouteGroup>, ParameterAware, FormMessage,
         AdditionalIpV4RouteGroup someone
           = additionalIpV4RouteGroupDao.findByName(model.getName());
         if (someone != null && !someone.getId().equals(model.getId())) {
-          uniqueColumn = getText("additionalIpV4RouteGroup.name.label");
+          uniqueColumn = getText("entityGroup.name.label");
           addActionError(getText("need.to.be.unique"));
           return;
         }
@@ -219,7 +234,7 @@ implements ModelDriven<AdditionalIpV4RouteGroup>, ParameterAware, FormMessage,
            model.getName() != null
         && additionalIpV4RouteGroupDao.findByName(model.getName()) != null
       ) {
-        uniqueColumn = getText("additionalIpV4RouteGroup.name.label");
+        uniqueColumn = getText("entityGroup.name.label");
         addActionError(getText("need.to.be.unique"));
         return;
       }

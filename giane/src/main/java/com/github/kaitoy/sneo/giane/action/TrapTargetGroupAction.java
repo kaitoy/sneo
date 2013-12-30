@@ -19,6 +19,7 @@ import org.apache.struts2.interceptor.ParameterAware;
 import org.apache.struts2.interceptor.validation.SkipValidation;
 import com.github.kaitoy.sneo.giane.action.message.AssociateActionMessage;
 import com.github.kaitoy.sneo.giane.action.message.BreadCrumbsMessage;
+import com.github.kaitoy.sneo.giane.action.message.EntityGroupMessage;
 import com.github.kaitoy.sneo.giane.action.message.FormMessage;
 import com.github.kaitoy.sneo.giane.action.message.TrapTargetGroupMessage;
 import com.github.kaitoy.sneo.giane.interceptor.GoingBackward;
@@ -36,7 +37,7 @@ import com.opensymphony.xwork2.validator.annotations.VisitorFieldValidator;
 public class TrapTargetGroupAction
 extends ActionSupport
 implements ModelDriven<TrapTargetGroup>, ParameterAware, FormMessage,
-  TrapTargetGroupMessage, BreadCrumbsMessage, AssociateActionMessage {
+  TrapTargetGroupMessage, BreadCrumbsMessage, AssociateActionMessage, EntityGroupMessage {
 
   /**
    *
@@ -105,6 +106,20 @@ implements ModelDriven<TrapTargetGroup>, ParameterAware, FormMessage,
   @SkipValidation
   public String tab() throws Exception {
     return "tab";
+  }
+
+  @Action(
+    value = "trap-target-group-grid-box",
+    results = {
+      @Result(
+        name = "grid",
+        location = "entity-group-grid.jsp"
+      )
+    }
+  )
+  @SkipValidation
+  public String gridBox() throws Exception {
+    return "grid";
   }
 
   @Action(
@@ -206,7 +221,7 @@ implements ModelDriven<TrapTargetGroup>, ParameterAware, FormMessage,
         TrapTargetGroup someone
           = trapTargetGroupDao.findByName(model.getName());
         if (someone != null && !someone.getId().equals(model.getId())) {
-          uniqueColumn = getText("trapTargetGroup.name.label");
+          uniqueColumn = getText("entityGroup.name.label");
           addActionError(getText("need.to.be.unique"));
           return;
         }
@@ -218,7 +233,7 @@ implements ModelDriven<TrapTargetGroup>, ParameterAware, FormMessage,
            model.getName() != null
         && trapTargetGroupDao.findByName(model.getName()) != null
       ) {
-        uniqueColumn = getText("trapTargetGroup.name.label");
+        uniqueColumn = getText("entityGroup.name.label");
         addActionError(getText("need.to.be.unique"));
         return;
       }

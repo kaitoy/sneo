@@ -15,7 +15,7 @@
           <s:textfield
             id="trapTargetGroup_name"
             name="model.name"
-            label="%{getText('trapTargetGroup.name.label')}"
+            label="%{getText('entityGroup.name.label')}"
             required="true"
             requiredposition="left"
             theme="xhtml"
@@ -26,7 +26,7 @@
           <s:textarea
             id="trapTargetGroup_descr"
             name="model.descr"
-            label="%{getText('trapTargetGroup.descr.label')}"
+            label="%{getText('entityGroup.descr.label')}"
             required="false"
             requiredposition="left"
             theme="xhtml"
@@ -106,10 +106,14 @@
   </div>
 </div>
 
+<s:url var="trapTargetGroup_grid_box_url" action="trap-target-group-grid-box" escapeAmp="false">
+  <s:param name="modelNameCamel" value="'trapTargetGroup'" />
+  <s:param name="modelNameHyphen" value="'trap-target-group'" />
+  <s:param name="gridCaption" value="%{getText('trapTargetGroup.grid.caption')}" />
+</s:url>
 <div class="giane-tab-content-grid-column">
-  <div class="giane-grid-box">
-    <jsp:include page="trap-target-group-grid.jsp" flush="true" />
-  </div>
+  <sj:div href="%{trapTargetGroup_grid_box_url}" indicator="trapTargetGroup_grid_box_indicator" cssClass="giane-grid-box" />
+  <img id="trapTargetGroup_grid_box_indicator" src="images/loading_small.gif" alt="Loading..." style="display: none;" />
 </div>
 
 <s:url var="trapTargetGroup_url" action="trap-target-group">

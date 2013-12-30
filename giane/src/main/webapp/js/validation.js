@@ -1,6 +1,8 @@
 $(document).ready( function() {
   $.subscribe("removeErrors", function(event, data) {
-    $(".giane-form-error-message").unbind().hide();
+    $(event.originalEvent.form[0]).find(".giane-form-error-message")
+      .unbind()
+      .hide();
   });
 });
 

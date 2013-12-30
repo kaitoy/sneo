@@ -43,9 +43,12 @@ $(document).ready( function() {
   });
 
   $.subscribe("gridCompleted", function(event, data) {
-    $(".filled").val("").removeClass("filled");
-    $(".checked").val([]).removeClass("checked");
-    $(".selectedOption").removeAttr("selected").removeClass("selectedOption");
+    var gridId = $(data).attr("id");
+    var formId = gridId.substring(0, gridId.lastIndexOf("grid")) + "form";
+    
+    $("#" + formId + " .filled").val("").removeClass("filled");
+    $("#" + formId + " .checked").val([]).removeClass("checked");
+    $("#" + formId + " .selectedOption").removeAttr("selected").removeClass("selectedOption");
   });
   
   $.subscribe("gridConfigButtonClicked", function(event, gridDom) {
