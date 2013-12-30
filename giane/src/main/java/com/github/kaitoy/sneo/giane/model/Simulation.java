@@ -26,6 +26,7 @@ import javax.persistence.Transient;
 import com.github.kaitoy.sneo.giane.action.message.FormMessage;
 import com.opensymphony.xwork2.conversion.annotations.TypeConversion;
 import com.opensymphony.xwork2.validator.annotations.ConversionErrorFieldValidator;
+import com.opensymphony.xwork2.validator.annotations.RegexFieldValidator;
 import com.opensymphony.xwork2.validator.annotations.RequiredFieldValidator;
 import com.opensymphony.xwork2.validator.annotations.RequiredStringValidator;
 import com.opensymphony.xwork2.validator.annotations.StringLengthFieldValidator;
@@ -74,6 +75,12 @@ public class Simulation implements Serializable, FormMessage {
     key = "StringLengthFieldValidator.error.max",
     trim = true,
     maxLength = "200",
+    shortCircuit = true
+  )
+  @RegexFieldValidator(
+    key = "RegexFieldValidator.error.objectName",
+    // this field's value is/will be used for an MBean object name, and may be used in a command line.
+    expression = "[^,=:\"*?]+",
     shortCircuit = true
   )
   public void setName(String name) {

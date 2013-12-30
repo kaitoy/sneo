@@ -16,6 +16,7 @@ import com.github.kaitoy.sneo.agent.FileMibCiscoAgent;
 import com.github.kaitoy.sneo.jmx.JmxAgent;
 import com.github.kaitoy.sneo.network.dto.IpAddressDto;
 import com.github.kaitoy.sneo.network.dto.IpV4RouteDto;
+import com.github.kaitoy.sneo.network.dto.IpV6RouteDto;
 import com.github.kaitoy.sneo.network.dto.L2ConnectionDto;
 import com.github.kaitoy.sneo.network.dto.LagDto;
 import com.github.kaitoy.sneo.network.dto.NetworkDto;
@@ -70,10 +71,10 @@ public class Network {
     return nodes;
   }
 
-  public void start(JmxAgent jmxAgent) {
+  public void start(String domain, JmxAgent jmxAgent) {
     for (Node node: nodes) {
       node.start();
-      jmxAgent.registerPojo(node, formObjectName(node));
+      jmxAgent.registerPojo(node, formObjectName(domain, node));
     }
     for (L2Connection l2conn: l2conns) {
       l2conn.start();
@@ -83,9 +84,9 @@ public class Network {
     }
   }
 
-  public void stop(JmxAgent jmxAgent) {
+  public void stop(String domain, JmxAgent jmxAgent) {
     for (Node node: nodes) {
-      jmxAgent.unregisterMBean(formObjectName(node));
+      jmxAgent.unregisterMBean(formObjectName(domain, node));
       node.shutdown();
     }
     for (FileMibAgent agent: agents) {
@@ -96,16 +97,14 @@ public class Network {
     }
   }
 
-  private String formObjectName(Node node) {
+  private String formObjectName(String domain, Node node) {
     // Don't quote both domain and properties
     // so users can easily twiddle mbeans by command line tools.
     StringBuilder sb = new StringBuilder(200);
-    sb.append(name)
-      .append(":")
-      .append("type=")
-      .append(node.getClass().getSimpleName())
-      .append(",name=")
-      .append(node.getName());
+    sb.append(domain).append(":")
+      .append("network=").append(name)
+      .append(",type=").append(node.getClass().getSimpleName())
+      .append(",name=").append(node.getName());
     return sb.toString();
   }
 
@@ -237,6 +236,15 @@ public class Network {
       node.addIpV4Route(
         routeDto.getNetworkDestination(),
         routeDto.getNetmask(),
+        routeDto.getGateway(),
+        routeDto.getMetric()
+      );
+    }
+
+    for (IpV6RouteDto routeDto: nodeDto.getIpV6Routes()) {
+      node.addIpV6Route(
+        routeDto.getNetworkDestination(),
+        routeDto.getPrefixLength(),
         routeDto.getGateway(),
         routeDto.getMetric()
       );

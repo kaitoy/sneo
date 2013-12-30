@@ -62,7 +62,7 @@
                     validate="true"
                     validateFunction="validation"
                     onBeforeTopics="removeErrors"
-                    onSuccessTopics="removeErrors,set_additionalIpV4RouteGroup_to_node_success"
+                    onSuccessTopics="set_additionalIpV4RouteGroup_to_node_success"
                     onErrorTopics="setError"
                     clearForm="true"
                     cssStyle="display: none;"

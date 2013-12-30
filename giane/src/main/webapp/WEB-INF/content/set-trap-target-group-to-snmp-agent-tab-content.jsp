@@ -72,7 +72,7 @@
                     validate="true"
                     validateFunction="validation"
                     onBeforeTopics="removeErrors"
-                    onSuccessTopics="removeErrors,set_trapTargetGroup_to_snmpAgent_success"
+                    onSuccessTopics="set_trapTargetGroup_to_snmpAgent_success"
                     onErrorTopics="setError"
                     clearForm="true"
                     cssStyle="display: none;"

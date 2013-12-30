@@ -74,7 +74,7 @@ public class Lag implements Serializable, FormMessage {
     shortCircuit = true
   )
   @RegexFieldValidator(
-    key = "RegexFieldValidator.error",
+    key = "RegexFieldValidator.error.objectName",
     // this field's value is/will be used for an MBean object name, and may be used in a command line.
     expression = "[^,=:\"*?]+",
     shortCircuit = true

@@ -1,4 +1,4 @@
-$(document).ready( function() {
+$(document).ready(function() {
   $.subscribe("association", function(event, data) {
     var gridId = event.originalEvent.delegateTarget.id.slice("remove_from_".length);
     var otherGridId;

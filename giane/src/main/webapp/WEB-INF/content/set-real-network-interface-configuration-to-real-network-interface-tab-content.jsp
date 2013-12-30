@@ -62,7 +62,7 @@
                     validate="true"
                     validateFunction="validation"
                     onBeforeTopics="removeErrors"
-                    onSuccessTopics="removeErrors,set_realNetworkInterfaceConfiguration_to_realNetworkInterface_success"
+                    onSuccessTopics="set_realNetworkInterfaceConfiguration_to_realNetworkInterface_success"
                     onErrorTopics="setError"
                     clearForm="true"
                     cssStyle="display: none;"

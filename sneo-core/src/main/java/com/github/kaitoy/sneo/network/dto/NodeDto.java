@@ -26,6 +26,7 @@ public class NodeDto implements Serializable {
   private List<RealNetworkInterfaceDto> realNetworkInterfaces;
   private List<VlanDto> vlans;
   private List<IpV4RouteDto> ipV4Routes;
+  private List<IpV6RouteDto> ipV6Routes;
 
   public Integer getId() {
     return id;
@@ -103,6 +104,14 @@ public class NodeDto implements Serializable {
     this.ipV4Routes = ipV4Routes;
   }
 
+  public List<IpV6RouteDto> getIpV6Routes() {
+    return ipV6Routes;
+  }
+
+  public void setIpV6Routes(List<IpV6RouteDto> ipV6Routes) {
+    this.ipV6Routes = ipV6Routes;
+  }
+
   @Override
   public boolean equals(Object obj) {
     if (obj == this) { return true; }
@@ -114,5 +123,6 @@ public class NodeDto implements Serializable {
   public int hashCode() {
     return id;
   }
+
 
 }

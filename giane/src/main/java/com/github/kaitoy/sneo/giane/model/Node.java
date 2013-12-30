@@ -25,6 +25,7 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import com.github.kaitoy.sneo.giane.action.message.FormMessage;
 import com.github.kaitoy.sneo.network.dto.IpV4RouteDto;
+import com.github.kaitoy.sneo.network.dto.IpV6RouteDto;
 import com.github.kaitoy.sneo.network.dto.LagDto;
 import com.github.kaitoy.sneo.network.dto.NodeDto;
 import com.github.kaitoy.sneo.network.dto.PhysicalNetworkInterfaceDto;
@@ -88,7 +89,7 @@ public class Node implements Serializable, FormMessage {
     shortCircuit = true
   )
   @RegexFieldValidator(
-    key = "RegexFieldValidator.error",
+    key = "RegexFieldValidator.error.objectName",
     // this field's value is/will be used for an MBean object name, and may be used in a command line.
     expression = "[^,=:\"*?]+",
     shortCircuit = true
@@ -295,6 +296,11 @@ public class Node implements Serializable, FormMessage {
       ipV4RouteDtos.add(ipV4Route.toDto());
     }
 
+    List<IpV6RouteDto> ipV6RouteDtos = new ArrayList<IpV6RouteDto>();
+    for (IpV6Route ipV6Route: ipV6Routes) {
+      ipV6RouteDtos.add(ipV6Route.toDto());
+    }
+
     NodeDto dto = new NodeDto();
     dto.setId(id);
     dto.setName(name);
@@ -307,6 +313,7 @@ public class Node implements Serializable, FormMessage {
     dto.setRealNetworkInterfaces(realNetworkInterfaceDtos);
     dto.setVlans(vlanDtos);
     dto.setIpV4Routes(ipV4RouteDtos);
+    dto.setIpV6Routes(ipV6RouteDtos);
     return dto;
   }
 

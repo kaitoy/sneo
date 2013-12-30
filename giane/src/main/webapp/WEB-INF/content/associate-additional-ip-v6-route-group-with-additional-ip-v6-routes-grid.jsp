@@ -7,7 +7,7 @@
 </s:url>
 
 <sjg:grid
-  id="%{getText(#parameters.gridId)}"
+  id="%{#parameters.gridId}"
   caption="%{#parameters.gridCaption}"
   dataType="json"
   href="%{grid_url}"

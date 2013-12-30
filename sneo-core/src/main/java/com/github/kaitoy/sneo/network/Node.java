@@ -806,18 +806,18 @@ public class Node {
 
       IcmpV6NeighborSolicitationPacket nsPacket
         = packet.get(IcmpV6NeighborSolicitationPacket.class);
+      boolean toMe = false;
       for (NifIpAddress nifIpAddr: getter.getIpAddresses()) {
-        boolean toMe = false;
         if (nifIpAddr.getIpAddr().equals(nsPacket.getHeader().getTargetAddress())) {
           toMe = true;
           break;
         }
-        if (!toMe) {
-          if (LOGGER.isDebugEnabled()) {
-            LOGGER.debug("Dropped an NS packet not to me: " + packet);
-          }
-          return;
+      }
+      if (!toMe) {
+        if (LOGGER.isDebugEnabled()) {
+          LOGGER.debug("Dropped an NS packet not to me: " + packet);
         }
+        return;
       }
 
       IcmpV6Helper.sendSolicitedNeighborAdvertisement(
@@ -865,18 +865,18 @@ public class Node {
     private void handleArp(Packet packet, NetworkInterface getter) {
       ArpHeader ah = packet.get(ArpPacket.class).getHeader();
 
+      boolean toMe = false;
       for (NifIpAddress nifIpAddr: getter.getIpAddresses()) {
-        boolean toMe = false;
         if (nifIpAddr.getIpAddr().equals(ah.getDstProtocolAddr())) {
           toMe = true;
           break;
         }
-        if (!toMe) {
-          if (LOGGER.isDebugEnabled()) {
-            LOGGER.debug("Dropped an ARP packet not to me: " + packet);
-          }
-          return;
+      }
+      if (!toMe) {
+        if (LOGGER.isDebugEnabled()) {
+          LOGGER.debug("Dropped an ARP packet not to me: " + packet);
         }
+        return;
       }
 
       ArpOperation op = ah.getOperation();

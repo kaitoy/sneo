@@ -20,6 +20,8 @@ import com.github.kaitoy.sneo.giane.action.message.FormMessage;
 import com.github.kaitoy.sneo.giane.action.message.SimulationMessage;
 import com.github.kaitoy.sneo.giane.model.AdditionalIpV4Route;
 import com.github.kaitoy.sneo.giane.model.AdditionalIpV4RouteGroup;
+import com.github.kaitoy.sneo.giane.model.AdditionalIpV6Route;
+import com.github.kaitoy.sneo.giane.model.AdditionalIpV6RouteGroup;
 import com.github.kaitoy.sneo.giane.model.RealNetworkInterfaceConfiguration;
 import com.github.kaitoy.sneo.giane.model.Simulation;
 import com.github.kaitoy.sneo.giane.model.TrapTargetGroup;
@@ -101,29 +103,35 @@ implements SimulationMessage, FormMessage {
       }
 
       try {
-        Simulation conf
-          = simulationDao.findByKey(simulationId);
-        NetworkDto networkDto = conf.getNetwork().toDto();
+        Simulation simulation = simulationDao.findByKey(simulationId);
+        NetworkDto networkDto = simulation.getNetwork().toDto();
 
         for (NodeDto nodeDto: networkDto.getNodes()) {
           SnmpAgentDto agentDto = nodeDto.getAgent();
           if (agentDto != null) {
-            TrapTargetGroup ttg = conf.getTrapTargetGroup(agentDto.getId());
+            TrapTargetGroup ttg = simulation.getTrapTargetGroup(agentDto.getId());
             if (ttg != null) {
               agentDto.setTrapTargetGroup(ttg.toDto());
             }
           }
 
-          AdditionalIpV4RouteGroup routeg = conf.getAdditionalIpV4RouteGroup(nodeDto.getId());
-          if (routeg != null) {
-            for (AdditionalIpV4Route route: routeg.getAdditionalIpV4Routes()) {
+          AdditionalIpV4RouteGroup v4Routeg = simulation.getAdditionalIpV4RouteGroup(nodeDto.getId());
+          if (v4Routeg != null) {
+            for (AdditionalIpV4Route route: v4Routeg.getAdditionalIpV4Routes()) {
               nodeDto.getIpV4Routes().add(route.toDto());
+            }
+          }
+
+          AdditionalIpV6RouteGroup v6routeg = simulation.getAdditionalIpV6RouteGroup(nodeDto.getId());
+          if (v6routeg != null) {
+            for (AdditionalIpV6Route route: v6routeg.getAdditionalIpV6Routes()) {
+              nodeDto.getIpV6Routes().add(route.toDto());
             }
           }
 
           for (RealNetworkInterfaceDto rnifDto: nodeDto.getRealNetworkInterfaces()) {
             RealNetworkInterfaceConfiguration rnifConf
-              = conf.getRealNetworkInterfaceConfiguration(rnifDto.getId());
+              = simulation.getRealNetworkInterfaceConfiguration(rnifDto.getId());
             if (rnifConf != null) {
               rnifDto.setDeviceName(rnifConf.getDeviceName());
               rnifDto.setMacAddress(rnifConf.getMacAddress());
@@ -136,7 +144,7 @@ implements SimulationMessage, FormMessage {
 
         Network network = new Network(networkDto);
         JmxAgent jmxAgent = JmxAgentStarter.getJmxAgent();
-        network.start(jmxAgent);
+        network.start(simulation.getName(), jmxAgent);
 
         runningNetworks.put(simulationId, network);
 
@@ -178,8 +186,9 @@ implements SimulationMessage, FormMessage {
 
       try {
         Network network = runningNetworks.get(simulationId);
+        Simulation simulation = simulationDao.findByKey(simulationId);
         JmxAgent jmxAgent = JmxAgentStarter.getJmxAgent();
-        network.stop(jmxAgent);
+        network.stop(simulation.getName(), jmxAgent);
 
         runningNetworks.remove(simulationId);
 
