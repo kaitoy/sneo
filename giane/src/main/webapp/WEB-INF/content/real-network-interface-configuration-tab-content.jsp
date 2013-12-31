@@ -180,8 +180,8 @@
   validate="true"
   validateFunction="checkRowSelection"
   listenTopics="realNetworkInterfaceConfiguration_rowDblClicked"
-  onBeforeTopics="configMainPaneGoingForward_before"
-  onAfterValidationTopics="configMainPaneGoingForward_after"
-  onCompleteTopics="configMainPaneCompleted"
+  onBeforeTopics="mainPaneGoingForward_before"
+  onAfterValidationTopics="mainPaneGoingForward_after"
+  onCompleteTopics="mainPaneCompleted"
   style="display: none;"
 />

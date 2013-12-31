@@ -2,14 +2,14 @@
 <%@ taglib prefix="s" uri="/struts-tags" %>
 <%@ taglib prefix="sj" uri="/struts-jquery-tags" %>
 
-<ol id="breadcrumbs"><li class="next-breadcrumb" /></ol>
+<ol class="breadcrumbs"><li class="next-breadcrumb" /></ol>
 
 <s:url var="configHome_url" action="config-home" />
 <sj:div
   id="config_main"
   href="%{configHome_url}"
   indicator="config_main_indicator"
-  onCompleteTopics="configMainPaneCompleted"
+  onCompleteTopics="mainPaneCompleted"
   cssClass="giane-main"
  />
 

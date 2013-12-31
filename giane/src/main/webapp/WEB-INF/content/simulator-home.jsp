@@ -3,6 +3,13 @@
 <%@ taglib prefix="sj" uri="/struts-jquery-tags" %>
 <%@ taglib prefix="sjg" uri="/struts-jquery-grid-tags" %>
 
+<div class="breadcrumb-label" style="display: none;">
+  <s:label
+    title="%{getText('breadcrumbs.simulatorHome.title')}"
+    value="%{getText('breadcrumbs.simulatorHome.label')}"
+  />
+</div>
+
 <sj:tabbedpanel id="simulatorHome_tabs" animate="true" cssClass="giane-tab-container">
   <sj:tab
     id="startSimiulator_tab"

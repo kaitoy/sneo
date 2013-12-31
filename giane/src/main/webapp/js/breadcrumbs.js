@@ -1,26 +1,30 @@
 $(document).ready( function() {
-  $.subscribe("configMainPaneCompleted", function(event, data) {
-    $(".next-breadcrumb")
+  $.subscribe("mainPaneCompleted", function(event, data) {
+    var root = $(data).parents(".workspace-root");
+    var label = root.children(".giane-main").children(".breadcrumb-label").children();
+    root.children(".breadcrumbs").children(".next-breadcrumb")
       .html("")
       .removeClass("next-breadcrumb")
       .addClass("last-breadcrumb")
-      .append($(".breadcrumb-label").children());
-    $("#breadcrumbs").append('<li class="next-breadcrumb" />');
+      .append(label);
+    root.children(".breadcrumbs")
+      .append('<li class="next-breadcrumb" />');
   });
   
-  $.subscribe("configMainPaneGoingForward_before", function(event, data) {
-    $(".last-breadcrumb").addClass("update-needed");
+  $.subscribe("mainPaneGoingForward_before", function(event, data) {
+    $(data).parents(".workspace-root").children(".breadcrumbs").children(".last-breadcrumb")
+      .addClass("update-needed");
   });
   
-  $.subscribe("configMainPaneGoingForward_after", function(event, data) {
-    var last = $(".last-breadcrumb.update-needed");
-    if (last) {
-      last.removeClass("last-breadcrumb update-needed").html("")
-        .append($(".breadcrumb-link").children());
-    }
+  $.subscribe("mainPaneGoingForward_after", function(event, data) {
+    var root = $(data).parents(".workspace-root");
+    var link = root.children(".giane-main").children(".breadcrumb-link").children();
+    root.children(".breadcrumbs").children(".last-breadcrumb.update-needed")
+      .removeClass("last-breadcrumb update-needed").html("")
+      .append(link);
   });
   
-  $.subscribe("configMainPaneGoingBack", function(event, data) {
+  $.subscribe("mainPaneGoingBack", function(event, data) {
     $("#" + event.originalEvent.id)
       .removeAttr("id")
       .parent()

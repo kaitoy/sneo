@@ -24,8 +24,8 @@
     replaceTarget="false"
     button="true"
     indicator="config_main_indicator"
-    onBeforeTopics="configMainPaneGoingBack"
-    onCompleteTopics="configMainPaneCompleted"
+    onBeforeTopics="mainPaneGoingBack"
+    onCompleteTopics="mainPaneCompleted"
   >
     <s:text name="breadcrumbs.network.configuration.label" />
   </sj:a>

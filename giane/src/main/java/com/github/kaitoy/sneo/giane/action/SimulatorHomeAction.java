@@ -12,12 +12,14 @@ import org.apache.struts2.convention.annotation.InterceptorRef;
 import org.apache.struts2.convention.annotation.ParentPackage;
 import org.apache.struts2.convention.annotation.Result;
 import org.apache.struts2.interceptor.validation.SkipValidation;
+import com.github.kaitoy.sneo.giane.action.message.BreadCrumbsMessage;
 import com.github.kaitoy.sneo.giane.action.message.SimulatorHomeMessage;
 import com.opensymphony.xwork2.ActionSupport;
 
 @ParentPackage("giane-default")
 @InterceptorRef("gianeDefaultStack")
-public class SimulatorHomeAction extends ActionSupport implements SimulatorHomeMessage {
+public class SimulatorHomeAction extends ActionSupport
+implements SimulatorHomeMessage, BreadCrumbsMessage {
 
   /**
    *

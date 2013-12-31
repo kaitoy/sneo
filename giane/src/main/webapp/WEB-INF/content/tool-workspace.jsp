@@ -2,11 +2,14 @@
 <%@ taglib prefix="s" uri="/struts-tags" %>
 <%@ taglib prefix="sj" uri="/struts-jquery-tags" %>
 
+<ol class="breadcrumbs"><li class="next-breadcrumb" /></ol>
+
 <s:url var="toolHome_url" action="tool-home" />
 <sj:div
   id="tool_main"
   href="%{toolHome_url}"
   indicator="tool_main_indicator"
+  onCompleteTopics="mainPaneCompleted"
   cssClass="giane-main"
  />
 

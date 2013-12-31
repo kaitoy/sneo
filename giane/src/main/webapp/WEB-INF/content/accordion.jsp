@@ -5,16 +5,16 @@
 <sj:accordion autoHeight="false">
   <s:url var="simulator_workspace_url" action="simulator-workspace"/>
   <sj:accordionItem title="%{getText('accordion.item.label.simulator')}" >
-    <sj:div href="%{simulator_workspace_url}" />
+    <sj:div href="%{simulator_workspace_url}" cssClass="workspace-root" />
   </sj:accordionItem>
   
   <s:url var="config_workspace_url" action="config-workspace"/>
   <sj:accordionItem title="%{getText('accordion.item.label.config')}" >
-    <sj:div href="%{config_workspace_url}" />
+    <sj:div href="%{config_workspace_url}" cssClass="workspace-root" />
   </sj:accordionItem>
   
   <s:url var="tool_workspace_url" action="tool-workspace"/>
   <sj:accordionItem title="%{getText('accordion.item.label.tool')}" >
-    <sj:div href="%{tool_workspace_url}" />
+    <sj:div href="%{tool_workspace_url}" cssClass="workspace-root" />
   </sj:accordionItem>
 </sj:accordion>
