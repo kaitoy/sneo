@@ -206,7 +206,7 @@ implements ModelDriven<PhysicalNetworkInterface>, ParameterAware, FormMessage,
         if (someone != null && !someone.getId().equals(model.getId())) {
           uniqueDomain = getText("physicalNetworkInterface.node.label");
           uniqueColumn = getText("physicalNetworkInterface.name.label");
-          addActionError(getText("need.to.be.unique.in.domain"));
+          addFieldError("name", getText("need.to.be.unique.in.domain"));
           return;
         }
       }
@@ -222,7 +222,7 @@ implements ModelDriven<PhysicalNetworkInterface>, ParameterAware, FormMessage,
       ) {
         uniqueDomain = getText("physicalNetworkInterface.node.label");
         uniqueColumn = getText("physicalNetworkInterface.name.label");
-        addActionError(getText("need.to.be.unique.in.domain"));
+        addFieldError("name", getText("need.to.be.unique.in.domain"));
         return;
       }
     }

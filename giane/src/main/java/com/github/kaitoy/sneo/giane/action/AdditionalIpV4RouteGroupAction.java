@@ -223,7 +223,7 @@ implements ModelDriven<AdditionalIpV4RouteGroup>, ParameterAware, FormMessage,
           = additionalIpV4RouteGroupDao.findByName(model.getName());
         if (someone != null && !someone.getId().equals(model.getId())) {
           uniqueColumn = getText("entityGroup.name.label");
-          addActionError(getText("need.to.be.unique"));
+          addFieldError("name", getText("need.to.be.unique"));
           return;
         }
       }
@@ -235,7 +235,7 @@ implements ModelDriven<AdditionalIpV4RouteGroup>, ParameterAware, FormMessage,
         && additionalIpV4RouteGroupDao.findByName(model.getName()) != null
       ) {
         uniqueColumn = getText("entityGroup.name.label");
-        addActionError(getText("need.to.be.unique"));
+        addFieldError("name", getText("need.to.be.unique"));
         return;
       }
     }

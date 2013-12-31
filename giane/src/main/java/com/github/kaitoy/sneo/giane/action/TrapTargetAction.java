@@ -165,7 +165,7 @@ implements ModelDriven<TrapTarget>, ParameterAware, FormMessage, TrapTargetMessa
           = trapTargetDao.findByName(model.getName());
         if (someone != null && !someone.getId().equals(model.getId())) {
           uniqueColumn = getText("trapTarget.name.label");
-          addActionError(getText("need.to.be.unique"));
+          addFieldError("name", getText("need.to.be.unique"));
           return;
         }
       }
@@ -177,7 +177,7 @@ implements ModelDriven<TrapTarget>, ParameterAware, FormMessage, TrapTargetMessa
         && trapTargetDao.findByName(model.getName()) != null
       ) {
         uniqueColumn = getText("trapTarget.name.label");
-        addActionError(getText("need.to.be.unique"));
+        addFieldError("name", getText("need.to.be.unique"));
         return;
       }
     }

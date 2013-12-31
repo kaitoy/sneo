@@ -226,7 +226,7 @@ implements ModelDriven<RealNetworkInterface>, ParameterAware, FormMessage, RealN
         if (someone != null && !someone.getId().equals(model.getId())) {
           uniqueDomain = getText("realNetworkInterface.node.label");
           uniqueColumn = getText("realNetworkInterface.name.label");
-          addActionError(getText("need.to.be.unique.in.domain"));
+          addFieldError("name", getText("need.to.be.unique.in.domain"));
           return;
         }
       }
@@ -242,7 +242,7 @@ implements ModelDriven<RealNetworkInterface>, ParameterAware, FormMessage, RealN
       ) {
         uniqueDomain = getText("realNetworkInterface.node.label");
         uniqueColumn = getText("realNetworkInterface.name.label");
-        addActionError(getText("need.to.be.unique.in.domain"));
+        addFieldError("name", getText("need.to.be.unique.in.domain"));
         return;
       }
     }

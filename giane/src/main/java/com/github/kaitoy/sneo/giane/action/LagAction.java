@@ -217,7 +217,7 @@ implements ModelDriven<Lag>, ParameterAware, FormMessage, LagMessage, BreadCrumb
         if (someone != null && !someone.getId().equals(model.getId())) {
           uniqueDomain = getText("lag.node.label");
           uniqueColumn = getText("lag.name.label");
-          addActionError(getText("need.to.be.unique.in.domain"));
+          addFieldError("name", getText("need.to.be.unique.in.domain"));
           return;
         }
       }
@@ -232,7 +232,7 @@ implements ModelDriven<Lag>, ParameterAware, FormMessage, LagMessage, BreadCrumb
       ) {
         uniqueDomain = getText("lag.node.label");
         uniqueColumn = getText("lag.name.label");
-        addActionError(getText("need.to.be.unique.in.domain"));
+        addFieldError("name", getText("need.to.be.unique.in.domain"));
         return;
       }
     }

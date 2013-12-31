@@ -222,7 +222,7 @@ implements ModelDriven<Vlan>, ParameterAware, FormMessage, VlanMessage, BreadCru
         if (someone != null && !someone.getId().equals(model.getId())) {
           uniqueDomain = getText("vlan.node.label");
           uniqueColumn = getText("vlan.name.label");
-          addActionError(getText("need.to.be.unique.in.domain"));
+          addFieldError("name", getText("need.to.be.unique.in.domain"));
           return;
         }
       }
@@ -237,7 +237,7 @@ implements ModelDriven<Vlan>, ParameterAware, FormMessage, VlanMessage, BreadCru
       ) {
         uniqueDomain = getText("vlan.node.label");
         uniqueColumn = getText("vlan.name.label");
-        addActionError(getText("need.to.be.unique.in.domain"));
+        addFieldError("name", getText("need.to.be.unique.in.domain"));
         return;
       }
     }

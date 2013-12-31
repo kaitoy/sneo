@@ -246,7 +246,7 @@ implements ModelDriven<RealNetworkInterfaceConfiguration>, ParameterAware, FormM
         if (someone != null && !someone.getId().equals(model.getId())) {
           uniqueColumn
             = getText("realNetworkInterfaceConfiguration.name.label");
-          addActionError(getText("need.to.be.unique"));
+          addFieldError("name", getText("need.to.be.unique"));
           return;
         }
       }
@@ -259,7 +259,7 @@ implements ModelDriven<RealNetworkInterfaceConfiguration>, ParameterAware, FormM
              != null
       ) {
         uniqueColumn = getText("realNetworkInterfaceConfiguration.name.label");
-        addActionError(getText("need.to.be.unique"));
+        addFieldError("name", getText("need.to.be.unique"));
         return;
       }
     }

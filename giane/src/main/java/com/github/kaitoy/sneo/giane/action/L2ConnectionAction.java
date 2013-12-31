@@ -203,7 +203,7 @@ implements ModelDriven<L2Connection>, ParameterAware, FormMessage, L2ConnectionM
         if (someone != null && !someone.getId().equals(model.getId())) {
           uniqueDomain = getText("l2Connection.network.label");
           uniqueColumn = getText("l2Connection.name.label");
-          addActionError(getText("need.to.be.unique.in.domain"));
+          addFieldError("name", getText("need.to.be.unique.in.domain"));
           return;
         }
       }
@@ -220,7 +220,7 @@ implements ModelDriven<L2Connection>, ParameterAware, FormMessage, L2ConnectionM
       ) {
         uniqueDomain = getText("l2Connection.network.label");
         uniqueColumn = getText("l2Connection.name.label");
-        addActionError(getText("need.to.be.unique.in.domain"));
+        addFieldError("name", getText("need.to.be.unique.in.domain"));
         return;
       }
     }

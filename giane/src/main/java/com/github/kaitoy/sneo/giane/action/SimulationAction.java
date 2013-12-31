@@ -196,7 +196,7 @@ implements ModelDriven<Simulation>, ParameterAware, FormMessage, SimulationMessa
           = simulationDao.findByName(model.getName());
         if (someone != null && !someone.getId().equals(model.getId())) {
           uniqueColumn = getText("simulation.name.label");
-          addActionError(getText("need.to.be.unique"));
+          addFieldError("name", getText("need.to.be.unique"));
           return;
         }
       }
@@ -208,7 +208,7 @@ implements ModelDriven<Simulation>, ParameterAware, FormMessage, SimulationMessa
         && simulationDao.findByName(model.getName()) != null
       ) {
         uniqueColumn = getText("simulation.name.label");
-        addActionError(getText("need.to.be.unique"));
+        addFieldError("name", getText("need.to.be.unique"));
         return;
       }
     }

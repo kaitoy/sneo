@@ -181,7 +181,7 @@ implements ModelDriven<AdditionalIpV6Route>, ParameterAware, FormMessage, IpV6Ro
           = additionalIpV6RouteDao.findByName(model.getName());
         if (someone != null && !someone.getId().equals(model.getId())) {
           uniqueColumn = getText("ipV6Route.name.label");
-          addActionError(getText("need.to.be.unique"));
+          addFieldError("name", getText("need.to.be.unique"));
           return;
         }
       }
@@ -193,7 +193,7 @@ implements ModelDriven<AdditionalIpV6Route>, ParameterAware, FormMessage, IpV6Ro
         && additionalIpV6RouteDao.findByName(model.getName()) != null
       ) {
         uniqueColumn = getText("ipV6Route.name.label");
-        addActionError(getText("need.to.be.unique"));
+        addFieldError("name", getText("need.to.be.unique"));
         return;
       }
     }

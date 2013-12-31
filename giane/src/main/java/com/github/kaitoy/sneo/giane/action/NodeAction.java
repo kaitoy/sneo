@@ -240,7 +240,7 @@ implements ModelDriven<Node>,  ParameterAware, FormMessage, NodeMessage, BreadCr
         if (someone != null && !someone.getId().equals(model.getId())) {
           uniqueDomain = getText("node.network.label");
           uniqueColumn = getText("node.name.label");
-          addActionError(getText("need.to.be.unique.in.domain"));
+          addFieldError("name", getText("need.to.be.unique.in.domain"));
           return;
         }
       }
@@ -257,7 +257,7 @@ implements ModelDriven<Node>,  ParameterAware, FormMessage, NodeMessage, BreadCr
       ) {
         uniqueDomain = getText("node.network.label");
         uniqueColumn = getText("node.name.label");
-        addActionError(getText("need.to.be.unique.in.domain"));
+        addFieldError("name", getText("need.to.be.unique.in.domain"));
         return;
       }
     }

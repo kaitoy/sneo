@@ -165,7 +165,7 @@ implements ModelDriven<Network>, ParameterAware, FormMessage, NetworkMessage, Br
           = networkDao.findByName(model.getName());
         if (someone != null && !someone.getId().equals(model.getId())) {
           uniqueColumn = getText("network.name.label");
-          addActionError(getText("need.to.be.unique"));
+          addFieldError("name", getText("need.to.be.unique"));
           return;
         }
       }
@@ -177,7 +177,7 @@ implements ModelDriven<Network>, ParameterAware, FormMessage, NetworkMessage, Br
         && networkDao.findByName(model.getName()) != null
       ) {
         uniqueColumn = getText("network.name.label");
-        addActionError(getText("need.to.be.unique"));
+        addFieldError("name", getText("need.to.be.unique"));
         return;
       }
     }
