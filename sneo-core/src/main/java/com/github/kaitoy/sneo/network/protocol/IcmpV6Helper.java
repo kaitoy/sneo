@@ -322,7 +322,8 @@ public final class IcmpV6Helper extends NeighborDiscoveryHelper {
 
       IcmpV6NeighborSolicitationPacket.Builder nsBuilder
         = new IcmpV6NeighborSolicitationPacket.Builder()
-            .targetAddress((Inet6Address)targetIpAddr);
+            .targetAddress((Inet6Address)targetIpAddr)
+            .options(opts);
 
       Inet6Address nsDstAddr
         = IpV6Helper.generateSolicitedNodeMulticastAddress((Inet6Address)targetIpAddr);

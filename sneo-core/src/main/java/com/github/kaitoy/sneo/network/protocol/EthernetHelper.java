@@ -40,7 +40,7 @@ public final class EthernetHelper {
     if (payload instanceof IpV4Packet) {
       type = EtherType.IPV4;
     }
-    if (payload instanceof IpV6Packet) {
+    else if (payload instanceof IpV6Packet) {
       type = EtherType.IPV6;
     }
     else if (payload instanceof ArpPacket) {
@@ -50,7 +50,7 @@ public final class EthernetHelper {
       type = EtherType.DOT1Q_VLAN_TAGGED_FRAMES;
     }
     else {
-      throw new AssertionError();
+      throw new AssertionError(payload.getClass().getName());
     }
 
     EthernetPacket.Builder etherBuilder = new EthernetPacket.Builder();

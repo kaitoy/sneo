@@ -199,7 +199,7 @@ public final class IpV6Helper {
 
   public static Inet6Address generateSolicitedNodeMulticastAddress(Inet6Address targetAddr) {
     byte[] addr = new byte[16];
-    addr[0] = (byte)0xFE;
+    addr[0] = (byte)0xFF;
     addr[1] = (byte)0x02;
     addr[11] = (byte)0x01;
     addr[12] = (byte)0xFF;

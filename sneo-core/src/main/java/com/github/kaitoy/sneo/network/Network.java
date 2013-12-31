@@ -63,17 +63,9 @@ public class Network {
     }
   }
 
-  public List<FileMibAgent> getAgents() {
-    return agents;
-  }
-
-  public List<Node> getNodes() {
-    return nodes;
-  }
-
   public void start(String domain, JmxAgent jmxAgent) {
     for (Node node: nodes) {
-      node.start();
+      node.start(false);
       jmxAgent.registerPojo(node, formObjectName(domain, node));
     }
     for (L2Connection l2conn: l2conns) {
@@ -88,9 +80,6 @@ public class Network {
     for (Node node: nodes) {
       jmxAgent.unregisterMBean(formObjectName(domain, node));
       node.shutdown();
-    }
-    for (FileMibAgent agent: agents) {
-      agent.shutdown();
     }
     for (L2Connection l2conn: l2conns) {
       l2conn.shutdown();

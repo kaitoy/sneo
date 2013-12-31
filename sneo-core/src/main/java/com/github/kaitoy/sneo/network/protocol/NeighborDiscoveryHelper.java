@@ -158,7 +158,7 @@ abstract class NeighborDiscoveryHelper {
         invalidateNeighborCacheFutures.put(
           ipAddr,
           scheduler.schedule(
-            new NeighborCacheInvalidater(ipAddr), cacheLife, TimeUnit.SECONDS
+            new NeighborCacheInvalidater(ipAddr), cacheLife, TimeUnit.MILLISECONDS
           )
         );
       }

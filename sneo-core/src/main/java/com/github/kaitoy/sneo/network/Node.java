@@ -223,12 +223,16 @@ public class Node {
   }
 
   public void start() {
+    start(true);
+  }
+
+  public void start(boolean startAgent) {
     synchronized (thisLock) {
       for (NetworkInterface nif: nifs.values()) {
         nif.start();
       }
 
-      if (agent != null) {
+      if (agent != null && startAgent) {
         agent.start();
       }
 
@@ -608,6 +612,10 @@ public class Node {
               "Couldn't resolve an IPv6 address to a Mac address, dropped the packet: "
                 + packet
             );
+            throw new SendPacketException(
+                    IcmpV4Type.DESTINATION_UNREACHABLE,
+                    IcmpV4Code.HOST_UNREACHABLE
+                  );
           }
 
           return dstMacAddr;
