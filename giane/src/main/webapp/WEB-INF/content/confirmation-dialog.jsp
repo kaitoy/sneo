@@ -6,7 +6,7 @@
   id="confirmation_dialog"
   autoOpen="true"
   modal="true"
-  title="%{getText('confirmationDialog.title')}"
+  title="%{getText('dialog.title.confirmation')}"
   buttons="{
     'OK': function() {
             $.publish('%{#parameters.okTopic}');

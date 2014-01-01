@@ -12,6 +12,7 @@ import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.InterceptorRef;
 import org.apache.struts2.convention.annotation.ParentPackage;
 import org.apache.struts2.convention.annotation.Result;
+import com.github.kaitoy.sneo.giane.action.message.DialogMessage;
 import com.github.kaitoy.sneo.giane.action.message.FormMessage;
 import com.github.kaitoy.sneo.giane.action.message.NodeMessage;
 import com.github.kaitoy.sneo.giane.model.AdditionalIpV4RouteGroup;
@@ -26,7 +27,7 @@ import com.opensymphony.xwork2.validator.annotations.ConversionErrorFieldValidat
 @ParentPackage("giane-default")
 @InterceptorRef("gianeDefaultStack")
 public class SetAdditionalIpV4RouteGroupToNodeAction extends ActionSupport
-implements FormMessage, NodeMessage {
+implements FormMessage, NodeMessage, DialogMessage {
 
   /**
    *

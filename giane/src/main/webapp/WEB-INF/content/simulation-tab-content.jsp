@@ -123,6 +123,7 @@
   <s:param name="hide_running" value="true" />
   <s:param name="grid_id" value="'simulation_grid'" />
   <s:param name="navigatorDelete" value="true" />
+  <s:param name="multiselect" value="true" />
   <s:param name="navigatorExtraButtons">
   {
     config: { 

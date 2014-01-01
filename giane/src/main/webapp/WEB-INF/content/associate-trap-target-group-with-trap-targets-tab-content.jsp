@@ -56,7 +56,7 @@
           <sj:submit
             id="save_trapTargetGroup_associated_trapTarget_grid"
             href="%{associate_trapTargetGroup_with_trapTargets_url}"
-            targets="shared_dialog_box"
+            targets="trash_box"
             replaceTarget="false"
             validate="false"
             button="true"

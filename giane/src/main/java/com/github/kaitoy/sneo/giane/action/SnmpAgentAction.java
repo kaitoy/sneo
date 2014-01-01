@@ -17,6 +17,7 @@ import org.apache.struts2.convention.annotation.ParentPackage;
 import org.apache.struts2.convention.annotation.Result;
 import org.apache.struts2.interceptor.ParameterAware;
 import org.apache.struts2.interceptor.validation.SkipValidation;
+import com.github.kaitoy.sneo.giane.action.message.DialogMessage;
 import com.github.kaitoy.sneo.giane.action.message.FormMessage;
 import com.github.kaitoy.sneo.giane.action.message.SnmpAgentMessage;
 import com.github.kaitoy.sneo.giane.interceptor.GoingBackward;
@@ -36,7 +37,8 @@ import com.opensymphony.xwork2.validator.annotations.VisitorFieldValidator;
 @ParentPackage("giane-default")
 @InterceptorRef("gianeDefaultStack")
 public class SnmpAgentAction extends ActionSupport
-implements ModelDriven<SnmpAgent>, ParameterAware, FormMessage, SnmpAgentMessage {
+implements ModelDriven<SnmpAgent>, ParameterAware,
+  FormMessage, SnmpAgentMessage, DialogMessage {
 
   /**
    *

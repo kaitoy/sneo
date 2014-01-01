@@ -19,6 +19,7 @@ import org.apache.struts2.interceptor.ParameterAware;
 import org.apache.struts2.interceptor.validation.SkipValidation;
 import com.github.kaitoy.sneo.giane.action.message.AssociateActionMessage;
 import com.github.kaitoy.sneo.giane.action.message.BreadCrumbsMessage;
+import com.github.kaitoy.sneo.giane.action.message.DialogMessage;
 import com.github.kaitoy.sneo.giane.action.message.FormMessage;
 import com.github.kaitoy.sneo.giane.action.message.L2ConnectionMessage;
 import com.github.kaitoy.sneo.giane.interceptor.GoingBackward;
@@ -37,7 +38,7 @@ import com.opensymphony.xwork2.validator.annotations.VisitorFieldValidator;
 public class L2ConnectionAction
 extends ActionSupport
 implements ModelDriven<L2Connection>, ParameterAware, FormMessage, L2ConnectionMessage,
-  BreadCrumbsMessage, AssociateActionMessage {
+  BreadCrumbsMessage, AssociateActionMessage, DialogMessage {
 
   /**
    *

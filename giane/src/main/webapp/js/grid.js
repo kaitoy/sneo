@@ -52,20 +52,36 @@ $(document).ready( function() {
   });
   
   $.subscribe("gridConfigButtonClicked", function(event, gridDom) {
-    var topic = $(gridDom).attr("id");
-    topic = topic.substring(0, topic.lastIndexOf("grid"));
-    topic += "rowDblClicked";
-    $.publish(topic);
+    var grid = $(gridDom);
+    if (grid.jqGrid("getGridParam", "selarrrow").length !== 1) {
+      $("#commonDialog_form_titleKey").val("dialog.title.error");
+      $("#commonDialog_form_textKey").val("dialog.text.select.a.row");
+      $.publish("showCommonDialog");
+    }
+    else {    
+      var topic = grid.attr("id");
+      topic = topic.substring(0, topic.lastIndexOf("grid"));
+      topic += "rowDblClicked";
+      
+      $.publish(topic);
+    }
   });
   
   $.subscribe("gridDeleteButtonClicked", function(event, gridDom) {
     var grid= $(gridDom);
-    var gridId = grid.attr("id");
-    var modelName = gridId.substring(0, gridId.lastIndexOf("_grid"));
-    $("#" + modelName + "_deletingIdList")
-      .val(grid.jqGrid("getGridParam", "selrow"));
-      
-    $.publish(modelName + "_deleteConfirmation");
+    if (grid.jqGrid("getGridParam", "selarrrow").length === 0) {
+      $("#commonDialog_form_titleKey").val("dialog.title.error");
+      $("#commonDialog_form_textKey").val("dialog.text.select.rows");
+      $.publish("showCommonDialog");
+    }
+    else { 
+      var gridId = grid.attr("id");
+      var modelName = gridId.substring(0, gridId.lastIndexOf("_grid"));
+      $("#" + modelName + "_deletingIdList")
+        .val(grid.jqGrid("getGridParam", "selarrrow").join(","));
+        
+      $.publish(modelName + "_deleteConfirmation");
+    }
   });
 });
 

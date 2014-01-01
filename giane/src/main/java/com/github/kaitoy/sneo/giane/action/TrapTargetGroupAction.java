@@ -19,6 +19,7 @@ import org.apache.struts2.interceptor.ParameterAware;
 import org.apache.struts2.interceptor.validation.SkipValidation;
 import com.github.kaitoy.sneo.giane.action.message.AssociateActionMessage;
 import com.github.kaitoy.sneo.giane.action.message.BreadCrumbsMessage;
+import com.github.kaitoy.sneo.giane.action.message.DialogMessage;
 import com.github.kaitoy.sneo.giane.action.message.EntityGroupMessage;
 import com.github.kaitoy.sneo.giane.action.message.FormMessage;
 import com.github.kaitoy.sneo.giane.action.message.TrapTargetGroupMessage;
@@ -37,7 +38,8 @@ import com.opensymphony.xwork2.validator.annotations.VisitorFieldValidator;
 public class TrapTargetGroupAction
 extends ActionSupport
 implements ModelDriven<TrapTargetGroup>, ParameterAware, FormMessage,
-  TrapTargetGroupMessage, BreadCrumbsMessage, AssociateActionMessage, EntityGroupMessage {
+  TrapTargetGroupMessage, BreadCrumbsMessage, AssociateActionMessage,
+  EntityGroupMessage, DialogMessage {
 
   /**
    *

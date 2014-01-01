@@ -57,7 +57,20 @@
 
     <img id="contents_container_indicator" src="images/loading_big.gif" alt="Loading..." style="display: none;" />
     <div id="trash_box" style="display: none;"></div>
-    <div id="shared_dialog_box" style="display: none;"></div>
+    
+    <s:form id="commonDialog_form">
+      <s:hidden id="commonDialog_form_titleKey" name="dialogTitleKey" />
+      <s:hidden id="commonDialog_form_textKey" name="dialogTextKey" />
+      <s:url var="commonDialog_url" action="common-dialog" />
+      <sj:submit
+        listenTopics="showCommonDialog"
+        href="%{commonDialog_url}"
+        targets="trash_box"
+        replaceTarget="false"
+        clearForm="true"
+        cssStyle="display: none;"
+      />
+    </s:form>
 
     <div id="footer">
       <a id="footer_url" href="https://github.com/kaitoy/sneo" target="_blank">https://github.com/kaitoy/sneo</a>

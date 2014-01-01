@@ -12,6 +12,7 @@ import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.InterceptorRef;
 import org.apache.struts2.convention.annotation.ParentPackage;
 import org.apache.struts2.convention.annotation.Result;
+import com.github.kaitoy.sneo.giane.action.message.DialogMessage;
 import com.github.kaitoy.sneo.giane.action.message.FormMessage;
 import com.github.kaitoy.sneo.giane.action.message.SnmpAgentMessage;
 import com.github.kaitoy.sneo.giane.model.Simulation;
@@ -26,7 +27,7 @@ import com.opensymphony.xwork2.validator.annotations.ConversionErrorFieldValidat
 @ParentPackage("giane-default")
 @InterceptorRef("gianeDefaultStack")
 public class SetTrapTargetGroupToSnmpAgentAction extends ActionSupport
-implements FormMessage, SnmpAgentMessage {
+implements FormMessage, SnmpAgentMessage, DialogMessage {
 
   /**
    *

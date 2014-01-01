@@ -17,6 +17,7 @@ import org.apache.struts2.convention.annotation.ParentPackage;
 import org.apache.struts2.convention.annotation.Result;
 import org.apache.struts2.interceptor.ParameterAware;
 import org.apache.struts2.interceptor.validation.SkipValidation;
+import com.github.kaitoy.sneo.giane.action.message.DialogMessage;
 import com.github.kaitoy.sneo.giane.action.message.FormMessage;
 import com.github.kaitoy.sneo.giane.action.message.IpV4RouteMessage;
 import com.github.kaitoy.sneo.giane.interceptor.GoingBackward;
@@ -33,7 +34,8 @@ import com.opensymphony.xwork2.validator.annotations.VisitorFieldValidator;
 @InterceptorRef("gianeDefaultStack")
 public class AdditionalIpV4RouteAction
 extends ActionSupport
-implements ModelDriven<AdditionalIpV4Route>, ParameterAware, FormMessage, IpV4RouteMessage {
+implements ModelDriven<AdditionalIpV4Route>, ParameterAware,
+  FormMessage, IpV4RouteMessage, DialogMessage {
 
   /**
    *
@@ -163,19 +165,7 @@ implements ModelDriven<AdditionalIpV4Route>, ParameterAware, FormMessage, IpV4Ro
   public void validate() {
     String contextName = ActionContext.getContext().getName();
 
-    if (contextName.equals("additional-ip-v4-route")) {
-      if (model.getId() == null) {
-        addActionError(getText("select.a.row"));
-        return;
-      }
-    }
-
     if (contextName.equals("additional-ip-v4-route-update")) {
-      if (model.getId() == null) {
-        addActionError(getText("select.a.row"));
-        return;
-      }
-
       if (model.getName() != null) {
         AdditionalIpV4Route someone
           = additionalIpV4RouteDao.findByName(model.getName());

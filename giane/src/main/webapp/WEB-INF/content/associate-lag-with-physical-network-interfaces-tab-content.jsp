@@ -61,7 +61,7 @@
           <sj:submit
             id="save_lag_associated_physicalNetworkInterface_grid"
             href="%{associate_lag_with_physicalNetworkInterfaces_url}"
-            targets="shared_dialog_box"
+            targets="trash_box"
             replaceTarget="false"
             validate="false"
             button="true"

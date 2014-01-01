@@ -18,6 +18,7 @@ import org.apache.struts2.interceptor.validation.SkipValidation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.github.kaitoy.sneo.giane.action.message.AssociateActionMessage;
+import com.github.kaitoy.sneo.giane.action.message.DialogMessage;
 import com.github.kaitoy.sneo.giane.action.message.PhysicalNetworkInterfaceMessage;
 import com.github.kaitoy.sneo.giane.model.Lag;
 import com.github.kaitoy.sneo.giane.model.PhysicalNetworkInterface;
@@ -29,7 +30,7 @@ import com.opensymphony.xwork2.ActionSupport;
 @ParentPackage("giane-default")
 @InterceptorRef("gianeDefaultStack")
 public class AssociateLagWithPhysicalNetworkInterfacesAction extends ActionSupport
-implements AssociateActionMessage, PhysicalNetworkInterfaceMessage {
+implements AssociateActionMessage, PhysicalNetworkInterfaceMessage, DialogMessage {
 
   /**
    *
@@ -84,9 +85,9 @@ implements AssociateActionMessage, PhysicalNetworkInterfaceMessage {
   public String execute() throws Exception {
     if (idList.equals("undefined")) {
       dialogTitleKey
-        = "associateAction.noChange.dialog.title";
+        = "dialog.title.result";
       dialogTextKey
-        = "associateAction.noChange.dialog.text";
+        = "dialog.text.association.noChange";
       return "noChange";
     }
 
@@ -103,8 +104,8 @@ implements AssociateActionMessage, PhysicalNetworkInterfaceMessage {
       Lag lag = lagDao.findByKey(lag_id);
 
       if (pnifs.equals(lag.getPhysicalNetworkInterfaces())) {
-        dialogTitleKey = "associateAction.noChange.dialog.title";
-        dialogTextKey = "associateAction.noChange.dialog.text";
+        dialogTitleKey = "dialog.title.result";
+        dialogTextKey = "dialog.text.association.noChange";
         return "noChange";
       }
 
@@ -121,13 +122,13 @@ implements AssociateActionMessage, PhysicalNetworkInterfaceMessage {
         }
       }
 
-      dialogTitleKey = "associateAction.success.dialog.title";
-      dialogTextKey = "associateAction.success.dialog.text";
+      dialogTitleKey = "dialog.title.result";
+      dialogTextKey = "dialog.text.association.success";
       return "success";
     } catch (Exception e) {
       logger.error("An error occurred: ", e);
-      dialogTitleKey = "associateAction.error.dialog.title";
-      dialogTextKey = "associateAction.error.dialog.text";
+      dialogTitleKey = "dialog.title.result";
+      dialogTextKey = "dialog.text.association.error";
       return "error";
     }
   }

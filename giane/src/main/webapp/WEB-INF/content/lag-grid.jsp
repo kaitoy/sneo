@@ -35,7 +35,7 @@
     }
   }"
   editinline="false"
-  multiselect="false"
+  multiselect="true"
   viewrecords="true"
   viewsortcols="[true, 'vertical', true]"
   gridModel="gridModel"
@@ -85,15 +85,14 @@
   <s:hidden id="lag_deletingIdList" name="deletingIdList" />
   <s:url var="delete_confirmation_url" action="confirmation-dialog" escapeAmp="false">
     <s:param name="okTopic" value="'lag_delete'" />
-    <s:param name="textKey" value="'confirmationDialog.lag.delete.text'" />
+    <s:param name="textKey" value="'dialog.text.confirmation.lag.delete'" />
   </s:url>
   <sj:submit
     listenTopics="lag_deleteConfirmation"
     href="%{delete_confirmation_url}"
-    targets="shared_dialog_box"
+    targets="trash_box"
     replaceTarget="false"
-    validate="true"
-    validateFunction="validation"
+    validate="false"
     clearForm="false"
     cssStyle="display: none;"
   />

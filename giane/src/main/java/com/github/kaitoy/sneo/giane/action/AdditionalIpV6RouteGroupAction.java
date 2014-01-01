@@ -20,6 +20,7 @@ import org.apache.struts2.interceptor.validation.SkipValidation;
 import com.github.kaitoy.sneo.giane.action.message.AdditionalIpV6RouteGroupMessage;
 import com.github.kaitoy.sneo.giane.action.message.AssociateActionMessage;
 import com.github.kaitoy.sneo.giane.action.message.BreadCrumbsMessage;
+import com.github.kaitoy.sneo.giane.action.message.DialogMessage;
 import com.github.kaitoy.sneo.giane.action.message.EntityGroupMessage;
 import com.github.kaitoy.sneo.giane.action.message.FormMessage;
 import com.github.kaitoy.sneo.giane.interceptor.GoingBackward;
@@ -37,7 +38,8 @@ import com.opensymphony.xwork2.validator.annotations.VisitorFieldValidator;
 public class AdditionalIpV6RouteGroupAction
 extends ActionSupport
 implements ModelDriven<AdditionalIpV6RouteGroup>, ParameterAware, FormMessage,
-  AdditionalIpV6RouteGroupMessage, BreadCrumbsMessage, AssociateActionMessage, EntityGroupMessage {
+  AdditionalIpV6RouteGroupMessage, BreadCrumbsMessage, AssociateActionMessage, EntityGroupMessage,
+  DialogMessage {
 
   /**
    *

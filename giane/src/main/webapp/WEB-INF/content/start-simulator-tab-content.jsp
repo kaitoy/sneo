@@ -56,7 +56,7 @@
                   <sj:submit
                     listenTopics="doStart_startSimulator"
                     href="%{startSimulator_url}"
-                    targets="shared_dialog_box"
+                    targets="trash_box"
                     replaceTarget="false"
                     indicator="startSimulator_indicator"
                     onSuccessTopics="runningSimulatorUpdated"
@@ -79,7 +79,7 @@
                   <sj:submit
                     listenTopics="doStop_startSimulator"
                     href="%{stopSimulator_url}"
-                    targets="shared_dialog_box"
+                    targets="trash_box"
                     replaceTarget="false"
                     indicator="stopimulator_indicator"
                     onSuccessTopics="runningSimulatorUpdated"
@@ -101,6 +101,7 @@
 <s:url var="startSimulator_grid_box_url" action="simulation-grid-box" escapeAmp="false">
   <s:param name="grid_id" value="'startSimulator_grid'" />
   <s:param name="navigatorDelete" value="false" />
+  <s:param name="multiselect" value="false" />
   <s:param name="reloadTopics" value="'runningSimulatorUpdated,simulationTableUpdated'" />
   <s:param name="hide_running" value="false" />
 </s:url>

@@ -18,34 +18,37 @@ import com.opensymphony.xwork2.ActionSupport;
 
 @ParentPackage("giane-default")
 @InterceptorRef("gianeDefaultStack")
-public class ConfirmationDialogAction extends ActionSupport
+public class CommonDialogAction extends ActionSupport
 implements DialogMessage, FormMessage {
 
   /**
    *
    */
-  private static final long serialVersionUID = 8986143503120527708L;
+  private static final long serialVersionUID = 3798270545666678810L;
 
-  private String deletingIdList;
-  private int numDeletingItems;
+  private String dialogTitleKey;
+  private String dialogTextKey;
 
-  public void setDeletingIdList(String deletingIdList) {
-    this.deletingIdList = deletingIdList;
+  public String getDialogTitleKey() {
+    return dialogTitleKey;
   }
 
-  public int getNumDeletingItems() {
-    return numDeletingItems;
+  public void setDialogTitleKey(String dialogTitleKey) {
+    this.dialogTitleKey = dialogTitleKey;
+  }
+
+  public String getDialogTextKey() {
+    return dialogTextKey;
+  }
+
+  public void setDialogTextKey(String dialogTextKey) {
+    this.dialogTextKey = dialogTextKey;
   }
 
   @Override
-  @Action(
-    results = {
-      @Result(name = "success", location = "confirmation-dialog.jsp")
-    }
-  )
+  @Action(results = { @Result(name = "success", location = "dialog.jsp") })
   @SkipValidation
   public String execute() throws Exception {
-    numDeletingItems = deletingIdList.split(",").length;
     return "success";
   }
 

@@ -35,7 +35,7 @@
     }
   }"
   editinline="false"
-  multiselect="false"
+  multiselect="true"
   viewrecords="true"
   viewsortcols="[true, 'vertical', true]"
   gridModel="gridModel"
@@ -95,15 +95,14 @@
   <s:hidden id="node_deletingIdList" name="deletingIdList" />
   <s:url var="delete_confirmation_url" action="confirmation-dialog" escapeAmp="false">
     <s:param name="okTopic" value="'node_delete'" />
-    <s:param name="textKey" value="'confirmationDialog.node.delete.text'" />
+    <s:param name="textKey" value="'dialog.text.confirmation.node.delete'" />
   </s:url>
   <sj:submit
     listenTopics="node_deleteConfirmation"
     href="%{delete_confirmation_url}"
-    targets="shared_dialog_box"
+    targets="trash_box"
     replaceTarget="false"
-    validate="true"
-    validateFunction="validation"
+    validate="false"
     clearForm="false"
     cssStyle="display: none;"
   />

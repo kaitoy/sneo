@@ -18,6 +18,7 @@ import org.apache.struts2.interceptor.validation.SkipValidation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.github.kaitoy.sneo.giane.action.message.AssociateActionMessage;
+import com.github.kaitoy.sneo.giane.action.message.DialogMessage;
 import com.github.kaitoy.sneo.giane.action.message.IpV4RouteMessage;
 import com.github.kaitoy.sneo.giane.model.AdditionalIpV4Route;
 import com.github.kaitoy.sneo.giane.model.AdditionalIpV4RouteGroup;
@@ -30,7 +31,7 @@ import com.opensymphony.xwork2.ActionSupport;
 @InterceptorRef("gianeDefaultStack")
 public class AssociateAdditionalIpV4RouteGroupWithAdditionalIpV4RoutesAction
 extends ActionSupport
-implements AssociateActionMessage, IpV4RouteMessage {
+implements AssociateActionMessage, IpV4RouteMessage, DialogMessage {
 
   /**
    *
@@ -83,9 +84,9 @@ implements AssociateActionMessage, IpV4RouteMessage {
   public String execute() throws Exception {
     if (idList.equals("undefined")) {
       dialogTitleKey
-        = "associateAction.noChange.dialog.title";
+        = "dialog.title.result";
       dialogTextKey
-        = "associateAction.noChange.dialog.text";
+        = "dialog.text.association.noChange";
       return "noChange";
     }
 
@@ -117,9 +118,9 @@ implements AssociateActionMessage, IpV4RouteMessage {
 
       if (foundAll && additionalIpV4RouteGroup.getAdditionalIpV4Routes().size() == additionalIpV4Routes.size()) {
         dialogTitleKey
-          = "associateAction.noChange.dialog.title";
+          = "dialog.title.result";
         dialogTextKey
-          = "associateAction.noChange.dialog.text";
+          = "dialog.text.association.noChange";
         return "noChange";
       }
 
@@ -127,14 +128,14 @@ implements AssociateActionMessage, IpV4RouteMessage {
       additionalIpV4RouteGroupDao.update(additionalIpV4RouteGroup);
 
       dialogTitleKey
-        = "associateAction.success.dialog.title";
+        = "dialog.title.result";
       dialogTextKey
-        = "associateAction.success.dialog.text";
+        = "dialog.text.association.success";
       return "success";
     } catch (Exception e) {
       logger.error("An error occurred: ", e);
-      dialogTitleKey = "associateAction.error.dialog.title";
-      dialogTextKey = "associateAction.error.dialog.text";
+      dialogTitleKey = "dialog.title.result";
+      dialogTextKey = "dialog.text.association.error";
       return "error";
     }
   }

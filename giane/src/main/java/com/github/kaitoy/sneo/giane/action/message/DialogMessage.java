@@ -7,6 +7,6 @@
 
 package com.github.kaitoy.sneo.giane.action.message;
 
-public interface ConfirmationDialogMessage {
+public interface DialogMessage {
 
 }

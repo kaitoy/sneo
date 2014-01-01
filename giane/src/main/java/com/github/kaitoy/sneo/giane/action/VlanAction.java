@@ -19,6 +19,7 @@ import org.apache.struts2.interceptor.ParameterAware;
 import org.apache.struts2.interceptor.validation.SkipValidation;
 import com.github.kaitoy.sneo.giane.action.message.AssociateActionMessage;
 import com.github.kaitoy.sneo.giane.action.message.BreadCrumbsMessage;
+import com.github.kaitoy.sneo.giane.action.message.DialogMessage;
 import com.github.kaitoy.sneo.giane.action.message.FormMessage;
 import com.github.kaitoy.sneo.giane.action.message.VlanMessage;
 import com.github.kaitoy.sneo.giane.interceptor.GoingBackward;
@@ -39,7 +40,7 @@ import com.opensymphony.xwork2.validator.annotations.VisitorFieldValidator;
 public class VlanAction
 extends ActionSupport
 implements ModelDriven<Vlan>, ParameterAware, FormMessage, VlanMessage, BreadCrumbsMessage,
-  AssociateActionMessage {
+  AssociateActionMessage, DialogMessage {
 
   /**
    *

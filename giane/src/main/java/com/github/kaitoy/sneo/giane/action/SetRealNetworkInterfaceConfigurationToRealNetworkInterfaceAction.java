@@ -12,6 +12,7 @@ import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.InterceptorRef;
 import org.apache.struts2.convention.annotation.ParentPackage;
 import org.apache.struts2.convention.annotation.Result;
+import com.github.kaitoy.sneo.giane.action.message.DialogMessage;
 import com.github.kaitoy.sneo.giane.action.message.FormMessage;
 import com.github.kaitoy.sneo.giane.action.message.RealNetworkInterfaceMessage;
 import com.github.kaitoy.sneo.giane.model.RealNetworkInterface;
@@ -27,7 +28,7 @@ import com.opensymphony.xwork2.validator.annotations.ConversionErrorFieldValidat
 @InterceptorRef("gianeDefaultStack")
 public class SetRealNetworkInterfaceConfigurationToRealNetworkInterfaceAction
 extends ActionSupport
-implements FormMessage, RealNetworkInterfaceMessage {
+implements FormMessage, RealNetworkInterfaceMessage, DialogMessage {
 
   /**
    *

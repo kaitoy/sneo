@@ -16,6 +16,7 @@ import org.apache.struts2.convention.annotation.ParentPackage;
 import org.apache.struts2.convention.annotation.Result;
 import org.apache.struts2.interceptor.ParameterAware;
 import org.apache.struts2.interceptor.validation.SkipValidation;
+import com.github.kaitoy.sneo.giane.action.message.DialogMessage;
 import com.github.kaitoy.sneo.giane.action.message.FormMessage;
 import com.github.kaitoy.sneo.giane.action.message.IpAddressMessage;
 import com.github.kaitoy.sneo.giane.model.IpAddress;
@@ -30,7 +31,8 @@ import com.opensymphony.xwork2.validator.annotations.VisitorFieldValidator;
 @InterceptorRef("gianeDefaultStack")
 public class IpAddressAction
 extends ActionSupport
-implements ModelDriven<IpAddress>, ParameterAware, FormMessage, IpAddressMessage {
+implements ModelDriven<IpAddress>, ParameterAware,
+  FormMessage, IpAddressMessage, DialogMessage {
 
   /**
    *

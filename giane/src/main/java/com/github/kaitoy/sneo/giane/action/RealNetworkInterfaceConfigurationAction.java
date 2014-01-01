@@ -22,6 +22,7 @@ import org.pcap4j.core.PcapNativeException;
 import org.pcap4j.core.PcapNetworkInterface;
 import org.pcap4j.core.Pcaps;
 import com.github.kaitoy.sneo.giane.action.message.BreadCrumbsMessage;
+import com.github.kaitoy.sneo.giane.action.message.DialogMessage;
 import com.github.kaitoy.sneo.giane.action.message.FormMessage;
 import com.github.kaitoy.sneo.giane.action.message.RealNetworkInterfaceConfigurationMessage;
 import com.github.kaitoy.sneo.giane.interceptor.GoingBackward;
@@ -41,7 +42,7 @@ import com.opensymphony.xwork2.validator.annotations.VisitorFieldValidator;
 public class RealNetworkInterfaceConfigurationAction
 extends ActionSupport
 implements ModelDriven<RealNetworkInterfaceConfiguration>, ParameterAware, FormMessage,
-  RealNetworkInterfaceConfigurationMessage, BreadCrumbsMessage {
+  RealNetworkInterfaceConfigurationMessage, BreadCrumbsMessage, DialogMessage {
 
   /**
    *

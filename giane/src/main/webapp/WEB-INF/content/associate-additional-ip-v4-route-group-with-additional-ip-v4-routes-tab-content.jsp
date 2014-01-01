@@ -56,7 +56,7 @@
           <sj:submit
             id="save_additionalIpV4RouteGroup_associated_additionalIpV4Route_grid"
             href="%{associate_additionalIpV4RouteGroup_with_additionalIpV4Routes_url}"
-            targets="shared_dialog_box"
+            targets="trash_box"
             replaceTarget="false"
             validate="false"
             button="true"

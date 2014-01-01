@@ -57,7 +57,7 @@
           <sj:submit
             id="save_l2Connection_associated_physicalNetworkInterface_grid"
             href="%{associate_l2Connection_with_physicalNetworkInterfaces_url}"
-            targets="shared_dialog_box"
+            targets="trash_box"
             replaceTarget="false"
             validate="false"
             button="true"

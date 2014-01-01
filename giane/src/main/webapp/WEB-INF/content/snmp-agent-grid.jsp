@@ -31,7 +31,7 @@
     }
   }"
   editinline="false"
-  multiselect="false"
+  multiselect="true"
   viewrecords="true"
   viewsortcols="[true, 'vertical', true]"
   gridModel="gridModel"
@@ -127,15 +127,14 @@
   <s:hidden id="snmpAgent_deletingIdList" name="deletingIdList" />
   <s:url var="delete_confirmation_url" action="confirmation-dialog" escapeAmp="false">
     <s:param name="okTopic" value="'snmpAgent_delete'" />
-    <s:param name="textKey" value="'confirmationDialog.snmpAgent.delete.text'" />
+    <s:param name="textKey" value="'dialog.text.confirmation.snmpAgent.delete'" />
   </s:url>
   <sj:submit
     listenTopics="snmpAgent_deleteConfirmation"
     href="%{delete_confirmation_url}"
-    targets="shared_dialog_box"
+    targets="trash_box"
     replaceTarget="false"
-    validate="true"
-    validateFunction="validation"
+    validate="false"
     clearForm="false"
     cssStyle="display: none;"
   />

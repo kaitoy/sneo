@@ -12,8 +12,16 @@ $(document).ready( function() {
   $.subscribe("updateButtonClicked", function(event, data) {
     var formId = event.originalEvent.currentTarget.form.id;
     var modelName = formId.substring(0, formId.lastIndexOf("_form"));
+    var gridId = modelName + "_grid";
     
-    $.publish("doUpdate_" + modelName);
+    if ($("#" + gridId).jqGrid("getGridParam", "selarrrow").length !== 1) {
+      $("#commonDialog_form_titleKey").val("dialog.title.error");
+      $("#commonDialog_form_textKey").val("dialog.text.select.a.row");
+      $.publish("showCommonDialog");
+    }
+    else {
+      $.publish("doUpdate_" + modelName);
+    }
   });
 
   $.subscribe("saveButtonClicked", function(event, data) {

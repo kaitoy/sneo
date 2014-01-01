@@ -18,6 +18,7 @@ import org.apache.struts2.interceptor.validation.SkipValidation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.github.kaitoy.sneo.giane.action.message.AssociateActionMessage;
+import com.github.kaitoy.sneo.giane.action.message.DialogMessage;
 import com.github.kaitoy.sneo.giane.action.message.VlanMemberMessage;
 import com.github.kaitoy.sneo.giane.model.Vlan;
 import com.github.kaitoy.sneo.giane.model.VlanMember;
@@ -29,7 +30,7 @@ import com.opensymphony.xwork2.ActionSupport;
 @ParentPackage("giane-default")
 @InterceptorRef("gianeDefaultStack")
 public class AssociateVlanWithVlanMembersAction extends ActionSupport
-implements AssociateActionMessage, VlanMemberMessage {
+implements AssociateActionMessage, VlanMemberMessage, DialogMessage {
 
   /**
    *
@@ -82,9 +83,9 @@ implements AssociateActionMessage, VlanMemberMessage {
   public String execute() throws Exception {
     if (idList.equals("undefined")) {
       dialogTitleKey
-        = "associateAction.noChange.dialog.title";
+        = "dialog.title.result";
       dialogTextKey
-        = "associateAction.noChange.dialog.text";
+        = "dialog.text.association.noChange";
       return "noChange";
     }
 
@@ -116,9 +117,9 @@ implements AssociateActionMessage, VlanMemberMessage {
 
       if (foundAll && vlan.getVlanMembers().size() == members.size()) {
         dialogTitleKey
-          = "associateAction.noChange.dialog.title";
+          = "dialog.title.result";
         dialogTextKey
-          = "associateAction.noChange.dialog.text";
+          = "dialog.text.association.noChange";
         return "noChange";
       }
 
@@ -126,14 +127,14 @@ implements AssociateActionMessage, VlanMemberMessage {
       vlanDao.update(vlan);
 
       dialogTitleKey
-        = "associateAction.success.dialog.title";
+        = "dialog.title.result";
       dialogTextKey
-        = "associateAction.success.dialog.text";
+        = "dialog.text.association.success";
       return "success";
     } catch (Exception e) {
       logger.error("An error occurred: ", e);
-      dialogTitleKey = "associateAction.error.dialog.title";
-      dialogTextKey = "associateAction.error.dialog.text";
+      dialogTitleKey = "dialog.title.result";
+      dialogTextKey = "dialog.text.association.error";
       return "error";
     }
   }

@@ -17,6 +17,7 @@ import org.apache.struts2.convention.annotation.ParentPackage;
 import org.apache.struts2.convention.annotation.Result;
 import org.apache.struts2.interceptor.ParameterAware;
 import org.apache.struts2.interceptor.validation.SkipValidation;
+import com.github.kaitoy.sneo.giane.action.message.DialogMessage;
 import com.github.kaitoy.sneo.giane.action.message.FormMessage;
 import com.github.kaitoy.sneo.giane.action.message.IpV4RouteMessage;
 import com.github.kaitoy.sneo.giane.interceptor.GoingBackward;
@@ -34,7 +35,8 @@ import com.opensymphony.xwork2.validator.annotations.VisitorFieldValidator;
 @InterceptorRef("gianeDefaultStack")
 public class FixedIpV4RouteAction
 extends ActionSupport
-implements ModelDriven<FixedIpV4Route>, ParameterAware, FormMessage, IpV4RouteMessage {
+implements ModelDriven<FixedIpV4Route>, ParameterAware,
+  FormMessage, IpV4RouteMessage, DialogMessage {
 
   /**
    *

@@ -57,7 +57,7 @@
           <sj:submit
             id="save_vlan_associated_vlanMember_grid"
             href="%{associate_vlan_with_vlanMembers_url}"
-            targets="shared_dialog_box"
+            targets="trash_box"
             replaceTarget="false"
             validate="false"
             button="true"

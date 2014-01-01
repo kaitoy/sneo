@@ -10,7 +10,7 @@
   modal="true"
   title="%{getText(dialogTitleKey)}"
   buttons="{
-    'OK': function() {$('#common_dialog').dialog('close'); }
+    'OK': function() {$('#common_dialog').dialog('close');}
   }"
   dialogClass="giane-dialog"
 >
