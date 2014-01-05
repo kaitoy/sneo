@@ -146,8 +146,9 @@
   <img id="simulation_grid_box_indicator" src="images/loading_small.gif" alt="Loading..." style="display: none;" />
 </div>
 
-<s:url var="simulation_url" action="simulation">
+<s:url var="simulation_url" action="simulation" escapeAmp="false">
   <s:param name="tabIndex" value="%{#parameters.tabIndex}" />
+  <s:param name="breadcrumbsId" value="%{#parameters.breadcrumbsId}" />
 </s:url>
 <sj:submit
   href="%{simulation_url}"

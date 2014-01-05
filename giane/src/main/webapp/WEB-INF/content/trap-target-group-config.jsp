@@ -24,6 +24,7 @@
     <s:param name="trapTargetGroup_id" value="%{trapTargetGroup_id}" />
     <s:param name="trapTargetGroup_name" value="%{trapTargetGroup_name}" />
     <s:param name="tabIndex" value="0" />
+    <s:param name="breadcrumbsId" value="%{#parameters.breadcrumbsId}" />
   </s:url>
   <sj:div
     id="associate_trapTargetGroup_with_trapTargets_tab_content"

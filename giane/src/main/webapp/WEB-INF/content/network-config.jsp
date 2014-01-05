@@ -12,6 +12,7 @@
 
 <div class="breadcrumb-link" style="display: none;">
   <s:url var="back_to_network_config_url" action="back-to-network-config" escapeAmp="false">
+    <s:param name="breadcrumbsId" value="%{#parameters.breadcrumbsId}" />
     <s:param name="network_id" value="%{network_id}" />
     <s:param name="network_name" value="%{network_name}" />
   </s:url>
@@ -36,6 +37,7 @@
   <s:url var="node_tab_content_url" action="node-tab-content" escapeAmp="false">
     <s:param name="network_id" value="%{network_id}" />
     <s:param name="tabIndex" value="0" />
+    <s:param name="breadcrumbsId" value="%{#parameters.breadcrumbsId}" />
   </s:url>
   <sj:div id="node_tab_content" href="%{node_tab_content_url}" indicator="node_tab_indicator" cssClass="giane-tab-content" />
 
@@ -43,6 +45,7 @@
   <s:url var="l2Connection_tab_content_url" action="l2-connection-tab-content" escapeAmp="false">
     <s:param name="network_id" value="%{network_id}" />
     <s:param name="tabIndex" value="1" />
+    <s:param name="breadcrumbsId" value="%{#parameters.breadcrumbsId}" />
   </s:url>
   <sj:div id="l2Connection_tab_content" href="%{l2Connection_tab_content_url}" indicator="l2Connection_tab_indicator" cssClass="giane-tab-content" />
 </sj:tabbedpanel>

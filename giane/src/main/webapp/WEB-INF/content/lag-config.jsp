@@ -25,6 +25,7 @@
     <s:param name="lag_id" value="%{lag_id}" />
     <s:param name="lag_name" value="%{lag_name}" />
     <s:param name="tabIndex" value="0" />
+    <s:param name="breadcrumbsId" value="%{#parameters.breadcrumbsId}" />
   </s:url>
   <sj:div
     id="associate_lag_with_physicalNetworkInterfaces_tab_content"
@@ -37,6 +38,7 @@
   <s:url var="ipAddress_tab_content_url" action="ip-address-tab-content">
     <s:param name="ipAddressRelation_id" value="%{ipAddressRelation_id}" />
     <s:param name="tabIndex" value="1" />
+    <s:param name="breadcrumbsId" value="%{#parameters.breadcrumbsId}" />
   </s:url>
   <sj:div id="ipAddress_tab_content" href="%{ipAddress_tab_content_url}" indicator="ipAddress_tab_indicator" cssClass="giane-tab-content" />
 </sj:tabbedpanel>

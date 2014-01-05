@@ -12,6 +12,7 @@
 
 <div class="breadcrumb-link" style="display: none;">
   <s:url var="back_to_node_config_url" action="back-to-node-config" escapeAmp="false">
+    <s:param name="breadcrumbsId" value="%{#parameters.breadcrumbsId}" />
     <s:param name="node_id" value="%{node_id}" />
     <s:param name="node_name" value="%{node_name}" />
   </s:url>
@@ -35,6 +36,7 @@
   <s:url var="snmpAgent_tab_content_url" action="snmp-agent-tab-content" escapeAmp="false">
     <s:param name="node_id" value="%{node_id}" />
     <s:param name="tabIndex" value="0" />
+    <s:param name="breadcrumbsId" value="%{#parameters.breadcrumbsId}" />
   </s:url>
   <sj:div id="snmpAgent_tab_content" href="%{snmpAgent_tab_content_url}" indicator="snmpAgent_tab_indicator" cssClass="giane-tab-content" />
 
@@ -42,6 +44,7 @@
   <s:url var="physicalNetworkInterface_tab_content_url" action="physical-network-interface-tab-content" escapeAmp="false">
     <s:param name="node_id" value="%{node_id}" />
     <s:param name="tabIndex" value="1" />
+    <s:param name="breadcrumbsId" value="%{#parameters.breadcrumbsId}" />
   </s:url>
   <sj:div id="physicalNetworkInterface_tab_content" href="%{physicalNetworkInterface_tab_content_url}" indicator="physicalNetworkInterface_tab_indicator" cssClass="giane-tab-content" />
 
@@ -50,6 +53,7 @@
     <s:param name="node_id" value="%{node_id}" />
     <s:param name="node_name" value="%{node_name}" />
     <s:param name="tabIndex" value="2" />
+    <s:param name="breadcrumbsId" value="%{#parameters.breadcrumbsId}" />
   </s:url>
   <sj:div id="realNetworkInterface_tab_content" href="%{realNetworkInterface_tab_content_url}" indicator="realNetworkInterface_tab_indicator" cssClass="giane-tab-content" />
 
@@ -57,6 +61,7 @@
   <s:url var="vlan_tab_content_url" action="vlan-tab-content" escapeAmp="false">
     <s:param name="node_id" value="%{node_id}" />
     <s:param name="tabIndex" value="3" />
+    <s:param name="breadcrumbsId" value="%{#parameters.breadcrumbsId}" />
   </s:url>
   <sj:div id="vlan_tab_content" href="%{vlan_tab_content_url}" indicator="vlan_tab_indicator" cssClass="giane-tab-content" />
 
@@ -64,6 +69,7 @@
   <s:url var="lag_tab_content_url" action="lag-tab-content" escapeAmp="false">
     <s:param name="node_id" value="%{node_id}" />
     <s:param name="tabIndex" value="4" />
+    <s:param name="breadcrumbsId" value="%{#parameters.breadcrumbsId}" />
   </s:url>
   <sj:div id="lag_tab_content" href="%{lag_tab_content_url}" indicator="lag_tab_indicator" cssClass="giane-tab-content" />
 
@@ -71,6 +77,7 @@
   <s:url var="fixedIpV4Route_tab_content_url" action="fixed-ip-v4-route-tab-content" escapeAmp="false">
     <s:param name="node_id" value="%{node_id}" />
     <s:param name="tabIndex" value="5" />
+    <s:param name="breadcrumbsId" value="%{#parameters.breadcrumbsId}" />
   </s:url>
   <sj:div id="fixedIpV4Route_tab_content" href="%{fixedIpV4Route_tab_content_url}" indicator="fixedIpV4Route_tab_indicator" cssClass="giane-tab-content" />
   
@@ -78,6 +85,7 @@
   <s:url var="fixedIpV6Route_tab_content_url" action="fixed-ip-v6-route-tab-content" escapeAmp="false">
     <s:param name="node_id" value="%{node_id}" />
     <s:param name="tabIndex" value="6" />
+    <s:param name="breadcrumbsId" value="%{#parameters.breadcrumbsId}" />
   </s:url>
   <sj:div id="fixedIpV6Route_tab_content" href="%{fixedIpV6Route_tab_content_url}" indicator="fixedIpV6Route_tab_indicator" cssClass="giane-tab-content" />
 </sj:tabbedpanel>

@@ -108,7 +108,8 @@ implements ApplicationAware, H2DbWebConsoleMessage, FormMessage {
         server = Server.createWebServer(
           "-webPort", port.toString(),
           "-baseDir", ".",
-          "-webAllowOthers"
+          "-webAllowOthers",
+          "-webDaemon"
         );
         server.start();
         application.put("h2DbWebServer", server);

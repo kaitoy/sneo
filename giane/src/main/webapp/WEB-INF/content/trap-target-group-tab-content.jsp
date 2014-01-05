@@ -116,8 +116,9 @@
   <img id="trapTargetGroup_grid_box_indicator" src="images/loading_small.gif" alt="Loading..." style="display: none;" />
 </div>
 
-<s:url var="trapTargetGroup_url" action="trap-target-group">
+<s:url var="trapTargetGroup_url" action="trap-target-group" escapeAmp="false">
   <s:param name="tabIndex" value="%{#parameters.tabIndex}" />
+  <s:param name="breadcrumbsId" value="%{#parameters.breadcrumbsId}" />
 </s:url>
 <sj:submit
   href="%{trapTargetGroup_url}"

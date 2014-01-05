@@ -35,19 +35,26 @@ public class TabSelecterInterceptor extends AbstractInterceptor {
       ValueStack stack = ActionContext.getContext().getValueStack();
       Map<String, Object> session = ActionContext.getContext().getSession();
       Map<String, Object> valueMap = new HashMap<String, Object>();
+      Map<String, Object> parameters = ActionContext.getContext().getParameters();
+      String breadcrumsId = ((String[])parameters.get("breadcrumbsId"))[0];
 
       if (method.isAnnotationPresent(GoingForward.class)) {
         @SuppressWarnings("unchecked")
-        Map<String, String> selectedTabMap = (Map<String, String>)session.get("selectedTabMap");
-        if (selectedTabMap == null) {
-          selectedTabMap = new ConcurrentHashMap<String, String>();
-          session.put("selectedTabMap", selectedTabMap);
+        Map<String, Map<String, String>> selectedTabMaps
+          = (Map<String, Map<String, String>>)session.get("selectedTabMaps");
+        if (selectedTabMaps == null) {
+          selectedTabMaps = new ConcurrentHashMap<String, Map<String, String>>();
+          session.put("selectedTabMaps", selectedTabMaps);
         }
 
         String currentAction = (String)session.get("currentAction");
-        Map<String, Object> parameters = ActionContext.getContext().getParameters();
         String[] tabIndex = (String[])parameters.get("tabIndex");
         if (currentAction != null && tabIndex != null && tabIndex.length != 0) {
+          Map<String, String> selectedTabMap = selectedTabMaps.get(breadcrumsId);
+          if (selectedTabMap == null) {
+            selectedTabMap = new ConcurrentHashMap<String, String>();
+            selectedTabMaps.put(breadcrumsId, selectedTabMap);
+          }
           selectedTabMap.put(currentAction, tabIndex[0]);
         }
 
@@ -55,8 +62,10 @@ public class TabSelecterInterceptor extends AbstractInterceptor {
       }
       else if (method.isAnnotationPresent(GoingBackward.class)) {
         @SuppressWarnings("unchecked")
-        String selectedTab
-          = ((Map<String, String>)session.get("selectedTabMap")).get(action.getClass().getName());
+        Map<String, Map<String, String>> selectedTabMaps
+          = (Map<String, Map<String, String>>)session.get("selectedTabMaps");
+        Map<String, String> selectedTabMap = selectedTabMaps.get(breadcrumsId);
+        String selectedTab = selectedTabMap.get(action.getClass().getName());
         valueMap.put("selectedTab", selectedTab);
       }
 

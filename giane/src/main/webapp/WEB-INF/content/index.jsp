@@ -58,13 +58,11 @@
     <img id="contents_container_indicator" src="images/loading_big.gif" alt="Loading..." style="display: none;" />
     <div id="trash_box" style="display: none;"></div>
     
-    <s:form id="commonDialog_form">
+    <s:form id="commonDialog_form" action="common-dialog">
       <s:hidden id="commonDialog_form_titleKey" name="dialogTitleKey" />
       <s:hidden id="commonDialog_form_textKey" name="dialogTextKey" />
-      <s:url var="commonDialog_url" action="common-dialog" />
       <sj:submit
         listenTopics="showCommonDialog"
-        href="%{commonDialog_url}"
         targets="trash_box"
         replaceTarget="false"
         clearForm="true"

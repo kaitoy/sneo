@@ -110,8 +110,9 @@
   </div>
 </div>
 
-<s:url var="vlan_url" action="vlan">
+<s:url var="vlan_url" action="vlan" escapeAmp="false">
   <s:param name="tabIndex" value="%{#parameters.tabIndex}" />
+  <s:param name="breadcrumbsId" value="%{#parameters.breadcrumbsId}" />
 </s:url>
 <sj:submit
   href="%{vlan_url}"

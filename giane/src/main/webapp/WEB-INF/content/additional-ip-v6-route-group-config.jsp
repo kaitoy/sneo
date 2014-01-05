@@ -24,6 +24,7 @@
     <s:param name="additionalIpV6RouteGroup_id" value="%{additionalIpV6RouteGroup_id}" />
     <s:param name="additionalIpV6RouteGroup_name" value="%{additionalIpV6RouteGroup_name}" />
     <s:param name="tabIndex" value="0" />
+    <s:param name="breadcrumbsId" value="%{#parameters.breadcrumbsId}" />
   </s:url>
   <sj:div
     id="associate_additionalIpV6RouteGroup_with_additionalIpV6Routes_tab_content"

@@ -126,8 +126,9 @@
   <img id="additionalIpV4RouteGroup_grid_box_indicator" src="images/loading_small.gif" alt="Loading..." style="display: none;" />
 </div>
 
-<s:url var="additionalIpV4RouteGroup_url" action="additional-ip-v4-route-group">
+<s:url var="additionalIpV4RouteGroup_url" action="additional-ip-v4-route-group" escapeAmp="false">
   <s:param name="tabIndex" value="%{#parameters.tabIndex}" />
+  <s:param name="breadcrumbsId" value="%{#parameters.breadcrumbsId}" />
 </s:url>
 <sj:submit
   href="%{additionalIpV4RouteGroup_url}"

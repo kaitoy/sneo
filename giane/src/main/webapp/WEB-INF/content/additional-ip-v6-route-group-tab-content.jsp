@@ -126,8 +126,9 @@
   <img id="additionalIpV6RouteGroup_grid_box_indicator" src="images/loading_small.gif" alt="Loading..." style="display: none;" />
 </div>
 
-<s:url var="additionalIpV6RouteGroup_url" action="additional-ip-v6-route-group">
+<s:url var="additionalIpV6RouteGroup_url" action="additional-ip-v6-route-group" escapeAmp="false">
   <s:param name="tabIndex" value="%{#parameters.tabIndex}" />
+  <s:param name="breadcrumbsId" value="%{#parameters.breadcrumbsId}" />
 </s:url>
 <sj:submit
   href="%{additionalIpV6RouteGroup_url}"

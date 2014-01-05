@@ -25,6 +25,7 @@
     <s:param name="l2Connection_id" value="%{l2Connection_id}" />
     <s:param name="l2Connection_name" value="%{l2Connection_name}" />
     <s:param name="tabIndex" value="0" />
+    <s:param name="breadcrumbsId" value="%{#parameters.breadcrumbsId}" />
   </s:url>
   <sj:div
     id="associate_l2Connection_with_physicalNetworkInterfaces_tab_content"

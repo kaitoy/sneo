@@ -15,6 +15,7 @@
   <s:url var="set_trapTargetGroup_to_snmpAgent_tab_content_url" action="set-trap-target-group-to-snmp-agent-tab-content" escapeAmp="false">
     <s:param name="simulation_id" value="%{simulation_id}" />
     <s:param name="tabIndex" value="0" />
+    <s:param name="breadcrumbsId" value="%{#parameters.breadcrumbsId}" />
   </s:url>
   <sj:div id="set_trapTargetGroup_to_snmpAgent_tab_content" href="%{set_trapTargetGroup_to_snmpAgent_tab_content_url}" indicator="set_trapTargetGroup_to_snmpAgent_tab_indicator" cssClass="giane-tab-content" />
 
@@ -22,6 +23,7 @@
   <s:url var="set_realNetworkInterfaceConfiguration_to_realNetworkInterface_tab_content_url" action="set-real-network-interface-configuration-to-real-network-interface-tab-content" escapeAmp="false">
     <s:param name="simulation_id" value="%{simulation_id}" />
     <s:param name="tabIndex" value="1" />
+    <s:param name="breadcrumbsId" value="%{#parameters.breadcrumbsId}" />
   </s:url>
   <sj:div id="set_realNetworkInterfaceConfiguration_to_realNetworkInterface_tab_content" href="%{set_realNetworkInterfaceConfiguration_to_realNetworkInterface_tab_content_url}" indicator="set_realNetworkInterfaceConfiguration_to_realNetworkInterface_tab_indicator" cssClass="giane-tab-content" />
 
@@ -29,6 +31,7 @@
   <s:url var="set_additionalIpV4RouteGroup_to_node_tab_content_url" action="set-additional-ip-v4-route-group-to-node-tab-content" escapeAmp="false">
     <s:param name="simulation_id" value="%{simulation_id}" />
     <s:param name="tabIndex" value="2" />
+    <s:param name="breadcrumbsId" value="%{#parameters.breadcrumbsId}" />
   </s:url>
   <sj:div id="set_additionalIpV4RouteGroup_to_node_tab_content" href="%{set_additionalIpV4RouteGroup_to_node_tab_content_url}" indicator="set_additionalIpV4RouteGroup_to_node_tab_indicator" cssClass="giane-tab-content" />
 
@@ -36,6 +39,7 @@
   <s:url var="set_additionalIpV6RouteGroup_to_node_tab_content_url" action="set-additional-ip-v6-route-group-to-node-tab-content" escapeAmp="false">
     <s:param name="simulation_id" value="%{simulation_id}" />
     <s:param name="tabIndex" value="3" />
+    <s:param name="breadcrumbsId" value="%{#parameters.breadcrumbsId}" />
   </s:url>
   <sj:div id="set_additionalIpV6RouteGroup_to_node_tab_content" href="%{set_additionalIpV6RouteGroup_to_node_tab_content_url}" indicator="set_additionalIpV6RouteGroup_to_node_tab_indicator" cssClass="giane-tab-content" />
 </sj:tabbedpanel>

@@ -168,8 +168,9 @@
   </div>
 </div>
 
-<s:url var="realNetworkInterfaceConfiguration_url" action="real-network-interface-configuration">
+<s:url var="realNetworkInterfaceConfiguration_url" action="real-network-interface-configuration" escapeAmp="false">
   <s:param name="tabIndex" value="%{#parameters.tabIndex}" />
+  <s:param name="breadcrumbsId" value="%{#parameters.breadcrumbsId}" />
 </s:url>
 <sj:submit
   href="%{realNetworkInterfaceConfiguration_url}"

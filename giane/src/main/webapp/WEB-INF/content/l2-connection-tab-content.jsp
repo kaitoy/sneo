@@ -107,6 +107,7 @@
 
 <s:url var="l2Connection_url" action="l2-connection" escapeAmp="false">
   <s:param name="tabIndex" value="%{#parameters.tabIndex}" />
+  <s:param name="breadcrumbsId" value="%{#parameters.breadcrumbsId}" />
 </s:url>
 <sj:submit
   href="%{l2Connection_url}"
