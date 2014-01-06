@@ -8,6 +8,6 @@
   <parent>
     <groupId>com.github.kaitoy.sneo</groupId>
     <artifactId>sneo</artifactId>
-    <version>1.2.2</version>
+    <version>1.2.3-SNAPSHOT</version>
   </parent>
 </project>
