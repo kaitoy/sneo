@@ -4,7 +4,7 @@ SNeO
 SNeO is an SNMP Network Simulator.
 It is now available on the Maven Central Repository. 
 
-* [SNeO 1.2.1](http://search.maven.org/#search|ga|1|sneo)
+* [SNeO 1.2.2](http://search.maven.org/#search|ga|1|sneo)
 
 SNeO is powered by Pcap4J: https://github.com/kaitoy/pcap4j
 
@@ -24,7 +24,7 @@ License
 
 SNeO is distributed under the MIT license.
 
-    Copyright (c) 2011-2013 Kaito Yamada
+    Copyright (c) 2011-2014 Kaito Yamada
     All rights reserved.
 
     Permission is hereby granted, free of charge, to any person obtaining a copy of
