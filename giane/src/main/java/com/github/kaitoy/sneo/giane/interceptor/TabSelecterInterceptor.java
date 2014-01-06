@@ -61,12 +61,20 @@ public class TabSelecterInterceptor extends AbstractInterceptor {
         valueMap.put("selectedTab", "0");
       }
       else if (method.isAnnotationPresent(GoingBackward.class)) {
+        valueMap.put("selectedTab", 0);
+
         @SuppressWarnings("unchecked")
         Map<String, Map<String, String>> selectedTabMaps
           = (Map<String, Map<String, String>>)session.get("selectedTabMaps");
-        Map<String, String> selectedTabMap = selectedTabMaps.get(breadcrumsId);
-        String selectedTab = selectedTabMap.get(action.getClass().getName());
-        valueMap.put("selectedTab", selectedTab);
+        if (selectedTabMaps != null) {
+          Map<String, String> selectedTabMap = selectedTabMaps.get(breadcrumsId);
+          if (selectedTabMap != null) {
+            String selectedTab = selectedTabMap.get(action.getClass().getName());
+            if (selectedTab != null) {
+              valueMap.put("selectedTab", selectedTab);
+            }
+          }
+        }
       }
 
       stack.push(valueMap);
