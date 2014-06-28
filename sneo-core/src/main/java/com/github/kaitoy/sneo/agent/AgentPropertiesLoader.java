@@ -29,14 +29,14 @@ public class AgentPropertiesLoader {
     = new AgentPropertiesLoader();
 
   private PropertiesLoader loader
-  = new PropertiesLoader(
-      System.getProperty(
-        AGENT_PROPERTIES_PATH_KEY,
-        KEY_PREFIX.replace('.', '/') + "/agent.properties"
-      ),
-      true,
-      true
-    );
+    = new PropertiesLoader(
+        System.getProperty(
+          AGENT_PROPERTIES_PATH_KEY,
+          KEY_PREFIX.replace('.', '/') + "/agent.properties"
+        ),
+        true,
+        true
+      );
 
   private AgentPropertiesLoader() {}
 
