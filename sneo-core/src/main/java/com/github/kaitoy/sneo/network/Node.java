@@ -788,6 +788,17 @@ public class Node {
       NetworkInterface sender
         = getNifByDstIpAddr(ipV4packet.getHeader().getDstAddr());
 
+      if (sender == null) {
+        IcmpV4Helper.sendErrorMessage(
+          IcmpV4Type.DESTINATION_UNREACHABLE,
+          IcmpV4Code.DST_NETWORK_UNKNOWN,
+          ipV4packet,
+          Node.this,
+          getter
+        );
+        return;
+      }
+
       try {
         ipV4packet = IpV4Helper.decrementTtl(ipV4packet);
       } catch (TimeoutException e) {
