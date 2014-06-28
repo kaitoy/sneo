@@ -1,6 +1,6 @@
 /*_##########################################################################
   _##
-  _##  Copyright (C) 2012  Kaito Yamada
+  _##  Copyright (C) 2012-2014  Kaito Yamada
   _##
   _##########################################################################
 */
@@ -9,8 +9,6 @@ package com.github.kaitoy.sneo.network;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.Inet4Address;
-import java.net.Inet6Address;
 import java.net.InetAddress;
 import java.rmi.registry.Registry;
 import java.text.ParseException;
@@ -19,21 +17,22 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
 import mx4j.log.Log4JLogger;
+
 import org.pcap4j.util.ByteArrays;
 import org.pcap4j.util.MacAddress;
 import org.snmp4j.SNMP4JSettings;
 import org.snmp4j.log.Log4jLogFactory;
 import org.snmp4j.log.LogFactory;
 import org.snmp4j.util.ArgumentParser;
+
 import com.github.kaitoy.sneo.agent.AgentPropertiesLoader;
 import com.github.kaitoy.sneo.agent.FileMibAgent;
 import com.github.kaitoy.sneo.agent.FileMibCiscoAgent;
 import com.github.kaitoy.sneo.jmx.HttpJmxAgent;
 import com.github.kaitoy.sneo.jmx.JmxAgent;
 import com.github.kaitoy.sneo.log.Log4jPropertiesLoader;
-import com.github.kaitoy.sneo.network.protocol.IpV4Helper;
-import com.github.kaitoy.sneo.network.protocol.IpV6Helper;
 import com.github.kaitoy.sneo.smi.SmiSyntaxesPropertiesManager;
 import com.github.kaitoy.sneo.transport.TransportsPropertiesManager;
 import com.github.kaitoy.sneo.util.ColonSeparatedOidTypeValueVariableTextFormat;
@@ -122,83 +121,25 @@ public class SingleNodeRunner {
       FileMibAgent agent = agentBuilder.build();
       agent.init();
 
-      String[] vgwRealNifAddrAndPrefixLength
+      String[] rNifAddrAndPrefixLength
         = ((String)ArgumentParser.getValue(params, "rip", 0)).split("/", 2);
-
       MacAddress realNifMacAddr
         = MacAddress.getByName(
             (String)ArgumentParser.getValue(params, "rmac", 0),
             ""
           );
-      InetAddress realNifIpAddr = InetAddress.getByName(vgwRealNifAddrAndPrefixLength[0]);
-      int realNifPrefixLength = Integer.parseInt(vgwRealNifAddrAndPrefixLength[1]);
-      Node gw = new Node("GW", null, 100);
-      gw.addRealNif("realNif", realNifMacAddr, null);
-      gw.addIpAddress("realNif", realNifIpAddr, realNifPrefixLength);
+      InetAddress rNifIpAddr = InetAddress.getByName(rNifAddrAndPrefixLength[0]);
+      int rNifPrefixLength = Integer.parseInt(rNifAddrAndPrefixLength[1]);
 
       Node vNode = new Node(agent.getAddress(), agent, 100);
+      vNode.addRealNif("realNif", realNifMacAddr, null);
+      vNode.addIpAddress("realNif", rNifIpAddr, rNifPrefixLength);
 
       String vNodeIfName = "vNodeNif";
       vNode.addNif(vNodeIfName, false);
-
-      String vNodeVlanIfName = "vNodeVlan1";
-      vNode.addVlan(vNodeVlanIfName, 1);
-      vNode.addIpAddress(vNodeVlanIfName, agent.getInetAddress(), realNifPrefixLength);
-      vNode.addNifToVlan(vNodeIfName, 1);
-
+      vNode.addIpAddress(vNodeIfName, agent.getInetAddress(), rNifPrefixLength);
       for (String addr: addrs) {
-        vNode.addIpAddress(vNodeVlanIfName, InetAddress.getByName(addr), realNifPrefixLength);
-      }
-
-      InetAddress vgwVirtualNifAddr;
-      if (realNifIpAddr instanceof Inet4Address) {
-        Inet4Address realNifMask = IpV4Helper.getSubnetMaskFrom(realNifPrefixLength);
-        vgwVirtualNifAddr = IpV4Helper.getNextAddress(
-                              (Inet4Address)agent.getInetAddress(),
-                              realNifMask
-                            );
-        if (vgwVirtualNifAddr == null) {
-          vgwVirtualNifAddr
-            = IpV4Helper.getPrevAddress(
-                (Inet4Address)agent.getInetAddress(),
-                realNifMask
-              );
-        }
-        if (vgwVirtualNifAddr == null) {
-          throw new AssertionError("Never get here.");
-        }
-      }
-      else {
-        vgwVirtualNifAddr = IpV6Helper.getNextAddress(
-                              (Inet6Address)agent.getInetAddress(),
-                              realNifPrefixLength
-                            );
-      }
-
-      String gwNifName = "gwNif";
-      gw.addNif(gwNifName, false);
-      gw.addIpAddress(gwNifName, vgwVirtualNifAddr, realNifPrefixLength);
-      L2Connection l2
-        = L2Connection.connect(
-            (PhysicalNetworkInterface)vNode.getNif(vNodeIfName),
-            (PhysicalNetworkInterface)gw.getNif(gwNifName)
-          );
-
-      if (vgwVirtualNifAddr instanceof Inet4Address) {
-        vNode.addIpV4Route(
-          IpV4Helper.UNSPECIFIED_ADDRESS,
-          IpV4Helper.UNSPECIFIED_ADDRESS,
-          (Inet4Address)vgwVirtualNifAddr,
-          1
-        );
-      }
-      else {
-        vNode.addIpV6Route(
-          IpV6Helper.UNSPECIFIED_ADDRESS,
-          0,
-          (Inet6Address)vgwVirtualNifAddr,
-          1
-        );
+        vNode.addIpAddress(vNodeIfName, InetAddress.getByName(addr), rNifPrefixLength);
       }
 
       JmxAgent jmxAgent
@@ -211,8 +152,6 @@ public class SingleNodeRunner {
         "Nodes:address=" + mainAddr.replace(':', '-')
       );
 
-      gw.start();
-      l2.start();
       vNode.start();
       jmxAgent.start();
 
@@ -220,8 +159,6 @@ public class SingleNodeRunner {
 
       jmxAgent.stop();
       vNode.shutdown();
-      l2.shutdown();
-      gw.shutdown();
 
       try {
         Thread.sleep(2000);
