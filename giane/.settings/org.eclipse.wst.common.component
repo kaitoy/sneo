@@ -4,10 +4,10 @@
         <wb-resource deploy-path="/" source-path="/src/main/webapp" tag="defaultRootSource"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/java"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/resources"/>
-        <dependent-module archiveName="sneo-core-1.2.2-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/sneo-core/sneo-core">
+        <dependent-module archiveName="sneo-core-1.2.3-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/sneo-core/sneo-core">
             <dependency-type>uses</dependency-type>
         </dependent-module>
-        <dependent-module archiveName="sneo-common-1.2.2-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/sneo-common/sneo-common">
+        <dependent-module archiveName="sneo-common-1.2.3-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/sneo-common/sneo-common">
             <dependency-type>uses</dependency-type>
         </dependent-module>
         <property name="context-root" value="giane"/>
