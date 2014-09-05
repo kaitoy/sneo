@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import org.snmp4j.TransportMapping;
 import org.snmp4j.agent.BaseAgent;
 import org.snmp4j.agent.CommandProcessor;
@@ -67,6 +68,7 @@ import org.snmp4j.smi.UdpAddress;
 import org.snmp4j.smi.Variable;
 import org.snmp4j.smi.VariableBinding;
 import org.snmp4j.transport.TransportMappings;
+
 import com.github.kaitoy.sneo.agent.mo.MutableStaticMOGroup;
 import com.github.kaitoy.sneo.agent.mo.SnmpAccessStatisticsGatherer;
 import com.github.kaitoy.sneo.agent.mo.SnmpAccessStatisticsGathererImpl;
@@ -298,7 +300,7 @@ public class FileMibAgent extends BaseAgent {
           new OctetString("com" + communityName), // security name
           getLocalEngineID(), // local engine ID
           new OctetString(FILEMIB_CONTEXT), // default context name
-          new OctetString(), // transport tag
+          new OctetString("transtag"), // transport tag
           new Integer32(StorageType.volatile_), // storage type
           new Integer32(RowStatus.active) // row status
         };
@@ -309,6 +311,21 @@ public class FileMibAgent extends BaseAgent {
           com2sec
         );
     communityMIB.getSnmpCommunityEntry().addRow(row);
+    /*
+    Variable[] hoge
+    = new Variable[] {
+        new OctetString(new UdpAddress("255.255.255.0/0").getValue()),
+        new Integer32(490)
+      };
+    MOTableRow hogeRow
+    = communityMIB.getSnmpTargetAddrExtEntry().createRow(
+        new OctetString("mms")
+          .toSubIndex(true),
+          hoge
+      );
+  communityMIB.getSnmpTargetAddrExtEntry().addRow(hogeRow);
+  communityMIB.setSourceAddressFiltering(true);
+  */
   }
 
   /**
@@ -321,22 +338,23 @@ public class FileMibAgent extends BaseAgent {
   @Override
   protected void addNotificationTargets(SnmpTargetMIB targetMIB,
                                         SnmpNotificationMIB notificationMIB) {
-    if (trapTarget == null || trapTarget.equals("")) {
-      logger.info("No trap target.");
-      return;
-    }
-
     targetMIB.addDefaultTDomains();
 
-    targetMIB.addTargetAddress(
-      new OctetString("notificationV2c"),
-      TransportDomains.transportDomainUdpIpv4,
-      new OctetString(new UdpAddress(trapTarget).getValue()),
-      200, 1,
-      new OctetString("notify"),
-      new OctetString("v2cParams"),
-      StorageType.volatile_
-    );
+    if (trapTarget != null && !trapTarget.equals("")) {
+      targetMIB.addTargetAddress(
+        new OctetString("notificationV2c"),
+        TransportDomains.transportDomainUdpIpv4,
+        new OctetString(new UdpAddress(trapTarget).getValue()),
+        200, 1,
+        new OctetString("notify"),
+        new OctetString("v2cParams"),
+        StorageType.volatile_
+      );
+    }
+    else {
+      logger.info("No trap target.");
+    }
+
 //    targetMIB.addTargetAddress(
 //      new OctetString("notificationV3"),
 //      TransportDomains.transportDomainUdpIpv4,
@@ -370,6 +388,32 @@ public class FileMibAgent extends BaseAgent {
       SnmpNotificationMIB.SnmpNotifyTypeEnum.trap,
       StorageType.volatile_
     );
+
+    /*
+    targetMIB.addTargetAddress(
+        new OctetString("mms"),
+        TransportDomains.transportDomainUdpIpv4,
+        new OctetString(new UdpAddress("16.78.185.0/11161").getValue()),
+        200, 1,
+        new OctetString("transtag"),
+        new OctetString("v2cParams"),
+        StorageType.volatile_
+      );
+
+    Variable[] hoge
+      = new Variable[] {
+          new OctetString(new UdpAddress("255.255.255.0/0").getValue()),
+          new Integer32(490)
+        };
+    MOTableRow hogeRow
+      = getSnmpCommunityMIB().getSnmpTargetAddrExtEntry().createRow(
+          new OctetString("mms")
+            .toSubIndex(true),
+            hoge
+        );
+    getSnmpCommunityMIB().getSnmpTargetAddrExtEntry().addRow(hogeRow);
+    getSnmpCommunityMIB().setSourceAddressFiltering(true);
+    */
   }
 
   /**
@@ -691,7 +735,6 @@ public class FileMibAgent extends BaseAgent {
   @Override
   protected void initConfigMIB() {
     snmp4jLogMIB = new Snmp4jLogMib();
-    // TODO defaultPersistenceProvider をなんとかすれば、可読なconifgファイルに
     if ((configFileURI != null) && (defaultPersistenceProvider != null)) {
       snmp4jConfigMIB = new Snmp4jConfigMib(snmpv2MIB.getSysUpTime()); // TODO
       snmp4jConfigMIB.setSnmpCommunityMIB(snmpCommunityMIB);
