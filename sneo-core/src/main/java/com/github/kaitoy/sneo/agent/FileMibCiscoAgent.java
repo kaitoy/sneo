@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.util.Collections;
 import java.util.List;
+
 import org.snmp4j.agent.DefaultMOContextScope;
 import org.snmp4j.agent.DefaultMOQuery;
 import org.snmp4j.agent.DuplicateRegistrationException;
@@ -33,6 +34,7 @@ import org.snmp4j.smi.OID;
 import org.snmp4j.smi.OctetString;
 import org.snmp4j.smi.Variable;
 import org.snmp4j.smi.VariableBinding;
+
 import com.github.kaitoy.sneo.agent.mo.MutableStaticMOGroup;
 import com.github.kaitoy.sneo.util.ColonSeparatedOidTypeValueVariableTextFormat;
 import com.github.kaitoy.sneo.util.SneoVariableTextFormat;
@@ -42,7 +44,7 @@ public class FileMibCiscoAgent extends FileMibAgent {
   private static final LogAdapter logger
     = LogFactory.getLogger(FileMibCiscoAgent.class);
   private static final OID[] COMMUNITY_STRING_INDEXED_MIB_MODULE_ROOTS
-    = new OID[] { new OID("1.3.6.1.2.1.17") }; // Bridge-MIB
+    = AgentPropertiesLoader.getInstance().communityStringIndexedMibModuleRoots();
 
   private List<String> communityStringIndexes;
 

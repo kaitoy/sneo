@@ -9,9 +9,14 @@ package com.github.kaitoy.sneo.agent;
 
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.log4j.Logger;
 import org.pcap4j.util.PropertiesLoader;
+import org.snmp4j.smi.OID;
 import org.snmp4j.util.VariableTextFormat;
+
 import com.github.kaitoy.sneo.util.ColonSeparatedOidTypeValueVariableTextFormat;
 import com.github.kaitoy.sneo.util.SneoVariableTextFormat;
 
@@ -133,4 +138,24 @@ public class AgentPropertiesLoader {
              Boolean.FALSE
            );
   }
+
+  public OID[] communityStringIndexedMibModuleRoots() {
+    String rootList = loader.getString(
+                        KEY_PREFIX + ".communityStringIndexedMibModuleRoots",
+                        "1.3.6.1.2.1.17, 1.3.6.1.2.1.4.20.1"
+                      );
+    String[] roots = rootList.split("\\s*,\\s*");
+    List<OID> oids = new ArrayList<OID>();
+    for (String root: roots) {
+      try {
+        OID o = new OID(root);
+        oids.add(o);
+        logger.info("Community string indexed MIB module root: " + o);
+      } catch (Exception e) {
+        logger.error("Invalid oid: " + root);
+      }
+    }
+    return oids.toArray(new OID[oids.size()]);
+  }
+
 }
