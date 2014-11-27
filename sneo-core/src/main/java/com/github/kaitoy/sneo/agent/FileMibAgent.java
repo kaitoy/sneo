@@ -1,6 +1,6 @@
 /*_##########################################################################
   _##
-  _##  Copyright (C) 2011-2012  Kaito Yamada
+  _##  Copyright (C) 2011-2014  Kaito Yamada
   _##
   _##########################################################################
 */
@@ -21,7 +21,6 @@ import java.util.Map;
 
 import org.snmp4j.TransportMapping;
 import org.snmp4j.agent.BaseAgent;
-import org.snmp4j.agent.CommandProcessor;
 import org.snmp4j.agent.DefaultMOContextScope;
 import org.snmp4j.agent.DefaultMOQuery;
 import org.snmp4j.agent.DuplicateRegistrationException;
@@ -92,6 +91,7 @@ public class FileMibAgent extends BaseAgent {
   private static final String AUTHENTICATION_PASSWORD = "password";
   private static final OID PRIVACY_PROTOCOL = PrivDES.ID;
   private static final String PRIVACY_PASSWORD = "password";
+  private static final int INIT_MAX_MESSAGE_SIZE = Integer.MAX_VALUE;
 
   private final String address;
   private final String communityName;
@@ -105,6 +105,7 @@ public class FileMibAgent extends BaseAgent {
   private volatile String fileMibPath;
   private boolean running = false;
   private boolean gatheringSnmpAccessStatistics = false;
+  private volatile int maxMessageSize = INIT_MAX_MESSAGE_SIZE;
 
   private Map<OctetString, List<MOGroup>> moGroupsPerContextName
     = new HashMap<OctetString, List<MOGroup>>();
@@ -113,7 +114,7 @@ public class FileMibAgent extends BaseAgent {
     super(
       new File(b.bcConfigFilePath),
       new File(b.configFilePath),
-      new CommandProcessor(createLocalEngineID(b.address))
+      new SneoCommandProcessor(createLocalEngineID(b.address), INIT_MAX_MESSAGE_SIZE)
     );
 
     this.address = b.address;
@@ -266,6 +267,17 @@ public class FileMibAgent extends BaseAgent {
     synchronized (thisLock) {
       return gatheringSnmpAccessStatistics;
     }
+  }
+
+  public void setMaxMessageSize(int maxMessageSize) {
+    synchronized (thisLock) {
+      ((SneoCommandProcessor)getAgent()).setMaxMessageSize(maxMessageSize);
+      this.maxMessageSize = maxMessageSize;
+    }
+  }
+
+  public int getMaxMessageSize() {
+    return maxMessageSize;
   }
 
   protected synchronized MOGroup getFileMibMoGroup() {

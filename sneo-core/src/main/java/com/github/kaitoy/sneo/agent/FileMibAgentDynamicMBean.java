@@ -1,6 +1,6 @@
 /*_##########################################################################
   _##
-  _##  Copyright (C) 2011-2012  Kaito Yamada
+  _##  Copyright (C) 2011-2014  Kaito Yamada
   _##
   _##########################################################################
 */
@@ -9,10 +9,13 @@ package com.github.kaitoy.sneo.agent;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.management.MBeanAttributeInfo;
 import javax.management.MBeanOperationInfo;
 import javax.management.MBeanParameterInfo;
+
 import mx4j.AbstractDynamicMBean;
+
 import org.snmp4j.smi.Variable;
 import org.snmp4j.smi.VariableBinding;
 
@@ -118,6 +121,16 @@ public class FileMibAgentDynamicMBean extends AbstractDynamicMBean {
         true,
         true,
         true
+      )
+    );
+    maiList.add(
+      new MBeanAttributeInfo(
+        "MaxMessageSize",
+        int.class.getName(),
+        "The Max size of PDU this agent sends.",
+        true,
+        true,
+        false
       )
     );
 
