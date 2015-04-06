@@ -7,12 +7,12 @@
 
 package com.github.kaitoy.sneo.agent.mo;
 
-import org.snmp4j.mp.SnmpConstants;
-import org.snmp4j.smi.Null;
-import org.snmp4j.smi.OID;
-import org.snmp4j.smi.OctetString;
-import org.snmp4j.smi.Variable;
-import org.snmp4j.smi.VariableBinding;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.SortedMap;
+import java.util.TreeMap;
 import org.snmp4j.agent.DefaultMOScope;
 import org.snmp4j.agent.DuplicateRegistrationException;
 import org.snmp4j.agent.MOGroup;
@@ -21,12 +21,12 @@ import org.snmp4j.agent.MOServer;
 import org.snmp4j.agent.ManagedObject;
 import org.snmp4j.agent.request.RequestStatus;
 import org.snmp4j.agent.request.SubRequest;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.SortedMap;
-import java.util.TreeMap;
+import org.snmp4j.mp.SnmpConstants;
+import org.snmp4j.smi.Null;
+import org.snmp4j.smi.OID;
+import org.snmp4j.smi.OctetString;
+import org.snmp4j.smi.Variable;
+import org.snmp4j.smi.VariableBinding;
 
 /**
  * The <code>StaticMutableMOGroup</code> can be used to easily implement static
@@ -207,7 +207,10 @@ public class MutableStaticMOGroup implements ManagedObject, MOGroup {
   }
 
   public boolean next(SubRequest request) {
-    MOScope scope = request.getQuery().getScope();
+//    if (!request.getScope().equals(request.getQuery().getScope())) {
+//      System.out.println("Never get here.");
+//    }
+    MOScope scope = request.getScope();
     OID requestedOid = scope.getLowerBound();
     OID nextOid = find(scope);
 
@@ -347,7 +350,7 @@ public class MutableStaticMOGroup implements ManagedObject, MOGroup {
       if (variableBindings.containsKey(oid)) {
         if (
           variable.getSyntax()
-            != ((Variable)variableBindings.get(oid)).getSyntax()
+            != variableBindings.get(oid).getSyntax()
         ) {
           status.setErrorStatus(SnmpConstants.SNMP_ERROR_WRONG_TYPE);
 
