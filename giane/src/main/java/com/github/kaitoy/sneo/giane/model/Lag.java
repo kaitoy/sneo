@@ -1,27 +1,22 @@
 /*_##########################################################################
   _##
-  _##  Copyright (C) 2013 Kaito Yamada
+  _##  Copyright (C) 2013-2015 Kaito Yamada
   _##
   _##########################################################################
 */
 
 package com.github.kaitoy.sneo.giane.model;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import com.github.kaitoy.sneo.giane.action.message.FormMessage;
 import com.github.kaitoy.sneo.network.dto.LagDto;
@@ -35,27 +30,18 @@ import com.opensymphony.xwork2.validator.annotations.StringLengthFieldValidator;
 
 @Entity
 @Table(name = "LAG")
-public class Lag implements Serializable, FormMessage {
+public class Lag extends AbstractModel implements FormMessage {
 
   /**
    *
    */
-  private static final long serialVersionUID = -2959495249780946320L;
+  private static final long serialVersionUID = -8172542659512412080L;
 
-  private Integer id;
   private String name;
   private Integer channelGroupNumber;
   private LagIpAddressRelation ipAddressRelation;
   private List<PhysicalNetworkInterface> physicalNetworkInterfaces;
   private Node node;
-
-  @Id
-  @GeneratedValue(strategy=GenerationType.AUTO, generator="giane_seq_gen")
-  @SequenceGenerator(name="giane_seq_gen", sequenceName="GIANE_SEQ")
-  @Column(name = "ID")
-  public Integer getId() { return id; }
-
-  public void setId(Integer id) { this.id = id; }
 
   @Column(name = "NAME", nullable = false, length = 200)
   public String getName() {
@@ -160,7 +146,7 @@ public class Lag implements Serializable, FormMessage {
     }
 
     LagDto dto = new LagDto();
-    dto.setId(id);
+    dto.setId(getId());
     dto.setName(name);
     dto.setChannelGroupNumber(channelGroupNumber);
     dto.setIpAddresses(ipAddressRelation.getIpAddressDtos());

@@ -7,21 +7,16 @@
 
 package com.github.kaitoy.sneo.giane.model;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import com.github.kaitoy.sneo.giane.action.message.FormMessage;
 import com.github.kaitoy.sneo.network.dto.IpV4RouteDto;
@@ -40,14 +35,13 @@ import com.opensymphony.xwork2.validator.annotations.StringLengthFieldValidator;
 
 @Entity
 @Table(name = "NODE")
-public class Node implements Serializable, FormMessage {
+public class Node extends AbstractModel implements FormMessage {
 
   /**
    *
    */
-  private static final long serialVersionUID = -8143129957155159075L;
+  private static final long serialVersionUID = -7610776798277867580L;
 
-  private Integer id;
   private String name;
   private Integer ttl;
   private String descr;
@@ -59,18 +53,6 @@ public class Node implements Serializable, FormMessage {
   private List<FixedIpV4Route> ipV4Routes;
   private List<FixedIpV6Route> ipV6Routes;
   private Network network;
-
-  @Id
-  @GeneratedValue(strategy=GenerationType.AUTO, generator="giane_seq_gen")
-  @SequenceGenerator(name="giane_seq_gen", sequenceName="GIANE_SEQ")
-  @Column(name = "ID")
-  public Integer getId() {
-    return id;
-  }
-
-  public void setId(Integer id) {
-    this.id = id;
-  }
 
   @Column(name = "NAME", nullable = false, length = 200)
   public String getName() {
@@ -302,7 +284,7 @@ public class Node implements Serializable, FormMessage {
     }
 
     NodeDto dto = new NodeDto();
-    dto.setId(id);
+    dto.setId(getId());
     dto.setName(name);
     dto.setTtl(ttl);
     if (agent != null) {
@@ -315,18 +297,6 @@ public class Node implements Serializable, FormMessage {
     dto.setIpV4Routes(ipV4RouteDtos);
     dto.setIpV6Routes(ipV6RouteDtos);
     return dto;
-  }
-
-  @Override
-  public boolean equals(Object obj) {
-    if (obj == this) { return true; }
-    if (!this.getClass().isInstance(obj)) { return false; }
-    return this.getId().equals(((Node)obj).getId());
-  }
-
-  @Override
-  public int hashCode() {
-    return getId();
   }
 
 }

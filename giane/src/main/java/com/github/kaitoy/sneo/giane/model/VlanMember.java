@@ -1,24 +1,19 @@
 /*_##########################################################################
   _##
-  _##  Copyright (C) 2013  Kaito Yamada
+  _##  Copyright (C) 2013-2015  Kaito Yamada
   _##
   _##########################################################################
 */
 
 package com.github.kaitoy.sneo.giane.model;
 
-import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.ManyToMany;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import com.github.kaitoy.sneo.giane.action.message.FormMessage;
 import com.github.kaitoy.sneo.network.dto.VlanMemberDto;
@@ -29,25 +24,16 @@ import com.opensymphony.xwork2.validator.annotations.StringLengthFieldValidator;
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
 @Table(name = "VLAN_MEMBER")
-public abstract class VlanMember implements Serializable, FormMessage {
+public abstract class VlanMember extends AbstractModel implements FormMessage {
 
   /**
    *
    */
-  private static final long serialVersionUID = 1972869548303637586L;
+  private static final long serialVersionUID = 3962887048674714833L;
 
-  private Integer id;
   private String name;
   private boolean trunk;
   private List<Vlan> vlans;
-
-  @Id
-  @GeneratedValue(strategy=GenerationType.AUTO, generator="giane_seq_gen")
-  @SequenceGenerator(name="giane_seq_gen", sequenceName="GIANE_SEQ")
-  @Column(name = "ID")
-  public Integer getId() { return id; }
-
-  public void setId(Integer id) { this.id = id; }
 
   @Column(name = "NAME", nullable = false, length = 200)
   public String getName() {

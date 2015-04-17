@@ -1,22 +1,17 @@
 /*_##########################################################################
   _##
-  _##  Copyright (C) 2012-2013 Kaito Yamada
+  _##  Copyright (C) 2012-2015 Kaito Yamada
   _##
   _##########################################################################
 */
 
 package com.github.kaitoy.sneo.giane.model;
 
-import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import com.github.kaitoy.sneo.giane.action.message.FormMessage;
 import com.github.kaitoy.sneo.network.dto.IpAddressDto;
@@ -28,29 +23,16 @@ import com.opensymphony.xwork2.validator.annotations.RequiredStringValidator;
 
 @Entity
 @Table(name = "IP_ADDRESS")
-public class IpAddress implements Serializable, FormMessage {
+public class IpAddress extends AbstractModel implements FormMessage {
 
   /**
    *
    */
-  private static final long serialVersionUID = 4278317055245966206L;
+  private static final long serialVersionUID = -2500687706302533598L;
 
-  private Integer id;
   private String address;
   private Integer prefixLength;
   private IpAddressRelation ipAddressRelation;
-
-  @Id
-  @GeneratedValue(strategy=GenerationType.AUTO, generator="giane_seq_gen")
-  @SequenceGenerator(name="giane_seq_gen", sequenceName="GIANE_SEQ")
-  @Column(name = "ID")
-  public Integer getId() {
-    return id;
-  }
-
-  public void setId(Integer id) {
-    this.id = id;
-  }
 
   @Column(name = "ADDRESS", nullable = false)
   public String getAddress() {
@@ -109,7 +91,7 @@ public class IpAddress implements Serializable, FormMessage {
 
   public IpAddressDto toDto() {
     IpAddressDto dto = new IpAddressDto();
-    dto.setId(id);
+    dto.setId(getId());
     dto.setAddress(address);
     dto.setPrefixLength(prefixLength);
     return dto;

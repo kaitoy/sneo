@@ -1,24 +1,19 @@
 /*_##########################################################################
   _##
-  _##  Copyright (C) 2013 Kaito Yamada
+  _##  Copyright (C) 2013-2015 Kaito Yamada
   _##
   _##########################################################################
 */
 
 package com.github.kaitoy.sneo.giane.model;
 
-import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import com.github.kaitoy.sneo.giane.action.message.FormMessage;
 import com.opensymphony.xwork2.validator.annotations.RequiredStringValidator;
@@ -26,29 +21,16 @@ import com.opensymphony.xwork2.validator.annotations.StringLengthFieldValidator;
 
 @Entity
 @Table(name = "ADDITIONAL_IP_V6_ROUTE_GROUP")
-public class AdditionalIpV6RouteGroup implements Serializable, FormMessage {
+public class AdditionalIpV6RouteGroup extends AbstractModel implements FormMessage {
 
   /**
    *
    */
-  private static final long serialVersionUID = -9152950649205904600L;
+  private static final long serialVersionUID = 3245207445792581774L;
 
-  private Integer id;
   private String name;
   private String descr;
   private List<AdditionalIpV6Route> additionalIpV6Routes;
-
-  @Id
-  @GeneratedValue(strategy=GenerationType.AUTO, generator="giane_seq_gen")
-  @SequenceGenerator(name="giane_seq_gen", sequenceName="GIANE_SEQ")
-  @Column(name = "ID")
-  public Integer getId() {
-    return id;
-  }
-
-  public void setId(Integer id) {
-    this.id = id;
-  }
 
   @Column(name = "NAME", nullable = false, length = 200, unique = true)
   public String getName() {

@@ -1,28 +1,23 @@
 /*_##########################################################################
   _##
-  _##  Copyright (C) 2012-2013 Kaito Yamada
+  _##  Copyright (C) 2012-2015 Kaito Yamada
   _##
   _##########################################################################
 */
 
 package com.github.kaitoy.sneo.giane.model;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import com.github.kaitoy.sneo.giane.action.message.FormMessage;
 import com.github.kaitoy.sneo.network.dto.VlanDto;
@@ -35,27 +30,18 @@ import com.opensymphony.xwork2.validator.annotations.StringLengthFieldValidator;
 
 @Entity
 @Table(name = "VLAN")
-public class Vlan implements Serializable, FormMessage {
+public class Vlan extends AbstractModel implements FormMessage {
 
   /**
    *
    */
-  private static final long serialVersionUID = 5819690592116317232L;
+  private static final long serialVersionUID = 1566064814817098702L;
 
-  private Integer id;
   private String name;
   private Integer vid;
   private VlanIpAddressRelation ipAddressRelation;
   private List<VlanMember> vlanMembers;
   private Node node;
-
-  @Id
-  @GeneratedValue(strategy=GenerationType.AUTO, generator="giane_seq_gen")
-  @SequenceGenerator(name="giane_seq_gen", sequenceName="GIANE_SEQ")
-  @Column(name = "ID")
-  public Integer getId() { return id; }
-
-  public void setId(Integer id) { this.id = id; }
 
   @Column(name = "NAME", nullable = false, length = 200)
   public String getName() {
@@ -153,7 +139,7 @@ public class Vlan implements Serializable, FormMessage {
     }
 
     VlanDto dto = new VlanDto();
-    dto.setId(id);
+    dto.setId(getId());
     dto.setName(name);
     dto.setVid(vid);
     dto.setVlanMembers(vlanMemberDtos);

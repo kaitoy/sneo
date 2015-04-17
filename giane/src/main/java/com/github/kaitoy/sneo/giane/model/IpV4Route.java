@@ -1,21 +1,16 @@
 /*_##########################################################################
   _##
-  _##  Copyright (C) 2013  Kaito Yamada
+  _##  Copyright (C) 2013-2015  Kaito Yamada
   _##
   _##########################################################################
 */
 
 package com.github.kaitoy.sneo.giane.model;
 
-import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import com.github.kaitoy.sneo.giane.action.message.FormMessage;
 import com.github.kaitoy.sneo.network.dto.IpV4RouteDto;
@@ -28,30 +23,17 @@ import com.opensymphony.xwork2.validator.annotations.RequiredStringValidator;
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
 @Table(name = "IP_V4_ROUTE")
-public abstract class IpV4Route implements Serializable, FormMessage {
+public abstract class IpV4Route extends AbstractModel implements FormMessage {
 
   /**
    *
    */
-  private static final long serialVersionUID = 1507468931771299972L;
+  private static final long serialVersionUID = -9203319368333071677L;
 
-  private Integer id;
   private String networkDestination;
   private String netmask;
   private String gateway;
   private Integer metric;
-
-  @Id
-  @GeneratedValue(strategy=GenerationType.AUTO, generator="giane_seq_gen")
-  @SequenceGenerator(name="giane_seq_gen", sequenceName="GIANE_SEQ")
-  @Column(name = "ID")
-  public Integer getId() {
-    return id;
-  }
-
-  public void setId(Integer id) {
-    this.id = id;
-  }
 
   @Column(name = "NETWORK_DESTINATION", nullable = false)
   public String getNetworkDestination() {
@@ -132,7 +114,7 @@ public abstract class IpV4Route implements Serializable, FormMessage {
 
   public IpV4RouteDto toDto() {
     IpV4RouteDto dto = new IpV4RouteDto();
-    dto.setId(id);
+    dto.setId(getId());
     dto.setNetworkDestination(networkDestination);
     dto.setNetmask(netmask);
     dto.setGateway(gateway);

@@ -1,26 +1,21 @@
 /*_##########################################################################
   _##
-  _##  Copyright (C) 2013 Kaito Yamada
+  _##  Copyright (C) 2013-2015 Kaito Yamada
   _##
   _##########################################################################
 */
 
 package com.github.kaitoy.sneo.giane.model;
 
-import java.io.Serializable;
 import java.util.Map;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.MapKeyJoinColumn;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import com.github.kaitoy.sneo.giane.action.message.FormMessage;
@@ -33,14 +28,13 @@ import com.opensymphony.xwork2.validator.annotations.StringLengthFieldValidator;
 
 @Entity
 @Table(name = "SIMULATION")
-public class Simulation implements Serializable, FormMessage {
+public class Simulation extends AbstractModel implements FormMessage {
 
   /**
    *
    */
-  private static final long serialVersionUID = -6963288550097472397L;
+  private static final long serialVersionUID = -931148670770303173L;
 
-  private Integer id;
   private String name;
   private Network network;
   private String descr;
@@ -48,18 +42,6 @@ public class Simulation implements Serializable, FormMessage {
   private Map<RealNetworkInterface, RealNetworkInterfaceConfiguration> realNetworkInterfaceConfigurations;
   private Map<Node, AdditionalIpV4RouteGroup> additionalIpV4RouteGroups;
   private Map<Node, AdditionalIpV6RouteGroup> additionalIpV6RouteGroups;
-
-  @Id
-  @GeneratedValue(strategy=GenerationType.AUTO, generator="giane_seq_gen")
-  @SequenceGenerator(name="giane_seq_gen", sequenceName="GIANE_SEQ")
-  @Column(name = "ID")
-  public Integer getId() {
-    return id;
-  }
-
-  public void setId(Integer id) {
-    this.id = id;
-  }
 
   @Column(name = "NAME", nullable = false, length = 200, unique = true)
   public String getName() {

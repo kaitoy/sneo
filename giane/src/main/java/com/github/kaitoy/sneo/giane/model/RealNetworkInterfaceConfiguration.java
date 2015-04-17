@@ -1,23 +1,18 @@
 /*_##########################################################################
   _##
-  _##  Copyright (C) 2013  Kaito Yamada
+  _##  Copyright (C) 2013-2015  Kaito Yamada
   _##
   _##########################################################################
 */
 
 package com.github.kaitoy.sneo.giane.model;
 
-import java.io.Serializable;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import com.github.kaitoy.sneo.giane.action.message.FormMessage;
 import com.opensymphony.xwork2.conversion.annotations.TypeConversion;
@@ -28,27 +23,18 @@ import com.opensymphony.xwork2.validator.annotations.StringLengthFieldValidator;
 
 @Entity
 @Table(name = "REAL_NETWORK_INTERFACE_CONFIGURATION")
-public class RealNetworkInterfaceConfiguration implements Serializable, FormMessage {
+public class RealNetworkInterfaceConfiguration extends AbstractModel implements FormMessage {
 
   /**
    *
    */
-  private static final long serialVersionUID = -5330378911104806009L;
+  private static final long serialVersionUID = -8860287611188309529L;
 
-  private Integer id;
   private String name;
   private String deviceName;
   private String macAddress;
   private String descr;
   private RealNetworkInterfaceConfigurationIpAddressRelation ipAddressRelation;
-
-  @Id
-  @GeneratedValue(strategy=GenerationType.AUTO, generator="giane_seq_gen")
-  @SequenceGenerator(name="giane_seq_gen", sequenceName="GIANE_SEQ")
-  @Column(name = "ID")
-  public Integer getId() { return id; }
-
-  public void setId(Integer id) { this.id = id; }
 
   @Column(name = "NAME", nullable = false, length = 200, unique = true)
   public String getName() {

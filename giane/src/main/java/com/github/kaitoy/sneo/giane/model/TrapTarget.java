@@ -1,22 +1,17 @@
 /*_##########################################################################
   _##
-  _##  Copyright (C) 2012-2013 Kaito Yamada
+  _##  Copyright (C) 2012-2015 Kaito Yamada
   _##
   _##########################################################################
 */
 
 package com.github.kaitoy.sneo.giane.model;
 
-import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.ManyToMany;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import com.github.kaitoy.sneo.giane.action.message.FormMessage;
 import com.github.kaitoy.sneo.network.dto.TrapTargetDto;
@@ -29,31 +24,18 @@ import com.opensymphony.xwork2.validator.annotations.StringLengthFieldValidator;
 
 @Entity
 @Table(name = "TRAP_TARGET")
-public class TrapTarget implements Serializable, FormMessage {
+public class TrapTarget extends AbstractModel implements FormMessage {
 
   /**
    *
    */
-  private static final long serialVersionUID = 4278317055245966206L;
+  private static final long serialVersionUID = 1742187203844448320L;
 
-  private Integer id;
   private String name;
   private String address;
   private Integer port;
   private String descr;
   private List<TrapTargetGroup> trapTargetGroups;
-
-  @Id
-  @GeneratedValue(strategy=GenerationType.AUTO, generator="giane_seq_gen")
-  @SequenceGenerator(name="giane_seq_gen", sequenceName="GIANE_SEQ")
-  @Column(name = "ID")
-  public Integer getId() {
-    return id;
-  }
-
-  public void setId(Integer id) {
-    this.id = id;
-  }
 
   @Column(name = "NAME", nullable = false, length = 200, unique = true)
   public String getName() {
@@ -143,7 +125,7 @@ public class TrapTarget implements Serializable, FormMessage {
 
   public TrapTargetDto toDto() {
     TrapTargetDto dto = new TrapTargetDto();
-    dto.setId(id);
+    dto.setId(getId());
     dto.setName(name);
     dto.setAddress(address);
     dto.setPort(port);

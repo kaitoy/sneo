@@ -1,13 +1,12 @@
 /*_##########################################################################
   _##
-  _##  Copyright (C) 2012-2013  Kaito Yamada
+  _##  Copyright (C) 2012-2015  Kaito Yamada
   _##
   _##########################################################################
 */
 
 package com.github.kaitoy.sneo.giane.model;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Column;
@@ -15,12 +14,8 @@ import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import com.github.kaitoy.sneo.giane.action.message.FormMessage;
 import com.github.kaitoy.sneo.network.dto.SnmpAgentDto;
@@ -33,11 +28,13 @@ import com.opensymphony.xwork2.validator.annotations.RequiredStringValidator;
 
 @Entity
 @Table(name = "SNMP_AGENT")
-public class SnmpAgent implements Serializable, FormMessage {
+public class SnmpAgent extends AbstractModel implements FormMessage {
 
-  private static final long serialVersionUID = 5566464840276683510L;
+  /**
+   *
+   */
+  private static final long serialVersionUID = -1660104783015345081L;
 
-  private Integer id;
   private String address;
   private Integer port;
   private String communityName;
@@ -46,18 +43,6 @@ public class SnmpAgent implements Serializable, FormMessage {
   private FileMibFormat fileMibFormat;
   private String communityStringIndexList;
   private Node node;
-
-  @Id
-  @GeneratedValue(strategy=GenerationType.AUTO, generator="giane_seq_gen")
-  @SequenceGenerator(name="giane_seq_gen", sequenceName="GIANE_SEQ")
-  @Column(name = "ID")
-  public Integer getId() {
-    return id;
-  }
-
-  public void setId(Integer id) {
-    this.id = id;
-  }
 
   @Column(name = "ADDRESS", nullable = false)
   public String getAddress() {
@@ -192,7 +177,7 @@ public class SnmpAgent implements Serializable, FormMessage {
     }
 
     SnmpAgentDto dto = new SnmpAgentDto();
-    dto.setId(id);
+    dto.setId(getId());
     dto.setAddress(address);
     dto.setPort(port);
     dto.setCommunityName(communityName);
@@ -201,18 +186,6 @@ public class SnmpAgent implements Serializable, FormMessage {
     dto.setFileMibFormat(fileMibFormat.getFormat());
     dto.setCommunityStringIndexes(communityStringIndexes);
     return dto;
-  }
-
-  @Override
-  public boolean equals(Object obj) {
-    if (obj == this) { return true; }
-    if (!this.getClass().isInstance(obj)) { return false; }
-    return this.id.equals(((SnmpAgent)obj).getId());
-  }
-
-  @Override
-  public int hashCode() {
-    return id;
   }
 
 }

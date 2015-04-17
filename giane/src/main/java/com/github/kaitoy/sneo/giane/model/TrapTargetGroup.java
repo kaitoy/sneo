@@ -1,25 +1,20 @@
 /*_##########################################################################
   _##
-  _##  Copyright (C) 2012-2013 Kaito Yamada
+  _##  Copyright (C) 2012-2015 Kaito Yamada
   _##
   _##########################################################################
 */
 
 package com.github.kaitoy.sneo.giane.model;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import com.github.kaitoy.sneo.giane.action.message.FormMessage;
 import com.github.kaitoy.sneo.network.dto.TrapTargetDto;
@@ -29,26 +24,16 @@ import com.opensymphony.xwork2.validator.annotations.StringLengthFieldValidator;
 
 @Entity
 @Table(name = "TRAP_TARGET_GROUP")
-public class TrapTargetGroup implements Serializable, FormMessage {
+public class TrapTargetGroup extends AbstractModel implements FormMessage {
 
-  private static final long serialVersionUID = -7283853777773516267L;
+  /**
+   *
+   */
+  private static final long serialVersionUID = 6246027465167386978L;
 
-  private Integer id;
   private String name;
   private String descr;
   private List<TrapTarget> trapTargets;
-
-  @Id
-  @GeneratedValue(strategy=GenerationType.AUTO, generator="giane_seq_gen")
-  @SequenceGenerator(name="giane_seq_gen", sequenceName="GIANE_SEQ")
-  @Column(name = "ID")
-  public Integer getId() {
-    return id;
-  }
-
-  public void setId(Integer id) {
-    this.id = id;
-  }
 
   @Column(name = "NAME", nullable = false, length = 200, unique = true)
   public String getName() {
@@ -107,22 +92,10 @@ public class TrapTargetGroup implements Serializable, FormMessage {
     }
 
     TrapTargetGroupDto dto = new TrapTargetGroupDto();
-    dto.setId(id);
+    dto.setId(getId());
     dto.setName(name);
     dto.setTrapTargets(trapTargetDtos);
     return dto;
-  }
-
-  @Override
-  public boolean equals(Object obj) {
-    if (obj == this) { return true; }
-    if (!this.getClass().isInstance(obj)) { return false; }
-    return this.getId().equals(((TrapTargetGroup)obj).getId());
-  }
-
-  @Override
-  public int hashCode() {
-    return getId();
   }
 
 }

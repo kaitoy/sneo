@@ -1,25 +1,20 @@
 /*_##########################################################################
   _##
-  _##  Copyright (C) 2012-2013 Kaito Yamada
+  _##  Copyright (C) 2012-2015 Kaito Yamada
   _##
   _##########################################################################
 */
 
 package com.github.kaitoy.sneo.giane.model;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import com.github.kaitoy.sneo.giane.action.message.FormMessage;
 import com.github.kaitoy.sneo.network.dto.L2ConnectionDto;
@@ -30,29 +25,16 @@ import com.opensymphony.xwork2.validator.annotations.StringLengthFieldValidator;
 
 @Entity
 @Table(name = "L2_CONNECTION")
-public class L2Connection implements Serializable, FormMessage {
+public class L2Connection extends AbstractModel implements FormMessage {
 
   /**
    *
    */
-  private static final long serialVersionUID = -4801635716101021853L;
+  private static final long serialVersionUID = 2921402232740051680L;
 
-  private Integer id;
   private String name;
   private List<PhysicalNetworkInterface> physicalNetworkInterfaces;
   private Network network;
-
-  @Id
-  @GeneratedValue(strategy=GenerationType.AUTO, generator="giane_seq_gen")
-  @SequenceGenerator(name="giane_seq_gen", sequenceName="GIANE_SEQ")
-  @Column(name = "ID")
-  public Integer getId() {
-    return id;
-  }
-
-  public void setId(Integer id) {
-    this.id = id;
-  }
 
   @Column(name = "NAME", nullable = false, length = 1000)
   public String getName() {
@@ -116,7 +98,7 @@ public class L2Connection implements Serializable, FormMessage {
     }
 
     L2ConnectionDto dto = new L2ConnectionDto();
-    dto.setId(id);
+    dto.setId(getId());
     dto.setName(name);
     dto.setPhysicalNetworkInterfaces(physicalNetworkInterfaceDtos);
     return dto;

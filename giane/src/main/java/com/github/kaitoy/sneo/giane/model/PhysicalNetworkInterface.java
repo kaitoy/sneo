@@ -96,16 +96,4 @@ public class PhysicalNetworkInterface extends VlanMember {
     return dto;
   }
 
-  @Override
-  public boolean equals(Object obj) {
-    if (obj == this) { return true; }
-    if (!this.getClass().isInstance(obj)) { return false; }
-    return this.getId().equals(((PhysicalNetworkInterface)obj).getId());
-  }
-
-  @Override
-  public int hashCode() {
-    return getId();
-  }
-
 }

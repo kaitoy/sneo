@@ -1,24 +1,19 @@
 /*_##########################################################################
   _##
-  _##  Copyright (C) 2012-2013 Kaito Yamada
+  _##  Copyright (C) 2012-2015 Kaito Yamada
   _##
   _##########################################################################
 */
 
 package com.github.kaitoy.sneo.giane.model;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.OneToMany;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import com.github.kaitoy.sneo.giane.action.message.FormMessage;
 import com.github.kaitoy.sneo.network.dto.L2ConnectionDto;
@@ -30,27 +25,17 @@ import com.opensymphony.xwork2.validator.annotations.StringLengthFieldValidator;
 
 @Entity
 @Table(name = "NETWORK")
-public class Network implements Serializable, FormMessage {
+public class Network extends AbstractModel implements FormMessage {
 
-  private static final long serialVersionUID = -7283853777773516267L;
+  /**
+   *
+   */
+  private static final long serialVersionUID = 3149782097855948582L;
 
-  private Integer id;
   private String name;
   private String descr;
   private List<Node> nodes;
   private List<L2Connection> l2Connections;
-
-  @Id
-  @GeneratedValue(strategy=GenerationType.AUTO, generator="giane_seq_gen")
-  @SequenceGenerator(name="giane_seq_gen", sequenceName="GIANE_SEQ")
-  @Column(name = "ID")
-  public Integer getId() {
-    return id;
-  }
-
-  public void setId(Integer id) {
-    this.id = id;
-  }
 
   @Column(name = "NAME", nullable = false, length = 200, unique = true)
   public String getName() {
@@ -137,7 +122,7 @@ public class Network implements Serializable, FormMessage {
     }
 
     NetworkDto dto = new NetworkDto();
-    dto.setId(id);
+    dto.setId(getId());
     dto.setName(name);
     dto.setNodes(nodeDtos);
     dto.setL2Connections(l2ConnectionDtos);
