@@ -16,8 +16,8 @@
             id="snmpAgent_address"
             name="model.address"
             label="%{getText('snmpAgent.address.label')}"
-            required="true"
-            requiredposition="left"
+            requiredLabel="true"
+            requiredPosition="left"
             theme="xhtml"
             title="Used as the trap source address"
           />
@@ -28,8 +28,8 @@
           id="snmpAgent_port"
           name="model.port"
           label="%{getText('snmpAgent.port.label')}"
-          required="true"
-          requiredposition="left"
+          requiredLabel="true"
+          requiredPosition="left"
           theme="xhtml"
         />
           <span class="giane-form-error-message" id="snmpAgent_form_portError"></span>
@@ -39,8 +39,8 @@
             id="snmpAgent_communityName"
             name="model.communityName"
             label="%{getText('snmpAgent.communityName.label')}"
-            required="true"
-            requiredposition="left"
+            requiredLabel="true"
+            requiredPosition="left"
             theme="xhtml"
           />
           <span class="giane-form-error-message" id="snmpAgent_form_communityNameError"></span>
@@ -50,8 +50,8 @@
             id="snmpAgent_securityName"
             name="model.securityName"
             label="%{getText('snmpAgent.securityName.label')}"
-            required="true"
-            requiredposition="left"
+            requiredLabel="true"
+            requiredPosition="left"
             theme="xhtml"
           />
           <span class="giane-form-error-message" id="snmpAgent_form_securityNameError"></span>
@@ -61,8 +61,8 @@
             id="snmpAgent_fileMibPath"
             name="model.fileMibPath"
             label="%{getText('snmpAgent.fileMibPath.label')}"
-            required="true"
-            requiredposition="left"
+            requiredLabel="true"
+            requiredPosition="left"
             theme="xhtml"
           />
           <span class="giane-form-error-message" id="snmpAgent_form_fileMibPathError"></span>
@@ -74,8 +74,8 @@
             label="%{getText('snmpAgent.fileMibFormat.label')}"
             list="%{formats}"
             multiple="false"
-            required="true"
-            requiredposition="left"
+            requiredLabel="true"
+            requiredPosition="left"
             theme="xhtml"
           />
           <span class="giane-form-error-message" id="snmpAgent_form_fileMibFormatError"></span>
@@ -85,8 +85,8 @@
             id="snmpAgent_communityStringIndexList"
             name="model.communityStringIndexList"
             label="%{getText('snmpAgent.communityStringIndexList.label')}"
-            required="false"
-            requiredposition="left"
+            requiredLabel="false"
+            requiredPosition="left"
             theme="xhtml"
             title="Comma separated values"
           />

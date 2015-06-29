@@ -16,8 +16,8 @@
             id="additionalIpV4Route_name"
             name="model.name"
             label="%{getText('ipV4Route.name.label')}"
-            required="true"
-            requiredposition="left"
+            requiredLabel="true"
+            requiredPosition="left"
             theme="xhtml"
           />
           <span class="giane-form-error-message" id="additionalIpV4Route_form_nameError"></span>
@@ -27,8 +27,8 @@
             id="additionalIpV4Route_networkDestination"
             name="model.networkDestination"
             label="%{getText('ipV4Route.networkDestination.label')}"
-            required="true"
-            requiredposition="left"
+            requiredLabel="true"
+            requiredPosition="left"
             theme="xhtml"
           />
           <span class="giane-form-error-message" id="additionalIpV4Route_form_networkDestinationError"></span>
@@ -38,8 +38,8 @@
             id="additionalIpV4Route_netmask"
             name="model.netmask"
             label="%{getText('ipV4Route.netmask.label')}"
-            required="true"
-            requiredposition="left"
+            requiredLabel="true"
+            requiredPosition="left"
             theme="xhtml"
           />
           <span class="giane-form-error-message" id="additionalIpV4Route_form_netmaskError"></span>
@@ -49,8 +49,8 @@
             id="additionalIpV4Route_gateway"
             name="model.gateway"
             label="%{getText('ipV4Route.gateway.label')}"
-            required="true"
-            requiredposition="left"
+            requiredLabel="true"
+            requiredPosition="left"
             theme="xhtml"
           />
           <span class="giane-form-error-message" id="additionalIpV4Route_form_gatewayError"></span>
@@ -60,8 +60,8 @@
             id="additionalIpV4Route_metric"
             name="model.metric"
             label="%{getText('ipV4Route.metric.label')}"
-            required="true"
-            requiredposition="left"
+            requiredLabel="true"
+            requiredPosition="left"
             theme="xhtml"
           />
           <span class="giane-form-error-message" id="additionalIpV4Route_form_metricError"></span>
@@ -71,8 +71,8 @@
             id="additionalIpV4Route_descr"
             name="model.descr"
             label="%{getText('ipV4Route.descr.label')}"
-            required="false"
-            requiredposition="left"
+            requiredLabel="false"
+            requiredPosition="left"
             theme="xhtml"
           />
           <span class="giane-form-error-message" id="additionalIpV4Route_form_descrError"></span>

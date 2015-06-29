@@ -56,7 +56,7 @@ public class Network extends AbstractModel implements FormMessage {
   @RegexFieldValidator(
     key = "RegexFieldValidator.error.objectName",
     // this field's value is/will be used for an MBean object name, and may be used in a command line.
-    expression = "[^,=:\"*?]+",
+    regex = "[^,=:\"*?]+",
     shortCircuit = true
   )
   public void setName(String name) {

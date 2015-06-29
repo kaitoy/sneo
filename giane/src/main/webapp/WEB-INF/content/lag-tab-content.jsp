@@ -16,8 +16,8 @@
             id="lag_name"
             name="model.name"
             label="%{getText('lag.name.label')}"
-            required="true"
-            requiredposition="left"
+            requiredLabel="true"
+            requiredPosition="left"
             theme="xhtml"
           />
           <span class="giane-form-error-message" id="lag_form_nameError"></span>
@@ -27,7 +27,8 @@
             id="lag_channelGroupNumber"
             name="model.channelGroupNumber"
             label="%{getText('lag.channelGroupNumber.label')}"
-            required="true" requiredposition="left"
+            requiredLabel="true"
+            requiredPosition="left"
             theme="xhtml"
           />
           <span class="giane-form-error-message" id="lag_form_channelGroupNumberError"></span>
@@ -126,5 +127,5 @@
   onBeforeTopics="mainPaneGoingForward_before"
   onAfterValidationTopics="mainPaneGoingForward_after"
   onCompleteTopics="mainPaneCompleted"
-  style="display: none;"
+  cssStyle="display: none;"
 />

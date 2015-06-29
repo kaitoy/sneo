@@ -16,8 +16,8 @@
             id="simulation_name"
             name="model.name"
             label="%{getText('simulation.name.label')}"
-            required="true"
-            requiredposition="left"
+            requiredLabel="true"
+            requiredPosition="left"
             theme="xhtml"
           />
           <span class="giane-form-error-message" id="simulation_form_nameError"></span>
@@ -29,8 +29,8 @@
             label="%{getText('simulation.network.label')}"
             list="%{networks}"
             multiple="false"
-            required="true"
-            requiredposition="left"
+            requiredLabel="true"
+            requiredPosition="left"
             theme="xhtml"
             cssClass="select-field"
           />
@@ -41,7 +41,8 @@
             id="simulation_descr"
             name="model.descr"
             label="%{getText('simulation.descr.label')}"
-            required="false" requiredposition="left"
+            requiredLabel="false"
+            requiredPosition="left"
             theme="xhtml"
           />
           <span class="giane-form-error-message" id="simulation_form_descrError"></span>
@@ -162,5 +163,5 @@
   onBeforeTopics="mainPaneGoingForward_before"
   onAfterValidationTopics="mainPaneGoingForward_after"
   onCompleteTopics="mainPaneCompleted"
-  style="display: none;"
+  cssStyle="display: none;"
 />

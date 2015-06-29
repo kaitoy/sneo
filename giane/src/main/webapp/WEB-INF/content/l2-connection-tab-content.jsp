@@ -16,8 +16,8 @@
             id="l2Connection_name"
             name="model.name"
             label="%{getText('l2Connection.name.label')}"
-            required="true"
-            requiredposition="left"
+            requiredLabel="true"
+            requiredPosition="left"
             theme="xhtml"
           />
           <span class="giane-form-error-message" id="l2Connection_form_nameError"></span>
@@ -121,6 +121,6 @@
   onBeforeTopics="mainPaneGoingForward_before"
   onAfterValidationTopics="mainPaneGoingForward_after"
   onCompleteTopics="mainPaneCompleted"
-  style="display: none;"
+  cssStyle="display: none;"
 />
 

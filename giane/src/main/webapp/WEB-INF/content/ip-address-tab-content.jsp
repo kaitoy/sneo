@@ -16,8 +16,8 @@
             id="ipAddress_address"
             name="model.address"
             label="%{getText('ipAddress.address.label')}"
-            required="true"
-            requiredposition="left"
+            requiredLabel="true"
+            requiredPosition="left"
             theme="xhtml"
           />
           <span class="giane-form-error-message" id="ipAddress_form_addressError"></span>
@@ -27,8 +27,8 @@
             id="ipAddress_prefixLength"
             name="model.prefixLength"
             label="%{getText('ipAddress.prefixLength.label')}"
-            required="true"
-            requiredposition="left"
+            requiredLabel="true"
+            requiredPosition="left"
             theme="xhtml"
           />
           <span class="giane-form-error-message" id="ipAddress_form_prefixLengthError"></span>

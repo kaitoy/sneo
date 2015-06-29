@@ -11,7 +11,7 @@
 </div>
 
 <sj:tabbedpanel id="toolHome_tabs" animate="true" cssClass="giane-tab-container">
-  <sj:tab target="h2DbWebConsole_tab_content" label="%{getText('toolHome.h2DbWebConsole.tab.label')}" />
+  <sj:tab id="h2DbWebConsole_tab" target="h2DbWebConsole_tab_content" label="%{getText('toolHome.h2DbWebConsole.tab.label')}" />
   <s:url var="h2DbWebConsole_tab_content_url" action="h2-db-web-console-tab-content" />
   <sj:div id="h2DbWebConsole_tab_content" href="%{h2DbWebConsole_tab_content_url}" indicator="h2DbWebConsole_tab_indicator" cssClass="giane-tab-content" />
 </sj:tabbedpanel>

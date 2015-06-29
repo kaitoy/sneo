@@ -1,6 +1,6 @@
 /*_##########################################################################
   _##
-  _##  Copyright (C) 2012-2013  Kaito Yamada
+  _##  Copyright (C) 2012-2015  Kaito Yamada
   _##
   _##########################################################################
 */
@@ -73,7 +73,7 @@ public class Node extends AbstractModel implements FormMessage {
   @RegexFieldValidator(
     key = "RegexFieldValidator.error.objectName",
     // this field's value is/will be used for an MBean object name, and may be used in a command line.
-    expression = "[^,=:\"*?]+",
+    regex = "[^,=:\"*?]+",
     shortCircuit = true
   )
   public void setName(String name) {

@@ -32,8 +32,8 @@
             list="%{additionalIpV6RouteGroups}"
             emptyOption="true"
             multiple="false"
-            required="false"
-            requiredposition="left"
+            requiredLabel="false"
+            requiredPosition="left"
             theme="xhtml"
             cssClass="select-field"
           />

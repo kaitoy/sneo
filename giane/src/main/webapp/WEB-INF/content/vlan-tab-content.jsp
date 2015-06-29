@@ -16,8 +16,8 @@
             id="vlan_name"
             name="model.name"
             label="%{getText('vlan.name.label')}"
-            required="true"
-            requiredposition="left"
+            requiredLabel="true"
+            requiredPosition="left"
             theme="xhtml"
           />
           <span class="giane-form-error-message" id="vlan_form_nameError"></span>
@@ -27,7 +27,8 @@
             id="vlan_vid"
             name="model.vid"
             label="%{getText('vlan.vid.label')}"
-            required="true" requiredposition="left"
+            requiredLabel="true"
+            requiredPosition="left"
             theme="xhtml"
           />
           <span class="giane-form-error-message" id="vlan_form_vidError"></span>
@@ -126,5 +127,5 @@
   onBeforeTopics="mainPaneGoingForward_before"
   onAfterValidationTopics="mainPaneGoingForward_after"
   onCompleteTopics="mainPaneCompleted"
-  style="display: none;"
+  cssStyle="display: none;"
 />

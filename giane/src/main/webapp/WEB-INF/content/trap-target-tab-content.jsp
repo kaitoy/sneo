@@ -16,8 +16,8 @@
             id="trapTarget_name"
             name="model.name"
             label="%{getText('trapTarget.name.label')}"
-            required="true"
-            requiredposition="left"
+            requiredLabel="true"
+            requiredPosition="left"
             theme="xhtml"
           />
           <span class="giane-form-error-message" id="trapTarget_form_nameError"></span>
@@ -27,8 +27,8 @@
             id="trapTarget_address"
             name="model.address"
             label="%{getText('trapTarget.address.label')}"
-            required="true"
-            requiredposition="left"
+            requiredLabel="true"
+            requiredPosition="left"
             theme="xhtml"
           />
           <span class="giane-form-error-message" id="trapTarget_form_addressError"></span>
@@ -38,8 +38,8 @@
             id="trapTarget_port"
             name="model.port"
             label="%{getText('trapTarget.port.label')}"
-            required="true"
-            requiredposition="left"
+            requiredLabel="true"
+            requiredPosition="left"
             theme="xhtml"
           />
           <span class="giane-form-error-message" id="trapTarget_form_portError"></span>
@@ -49,8 +49,8 @@
             id="trapTarget_descr"
             name="model.descr"
             label="%{getText('trapTarget.descr.label')}"
-            required="false"
-            requiredposition="left"
+            requiredLabel="false"
+            requiredPosition="left"
             theme="xhtml"
           />
           <span class="giane-form-error-message" id="trapTarget_form_descrError"></span>

@@ -88,7 +88,7 @@ public class RealNetworkInterfaceConfiguration extends AbstractModel implements 
   )
   @RegexFieldValidator(
     key = "RegexFieldValidator.error",
-    expression = "[0-9a-fA-F]{2}(:[0-9a-fA-F]{2}){5}",
+    regex = "[0-9a-fA-F]{2}(:[0-9a-fA-F]{2}){5}",
     shortCircuit = true
   )
   public void setMacAddress(String macAddress) {

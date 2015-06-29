@@ -16,8 +16,8 @@
             id="realNetworkInterface_name"
             name="model.name"
             label="%{getText('realNetworkInterface.name.label')}"
-            required="true"
-            requiredposition="left"
+            requiredLabel="true"
+            requiredPosition="left"
             theme="xhtml"
           />
           <span class="giane-form-error-message" id="realNetworkInterface_form_nameError"></span>

@@ -321,7 +321,7 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <pcap4j.version>1.0.0</pcap4j.version>
-    <struts2.version>2.3.1</struts2.version>
+    <struts2.version>2.3.24</struts2.version>
     <slf4j.version>1.6.4</slf4j.version>
     <jetty.version>7.6.7.v20120910</jetty.version>
   </properties>

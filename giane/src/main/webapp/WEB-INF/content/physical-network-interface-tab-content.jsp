@@ -16,8 +16,8 @@
             id="physicalNetworkInterface_name"
             name="model.name"
             label="%{getText('physicalNetworkInterface.name.label')}"
-            required="true"
-            requiredposition="left"
+            requiredLabel="true"
+            requiredPosition="left"
             theme="xhtml"
           />
           <span class="giane-form-error-message" id="physicalNetworkInterface_form_nameError"></span>
@@ -27,9 +27,11 @@
             id="physicalNetworkInterface_trunk"
             name="model.trunk"
             label="%{getText('physicalNetworkInterface.trunk.label')}"
+            labelposition="left"
+            labelSeparator=":"
             value="physicalNetworkInterface_trunk"
-            required="false"
-            requiredposition="left"
+            requiredLabel="false"
+            requiredPosition="left"
             theme="xhtml"
           />
           <span class="giane-form-error-message" id="physicalNetworkInterface_form_trunkError"></span>
@@ -133,5 +135,5 @@
   onBeforeTopics="mainPaneGoingForward_before"
   onAfterValidationTopics="mainPaneGoingForward_after"
   onCompleteTopics="mainPaneCompleted"
-  style="display: none;"
+  cssStyle="display: none;"
 />

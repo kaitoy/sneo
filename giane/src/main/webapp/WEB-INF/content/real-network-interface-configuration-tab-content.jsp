@@ -20,7 +20,8 @@
             id="realNetworkInterfaceConfiguration_name"
             name="model.name"
             label="%{getText('realNetworkInterfaceConfiguration.name.label')}"
-            required="true" requiredposition="left"
+            requiredLabel="true"
+            requiredPosition="left"
             theme="xhtml"
           />
           <span class="giane-form-error-message" id="realNetworkInterfaceConfiguration_form_nameError"></span>
@@ -30,8 +31,8 @@
             id="realNetworkInterfaceConfiguration_macAddress"
             name="model.macAddress"
             label="%{getText('realNetworkInterfaceConfiguration.macAddress.label')}"
-            required="true"
-            requiredposition="left"
+            requiredLabel="true"
+            requiredPosition="left"
             theme="xhtml"
           />
           <span class="giane-form-error-message" id="realNetworkInterfaceConfiguration_form_macAddressError"></span>
@@ -43,8 +44,8 @@
             label="%{getText('realNetworkInterfaceConfiguration.deviceName.label')}"
             list="%{devices}"
             multiple="false"
-            required="true"
-            requiredposition="left"
+            requiredLabel="true"
+            requiredPosition="left"
             theme="xhtml"
             cssClass="select-field"
           />
@@ -55,8 +56,8 @@
             id="realNetworkInterfaceConfiguration_descr"
             name="model.descr"
             label="%{getText('realNetworkInterfaceConfiguration.descr.label')}"
-            required="false"
-            requiredposition="left"
+            requiredLabel="false"
+            requiredPosition="left"
             theme="xhtml"
           />
           <span class="giane-form-error-message" id="realNetworkInterfaceConfiguration_form_descrError"></span>
@@ -184,5 +185,5 @@
   onBeforeTopics="mainPaneGoingForward_before"
   onAfterValidationTopics="mainPaneGoingForward_after"
   onCompleteTopics="mainPaneCompleted"
-  style="display: none;"
+  cssStyle="display: none;"
 />

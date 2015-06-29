@@ -2,7 +2,7 @@
   border: solid 1px #696969;
 }
 
-.giane-form .giane-form-field-box label.label {
+.giane-form .giane-form-field-box label.label, label.checkboxLabel {
   display: block;
   float: left;
   width: 8.5em;

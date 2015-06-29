@@ -148,7 +148,7 @@ public class SnmpAgent extends AbstractModel implements FormMessage {
 
   @RegexFieldValidator(
     key = "RegexFieldValidator.error",
-    expression = "([\\w]+(,[\\w]+)*)?",
+    regex = "([\\w]+(,[\\w]+)*)?",
     shortCircuit = true
   )
   public void setCommunityStringIndexList(String communityStringIndexList) {

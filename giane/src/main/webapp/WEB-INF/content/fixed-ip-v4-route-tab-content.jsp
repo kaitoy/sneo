@@ -16,8 +16,8 @@
             id="fixedIpV4Route_networkDestination"
             name="model.networkDestination"
             label="%{getText('ipV4Route.networkDestination.label')}"
-            required="true"
-            requiredposition="left"
+            requiredLabel="true"
+            requiredPosition="left"
             theme="xhtml"
           />
           <span class="giane-form-error-message" id="fixedIpV4Route_form_networkDestinationError"></span>
@@ -27,8 +27,8 @@
             id="fixedIpV4Route_netmask"
             name="model.netmask"
             label="%{getText('ipV4Route.netmask.label')}"
-            required="true"
-            requiredposition="left"
+            requiredLabel="true"
+            requiredPosition="left"
             theme="xhtml"
           />
           <span class="giane-form-error-message" id="fixedIpV4Route_form_netmaskError"></span>
@@ -38,8 +38,8 @@
             id="fixedIpV4Route_gateway"
             name="model.gateway"
             label="%{getText('ipV4Route.gateway.label')}"
-            required="true"
-            requiredposition="left"
+            requiredLabel="true"
+            requiredPosition="left"
             theme="xhtml"
           />
           <span class="giane-form-error-message" id="fixedIpV4Route_form_gatewayError"></span>
@@ -49,8 +49,8 @@
             id="fixedIpV4Route_metric"
             name="model.metric"
             label="%{getText('ipV4Route.metric.label')}"
-            required="true"
-            requiredposition="left"
+            requiredLabel="true"
+            requiredPosition="left"
             theme="xhtml"
           />
           <span class="giane-form-error-message" id="fixedIpV4Route_form_metricError"></span>

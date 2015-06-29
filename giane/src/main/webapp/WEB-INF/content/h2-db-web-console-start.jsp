@@ -11,8 +11,8 @@
           id="h2DbWebConsole_port"
           name="port"
           label="%{getText('h2DbWebConsole.port.label')}"
-          required="true"
-          requiredposition="left"
+          requiredLabel="true"
+          requiredPosition="left"
           theme="xhtml"
         />
         <span id="h2DbWebConsole_form_portError"></span>

@@ -16,8 +16,8 @@
             id="trapTargetGroup_name"
             name="model.name"
             label="%{getText('entityGroup.name.label')}"
-            required="true"
-            requiredposition="left"
+            requiredLabel="true"
+            requiredPosition="left"
             theme="xhtml"
           />
           <span class="giane-form-error-message" id="trapTargetGroup_form_nameError"></span>
@@ -27,8 +27,8 @@
             id="trapTargetGroup_descr"
             name="model.descr"
             label="%{getText('entityGroup.descr.label')}"
-            required="false"
-            requiredposition="left"
+            requiredLabel="false"
+            requiredPosition="left"
             theme="xhtml"
           />
           <span class="giane-form-error-message" id="trapTargetGroup_form_descrError"></span>
@@ -132,5 +132,5 @@
   onBeforeTopics="mainPaneGoingForward_before"
   onAfterValidationTopics="mainPaneGoingForward_after"
   onCompleteTopics="mainPaneCompleted"
-  style="display: none;"
+  cssStyle="display: none;"
 />
