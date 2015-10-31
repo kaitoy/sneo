@@ -1,6 +1,6 @@
 /*_##########################################################################
   _##
-  _##  Copyright (C) 2011-2013  Kaito Yamada
+  _##  Copyright (C) 2011-2015  Kaito Yamada
   _##
   _##########################################################################
 */
@@ -10,6 +10,8 @@ package com.github.kaitoy.sneo.jmx;
 public interface JmxAgent {
 
   public void start();
+
+  public void stop(long delayMillis);
 
   public void stop();
 

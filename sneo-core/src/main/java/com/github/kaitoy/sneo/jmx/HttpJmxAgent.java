@@ -1,6 +1,6 @@
 /*_##########################################################################
   _##
-  _##  Copyright (C) 2011-2013  Kaito Yamada
+  _##  Copyright (C) 2011-2015  Kaito Yamada
   _##
   _##########################################################################
 */
@@ -19,6 +19,8 @@ import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.text.ParseException;
 import java.util.Map;
+import java.util.Timer;
+import java.util.TimerTask;
 import javax.management.Attribute;
 import javax.management.AttributeNotFoundException;
 import javax.management.DynamicMBean;
@@ -45,6 +47,7 @@ import org.snmp4j.log.LogAdapter;
 import org.snmp4j.log.LogFactory;
 import org.snmp4j.util.ArgumentParser;
 import com.github.kaitoy.sneo.agent.AgentPropertiesLoader;
+import com.github.kaitoy.sneo.jmx.SimStopper.StopProcedure;
 import com.github.kaitoy.sneo.log.Log4jPropertiesLoader;
 import com.github.kaitoy.sneo.log.LoggerManager;
 import com.github.kaitoy.sneo.smi.SmiSyntaxesPropertiesManager;
@@ -258,7 +261,7 @@ public class HttpJmxAgent implements JmxAgent {
 
     Map<?, ?> params = parseArgs(args);
 
-    HttpJmxAgent agent
+    final HttpJmxAgent agent
       = new HttpJmxAgent(
           ((Integer)ArgumentParser.getValue(params, "jmxPort", 0)).intValue(),
           ((Integer)ArgumentParser.getValue(params, "rmiPort", 0)).intValue()
@@ -266,13 +269,25 @@ public class HttpJmxAgent implements JmxAgent {
     agent.setConfigFilePath((String)ArgumentParser.getValue(params, "f", 0));
     agent.start();
 
-    ConsoleBlocker.block("** Hit Enter key to stop simulation **");
-
-    agent.stop();
-
-    try {
-      Thread.sleep(2000);
-    } catch (InterruptedException e1) {}
+    if (params.get("d") == null) {
+      ConsoleBlocker.block("** Hit Enter key to stop simulation **");
+      agent.stop();
+      try {
+        Thread.sleep(2000);
+      } catch (InterruptedException e1) {}
+    }
+    else {
+      agent.registerPojo(
+        new SimStopper(
+          new StopProcedure() {
+            public void stop() {
+              agent.stop(3000L);
+            }
+          }
+        ),
+        "Tools:name=SimStopper"
+      );
+    }
   }
 
   private static Map<?, ?> parseArgs(String[] args) {
@@ -280,10 +295,10 @@ public class HttpJmxAgent implements JmxAgent {
     try {
       ArgumentParser parser
         = new ArgumentParser(
-              "-f[s{=HttpJmxAgent.xml}] "
-            + "-jmxPort[i{=8080}] "
-            + "-rmiPort[i{=" + Registry.REGISTRY_PORT + "}]"
-            ,
+            "-f[s{=HttpJmxAgent.xml}] "
+              + "+d[s] "
+              + "-jmxPort[i{=8080}] "
+              + "-rmiPort[i{=" + Registry.REGISTRY_PORT + "}]",
             ""
           );
 
@@ -340,6 +355,19 @@ public class HttpJmxAgent implements JmxAgent {
         } catch (IOException e) {}
       }
     }
+  }
+
+  public void stop(long delayMillis) {
+    Timer t = new Timer(true);
+    t.schedule(
+      new TimerTask() {
+        @Override
+        public void run() {
+          stop();
+        }
+      },
+      delayMillis
+    );
   }
 
   public void stop() {

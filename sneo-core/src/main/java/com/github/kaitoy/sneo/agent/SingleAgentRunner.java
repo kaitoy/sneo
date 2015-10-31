@@ -1,6 +1,6 @@
 /*_##########################################################################
   _##
-  _##  Copyright (C) 2012  Kaito Yamada
+  _##  Copyright (C) 2012-2015  Kaito Yamada
   _##
   _##########################################################################
 */
@@ -23,6 +23,8 @@ import org.snmp4j.log.LogFactory;
 import org.snmp4j.util.ArgumentParser;
 import com.github.kaitoy.sneo.jmx.HttpJmxAgent;
 import com.github.kaitoy.sneo.jmx.JmxAgent;
+import com.github.kaitoy.sneo.jmx.SimStopper;
+import com.github.kaitoy.sneo.jmx.SimStopper.StopProcedure;
 import com.github.kaitoy.sneo.log.Log4jPropertiesLoader;
 import com.github.kaitoy.sneo.smi.SmiSyntaxesPropertiesManager;
 import com.github.kaitoy.sneo.transport.TransportsPropertiesManager;
@@ -108,9 +110,9 @@ public class SingleAgentRunner {
         throw new IllegalArgumentException("Invalid format: " + format);
       }
 
-      FileMibAgent agent = agentBuilder.build();
+      final FileMibAgent agent = agentBuilder.build();
 
-      JmxAgent jmxAgent
+      final JmxAgent jmxAgent
         = new HttpJmxAgent(
             (Integer)ArgumentParser.getValue(params, "jmxPort", 0),
             ((Integer)ArgumentParser.getValue(params, "rmiPort", 0)).intValue()
@@ -124,14 +126,27 @@ public class SingleAgentRunner {
       agent.start();
       jmxAgent.start();
 
-      ConsoleBlocker.block("** Hit Enter key to stop simulation **");
-
-      jmxAgent.stop();
-      agent.stop();
-
-      try {
-        Thread.sleep(1000);
-      } catch (InterruptedException e1) {}
+      if (params.get("d") == null) {
+        ConsoleBlocker.block("** Hit Enter key to stop simulation **");
+        jmxAgent.stop();
+        agent.stop();
+        try {
+          Thread.sleep(1000);
+        } catch (InterruptedException e1) {}
+      }
+      else {
+        jmxAgent.registerPojo(
+          new SimStopper(
+            new StopProcedure() {
+              public void stop() {
+                jmxAgent.stop(3000L);
+                agent.stop();
+              }
+            }
+          ),
+          "Tools:name=SimStopper"
+        );
+      }
     }
     catch (IOException e) {
       e.printStackTrace();
@@ -152,6 +167,7 @@ public class SingleAgentRunner {
       optList.add("-c[s{=public}] ");
       optList.add("-s[s{=public}] ");
       optList.add("-f[s] ");
+      optList.add("+d[s] ");
       optList.add("+t[s<([0-9.]+|[0-9a-fA-F:]+)/[0-9]+>] ");
       optList.add("-format[s{=default}<(default|net-snmp)>] ");
       optList.add("+csi[s] ");

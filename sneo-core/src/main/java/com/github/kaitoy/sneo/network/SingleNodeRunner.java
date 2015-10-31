@@ -1,6 +1,6 @@
 /*_##########################################################################
   _##
-  _##  Copyright (C) 2012-2014  Kaito Yamada
+  _##  Copyright (C) 2012-2015  Kaito Yamada
   _##
   _##########################################################################
 */
@@ -17,21 +17,20 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
 import mx4j.log.Log4JLogger;
-
 import org.pcap4j.util.ByteArrays;
 import org.pcap4j.util.MacAddress;
 import org.snmp4j.SNMP4JSettings;
 import org.snmp4j.log.Log4jLogFactory;
 import org.snmp4j.log.LogFactory;
 import org.snmp4j.util.ArgumentParser;
-
 import com.github.kaitoy.sneo.agent.AgentPropertiesLoader;
 import com.github.kaitoy.sneo.agent.FileMibAgent;
 import com.github.kaitoy.sneo.agent.FileMibCiscoAgent;
 import com.github.kaitoy.sneo.jmx.HttpJmxAgent;
 import com.github.kaitoy.sneo.jmx.JmxAgent;
+import com.github.kaitoy.sneo.jmx.SimStopper;
+import com.github.kaitoy.sneo.jmx.SimStopper.StopProcedure;
 import com.github.kaitoy.sneo.log.Log4jPropertiesLoader;
 import com.github.kaitoy.sneo.smi.SmiSyntaxesPropertiesManager;
 import com.github.kaitoy.sneo.transport.TransportsPropertiesManager;
@@ -131,7 +130,7 @@ public class SingleNodeRunner {
       InetAddress rNifIpAddr = InetAddress.getByName(rNifAddrAndPrefixLength[0]);
       int rNifPrefixLength = Integer.parseInt(rNifAddrAndPrefixLength[1]);
 
-      Node vNode = new Node(agent.getAddress(), agent, 100);
+      final Node vNode = new Node(agent.getAddress(), agent, 100);
       vNode.addRealNif("realNif", realNifMacAddr, null);
       vNode.addIpAddress("realNif", rNifIpAddr, rNifPrefixLength);
 
@@ -142,7 +141,7 @@ public class SingleNodeRunner {
         vNode.addIpAddress(vNodeIfName, InetAddress.getByName(addr), rNifPrefixLength);
       }
 
-      JmxAgent jmxAgent
+      final JmxAgent jmxAgent
         = new HttpJmxAgent(
             (Integer)ArgumentParser.getValue(params, "jmxPort", 0),
             ((Integer)ArgumentParser.getValue(params, "rmiPort", 0)).intValue()
@@ -155,14 +154,27 @@ public class SingleNodeRunner {
       vNode.start();
       jmxAgent.start();
 
-      ConsoleBlocker.block("** Hit Enter key to stop simulation **");
-
-      jmxAgent.stop();
-      vNode.shutdown();
-
-      try {
-        Thread.sleep(2000);
-      } catch (InterruptedException e1) {}
+      if (params.get("d") == null) {
+        ConsoleBlocker.block("** Hit Enter key to stop simulation **");
+        jmxAgent.stop();
+        vNode.shutdown();
+        try {
+          Thread.sleep(2000);
+        } catch (InterruptedException e1) {}
+      }
+      else {
+        jmxAgent.registerPojo(
+          new SimStopper(
+            new StopProcedure() {
+              public void stop() {
+                jmxAgent.stop(3000L);
+                vNode.stop();
+              }
+            }
+          ),
+          "Tools:name=SimStopper"
+        );
+      }
     }
     catch (IOException e) {
       e.printStackTrace();
@@ -197,6 +209,7 @@ public class SingleNodeRunner {
       optList.add("-c[s{=public}] ");
       optList.add("-s[s{=public}] ");
       optList.add("-f[s] ");
+      optList.add("+d[s] ");
       optList.add("+t[s<[0-9.]+/[0-9]+>] ");
       optList.add("-format[s{=default}<(default|net-snmp)>] ");
       optList.add("+csi[s] ");

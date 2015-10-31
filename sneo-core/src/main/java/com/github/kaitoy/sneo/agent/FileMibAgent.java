@@ -1,6 +1,6 @@
 /*_##########################################################################
   _##
-  _##  Copyright (C) 2011-2014  Kaito Yamada
+  _##  Copyright (C) 2011-2015  Kaito Yamada
   _##
   _##########################################################################
 */
@@ -18,7 +18,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import org.snmp4j.TransportMapping;
 import org.snmp4j.agent.BaseAgent;
 import org.snmp4j.agent.DefaultMOContextScope;
@@ -67,7 +66,6 @@ import org.snmp4j.smi.UdpAddress;
 import org.snmp4j.smi.Variable;
 import org.snmp4j.smi.VariableBinding;
 import org.snmp4j.transport.TransportMappings;
-
 import com.github.kaitoy.sneo.agent.mo.MutableStaticMOGroup;
 import com.github.kaitoy.sneo.agent.mo.SnmpAccessStatisticsGatherer;
 import com.github.kaitoy.sneo.agent.mo.SnmpAccessStatisticsGathererImpl;
