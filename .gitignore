@@ -3,3 +3,10 @@ target/
 .project
 .classpath
 .tomcatplugin
+log/
+cfg/
+bin/
+mib/
+conf/
+db/
+memo/
