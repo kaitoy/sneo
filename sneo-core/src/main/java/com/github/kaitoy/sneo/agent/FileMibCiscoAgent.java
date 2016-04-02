@@ -12,7 +12,6 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.util.Collections;
 import java.util.List;
-
 import org.snmp4j.agent.DefaultMOContextScope;
 import org.snmp4j.agent.DefaultMOQuery;
 import org.snmp4j.agent.DuplicateRegistrationException;
@@ -34,7 +33,6 @@ import org.snmp4j.smi.OID;
 import org.snmp4j.smi.OctetString;
 import org.snmp4j.smi.Variable;
 import org.snmp4j.smi.VariableBinding;
-
 import com.github.kaitoy.sneo.agent.mo.MutableStaticMOGroup;
 import com.github.kaitoy.sneo.util.ColonSeparatedOidTypeValueVariableTextFormat;
 import com.github.kaitoy.sneo.util.SneoVariableTextFormat;
@@ -47,10 +45,12 @@ public class FileMibCiscoAgent extends FileMibAgent {
     = AgentPropertiesLoader.getInstance().communityStringIndexedMibModuleRoots();
 
   private List<String> communityStringIndexes;
+  private final String communityStringIndexDelimiter;
 
   private FileMibCiscoAgent(Builder b) {
     super(b);
     this.communityStringIndexes = b.communityStringIndexes;
+    this.communityStringIndexDelimiter = b.communityStringIndexDelimiter;
   }
 
   public void setCommunityStringIndexes(
@@ -71,7 +71,9 @@ public class FileMibCiscoAgent extends FileMibAgent {
     }
     else {
       StringBuilder sb = new StringBuilder();
-      sb.append(getCommunityName()).append("@").append(communityStringIndex);
+      sb.append(getCommunityName())
+        .append(communityStringIndexDelimiter)
+        .append(communityStringIndex);
       return sb.toString();
     }
   }
@@ -84,7 +86,9 @@ public class FileMibCiscoAgent extends FileMibAgent {
     }
     else {
       StringBuilder sb = new StringBuilder();
-      sb.append(getFileMibPath()).append("@").append(communityStringIndex);
+      sb.append(getFileMibPath())
+        .append(communityStringIndexDelimiter)
+        .append(communityStringIndex);
       return sb.toString();
     }
   }
@@ -393,6 +397,7 @@ public class FileMibCiscoAgent extends FileMibAgent {
   public static class Builder extends FileMibAgent.Builder {
 
     private List<String> communityStringIndexes = null;
+    private String communityStringIndexDelimiter = null;
 
     public Builder() {}
 
@@ -448,6 +453,11 @@ public class FileMibCiscoAgent extends FileMibAgent {
       List<String> communityStringIndexes
     ) {
       this.communityStringIndexes = communityStringIndexes;
+      return this;
+    }
+
+    public Builder communityStringIndexDelimiter(String communityStringIndexDelimiter) {
+      this.communityStringIndexDelimiter = communityStringIndexDelimiter;
       return this;
     }
 

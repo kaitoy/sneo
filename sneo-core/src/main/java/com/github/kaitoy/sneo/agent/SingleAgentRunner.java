@@ -16,11 +16,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import mx4j.log.Log4JLogger;
+
 import org.snmp4j.SNMP4JSettings;
 import org.snmp4j.log.Log4jLogFactory;
 import org.snmp4j.log.LogFactory;
 import org.snmp4j.util.ArgumentParser;
+
 import com.github.kaitoy.sneo.jmx.HttpJmxAgent;
 import com.github.kaitoy.sneo.jmx.JmxAgent;
 import com.github.kaitoy.sneo.jmx.SimStopper;
@@ -31,6 +32,8 @@ import com.github.kaitoy.sneo.transport.TransportsPropertiesManager;
 import com.github.kaitoy.sneo.util.ColonSeparatedOidTypeValueVariableTextFormat;
 import com.github.kaitoy.sneo.util.ConsoleBlocker;
 import com.github.kaitoy.sneo.util.NetSnmpVariableTextFormat;
+
+import mx4j.log.Log4JLogger;
 
 public class SingleAgentRunner {
 
@@ -56,17 +59,21 @@ public class SingleAgentRunner {
     try {
       FileMibAgent.Builder agentBuilder;
 
+      String communityStringIndexDelimiter = (String)ArgumentParser.getValue(params, "csid", 0);
       List<String> communityStringIndexes;
       if (params.get("allcsis") != null) {
         communityStringIndexes = new ArrayList<String>();
         File fileMib
           = new File((String)ArgumentParser.getValue(params, "f", 0));
-        Pattern p = Pattern.compile(fileMib.getName() + "@.+");
+        Pattern p
+          = Pattern.compile(
+              fileMib.getName() + Pattern.quote(communityStringIndexDelimiter) + ".+"
+            );
 
         for (String f: fileMib.getParentFile().list()) {
           Matcher m = p.matcher(f);
           if (m.matches()) {
-            communityStringIndexes.add(f.substring(f.indexOf("@") + 1));
+            communityStringIndexes.add(f.substring(f.indexOf(communityStringIndexDelimiter) + 1));
           }
         }
       }
@@ -82,7 +89,8 @@ public class SingleAgentRunner {
       else {
         agentBuilder
           = new FileMibCiscoAgent.Builder()
-              .communityStringIndexes(communityStringIndexes);
+              .communityStringIndexes(communityStringIndexes)
+              .communityStringIndexDelimiter(communityStringIndexDelimiter);
       }
 
       String address = (String)ArgumentParser.getValue(params, "a", 0);
@@ -171,6 +179,7 @@ public class SingleAgentRunner {
       optList.add("+t[s<([0-9.]+|[0-9a-fA-F:]+)/[0-9]+>] ");
       optList.add("-format[s{=default}<(default|net-snmp)>] ");
       optList.add("+csi[s] ");
+      optList.add("+csid[s{=@}] ");
       optList.add("+allcsis[s] ");
       optList.add("-jmxPort[i{=8080}] ");
       optList.add("-rmiPort[i{=" + Registry.REGISTRY_PORT + "}] ");
