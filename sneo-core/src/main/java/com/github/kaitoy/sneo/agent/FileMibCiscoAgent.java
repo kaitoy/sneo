@@ -41,7 +41,7 @@ public class FileMibCiscoAgent extends FileMibAgent {
 
   private static final LogAdapter logger
     = LogFactory.getLogger(FileMibCiscoAgent.class);
-  private static final OID[] COMMUNITY_STRING_INDEXED_MIB_MODULE_ROOTS
+  private static final List<OID> COMMUNITY_STRING_INDEXED_MIB_MODULE_ROOTS
     = AgentPropertiesLoader.getInstance().communityStringIndexedMibModuleRoots();
 
   private List<String> communityStringIndexes;
@@ -219,7 +219,7 @@ public class FileMibCiscoAgent extends FileMibAgent {
         String fileMibPath
           = getFileMibPathForCommunityStringIndex(communityStringIndex);
         MutableStaticMOGroup newMog
-          = ((MutableStaticMOGroup)mog).shallowCopy();
+          = ((MutableStaticMOGroup)mog).shallowCopy(COMMUNITY_STRING_INDEXED_MIB_MODULE_ROOTS);
 
         for (OID root: COMMUNITY_STRING_INDEXED_MIB_MODULE_ROOTS) {
           List<VariableBinding> vbs

@@ -8,6 +8,7 @@
 package com.github.kaitoy.sneo.agent.mo;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -450,6 +451,38 @@ public class MutableStaticMOGroup implements ManagedObject, MOGroup {
       = new TreeMap<OID, Variable>(variableBindings);
     // TODO should clone scope too.
     return new MutableStaticMOGroup(new OID(root), vbsCopy, scope);
+  }
+
+  public MutableStaticMOGroup shallowCopy(List<OID> excludes) {
+    if (excludes == null) {
+      throw new NullPointerException("excludes is null");
+    }
+    if (excludes.isEmpty()) {
+      return shallowCopy();
+    }
+
+    excludes = new ArrayList<OID>(excludes);
+    Collections.sort(excludes);
+
+    Map<OID, Variable> vbsCopy = new HashMap<OID, Variable>();
+    OID last = null;
+    try {
+      for (OID oid: excludes) {
+        if (last == null) {
+          vbsCopy.putAll(variableBindings.headMap(oid));
+        }
+        else {
+          vbsCopy.putAll(variableBindings.subMap(last.nextPeer(), oid));
+        }
+        last = oid;
+      }
+      vbsCopy.putAll(variableBindings.tailMap(last.nextPeer()));
+    } catch (IllegalArgumentException e) {
+      throw e; // TODO
+    }
+
+    // TODO should clone scope too.
+    return new MutableStaticMOGroup(new OID(root), new TreeMap<OID, Variable>(vbsCopy), scope);
   }
 
 }
