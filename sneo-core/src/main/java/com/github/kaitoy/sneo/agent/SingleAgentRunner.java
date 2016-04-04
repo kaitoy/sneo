@@ -179,7 +179,7 @@ public class SingleAgentRunner {
       optList.add("+t[s<([0-9.]+|[0-9a-fA-F:]+)/[0-9]+>] ");
       optList.add("-format[s{=default}<(default|net-snmp)>] ");
       optList.add("+csi[s] ");
-      optList.add("+csid[s{=@}] ");
+      optList.add("-csid[s{=@}] ");
       optList.add("+allcsis[s] ");
       optList.add("-jmxPort[i{=8080}] ");
       optList.add("-rmiPort[i{=" + Registry.REGISTRY_PORT + "}] ");
