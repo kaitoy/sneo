@@ -5,8 +5,9 @@ target/
 .tomcatplugin
 log/
 cfg/
-bin/
-mib/
 conf/
+**/bin/*.jar
 db/
 memo/
+.idea
+**/*.iml
