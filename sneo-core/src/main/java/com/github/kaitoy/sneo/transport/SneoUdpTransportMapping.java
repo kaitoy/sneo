@@ -1,6 +1,6 @@
 /*_##########################################################################
   _##
-  _##  Copyright (C) 2012  Kaito Yamada
+  _##  Copyright (C) 2012-2017  Kaito Yamada
   _##
   _##########################################################################
 */
@@ -14,6 +14,8 @@ import org.pcap4j.packet.IpV4Packet;
 import org.pcap4j.packet.IpV6Packet;
 import org.pcap4j.packet.Packet;
 import org.pcap4j.packet.UdpPacket;
+import org.snmp4j.TransportStateReference;
+import org.snmp4j.security.SecurityLevel;
 import org.snmp4j.smi.Address;
 import org.snmp4j.smi.UdpAddress;
 import org.snmp4j.transport.UdpTransportMapping;
@@ -45,7 +47,9 @@ public class SneoUdpTransportMapping extends UdpTransportMapping {
   public void close() throws IOException {}
 
   @Override
-  public void sendMessage(Address address, byte[] message) throws IOException {
+  public void sendMessage(
+    UdpAddress address, byte[] message, TransportStateReference tmStateReference
+  ) throws IOException {
     if (!(address instanceof UdpAddress)) {
       throw new IllegalArgumentException();
     }
@@ -85,9 +89,20 @@ public class SneoUdpTransportMapping extends UdpTransportMapping {
       bis = ByteBuffer.wrap(snmpMessage);
     }
 
+    TransportStateReference stateReference
+      = new TransportStateReference(
+          this,
+          getAddress(),
+          null,
+          SecurityLevel.undefined,
+          SecurityLevel.undefined,
+         false,
+          null
+        );
     fireProcessMessage(
       new UdpAddress(srcAddr, srcPort),
-      bis
+      bis,
+      stateReference
     );
   }
 

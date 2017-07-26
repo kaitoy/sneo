@@ -1,6 +1,6 @@
 /*_##########################################################################
   _##
-  _##  Copyright (C) 2011-2013  Kaito Yamada
+  _##  Copyright (C) 2011-2017  Kaito Yamada
   _##
   _##########################################################################
 */
@@ -98,8 +98,8 @@ public final class ArpHelper extends NeighborDiscoveryHelper {
     ArpPacket.Builder arpBuilder = new ArpPacket.Builder();
     arpBuilder.hardwareType(ArpHardwareType.ETHERNET)
               .protocolType(EtherType.IPV4)
-              .hardwareLength((byte)MacAddress.SIZE_IN_BYTES)
-              .protocolLength((byte)ByteArrays.INET4_ADDRESS_SIZE_IN_BYTES)
+              .hardwareAddrLength((byte)MacAddress.SIZE_IN_BYTES)
+              .protocolAddrLength((byte)ByteArrays.INET4_ADDRESS_SIZE_IN_BYTES)
               .operation(ArpOperation.REPLY)
               .srcHardwareAddr(nif.getMacAddress())
               .srcProtocolAddr(dstIpAddr)
@@ -134,8 +134,8 @@ public final class ArpHelper extends NeighborDiscoveryHelper {
       ArpPacket.Builder arpBuilder = new ArpPacket.Builder();
       arpBuilder.hardwareType(ArpHardwareType.ETHERNET)
                 .protocolType(EtherType.IPV4)
-                .hardwareLength((byte)MacAddress.SIZE_IN_BYTES)
-                .protocolLength((byte)ByteArrays.INET4_ADDRESS_SIZE_IN_BYTES)
+                .hardwareAddrLength((byte)MacAddress.SIZE_IN_BYTES)
+                .protocolAddrLength((byte)ByteArrays.INET4_ADDRESS_SIZE_IN_BYTES)
                 .operation(ArpOperation.REQUEST)
                 .srcHardwareAddr(srcMacAddr)
                 .srcProtocolAddr(srcIpAddr)

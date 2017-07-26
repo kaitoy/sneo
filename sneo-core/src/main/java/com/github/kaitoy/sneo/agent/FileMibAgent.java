@@ -1,6 +1,6 @@
 /*_##########################################################################
   _##
-  _##  Copyright (C) 2011-2015  Kaito Yamada
+  _##  Copyright (C) 2011-2017  Kaito Yamada
   _##
   _##########################################################################
 */
@@ -19,16 +19,17 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.snmp4j.TransportMapping;
+import org.snmp4j.TransportStateReference;
 import org.snmp4j.agent.BaseAgent;
 import org.snmp4j.agent.DefaultMOContextScope;
 import org.snmp4j.agent.DefaultMOQuery;
 import org.snmp4j.agent.DuplicateRegistrationException;
 import org.snmp4j.agent.MOGroup;
 import org.snmp4j.agent.ManagedObject;
-import org.snmp4j.agent.mo.MOTableRow;
 import org.snmp4j.agent.mo.snmp.NotificationOriginatorImpl;
 import org.snmp4j.agent.mo.snmp.RowStatus;
 import org.snmp4j.agent.mo.snmp.SnmpCommunityMIB;
+import org.snmp4j.agent.mo.snmp.SnmpCommunityMIB.SnmpCommunityEntryRow;
 import org.snmp4j.agent.mo.snmp.SnmpNotificationMIB;
 import org.snmp4j.agent.mo.snmp.SnmpTargetMIB;
 import org.snmp4j.agent.mo.snmp.StorageType;
@@ -81,7 +82,7 @@ public class FileMibAgent extends BaseAgent {
     = LogFactory.getLogger(FileMibAgent.class.getPackage().getName());
 
   private static final String CONFIG_CONTEXT = "config";
-  private static final String FILEMIB_CONTEXT = "";
+  private static final String FILEMIB_CONTEXT = "sneo-default";
   private static final OID FILEMIB_ROOT = new OID("1");
   private static final int ENTERPRISE_ID = 40303; // http://www.iana.org/assignments/enterprise-numbers
   private static final OID SYSUPTIME_OID = new OID("1.3.6.1.2.1.1.3.0");
@@ -314,7 +315,7 @@ public class FileMibAgent extends BaseAgent {
           new Integer32(StorageType.volatile_), // storage type
           new Integer32(RowStatus.active) // row status
         };
-    MOTableRow row
+    SnmpCommunityEntryRow row
       = communityMIB.getSnmpCommunityEntry().createRow(
           new OctetString(communityName + "2com" + communityName)
             .toSubIndex(true),
@@ -543,27 +544,33 @@ public class FileMibAgent extends BaseAgent {
     SecurityModels.getInstance().addSecurityModel(
       new SecurityModel() {
 
+        @Override
         public int getID() {
           return SecurityModel.SECURITY_MODEL_SNMPv1;
         }
 
+        @Override
         public SecurityParameters newSecurityParametersInstance() {
           return null;
         }
 
+        @Override
         public SecurityStateReference newSecurityStateReference() {
           return null;
         }
 
+        @Override
         public int generateRequestMessage(
           int messageProcessingModel, byte[] globalData, int maxMessageSize,
           int securityModel, byte[] securityEngineID, byte[] securityName,
           int securityLevel, BERInputStream scopedPDU,
-          SecurityParameters securityParameters, BEROutputStream wholeMsg
+          SecurityParameters securityParameters, BEROutputStream wholeMsg,
+          TransportStateReference tmStateReference
         ) throws IOException {
           return 0;
         }
 
+        @Override
         public int generateResponseMessage(
           int messageProcessingModel, byte[] globalData, int maxMessageSize,
           int securityModel, byte[] securityEngineID, byte[] securityName,
@@ -574,10 +581,12 @@ public class FileMibAgent extends BaseAgent {
           return 0;
         }
 
+        @Override
         public int processIncomingMsg(
           int messageProcessingModel, int maxMessageSize,
           SecurityParameters securityParameters, SecurityModel securityModel,
           int securityLevel, BERInputStream wholeMsg,
+          TransportStateReference tmStateReference,
           OctetString securityEngineID, OctetString securityName,
           BEROutputStream scopedPDU, Integer32 maxSizeResponseScopedPDU,
           SecurityStateReference securityStateReference,
@@ -585,6 +594,12 @@ public class FileMibAgent extends BaseAgent {
         ) throws IOException {
           return 0;
         }
+
+        @Override
+        public boolean supportsEngineIdDiscovery() { return false; }
+
+        @Override
+        public boolean hasAuthoritativeEngineID() { return false; }
 
       }
     );
@@ -592,27 +607,33 @@ public class FileMibAgent extends BaseAgent {
     SecurityModels.getInstance().addSecurityModel(
       new SecurityModel() {
 
+        @Override
         public int getID() {
           return SecurityModel.SECURITY_MODEL_SNMPv2c;
         }
 
+        @Override
         public SecurityParameters newSecurityParametersInstance() {
           return null;
         }
 
+        @Override
         public SecurityStateReference newSecurityStateReference() {
           return null;
         }
 
+        @Override
         public int generateRequestMessage(
           int messageProcessingModel, byte[] globalData, int maxMessageSize,
           int securityModel, byte[] securityEngineID, byte[] securityName,
           int securityLevel, BERInputStream scopedPDU,
-          SecurityParameters securityParameters, BEROutputStream wholeMsg
+          SecurityParameters securityParameters, BEROutputStream wholeMsg,
+          TransportStateReference tmStateReference
         ) throws IOException {
           return 0;
         }
 
+        @Override
         public int generateResponseMessage(
           int messageProcessingModel, byte[] globalData, int maxMessageSize,
           int securityModel, byte[] securityEngineID, byte[] securityName,
@@ -623,10 +644,12 @@ public class FileMibAgent extends BaseAgent {
           return 0;
         }
 
+        @Override
         public int processIncomingMsg(
           int messageProcessingModel, int maxMessageSize,
           SecurityParameters securityParameters, SecurityModel securityModel,
           int securityLevel, BERInputStream wholeMsg,
+          TransportStateReference tmStateReference,
           OctetString securityEngineID, OctetString securityName,
           BEROutputStream scopedPDU, Integer32 maxSizeResponseScopedPDU,
           SecurityStateReference securityStateReference,
@@ -634,6 +657,12 @@ public class FileMibAgent extends BaseAgent {
         ) throws IOException {
           return 0;
         }
+
+        @Override
+        public boolean supportsEngineIdDiscovery() { return false; }
+
+        @Override
+        public boolean hasAuthoritativeEngineID() { return false; }
 
       }
     );
@@ -761,6 +790,7 @@ public class FileMibAgent extends BaseAgent {
 
       setDefaultContext(new OctetString(CONFIG_CONTEXT));
       getServer().addContext(new OctetString(CONFIG_CONTEXT));
+      getServer().addContext(new OctetString(FILEMIB_CONTEXT));
 
       super.init();
 

@@ -1,6 +1,6 @@
 /*_##########################################################################
   _##
-  _##  Copyright (C) 2011-2013  Kaito Yamada
+  _##  Copyright (C) 2011-2017  Kaito Yamada
   _##
   _##########################################################################
 */
@@ -17,9 +17,9 @@ import org.snmp4j.agent.DefaultMOQuery;
 import org.snmp4j.agent.DuplicateRegistrationException;
 import org.snmp4j.agent.MOGroup;
 import org.snmp4j.agent.ManagedObject;
-import org.snmp4j.agent.mo.MOTableRow;
 import org.snmp4j.agent.mo.snmp.RowStatus;
 import org.snmp4j.agent.mo.snmp.SnmpCommunityMIB;
+import org.snmp4j.agent.mo.snmp.SnmpCommunityMIB.SnmpCommunityEntryRow;
 import org.snmp4j.agent.mo.snmp.StorageType;
 import org.snmp4j.agent.mo.snmp.VacmMIB;
 import org.snmp4j.agent.security.MutableVACM;
@@ -124,7 +124,7 @@ public class FileMibCiscoAgent extends FileMibAgent {
         new Integer32(RowStatus.active)         // row status
       };
 
-      MOTableRow row
+      SnmpCommunityEntryRow row
         = communityMIB.getSnmpCommunityEntry().createRow(
             new OctetString(
               communityName + "2com" + communityName

@@ -1,6 +1,6 @@
 /*_##########################################################################
   _##
-  _##  Copyright (C) 2011-2013  Kaito Yamada
+  _##  Copyright (C) 2011-2017  Kaito Yamada
   _##
   _##########################################################################
 */
@@ -225,7 +225,13 @@ public final class RealNetworkInterface implements NetworkInterface {
         return;
       }
 
-      handle2capture.breakLoop();
+
+      try {
+        handle2capture.breakLoop();
+      } catch (NotOpenException e) {
+        // Don't care
+      }
+
       running = false;
     }
     logger.info("stopped");

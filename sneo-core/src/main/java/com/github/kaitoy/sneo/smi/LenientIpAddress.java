@@ -1,6 +1,6 @@
 /*_##########################################################################
   _##
-  _##  Copyright (C) 2011  Kaito Yamada
+  _##  Copyright (C) 2011-2017  Kaito Yamada
   _##
   _##########################################################################
 */
@@ -19,6 +19,7 @@ import org.snmp4j.log.LogFactory;
 import org.snmp4j.smi.AbstractVariable;
 import org.snmp4j.smi.IpAddress;
 import org.snmp4j.smi.OID;
+import org.snmp4j.smi.Variable;
 
 public class LenientIpAddress extends IpAddress {
 
@@ -65,12 +66,13 @@ public class LenientIpAddress extends IpAddress {
     return 0;
   }
 
-  public int compareTo(Object o) {
+  @Override
+  public int compareTo(Variable o) {
     if (isValid()) {
       return super.compareTo(o);
     }
     else {
-      return toString().compareTo(((LenientIpAddress)o).toString());
+      return toString().compareTo(o.toString());
     }
   }
 

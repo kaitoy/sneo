@@ -1,3 +1,9 @@
+/*_##########################################################################
+  _##
+  _##  Copyright (C) 2012-2017  Kaito Yamada
+  _##
+  _##########################################################################
+*/
 
 package com.github.kaitoy.sneo.util;
 
@@ -20,6 +26,7 @@ public class DotLedSimpleOIDTextFormat implements OIDTextFormat {
     return INSTANCE;
   }
 
+  @Override
   public String format(int[] value) {
     String simple = SIMPLE_FORMAT.format(value);
     if (simple.startsWith(".")) {
@@ -30,6 +37,12 @@ public class DotLedSimpleOIDTextFormat implements OIDTextFormat {
     }
   }
 
+  @Override
+  public String formatForRoundTrip(int[] value) {
+    return format(value);
+  }
+
+  @Override
   public int[] parse(String text) throws ParseException {
     return SIMPLE_FORMAT.parse(text);
   }
